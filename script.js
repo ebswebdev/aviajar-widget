@@ -1,71 +1,49 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const widgetContainer = document.getElementById("widget-aviajar");
-    if (!widgetContainer) return;
+(function () {
+    function createWidget() {
+        const widgetContainer = document.getElementById('widget-aviajar');
+        if (!widgetContainer) return;
 
-    // Crear el formulario del widget
-    widgetContainer.innerHTML = `
-        <style>
-            .aviajar-widget {
-                font-family: Arial, sans-serif;
-                background: #fff;
-                padding: 15px;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                max-width: 350px;
-            }
-            .aviajar-widget input, .aviajar-widget select, .aviajar-widget button {
-                width: 100%;
-                margin-bottom: 10px;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-            .aviajar-widget button {
-                background: #ffcc00;
-                border: none;
-                font-size: 16px;
-                cursor: pointer;
-            }
-            .aviajar-widget button:hover {
-                background: #e6b800;
-            }
-        </style>
-        <div class="aviajar-widget">
-            <h3>Buscar Paquetes en Oferta</h3>
-            <label>Origen:</label>
-            <input type="text" id="origin" placeholder="Ingrese una ciudad">
-            <label>Destino:</label>
-            <input type="text" id="destination" placeholder="Ingrese una ciudad">
-            <label>Fecha de Partida:</label>
-            <input type="date" id="departure">
-            <label>Fecha de Regreso:</label>
-            <input type="date" id="return">
-            <label>Habitaciones:</label>
-            <select id="rooms">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-            <label>Personas:</label>
-            <select id="people">
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="search">Buscar</button>
-        </div>
-    `;
+        const products = widgetContainer.getAttribute('products') || 'AirHotel,Air,Hotel,Extras';
+        const destination = widgetContainer.getAttribute('destination') || '';
 
-    // Agregar evento al botón de búsqueda
-    document.getElementById("search").addEventListener("click", function () {
-        const origin = document.getElementById("origin").value;
-        const destination = document.getElementById("destination").value || widgetContainer.getAttribute("destination");
-        const departure = document.getElementById("departure").value;
-        const returnDate = document.getElementById("return").value;
-        const rooms = document.getElementById("rooms").value;
-        const people = document.getElementById("people").value;
+        widgetContainer.innerHTML = `
+            <div style="font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; border-radius: 10px; width: 100%; max-width: 400px;">
+                <h3 style="text-align: center;">Buscar Paquetes en Oferta</h3>
+                <label>Origen:</label>
+                <input type="text" placeholder="Ingrese una ciudad" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                <label>Destino:</label>
+                <input type="text" placeholder="Ingrese una ciudad" value="${destination}" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                <label>Fechas:</label>
+                <input id="fecha-rango" type="text" placeholder="Seleccione un rango de fechas" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                <label>Habitaciones:</label>
+                <input type="number" min="1" value="1" style="width: 48%; padding: 8px; margin-bottom: 10px;">
+                <input type="number" min="1" value="2" style="width: 48%; padding: 8px; margin-bottom: 10px;">
+                <div style="margin-bottom: 10px;">
+                    <input type="checkbox"> Solo vuelos con equipaje
+                    <br>
+                    <input type="checkbox"> Solo vuelos directos
+                </div>
+                <button id="buscar-btn" style="width: 100%; padding: 10px; background-color: #FFC107; border: none; cursor: pointer; font-size: 16px;">Buscar</button>
+            </div>
+        `;
 
-        alert(`Buscando paquetes de ${origin} a ${destination}\nSalida: ${departure}\nRegreso: ${returnDate}\nHabitaciones: ${rooms}\nPersonas: ${people}`);
-    });
-});
+        // Esperar a que Flatpickr esté cargado
+        if (typeof flatpickr !== 'undefined') {
+            flatpickr("#fecha-rango", {
+                mode: "range",
+                dateFormat: "Y-m-d",
+                showMonths: 2,
+                onClose: function(selectedDates) {
+                    if (selectedDates.length === 2) {
+                        const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                        const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                        console.log("Fecha de inicio:", fecha1);
+                        console.log("Fecha de fin:", fecha2);
+                    }
+                }
+            });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", createWidget);
+})();
