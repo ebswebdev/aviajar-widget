@@ -88,13 +88,15 @@ document.addEventListener("DOMContentLoaded", function () {
         numAdNin = numAdultos + numNinos; // Calcular el total de personas
         numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
     });
-
     // Generar dinámicamente los campos para las edades de los niños
     numNinosInput.addEventListener("input", function () {
         numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
         numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
         numAdNin = numAdultos + numNinos; // Calcular el total de personas
         numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
+
+        // Limpiar los campos existentes
+        edadesNinosContainer.innerHTML = "";
 
         // Limitar que numNinos sea menor o igual a 4
         if (numNinos <= 4) {
