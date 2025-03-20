@@ -17,12 +17,11 @@
                 <input id="fecha-rango" type="text" placeholder="Seleccione un rango de fechas">
                 <label>Habitaciones:</label>
                 <input id="num-hab" type="number" min="1" value="1">
-            
                 <label>Pasajeros:</label>
                 <input id="num-per" type="number" min="1" value="2">
                 <div id="submenu-pasajeros" style="display: none; border: 1px solid #ddd; padding: 10px; margin-top: 10px; background: #f9f9f9; border-radius: 5px;">
                     <label>Adultos:</label>
-                    <input id="num-adultos" type="number" min="1" value="1" style="width: 100%; margin-bottom: 10px;">
+                    <input id="num-adultos" type="number" min="1" value="2" style="width: 100%; margin-bottom: 10px;">
                     <label>Niños:</label>
                     <input id="num-ninos" type="number" min="0" value="0" style="width: 100%; margin-bottom: 10px;">
                     <div id="edades-ninos"></div>
@@ -84,17 +83,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Actualizar el total de personas al cambiar el número de adultos
     numAdultosInput.addEventListener("input", function () {
-        const numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
-        const numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
-        const numAdNin = numAdultos + numNinos; // Calcular el total de personas
-
+        numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
+        numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
+        numAdNin = numAdultos + numNinos; // Calcular el total de personas
         numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
     });
 
     // Generar dinámicamente los campos para las edades de los niños
     numNinosInput.addEventListener("input", function () {
-        numNinos = parseInt(numNinosInput.value) || 0;
-        edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
+        numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
+        numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
+        numAdNin = numAdultos + numNinos; // Calcular el total de personas
+        numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
 
         // Limitar que numNinos sea menor o igual a 4
         if (numNinos <= 4) {
@@ -118,18 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
             numPerInput.value = numAdNin;
             return;
         }
-
-        // Validar que numNinos y numAdultos sean iguales a numPer
-        if (numPer !== numAdNin) {
-            numPerInput.value = numAdultos + numNinos;
-            return;
-        }
-    }
-    );
+    });
 });
 
 // -------------------------
-
 
 // Crear la url
 function generateURL() {
@@ -144,7 +136,7 @@ function generateURL() {
     let dateFrom = dateRange[0]; // Fecha de salida
     let dateTo = dateRange[1]; // Fecha de llegada
 
-    // Falta modificar bien el número de pasajeros
+    // Falta modificar bien las edades de los niños
     // Rooms: 1, Adults: 2, Children: 0
     let passengersRoom = document.querySelector('#num-hab').value; // Número de Habitaciones 
     let passengersAdult = document.querySelector('#num-adultos').value; // Número de Adultos 
@@ -171,6 +163,7 @@ function generateURL() {
     return url;
 }
 
+// ------------------
 
 // Evento para el botón de búsqueda
 document.addEventListener("DOMContentLoaded", function () {
