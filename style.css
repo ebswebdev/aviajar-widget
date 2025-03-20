@@ -1,3 +1,84 @@
-:root{
-    --color-tab:#FDBE15;
+:root {
+  --primary-color: #fdbe15; /* Color amarillo característico */
+  --secondary-color: #004481; /* Azul oscuro para contrastes */
+  --background-color: #f4f4f4; /* Fondo claro */
+  --text-color: #333; /* Texto principal */
+  --button-hover: #e0a800; /* Color de hover para botones */
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#widget-aviajar {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+#widget-aviajar h3 {
+  text-align: center;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+}
+
+#widget-aviajar label {
+  font-weight: bold;
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 5px;
+}
+
+#widget-aviajar input[type="text"],
+#widget-aviajar input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#widget-aviajar input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+#widget-aviajar button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#widget-aviajar button:hover {
+  background-color: var(--button-hover);
+}
+
+#widget-aviajar div {
+  margin-bottom: 15px;
+}
+
+#widget-aviajar input[type="number"] {
+  width: 48%;
+  display: inline-block;
+  margin-right: 4%;
+}
+
+#widget-aviajar input[type="number"]:last-child {
+  margin-right: 0;
 }
