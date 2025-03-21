@@ -7,31 +7,70 @@
         const destination = widgetContainer.getAttribute('destination') || '';
 
         widgetContainer.innerHTML = `
-            <div style="width: 100%; max-width: 400px;">
-            <h3>Buscar Paquetes en Oferta</h3>
-            <label>Origen:</label>
-            <input id="origen" type="text" placeholder="Ingrese una ciudad">
-            <label>Destino:</label>
-                <input id="destino" type="text" placeholder="Ingrese una ciudad" value="${destination}">
-                <label>Fechas:</label>
-                <input id="fecha-rango" type="text" placeholder="Seleccione un rango de fechas">
-                <label>Habitaciones:</label>
-                <input id="num-hab" type="number" min="1" value="1">
-                <label>Pasajeros:</label>
-                <input id="num-per" type="number" min="1" value="2">
-                <div id="submenu-pasajeros" style="display: none; border: 1px solid #ddd; padding: 10px; margin-top: 10px; background: #f9f9f9; border-radius: 5px;">
-                    <label>Adultos:</label>
-                    <input id="num-adultos" type="number" min="1" value="2" style="width: 100%; margin-bottom: 10px;">
-                    <label>Niños:</label>
-                    <input id="num-ninos" type="number" min="0" value="0" style="width: 100%; margin-bottom: 10px;">
-                    <div id="edades-ninos"></div>
+            <div class="widget" style="width: 100%; max-width: 400px;">
+                <div class="widget-container">
+                    <div class="header">
+                        <h3>Buscar Paquetes en Oferta</h3>
+                    </div>
+                    <div class="input-group">
+                        <div class="origen">
+                            <label>Origen:</label>
+                            <input id="origen" type="text" placeholder="Ingrese una ciudad">
+                            <span class="icon"><i class="fas fa-plane-departure"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="destino">
+                            <label>Destino:</label>
+                            <input id="destino" type="text" placeholder="Ingrese una ciudad" value="${destination}">
+                            <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="fechas">
+                            <label>Fechas:</label>
+                            <input id="fecha-rango" type="text" placeholder="Seleccione un rango de fechas">
+                            <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="habitaciones-pasajeros">
+                            <label>Habitaciones:</label>
+                            <input id="num-hab" type="number" min="1" value="1">
+                            <span class="icon"><i class="fas fa-bed"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                            <label>Pasajeros:</label>
+                            <input id="num-per" type="number" min="1" value="2">
+                            <span class="icon"><i class="fas fa-users"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div id="hab-popup" class="popup">
+                            <div class="popup-content">
+                                <span class="close-popup">&times;</span>
+                                <div class="popup-header">
+                                <label for="popup-num-hab">Número de habitaciones:</label>
+                                <input id="popup-num-hab" type="number" min="1" value="1">
+                            </div>
+                            <div id="hab-container"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="input-group">
+                        <div>
+                            <input id="checkbox-vequipaje" type="checkbox"> Solo vuelos con equipaje
+                            <br>
+                            <input id="checkbox-vdirecto" type="checkbox"> Solo vuelos directos
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="boton-buscar">
+                                <button id="buscar-btn">Buscar</button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <input id="checkbox-vequipaje" type="checkbox"> Solo vuelos con equipaje
-                    <br>
-                    <input id="checkbox-vdirecto" type="checkbox"> Solo vuelos directos
-                </div>
-                <button id="buscar-btn">Buscar</button>
             </div>
         `;
 
@@ -58,71 +97,108 @@
 })();
 
 
-
 // -------------------------
-
-
-// Evento para el numero de pasajeros
 document.addEventListener("DOMContentLoaded", function () {
-    const numPerInput = document.querySelector("#num-per");
-    const submenuPasajeros = document.querySelector("#submenu-pasajeros");
-    const numNinosInput = document.querySelector("#num-ninos");
-    const edadesNinosContainer = document.querySelector("#edades-ninos");
-    const numAdultosInput = document.querySelector("#num-adultos");
+    const numHabInput = document.querySelector("#num-hab");
+    const popupNumHabInput = document.querySelector("#popup-num-hab");
+    const habPopup = document.querySelector("#hab-popup");
+    const closePopup = document.querySelector(".close-popup");
+    const habitacionesContainer = document.querySelector("#hab-container");
 
-    // Valores
-    let numPer = parseInt(numPerInput.value) || 0;
-    let numAdultos = parseInt(numAdultosInput.value) || 0;
-    let numNinos = parseInt(numNinosInput.value) || 0;
-    let numAdNin = numAdultos + numNinos;
-
-    // Mostrar el submenú al hacer clic en el campo #num-per
-    numPerInput.addEventListener("click", function () {
-        submenuPasajeros.style.display = "block"; // Mostrar el submenú
+    // Mostrar el popup al hacer clic en el campo de habitaciones
+    numHabInput.addEventListener("click", function () {
+        habPopup.style.display = "flex"; // Mostrar el popup
     });
 
-    // Actualizar el total de personas al cambiar el número de adultos
-    numAdultosInput.addEventListener("input", function () {
-        numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
-        numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
-        numAdNin = numAdultos + numNinos; // Calcular el total de personas
-        numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
+    // Cerrar el popup al hacer clic en el botón de cierre
+    closePopup.addEventListener("click", function () {
+        habPopup.style.display = "none"; // Ocultar el popup
     });
-    // Generar dinámicamente los campos para las edades de los niños
-    numNinosInput.addEventListener("input", function () {
-        numAdultos = parseInt(numAdultosInput.value) || 0; // Obtener el número de adultos
-        numNinos = parseInt(numNinosInput.value) || 0; // Obtener el número de niños
-        numAdNin = numAdultos + numNinos; // Calcular el total de personas
-        numPerInput.value = numAdNin; // Actualizar el total de personas en el campo #num-per
 
-        // Limpiar los campos existentes
-        edadesNinosContainer.innerHTML = "";
-
-        // Limitar que numNinos sea menor o igual a 4
-        if (numNinos <= 4) {
-            for (let i = 1; i <= numNinos; i++) {
-                const label = document.createElement("label");
-                label.textContent = `Edad del niño ${i}:`;
-                const input = document.createElement("input");
-                input.type = "number";
-                input.min = "0";
-                input.max = "12";
-                input.value = "0";
-                input.style = "width: 100%; margin-bottom: 10px;";
-                input.className = "edad-nino";
-
-                edadesNinosContainer.appendChild(label);
-                edadesNinosContainer.appendChild(input);
-            }
-        } else {
-            numNinosInput.value = 0;
-            alert("El número máximo de niños permitido es 4.");
-            numPerInput.value = numAdNin;
-            return;
+    // Cerrar el popup al hacer clic fuera del contenido
+    habPopup.addEventListener("click", function (e) {
+        if (e.target === habPopup) {
+            habPopup.style.display = "none"; // Ocultar el popup
         }
     });
-});
 
+    // Actualizar el número de habitaciones desde el popup
+    popupNumHabInput.addEventListener("input", function () {
+        const numHab = parseInt(popupNumHabInput.value) || 1;
+        numHabInput.value = numHab; // Sincronizar el valor con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
+
+    // Función para generar habitaciones
+    function generarHabitaciones(numHab) {
+        habitacionesContainer.innerHTML = ""; // Limpiar el contenedor
+
+        for (let i = 1; i <= numHab; i++) {
+            const habitacionDiv = document.createElement("div");
+            // habitacionDiv.style = "border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background: #f9f9f9; border-radius: 5px;";
+            habitacionDiv.innerHTML = `
+                <h4>Habitación ${i}</h4>
+                <label>Adultos:</label>
+                <input id="num-adultos" type="number" min="1" value="2">
+                <label>Niños:</label>
+                <input id="num-ninos" type="number" min="0" value="0">
+                <div id="edades-ninos"></div>
+            `;
+
+            habitacionesContainer.appendChild(habitacionDiv);
+
+            // Seleccionar elementos dentro de esta habitación
+            const numAdultosInput = habitacionDiv.querySelector("#num-adultos");
+            const numNinosInput = habitacionDiv.querySelector("#num-ninos");
+            const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
+
+            // Validar y actualizar el total de personas al cambiar el número de adultos
+            numAdultosInput.addEventListener("input", function () {
+                const numAdultos = parseInt(numAdultosInput.value) || 0;
+                if (numAdultos < 1) {
+                    alert("Debe haber al menos un adulto en la habitación.");
+                    numAdultosInput.value = 1;
+                }
+            });
+
+            // Generar dinámicamente los campos para las edades de los niños
+            numNinosInput.addEventListener("input", function () {
+                const numNinos = parseInt(numNinosInput.value) || 0;
+                edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
+
+                if (numNinos > 4) {
+                    alert("El número máximo de niños permitido es 4.");
+                    numNinosInput.value = 0;
+                    return;
+                }
+
+                for (let j = 1; j <= numNinos; j++) {
+                    const label = document.createElement("label");
+                    label.textContent = `Edad del niño ${j}:`;
+                    const input = document.createElement("input");
+                    input.type = "number";
+                    input.min = "0";
+                    input.max = "12";
+                    input.value = "0";
+                    input.style = "width: 100%; margin-bottom: 10px;";
+                    input.className = "edad-nino";
+
+                    edadesNinosContainer.appendChild(label);
+                    edadesNinosContainer.appendChild(input);
+                }
+            });
+        }
+    }
+
+    // Generar una habitación por defecto al cargar la página
+    generarHabitaciones(1);
+
+    // Actualizar habitaciones cuando el usuario cambie el número de habitaciones
+    numHabInput.addEventListener("input", function () {
+        const numHab = parseInt(numHabInput.value) || 1;
+        generarHabitaciones(numHab);
+    });
+});
 // -------------------------
 
 // Crear la url
@@ -172,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#buscar-btn").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
         const generatedURL = generateURL();
+        // alert("URL generada: " + generatedURL);
         // console.log("Generated URL:", generatedURL);
         // window.location.href = generatedURL; // Redirigir al usuario a la URL generada
     });
