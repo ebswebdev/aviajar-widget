@@ -7,7 +7,7 @@
         const destination = widgetContainer.getAttribute('destination') || '';
 
         widgetContainer.innerHTML = `
-            <div class="widget" style="width: 100%; max-width: 400px;">
+            <div class="widget">
                 <div class="widget-container">
                     <div class="header">
                         <h3>Buscar Paquetes en Oferta</h3>
@@ -38,10 +38,6 @@
                             <label>Habitaciones:</label>
                             <input id="num-hab" type="number" min="1" value="1">
                             <span class="icon"><i class="fas fa-bed"></i></span>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                            <label>Pasajeros:</label>
                             <input id="num-per" type="number" min="1" value="2">
                             <span class="icon"><i class="fas fa-users"></i></span>
                         </div>
@@ -59,10 +55,15 @@
                     </div>
                     </div>
                     <div class="input-group">
-                        <div>
-                            <input id="checkbox-vequipaje" type="checkbox"> Solo vuelos con equipaje
-                            <br>
-                            <input id="checkbox-vdirecto" type="checkbox"> Solo vuelos directos
+                        <div class="checkboxes">
+                            <div class="checkbox-equipaje">
+                                <input id="checkbox-vequipaje" type="checkbox">
+                                <label> Solo vuelos con equipaje </label>
+                            </div>
+                            <div class="checkbox-directo">
+                                <input id="checkbox-vdirecto" type="checkbox"> 
+                                <label> Solo vuelos directos </label>
+                            </div>
                         </div>
                     </div>
                     <div class="input-group">

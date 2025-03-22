@@ -6,8 +6,23 @@
   --button-hover: #e0a800; /* Color de hover para botones */
 }
 
+widget-aviajar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: var(--text-color);
+  animation: fadeIn 0.5s ease-in-out;
+  margin: 20px auto;
+}
+
 /* Contenedor principal del widget */
 .widget {
+  display: flex;
+  flex-direction: column; /* Por defecto, los elementos están en columna */
   width: 100%;
   max-width: 400px;
   background-color: var(--background-color);
@@ -72,8 +87,12 @@
 
 /* Checkboxes */
 .widget input[type="checkbox"] {
+  display: flex;
+  align-items: center;
   width: auto;
   margin-right: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 /* Botón de búsqueda */
@@ -110,6 +129,13 @@
   margin-bottom: 15px;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color) var(--background-color);
+}
+
+.habitaciones-pasajeros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 /* Scroll personalizado para navegadores Webkit */
@@ -239,15 +265,18 @@
   }
 }
 
-/* Contenedor del input con ícono */
+/* Contenedor de cada grupo de inputs */
 .input-group {
-  position: relative;
+  display: flex;
+  flex-direction: column; /* Por defecto, los elementos están en columna */
   margin-bottom: 15px;
+  position: relative;
 }
 
 /* Estilo del input */
 .input-group input {
   width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+  height: 50px;
   padding: 10px 40px 10px 10px; /* Espacio adicional a la derecha para el ícono */
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -258,9 +287,8 @@
 
 /* Estilo del ícono */
 .input-group .icon {
-  position: absolute;
+  position: relative;
   top: 50%; /* Centra el ícono verticalmente */
-  right: 10px; /* Espaciado desde el borde derecho */
   transform: translateY(-50%);
   font-size: 16px;
   color: var(--secondary-color); /* Usa el color azul oscuro */
@@ -272,4 +300,27 @@
   border-color: var(--primary-color);
   outline: none;
   box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
+}
+
+.checkbox-equipaje {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.checkbox-directo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.checkboxes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
