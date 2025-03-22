@@ -12,38 +12,37 @@
                     <div class="header">
                         <h3>Buscar Paquetes en Oferta</h3>
                     </div>
-                    <div class="input-group">
-                        <div class="origen">
-                            <label>Origen:</label>
-                            <input id="origen" type="text" placeholder="Ingrese una ciudad">
+                    <div class="origen">
+                        <div class="input-group">
+                            <input id="origen" type="text" placeholder="Desde dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-departure"></i></span>
-                        </div>
+                        </div>                        
                     </div>
-                    <div class="input-group">
-                        <div class="destino">
-                            <label>Destino:</label>
-                            <input id="destino" type="text" placeholder="Ingrese una ciudad" value="${destination}">
+                    <div class="destino">
+                        <div class="input-group">
+                            <input id="destino" type="text" placeholder="Hacia dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <div class="fechas">
-                            <label>Fechas:</label>
-                            <input id="fecha-rango" type="text" placeholder="Seleccione un rango de fechas">
+                    <div class="fechas">
+                        <div class="input-group">
+                            <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
                             <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="habitaciones-pasajeros">
-                            <label>Habitaciones:</label>
-                            <input id="num-hab" type="number" min="1" value="1">
-                            <span class="icon"><i class="fas fa-bed"></i></span>
-                            <input id="num-per" type="number" min="1" value="2">
-                            <span class="icon"><i class="fas fa-users"></i></span>
+                            <div class="habitaciones">
+                                <input id="num-hab" type="number" min="1" value="1">
+                                <span class="icon"><i class="fas fa-bed"></i></span>
+                            </div>
+                            <div class="pasajeros">
+                                <input id="num-per" type="number" min="1" value="2">
+                                <span class="icon"><i class="fas fa-users"></i></span>
+                            </div>                       
                         </div>
                     </div>
-                    <div class="input-group">
-                        <div id="hab-popup" class="popup">
+                    <div id="hab-popup" class="popup">
                             <div class="popup-content">
                                 <span class="close-popup">&times;</span>
                                 <div class="popup-header">
@@ -51,24 +50,22 @@
                                 <input id="popup-num-hab" type="number" min="1" value="1">
                             </div>
                             <div id="hab-container"></div>
+                    </div>
+                    </div>
+                    <div class="checkbox-group">
+                        <div class="checkbox">
+                            <input id="checkbox-vequipaje" type="checkbox">
+                            <label for="checkbox-vequipaje"> Solo vuelos con equipaje </label>
+                        </div>
+                        <div class="checkbox">
+                            <input id="checkbox-vdirecto" type="checkbox"> 
+                            <label for="checkbox-vdirecto"> Solo vuelos directos </label>
                         </div>
                     </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="checkboxes">
-                            <div class="checkbox-equipaje">
-                                <input id="checkbox-vequipaje" type="checkbox">
-                                <label> Solo vuelos con equipaje </label>
-                            </div>
-                            <div class="checkbox-directo">
-                                <input id="checkbox-vdirecto" type="checkbox"> 
-                                <label> Solo vuelos directos </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="boton-buscar">
-                                <button id="buscar-btn">Buscar</button>
+                    <div class="boton-buscar">
+                        <div class="input-group">
+                                <button id="buscar-btn"">Buscar</button>
+                                <span class="icon"><i id=lupa-icon class="fas fa-search"></i></span>
                         </div>
                     </div>
                 </div>

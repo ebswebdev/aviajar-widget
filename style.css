@@ -6,12 +6,10 @@
   --button-hover: #e0a800; /* Color de hover para botones */
 }
 
-widget-aviajar {
+#widget-aviajar {
   display: flex;
-  flex-direction: column;
   width: 100%;
   border-radius: 10px;
-  border: 1px solid #ddd;
   padding: 20px;
   font-family: "Arial", sans-serif;
   color: var(--text-color);
@@ -22,12 +20,10 @@ widget-aviajar {
 /* Contenedor principal del widget */
 .widget {
   display: flex;
-  flex-direction: column; /* Por defecto, los elementos están en columna */
   width: 100%;
   max-width: 400px;
-  background-color: var(--background-color);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
   padding: 20px;
   font-family: "Arial", sans-serif;
   color: var(--text-color);
@@ -51,30 +47,35 @@ widget-aviajar {
 .widget .header h3 {
   font-size: 20px;
   font-weight: bold;
-  color: var(--secondary-color);
+  color: var(--text-color);
   margin-bottom: 20px;
   text-align: center;
+  background-color: var(--primary-color);
+  padding: 15px;
+  border-radius: 5px;
 }
 
 /* Etiquetas */
 .widget label {
   display: block;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
-  margin-bottom: 5px;
   color: var(--text-color);
+  top: 10px;
+  left: 10px;
+  position: relative;
 }
 
 /* Campos de entrada */
 .widget input[type="text"],
 .widget input[type="number"],
 .widget input[type="checkbox"] {
-  width: 90%;
+  width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 20px;
   transition: border-color 0.3s ease;
 }
 
@@ -131,11 +132,70 @@ widget-aviajar {
   scrollbar-color: var(--primary-color) var(--background-color);
 }
 
+/* Habitaciones */
 .habitaciones-pasajeros {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  gap: 10px;
+}
+
+.habitaciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+}
+
+.habitaciones .input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.habitaciones .icon {
+  display: flex;
+  align-items: center;
+  right: 10px;
+  position: relative;
+  color: var(--secondary-color);
+  pointer-events: none;
+  top: 25px;
+}
+
+/* Pasajeros */
+.pasajeros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+}
+
+.pasajeros .input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.pasajeros .icon {
+  display: flex;
+  align-items: center;
+  right: 10px;
+  position: relative;
+  color: var(--secondary-color);
+  pointer-events: none;
+  top: 25px;
 }
 
 /* Scroll personalizado para navegadores Webkit */
@@ -230,11 +290,38 @@ widget-aviajar {
   background-color: var(--background-color);
   border-radius: 10px;
   padding: 20px;
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Popup header */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.popup-header label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  top: 5px;
+}
+
+.popup-header input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  width: 100%;
+  height: 20px;
+  font-weight: bold;
+  color: var(--text-color);
 }
 
 /* Botón de cierre */
@@ -265,32 +352,29 @@ widget-aviajar {
   }
 }
 
+/* Inputs */
 /* Contenedor de cada grupo de inputs */
 .input-group {
-  display: flex;
-  flex-direction: column; /* Por defecto, los elementos están en columna */
-  margin-bottom: 15px;
   position: relative;
+  align-items: center;
+  display: flex;
 }
 
 /* Estilo del input */
 .input-group input {
-  width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+  width: 100%;
   height: 50px;
-  padding: 10px 40px 10px 10px; /* Espacio adicional a la derecha para el ícono */
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
   transition: border-color 0.3s ease;
-  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
 /* Estilo del ícono */
 .input-group .icon {
-  position: relative;
-  top: 50%; /* Centra el ícono verticalmente */
-  transform: translateY(-50%);
-  font-size: 16px;
+  position: absolute;
+  right: 30px; /* Alinea el ícono a la derecha */
   color: var(--secondary-color); /* Usa el color azul oscuro */
   pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
 }
@@ -298,29 +382,96 @@ widget-aviajar {
 /* Inputs en foco */
 .input-group input:focus {
   border-color: var(--primary-color);
-  outline: none;
   box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
 }
 
-.checkbox-equipaje {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.checkbox-directo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.checkboxes {
+/* Checkboxs */
+.checkbox-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  top: -5px;
+  position: relative;
+  text-align: left;
+  font-size: 14px;
+}
+
+input[type="checkbox"] {
+  position: relative;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--background-color);
+  appearance: none;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--primary-color);
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border: 4px solid transparent;
+  border-left: none;
+  border-top: none;
+  transform: rotate(45deg) scale(1);
+}
+
+input[type="checkbox"]:checked:before {
+  border-color: #fff;
+  animation: checkmark 0.2s ease;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: rotate(45deg) scale(0);
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+/* Botón buscar */
+.boton-buscar .icon {
+  position: absolute;
+  left: 20px;
+  color: var(--background-color);
+  pointer-events: none;
+}
+
+.boton-buscar button {
+  width: 100%;
+  padding: 12px;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
