@@ -46,8 +46,8 @@
                             <div class="popup-content">
                                 <span class="close-popup">&times;</span>
                                 <div class="popup-header">
-                                <label for="popup-num-hab">Número de habitaciones:</label>
-                                <input id="popup-num-hab" type="number" min="1" value="1">
+                                    <label for="popup-num-hab">Número de habitaciones:</label>
+                                    <input id="popup-num-hab" type="number" min="1" value="1">
                             </div>
                             <div id="hab-container"></div>
                     </div>
@@ -135,12 +135,31 @@ document.addEventListener("DOMContentLoaded", function () {
             const habitacionDiv = document.createElement("div");
             // habitacionDiv.style = "border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background: #f9f9f9; border-radius: 5px;";
             habitacionDiv.innerHTML = `
-                <h4>Habitación ${i}</h4>
-                <label>Adultos:</label>
-                <input id="num-adultos" type="number" min="1" value="2">
-                <label>Niños:</label>
-                <input id="num-ninos" type="number" min="0" value="0">
-                <div id="edades-ninos"></div>
+                <div class="habitacion-header">
+                    <h4>Habitación ${i}</h4>
+                    <span class="icon"><i class="fas fa-bed"></i></span>
+                </div>
+                <div class="habitacion">
+                    <div class="adultos">
+                        <div class="label-adultos">
+                            <label for="num-adultos">Adultos:</label>
+                        </div>
+                        <div class="input-adultos">
+                            <input id="num-adultos" type="number" min="1" value="2">
+                            <span class="icon"><i class="fas fa-user"></i></span>
+                        </div>
+                    </div>
+                    <div class="ninos">
+                        <div class="label-ninos">
+                            <label for="num-ninos">Niños:</label>
+                        </div>
+                        <div class="input-ninos">
+                            <input id="num-ninos" type="number" min="0" value="0">
+                            <span class="icon"><i class="fas fa-child"></i></span>
+                        </div>
+                    </div>
+                    <div id="edades-ninos"></div>
+                </div>
             `;
 
             habitacionesContainer.appendChild(habitacionDiv);
