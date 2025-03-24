@@ -225,6 +225,7 @@
   right: 10px; /* Alinea el ícono a la derecha */
   color: var(--secondary-color); /* Usa el color azul oscuro */
   pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+  top: 15px;
 }
 /* Niños */
 
@@ -273,6 +274,7 @@
   right: 10px; /* Alinea el ícono a la derecha */
   color: var(--secondary-color); /* Usa el color azul oscuro */
   pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+  top: 15px;
 }
 
 /* Habitaciones Widget */
@@ -295,6 +297,7 @@
   width: 100%;
   border-radius: 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .habitaciones .input {
@@ -323,6 +326,7 @@
   width: 100%;
   border-radius: 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .pasajeros .input {
@@ -371,6 +375,44 @@
 #hab-container > div:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Edades niños */
+
+#edades-ninos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.edad-nino {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: calc(50% - 10px); /* Dos columnas con espacio entre ellas */
+}
+
+.edad-nino label {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.edad-nino select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.edad-nino select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
 }
 
 /* Responsividad */

@@ -43,14 +43,17 @@
                         </div>
                     </div>
                     <div id="hab-popup" class="popup">
-                            <div class="popup-content">
-                                <span class="close-popup">&times;</span>
-                                <div class="popup-header">
-                                    <label for="popup-num-hab">Número de habitaciones:</label>
-                                    <input id="popup-num-hab" type="number" min="1" value="1">
+                        <div class="popup-content">
+                            <span class="close-popup">&times;</span>
+                            <div class="popup-header">
+                                <label for="popup-num-hab">Número de habitaciones:</label>
+                                <input id="popup-num-hab" type="number" min="1" max="20" value="1">
                             </div>
                             <div id="hab-container"></div>
-                    </div>
+                            <div class="button-accept">
+                            <button id="accept-popup">Aceptar</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="checkbox">
@@ -120,12 +123,55 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Actualizar el número de habitaciones desde el popup
+    // Cerrar el popup al hacer click en el botón
+    document.querySelector("#accept-popup").addEventListener("click", function () {
+        habPopup.style.display = "none"; // Ocultar el popup
+    });
+
+    // Limitar numero de habitaciones       
+    popupNumHabInput.addEventListener("input", function () {
+        let numHab = parseInt(popupNumHabInput.value);
+
+        // Validar que el número esté dentro del rango permitido
+        if (numHab < 1 || numHab > 20) {
+            popupNumHabInput.value = 20;
+            return;
+        }
+
+        popupNumHabInput.value = numHab; // Actualizar el valor en el input
+        numHabInput.value = numHab; // Sincronizar con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
+
+    // Actualizar numero de pasajeros desde el popup
     popupNumHabInput.addEventListener("input", function () {
         const numHab = parseInt(popupNumHabInput.value) || 1;
         numHabInput.value = numHab; // Sincronizar el valor con el campo principal
         generarHabitaciones(numHab); // Regenerar las habitaciones
     });
+
+    // Sincronizar el número de pasajeros al cerrar el popup
+    document.querySelector("#accept-popup").addEventListener("click", function () {
+        let totalAdultos = 0;
+        let totalNinos = 0;
+
+        const habitaciones = document.querySelectorAll("#hab-container > div");
+        habitaciones.forEach(habitacion => {
+            const numAdultos = parseInt(habitacion.querySelector("#num-adultos").value) || 0;
+            const numNinos = parseInt(habitacion.querySelector("#num-ninos").value) || 0;
+
+            totalAdultos += numAdultos;
+            totalNinos += numNinos;
+        });
+
+        document.querySelector("#num-per").value = totalAdultos + totalNinos; // Actualizar el total de pasajeros
+    });
+    // Abrir popup si hago click en el input #num-per
+    const numPerInput = document.querySelector("#num-per");
+    numPerInput.addEventListener("click", function () {
+        habPopup.style.display = "flex"; // Mostrar el popup
+    });
+
 
     // Función para generar habitaciones
     function generarHabitaciones(numHab) {
@@ -145,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <label for="num-adultos">Adultos:</label>
                         </div>
                         <div class="input-adultos">
-                            <input id="num-adultos" type="number" min="1" value="2">
+                            <input id="num-adultos" type="number" min="1" value="1">
                             <span class="icon"><i class="fas fa-user"></i></span>
                         </div>
                     </div>
@@ -169,12 +215,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const numNinosInput = habitacionDiv.querySelector("#num-ninos");
             const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
 
-            // Validar y actualizar el total de personas al cambiar el número de adultos
+            // Validar Total adultos
+            const warningText = document.createElement("div");
+            warningText.style.color = "red";
+            warningText.style.fontSize = "12px";
+            warningText.style.display = "none";
+            warningText.textContent = "El número de adultos no puede ser menor a 1.";
+            habitacionDiv.appendChild(warningText);
+
             numAdultosInput.addEventListener("input", function () {
                 const numAdultos = parseInt(numAdultosInput.value) || 0;
                 if (numAdultos < 1) {
-                    alert("Debe haber al menos un adulto en la habitación.");
-                    numAdultosInput.value = 1;
+                    warningText.style.display = "block";
+                } else {
+                    warningText.style.display = "none";
                 }
             });
 
@@ -197,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     input.min = "0";
                     input.max = "12";
                     input.value = "0";
-                    input.style = "width: 100%; margin-bottom: 10px;";
                     input.className = "edad-nino";
 
                     edadesNinosContainer.appendChild(label);
@@ -235,7 +288,6 @@ function generateURL() {
     // Rooms: 1, Adults: 2, Children: 0
     let passengersRoom = document.querySelector('#num-hab').value; // Número de Habitaciones 
     let passengersAdult = document.querySelector('#num-adultos').value; // Número de Adultos 
-    let passengersChild = document.querySelector('#num-ninos').value; // Número de Niños 
 
     let baggageIncluded = document.querySelector("#checkbox-vequipaje").checked;
     let directFlight = document.querySelector("#checkbox-vdirecto").checked;
@@ -251,11 +303,38 @@ function generateURL() {
     let branchCode = "003";
 
     // Construir la URL
-    // ------------1-------2------------3------------4-----------5---------6----------7-------------8-----------------------------------------------------9---------10
-    let url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersAdult}/${passengersRoom}/${passengersChild}/${timeFrom}/${timeTo}/${baggageIncluded}/${directFlight}/${airline}/${cabinType}/${departureTime}/${userService}/${branchCode}`;
+
+    // Construir la información de habitaciones
+    let roomInfo = [];
+    const habitaciones = document.querySelectorAll("#hab-container > div");
+    habitaciones.forEach(habitacion => {
+        const numAdultos = habitacion.querySelector("#num-adultos").value || "0";
+        const numNinos = habitacion.querySelector("#num-ninos").value || "0";
+        const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
+            .map(input => input.value || "0")
+            .join("-");
+        if (numNinos > 0) {
+            roomInfo.push(`${numAdultos}-${edadesNinos}`);
+        } else {
+            roomInfo.push(`${numAdultos}`);
+        }
+    });
+
+    // Unir la información de habitaciones con "!"
+    let roomInfoString = roomInfo.join("!");
+    // Obtener las edades de los niños
+    let childrenAges = [];
+    document.querySelectorAll(".edad-nino").forEach(input => {
+        childrenAges.push(input.value || "");
+    });
+
+    // Incluir la información de habitaciones en la URL
+    let url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersAdult}/${passengersRoom}/0/${timeFrom}/${timeTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/${airline}/${cabinType}/${departureTime}/${userService}-show-${branchCode}---------#air`;
 
     console.log("Generated URL:", url);
     return url;
+
+
 }
 
 // ------------------
