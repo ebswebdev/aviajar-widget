@@ -619,6 +619,7 @@ h4 {
   position: relative;
   text-align: left;
   font-size: 14px;
+  left: -10px;
 }
 
 input[type="checkbox"] {

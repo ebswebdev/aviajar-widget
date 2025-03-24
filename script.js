@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const generatedURL = generateURL();
         // alert("URL generada: " + generatedURL);
         // console.log("Generated URL:", generatedURL);
-        // window.location.href = generatedURL; // Redirigir al usuario a la URL generada
+        window.location.href = generatedURL; // Redirigir al usuario a la URL generada
     });
 });
 
