@@ -99,6 +99,7 @@
 
 
 // -------------------------
+
 document.addEventListener("DOMContentLoaded", function () {
     const numHabInput = document.querySelector("#num-hab");
     const popupNumHabInput = document.querySelector("#popup-num-hab");
@@ -166,11 +167,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.querySelector("#num-per").value = totalAdultos + totalNinos; // Actualizar el total de pasajeros
     });
+
     // Abrir popup si hago click en el input #num-per
     const numPerInput = document.querySelector("#num-per");
     numPerInput.addEventListener("click", function () {
         habPopup.style.display = "flex"; // Mostrar el popup
     });
+
+
+    // ---------------------
 
 
     // Función para generar habitaciones
@@ -179,7 +184,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (let i = 1; i <= numHab; i++) {
             const habitacionDiv = document.createElement("div");
-            // habitacionDiv.style = "border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background: #f9f9f9; border-radius: 5px;";
             habitacionDiv.innerHTML = `
                 <div class="habitacion-header">
                     <h4>Habitación ${i}</h4>
@@ -199,10 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="label-ninos">
                             <label for="num-ninos">Niños:</label>
                         </div>
-                        <div class="input-ninos">
-                            <input id="num-ninos" type="number" min="0" value="0">
-                            <span class="icon"><i class="fas fa-child"></i></span>
-                        </div>
+                        <div class="input-ninos"></div>
                     </div>
                     <div id="edades-ninos"></div>
                 </div>
@@ -211,50 +212,77 @@ document.addEventListener("DOMContentLoaded", function () {
             habitacionesContainer.appendChild(habitacionDiv);
 
             // Seleccionar elementos dentro de esta habitación
-            const numAdultosInput = habitacionDiv.querySelector("#num-adultos");
-            const numNinosInput = habitacionDiv.querySelector("#num-ninos");
+            const numAdultosSelect = document.createElement("select");
+            numAdultosSelect.id = "num-adultos";
+            numAdultosSelect.className = "num-adultos-select";
+
+            const numNinosSelect = document.createElement("select");
+            numNinosSelect.id = "num-ninos";
+            numNinosSelect.className = "num-ninos-select";
+
+            // Generar opciones para el select (número de adultos de 1 a 7)
+            for (let i = 1; i <= 7; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                numAdultosSelect.appendChild(option);
+            }
+
+            // Generar opciones para el select (número de niños de 0 a 4)
+            for (let i = 0; i <= 4; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                numNinosSelect.appendChild(option);
+            }
+
+            const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
+            inputAdultosContainer.innerHTML = ""; // Limpiar el contenedor
+
+            // Crear el ícono
+            const iconoAdultos = document.createElement("span");
+            iconoAdultos.className = "icon";
+            iconoAdultos.innerHTML = `<i class="fas fa-user"></i>`;
+
+            const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
+            inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
+
+            // Crear el ícono
+            const iconoNinos = document.createElement("span");
+            iconoNinos.className = "icon";
+            iconoNinos.innerHTML = `<i class="fas fa-child"></i>`;
+
+            // Agregar el select y el ícono al contenedor
+            inputAdultosContainer.appendChild(numAdultosSelect);
+            inputAdultosContainer.appendChild(iconoAdultos);
+            inputNinosContainer.appendChild(numNinosSelect);
+            inputNinosContainer.appendChild(iconoNinos);
+
             const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
 
-            // Validar Total adultos
-            const warningText = document.createElement("div");
-            warningText.style.color = "red";
-            warningText.style.fontSize = "12px";
-            warningText.style.display = "none";
-            warningText.textContent = "El número de adultos no puede ser menor a 1.";
-            habitacionDiv.appendChild(warningText);
-
-            numAdultosInput.addEventListener("input", function () {
-                const numAdultos = parseInt(numAdultosInput.value) || 0;
-                if (numAdultos < 1) {
-                    warningText.style.display = "block";
-                } else {
-                    warningText.style.display = "none";
-                }
-            });
-
             // Generar dinámicamente los campos para las edades de los niños
-            numNinosInput.addEventListener("input", function () {
-                const numNinos = parseInt(numNinosInput.value) || 0;
+            numNinosSelect.addEventListener("change", function () {
+                const numNinos = parseInt(numNinosSelect.value) || 0;
                 edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
-
-                if (numNinos > 4) {
-                    alert("El número máximo de niños permitido es 4.");
-                    numNinosInput.value = 0;
-                    return;
-                }
 
                 for (let j = 1; j <= numNinos; j++) {
                     const label = document.createElement("label");
                     label.textContent = `Edad del niño ${j}:`;
-                    const input = document.createElement("input");
-                    input.type = "number";
-                    input.min = "0";
-                    input.max = "12";
-                    input.value = "0";
-                    input.className = "edad-nino";
+
+                    const select = document.createElement("select");
+                    select.className = "edad-nino";
+                    select.name = `edad-nino-${j}`;
+
+                    // Generar opciones para el select (edades de 1 a 12)
+                    for (let edad = 1; edad <= 12; edad++) {
+                        const option = document.createElement("option");
+                        option.value = edad;
+                        option.textContent = edad;
+                        select.appendChild(option);
+                    }
 
                     edadesNinosContainer.appendChild(label);
-                    edadesNinosContainer.appendChild(input);
+                    edadesNinosContainer.appendChild(select);
                 }
             });
         }
@@ -268,7 +296,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const numHab = parseInt(numHabInput.value) || 1;
         generarHabitaciones(numHab);
     });
+
+    // Numero habitaciones
+    const selectPopupNumHab = document.createElement("select");
+    selectPopupNumHab.id = "popup-num-hab";
+    selectPopupNumHab.className = "popup-num-hab-select";
+
+    for (let i = 1; i <= 4; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i;
+        selectPopupNumHab.appendChild(option);
+    }
+
+    popupNumHabInput.replaceWith(selectPopupNumHab);
+
+    // Agregar un evento para manejar los cambios en el select
+    selectPopupNumHab.addEventListener("change", function () {
+        const numHab = parseInt(selectPopupNumHab.value);
+        document.querySelector("#num-hab").value = numHab; // Sincronizar con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
 });
+
 // -------------------------
 
 // Crear la url
@@ -308,10 +358,10 @@ function generateURL() {
     let roomInfo = [];
     const habitaciones = document.querySelectorAll("#hab-container > div");
     habitaciones.forEach(habitacion => {
-        const numAdultos = habitacion.querySelector("#num-adultos").value || "0";
+        const numAdultos = habitacion.querySelector("#num-adultos").value || "1";
         const numNinos = habitacion.querySelector("#num-ninos").value || "0";
         const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
-            .map(input => input.value || "0")
+            .map(select => select.value || "0")
             .join("-");
         if (numNinos > 0) {
             roomInfo.push(`${numAdultos}-${edadesNinos}`);
@@ -349,4 +399,5 @@ document.addEventListener("DOMContentLoaded", function () {
         // window.location.href = generatedURL; // Redirigir al usuario a la URL generada
     });
 });
+
 
