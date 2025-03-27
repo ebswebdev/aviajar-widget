@@ -405,26 +405,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Autocomplete
 
-// let airports = []; // Declarar la variable 
-
-// if (typeof airportscity === "undefined") {
-//     console.error("El array 'airportscity' no está definido. Asegúrate de cargar el archivo cities.js.");
-// } else {
-//     airports = airportscity.map(entry => {
-//         const match = entry.match(/^(.*) \((\w+)\)$/);
-//         if (match) {
-//             return { id: match[2], name: match[1] };
-//         }
-//         return null;
-//     }).filter(Boolean);
-
-//     console.log(airports);
-// }
-
 let airports = []; // Declarar la variable 
 
 if (typeof airportscity === "undefined") {
-    console.error("El array 'airportscity' no está definido. Asegúrate de cargar el archivo cities.js.");
+    console.error("No se encuentran las ciudades");
 } else {
     airports = airportscity.map(entry => {
         // Dividir la entrada en partes usando el separador "|"
@@ -434,19 +418,19 @@ if (typeof airportscity === "undefined") {
             // Caso 1: Formato simple como "Ciudad, País (Código)"
             const match = parts[0].match(/^(.*), (.*) \((\w+)\)$/);
             if (match) {
-                return { id: match[3], name: match[1] };
+                return { id: match[3], name: match[1], country: match[2] };
             }
         } else if (parts.length === 2) {
             // Caso 2: Formato "Todos aeropuertos | Ciudad, País (Código)"
             const match = parts[1].match(/^(.*), (.*) \((\w+)\)$/);
             if (match) {
-                return { id: match[3], name: match[1] };
+                return { id: match[3], name: match[1], country: match[2] };
             }
         } else if (parts.length === 3) {
             // Caso 3: Formato "Ciudad | Detalles | Código"
             const match = parts[2].match(/\((\w+)\)$/);
             if (match) {
-                return { id: match[1], name: parts[0].trim() };
+                return { id: match[1], name: parts[0].trim(), country: parts[1].trim() };
             }
         }
 
@@ -461,13 +445,11 @@ if (typeof airportscity === "undefined") {
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.querySelector("#origen");
     const autocompleteList = document.querySelector("#autocomplete-list");
-    let currentFocus = -1; // Para manejar la navegación con teclado
 
     // Escuchar el evento "input" para filtrar las sugerencias
     input.addEventListener("input", function () {
         const query = input.value.toLowerCase();
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-        currentFocus = -1; // Reiniciar el índice de navegación
 
         if (!query) return; // No mostrar sugerencias si el input está vacío
 
@@ -477,10 +459,10 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         // Mostrar las sugerencias
-        filteredCities.forEach((city, index) => {
+        filteredCities.forEach((city) => {
             const item = document.createElement("div");
             item.className = "autocomplete-item";
-            item.textContent = city.name; // Mostrar el nombre de la ciudad en la lista
+            item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
             item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
 
             // Manejar el clic en una sugerencia
@@ -500,6 +482,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// -------------------
 
 // Automcomplete destino
 
@@ -525,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
         filteredCities.forEach((city, index) => {
             const item = document.createElement("div");
             item.className = "autocomplete-item";
-            item.textContent = city.name; // Mostrar el nombre de la ciudad en la lista
+            item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
             item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
 
             // Manejar el clic en una sugerencia
