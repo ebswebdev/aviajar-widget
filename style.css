@@ -695,10 +695,17 @@ input[type="checkbox"]:checked:before {
 
 .autocomplete-input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.autocomplete-input:focus {
+  border-color: #fdbe15; /* Amarillo */
+  box-shadow: 0 0 8px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
+  outline: none;
 }
 
 .autocomplete-list {
@@ -706,19 +713,40 @@ input[type="checkbox"]:checked:before {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  max-height: 200px;
+  border-radius: 8px;
+  max-height: 250px;
   overflow-y: auto;
   z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para la lista */
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .autocomplete-item {
-  padding: 10px;
+  padding: 12px;
+  font-size: 14px;
+  color: #333;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .autocomplete-item:hover {
-  background-color: #f0f0f0;
+  background-color: #fdbe15; /* Amarillo */
+  color: #fff; /* Texto blanco */
+}
+
+.autocomplete-item:active {
+  background-color: #e0a800; /* Amarillo más oscuro */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

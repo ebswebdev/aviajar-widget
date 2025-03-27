@@ -14,9 +14,9 @@
                     </div>
                     <div class="origen">
                         <div class="input-group">
+                            <div id="autocomplete-list" class="autocomplete-list"> </div>
                             <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-departure"></i></span>
-                            <div id="autocomplete-list" class="autocomplete-list"> </div>
                         </div>                        
                     </div>
                     <div class="destino">
