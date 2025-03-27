@@ -21,7 +21,7 @@
                     </div>
                     <div class="destino">
                         <div class="input-group">
-                            <input id="destino" type="text" placeholder="Hacia dónde viajas" value="">
+                            <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                         </div>
                     </div>
@@ -329,8 +329,8 @@ function generateURL() {
     const productType = "Package";
 
     // Obtener valores del formulario
-    let cityFrom = document.querySelector("#origen").value || "BOG"; // Lugar de salida
-    let cityTo = document.querySelector("#destino").value || "LAX"; // Lugar de llegada
+    let cityFrom = document.querySelector("#origen-id").value;
+    let cityTo = document.querySelector("#destino-id").value; // Lugar de llegada
     let dateRange = document.querySelector("#fecha-rango").value.split(" to "); // Rango de fechas
     let dateFrom = dateRange[0]; // Fecha de salida
     let dateTo = dateRange[1]; // Fecha de llegada
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const generatedURL = generateURL();
         // alert("URL generada: " + generatedURL);
         // console.log("Generated URL:", generatedURL);
-        window.location.href = generatedURL; // Redirigir al usuario a la URL generada
+        // window.location.href = generatedURL; // Redirigir al usuario a la URL generada
     });
 });
 
@@ -446,6 +446,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = document.querySelector("#origen");
     const autocompleteList = document.querySelector("#autocomplete-list");
 
+    // Crear un select oculto para almacenar el ID
+    const hiddenSelect = document.createElement("select");
+    hiddenSelect.id = "origen-id";
+    hiddenSelect.style.display = "none"; // Ocultar el select
+    document.body.appendChild(hiddenSelect);
+
     // Escuchar el evento "input" para filtrar las sugerencias
     input.addEventListener("input", function () {
         const query = input.value.toLowerCase();
@@ -467,10 +473,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Manejar el clic en una sugerencia
             item.addEventListener("click", function () {
-                input.value = city.id; // Establecer el ID de la ciudad en el input
+                input.value = `${city.name}, ${city.country} (${city.id})`; // Mostrar toda la información en el input
                 autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-            });
 
+                // Actualizar el select oculto con el ID seleccionado
+                hiddenSelect.innerHTML = ""; // Limpiar el select
+                const option = document.createElement("option");
+                option.value = city.id;
+                option.selected = true;
+                hiddenSelect.appendChild(option);
+                console.log(document.querySelector("#origen-id").value);
+            });
             autocompleteList.appendChild(item);
         });
     });
@@ -482,21 +495,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
 // -------------------
 
 // Automcomplete destino
-
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.querySelector("#destino");
-    const autocompleteList = document.querySelector("#autocomplete-list");
-    let currentFocus = -1; // Para manejar la navegación con teclado
+    const autocompleteList = document.createElement("div");
+    autocompleteList.id = "autocomplete-list-destino";
+    autocompleteList.className = "autocomplete-list";
+    input.parentNode.appendChild(autocompleteList);
+
+    // Crear un select oculto para almacenar el ID del destino
+    const hiddenSelect = document.createElement("select");
+    hiddenSelect.id = "destino-id";
+    hiddenSelect.style.display = "none"; // Ocultar el select
+    document.body.appendChild(hiddenSelect);
 
     // Escuchar el evento "input" para filtrar las sugerencias
     input.addEventListener("input", function () {
         const query = input.value.toLowerCase();
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-        currentFocus = -1; // Reiniciar el índice de navegación
 
         if (!query) return; // No mostrar sugerencias si el input está vacío
 
@@ -506,7 +524,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         // Mostrar las sugerencias
-        filteredCities.forEach((city, index) => {
+        filteredCities.forEach((city) => {
             const item = document.createElement("div");
             item.className = "autocomplete-item";
             item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
@@ -514,10 +532,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Manejar el clic en una sugerencia
             item.addEventListener("click", function () {
-                input.value = city.id; // Establecer el ID de la ciudad en el input
+                input.value = `${city.name}, ${city.country} (${city.id})`; // Mostrar toda la información en el input
                 autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-            });
 
+                // Actualizar el select oculto con el ID seleccionado
+                hiddenSelect.innerHTML = ""; // Limpiar el select
+                const option = document.createElement("option");
+                option.value = city.id;
+                option.selected = true;
+                hiddenSelect.appendChild(option);
+                console.log(document.querySelector("#destino-id").value);
+            });
             autocompleteList.appendChild(item);
         });
     });
@@ -528,4 +553,5 @@ document.addEventListener("DOMContentLoaded", function () {
             autocompleteList.innerHTML = ""; // Limpiar las sugerencias
         }
     });
+
 });
