@@ -563,6 +563,13 @@ h4 {
 }
 
 /* Inputs */
+
+/* Input cuando hay error */
+.input-error {
+  background-color: #ffe6e6; /* Fondo rojo claro */
+  border: 1px solid red; /* Borde rojo */
+}
+
 /* Contenedor de cada grupo de inputs */
 .input-group {
   position: relative;

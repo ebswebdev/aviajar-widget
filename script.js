@@ -394,10 +394,84 @@ function generateURL() {
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#buscar-btn").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
-        const generatedURL = generateURL();
-        // alert("URL generada: " + generatedURL);
-        // console.log("Generated URL:", generatedURL);
-        // window.location.href = generatedURL; // Redirigir al usuario a la URL generada
+
+        // Obtener los valores de los campos
+        const origenInput = document.querySelector("#origen");
+        const destinoInput = document.querySelector("#destino");
+        const origenSelect = document.querySelector("#origen-id");
+        const destinoSelect = document.querySelector("#destino-id");
+
+        let valid = true;
+
+        // Función para mostrar mensajes de error y resaltar el input
+        function showError(input, message) {
+            // Buscar o crear el contenedor de errores global
+            let errorContainer = document.querySelector("#error-container");
+            if (!errorContainer) {
+                errorContainer = document.createElement("div");
+                errorContainer.id = "error-container";
+                errorContainer.style.marginTop = "16px";
+                errorContainer.style.color = "red";
+                errorContainer.style.fontSize = "14px";
+                document.querySelector(".widget-container").appendChild(errorContainer); // Agregarlo después del formulario
+            }
+
+            // Crear un mensaje de error específico para el campo
+            let fieldError = errorContainer.querySelector(`.error-${input.id}`);
+            if (!fieldError) {
+                fieldError = document.createElement("div");
+                fieldError.className = `error-${input.id}`;
+                errorContainer.appendChild(fieldError);
+            }
+
+            fieldError.textContent = message;
+
+            // Cambiar el fondo del input a rojo
+            input.classList.add("input-error");
+        }
+
+        // Función para limpiar mensajes de error y quitar el resaltado
+        function clearError(input) {
+            let errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+
+                // Si no quedan errores, eliminar el contenedor de errores
+                if (!errorContainer.hasChildNodes()) {
+                    errorContainer.remove();
+                }
+            }
+
+            // Quitar el fondo rojo del input
+            input.classList.remove("input-error");
+        }
+
+        // Validar que se haya seleccionado un origen desde el autocompletado
+        if (!origenSelect || !origenSelect.value) {
+            showError(origenInput, "Por favor, selecciona un origen válido desde el autocompletado.");
+            valid = false;
+        } else {
+            clearError(origenInput);
+        }
+
+        // Validar que se haya seleccionado un destino desde el autocompletado
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput, "Por favor, selecciona un destino válido desde el autocompletado.");
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        // Si todos los campos son válidos, generar la URL
+        if (valid) {
+            const generatedURL = generateURL();
+            console.log("Generated URL:", generatedURL);
+            // Redirigir al usuario a la URL generada
+            // window.location.href = generatedURL;
+        }
     });
 });
 
@@ -461,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Filtrar las ciudades que coincidan con el texto ingresado
         const filteredCities = airports.filter(city =>
-            city.name.toLowerCase().includes(query)
+            city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
         );
 
         // Mostrar las sugerencias
@@ -520,7 +594,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Filtrar las ciudades que coincidan con el texto ingresado
         const filteredCities = airports.filter(city =>
-            city.name.toLowerCase().includes(query)
+            city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
         );
 
         // Mostrar las sugerencias
