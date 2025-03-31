@@ -478,9 +478,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURL();
-            console.log("Generated URL:", generatedURL);
             // Redirigir al usuario a la URL generada
-            // window.location.href = generatedURL;
+            window.location.href = generatedURL;
             // Limpiar basura del select origen y destino
             document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
                 const selectedOption = select.querySelector("option[selected]");
