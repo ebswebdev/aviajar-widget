@@ -721,7 +721,6 @@ input[type="checkbox"]:checked:before {
   left: 0;
   right: 0;
   background-color: #fff;
-  border: 1px solid #ddd;
   border-radius: 8px;
   max-height: 200px;
   overflow-y: auto;

@@ -14,16 +14,18 @@
                     </div>
                     <div class="origen">
                         <div class="input-group">
-                            <div id="autocomplete-list" class="autocomplete-list"> </div>
+                            <div id="autocomplete-list-origen" class="autocomplete-list"> </div>
                             <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-departure"></i></span>
                         </div>                        
                     </div>
                     <div class="destino">
                         <div class="input-group">
+                            <div id="autocomplete-list-destino" class="autocomplete-list"> </div>
                             <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="">
                             <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                         </div>
+                    <div class="error-destino" style="display:none;">    
                     </div>
                     <div class="fechas">
                         <div class="input-group">
@@ -38,7 +40,7 @@
                                 <span class="icon"><i class="fas fa-bed"></i></span>
                             </div>
                             <div class="pasajeros">
-                                <input id="num-per" type="number" min="1" value="2">
+                                <input id="num-per" type="number" min="1" value="1">
                                 <span class="icon"><i class="fas fa-users"></i></span>
                             </div>                       
                         </div>
@@ -82,6 +84,7 @@
                 mode: "range",
                 dateFormat: "Y-m-d",
                 showMonths: 2,
+                minDate: "today", // Disable dates earlier than today
                 onClose: function (selectedDates) {
                     if (selectedDates.length === 2) {
                         const fecha1 = selectedDates[0].toISOString().split('T')[0];
@@ -398,6 +401,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Obtener los valores de los campos
         const origenInput = document.querySelector("#origen");
         const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
         const origenSelect = document.querySelector("#origen-id");
         const destinoSelect = document.querySelector("#destino-id");
 
@@ -465,13 +469,36 @@ document.addEventListener("DOMContentLoaded", function () {
             clearError(destinoInput);
         }
 
+        // Validar que el rango de fechas no esté vacío
+        if (!fechaRangoInput.value) {
+            fechaRangoInput.classList.add("input-error");
+            valid = false;
+        }
+
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURL();
             console.log("Generated URL:", generatedURL);
             // Redirigir al usuario a la URL generada
             // window.location.href = generatedURL;
+            // Limpiar basura del select origen y destino
+            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
+                const selectedOption = select.querySelector("option[selected]");
+                if (!selectedOption) {
+                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
+                }
+            });
+
+            // Limpiar los inputs de origen, destino y fecha-rango
+            origenInput.value = "";
+            destinoInput.value = "";
+            fechaRangoInput.value = "";
         }
+    });
+
+    // Quitar la clase input-error cuando el rango de fechas cambie
+    document.querySelector("#fecha-rango").addEventListener("change", function () {
+        this.classList.remove("input-error");
     });
 });
 
@@ -518,7 +545,10 @@ if (typeof airportscity === "undefined") {
 // Autocomplete Origen
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.querySelector("#origen");
-    const autocompleteList = document.querySelector("#autocomplete-list");
+    const autocompleteList = document.createElement("div");
+    autocompleteList.id = "autocomplete-list-origen"; // Updated ID
+    autocompleteList.className = "autocomplete-list";
+    input.parentNode.appendChild(autocompleteList);
 
     // Crear un select oculto para almacenar el ID
     const hiddenSelect = document.createElement("select");
@@ -531,7 +561,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const query = input.value.toLowerCase();
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
 
-        if (!query) return; // No mostrar sugerencias si el input está vacío
+        if (!query) {
+            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
+        }
 
         // Filtrar las ciudades que coincidan con el texto ingresado
         const filteredCities = airports.filter(city =>
@@ -545,21 +578,44 @@ document.addEventListener("DOMContentLoaded", function () {
             item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
             item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
 
-            // Manejar el clic en una sugerencia
-            item.addEventListener("click", function () {
-                input.value = `${city.name}, ${city.country} (${city.id})`; // Mostrar toda la información en el input
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-
-                // Actualizar el select oculto con el ID seleccionado
-                hiddenSelect.innerHTML = ""; // Limpiar el select
-                const option = document.createElement("option");
-                option.value = city.id;
-                option.selected = true;
-                hiddenSelect.appendChild(option);
-                console.log(document.querySelector("#origen-id").value);
-            });
             autocompleteList.appendChild(item);
         });
+    });
+
+    // Manejar el clic en una sugerencia
+    autocompleteList.addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("autocomplete-item")) {
+            const city = e.target.dataset.id;
+            input.value = e.target.textContent; // Mostrar toda la información en el input
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+
+            // Actualizar el select oculto con el ID seleccionado
+            hiddenSelect.innerHTML = ""; // Limpiar el select
+            const option = document.createElement("option");
+            option.value = city;
+            option.selected = true;
+            hiddenSelect.appendChild(option);
+
+            // Remover la clase de error del input
+            input.classList.remove("input-error");
+
+            // Ocultar el mensaje de error correspondiente
+            const errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+            }
+        }
+    });
+
+    input.addEventListener("focus", function () {
+        autocompleteList.classList.add("active"); // Activate the autocomplete list
+    });
+
+    input.addEventListener("blur", function () {
+        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
     });
 
     // Cerrar la lista de sugerencias si el usuario hace clic fuera
@@ -569,13 +625,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-// -------------------
 
 // Automcomplete destino
 document.addEventListener("DOMContentLoaded", function () {
     const input = document.querySelector("#destino");
     const autocompleteList = document.createElement("div");
-    autocompleteList.id = "autocomplete-list-destino";
+    autocompleteList.id = "autocomplete-list-destino"; // Updated ID
     autocompleteList.className = "autocomplete-list";
     input.parentNode.appendChild(autocompleteList);
 
@@ -590,7 +645,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const query = input.value.toLowerCase();
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
 
-        if (!query) return; // No mostrar sugerencias si el input está vacío
+        if (!query) {
+            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
+        }
 
         // Filtrar las ciudades que coincidan con el texto ingresado
         const filteredCities = airports.filter(city =>
@@ -604,21 +662,44 @@ document.addEventListener("DOMContentLoaded", function () {
             item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
             item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
 
-            // Manejar el clic en una sugerencia
-            item.addEventListener("click", function () {
-                input.value = `${city.name}, ${city.country} (${city.id})`; // Mostrar toda la información en el input
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-
-                // Actualizar el select oculto con el ID seleccionado
-                hiddenSelect.innerHTML = ""; // Limpiar el select
-                const option = document.createElement("option");
-                option.value = city.id;
-                option.selected = true;
-                hiddenSelect.appendChild(option);
-                console.log(document.querySelector("#destino-id").value);
-            });
             autocompleteList.appendChild(item);
         });
+    });
+
+    // Manejar el clic en una sugerencia
+    autocompleteList.addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("autocomplete-item")) {
+            const city = e.target.dataset.id;
+            input.value = e.target.textContent; // Mostrar toda la información en el input
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+
+            // Actualizar el select oculto con el ID seleccionado
+            hiddenSelect.innerHTML = ""; // Limpiar el select
+            const option = document.createElement("option");
+            option.value = city;
+            option.selected = true;
+            hiddenSelect.appendChild(option);
+
+            // Remover la clase de error del input
+            input.classList.remove("input-error");
+
+            // Ocultar el mensaje de error correspondiente
+            const errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+            }
+        }
+    });
+
+    input.addEventListener("focus", function () {
+        autocompleteList.classList.add("active"); // Activate the autocomplete list
+    });
+
+    input.addEventListener("blur", function () {
+        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
     });
 
     // Cerrar la lista de sugerencias si el usuario hace clic fuera
@@ -627,5 +708,4 @@ document.addEventListener("DOMContentLoaded", function () {
             autocompleteList.innerHTML = ""; // Limpiar las sugerencias
         }
     });
-
 });
