@@ -20,7 +20,6 @@
     max-width: 1200px; /* Ancho máximo del widget */
     height: auto;
     border-radius: 10px;
-    padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
