@@ -554,6 +554,16 @@
     border: 1px solid red; /* Borde rojo */
   }
 
+  /* Space-between entre hab y pas  */
+  #habitaciones-pasajeros-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+  }
+
   /* Contenedor de cada grupo de inputs */
   .input-group {
     position: relative;

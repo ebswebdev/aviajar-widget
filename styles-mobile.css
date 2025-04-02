@@ -15,13 +15,11 @@
 
   #widget-aviajar {
     display: flex;
-    width: 100%;
     border-radius: 10px;
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
-    margin: 20px auto;
   }
 
   /* Contenedor principal del widget */
@@ -29,14 +27,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
-    margin: 20px auto; /* Centra el widget horizontalmente */
   }
 
   /* Animación de entrada */
@@ -304,9 +300,6 @@
   }
 
   .habitaciones {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
     border-radius: 5px;
     position: relative;
@@ -333,9 +326,6 @@
 
   /* Pasajeros */
   .pasajeros {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
     border-radius: 5px;
     position: relative;
