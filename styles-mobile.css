@@ -1,5 +1,4 @@
-/* DESKTOP */
-@media (min-width: 800px) {
+@media (max-width: 800px) {
   :root {
     --primary-color: #fdbe15; /* Color amarillo característico */
     --secondary-color: #004481; /* Azul oscuro para contrastes */
@@ -17,8 +16,6 @@
   #widget-aviajar {
     display: flex;
     width: 100%;
-    max-width: 1200px; /* Ancho máximo del widget */
-    height: auto;
     border-radius: 10px;
     padding: 20px;
     font-family: "Arial", sans-serif;
@@ -27,20 +24,12 @@
     margin: 20px auto;
   }
 
-  .widget-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
   /* Contenedor principal del widget */
   .widget {
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 400px;
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 20px;
@@ -90,6 +79,8 @@
   .widget input[type="checkbox"] {
     width: 100%;
     padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 15px;
     transition: border-color 0.3s ease;
@@ -100,6 +91,17 @@
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
+  }
+
+  /* Label-Input */
+  .label-input {
+    position: absolute;
+    top: 10px; /* Ajustado para estar más abajo del input */
+    left: 10px;
+    font-size: 10px;
+    color: var(--text-color); /* Usando el color de texto definido */
+    pointer-events: none;
+    transition: all 0.3s ease;
   }
 
   /* Checkboxes */
@@ -114,7 +116,7 @@
 
   /* Botón de búsqueda */
   .widget button {
-    width: 100px;
+    width: 100%;
     padding: 12px;
     background-color: var(--primary-color);
     color: #fff;
@@ -133,27 +135,6 @@
 
   .widget button:active {
     transform: scale(1);
-  }
-
-  /* Label-Input */
-  .label-input {
-    position: absolute;
-    top: 1px; /* Ajustado para estar más abajo del input */
-    left: 10px;
-    font-size: 10px;
-    color: var(--text-color); /* Usando el color de texto definido */
-    pointer-events: none;
-    transition: all 0.3s ease;
-  }
-
-  /* Origen-destino */
-  .widget .origen-destino {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
-    position: relative;
-    padding-right: 20px; /* Espacio para el ícono */
   }
 
   /* Contenedor de habitaciones (Popup) */
@@ -261,8 +242,8 @@
     pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
     top: 15px;
   }
-  /* Niños */
 
+  /* Niños */
   .ninos {
     flex-wrap: wrap;
     justify-content: space-between;
@@ -313,10 +294,13 @@
   /* Habitaciones Widget */
   .habitaciones-pasajeros {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
     border-radius: 5px;
     position: relative;
-    padding-right: 20px; /* Espacio para el ícono */
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
   .habitaciones {
@@ -330,6 +314,7 @@
   }
 
   .habitaciones .input {
+    width: 100%;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -559,7 +544,6 @@
     position: relative;
     align-items: center;
     display: flex;
-    height: 50px;
   }
 
   /* Estilo del input */
@@ -571,27 +555,14 @@
     border-radius: 5px;
     font-size: 14px;
     transition: border-color 0.3s ease;
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
   }
 
-  .fechas {
-    padding-right: 20px; /* Espacio para el ícono del calendario */
-  }
-
-  /* Specific adjustment for the date input */
-  #fecha-rango,
-  #origen,
-  #destino {
-    padding-right: 40px; /* Ensure extra space for the calendar icon */
-  }
-
+  /* Estilo del ícono */
   .input-group .icon {
     position: absolute;
-    right: 15px; /* Position the icon to the right */
-    color: var(--secondary-color); /* Use the secondary color */
-    pointer-events: none; /* Prevent the icon from interfering with input clicks */
+    right: 30px; /* Alinea el ícono a la derecha */
+    color: var(--secondary-color); /* Usa el color azul oscuro */
+    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
   }
 
   /* Inputs en foco */
@@ -602,12 +573,11 @@
 
   /* Checkboxs */
   .checkbox-group {
-    display: none !important;
-    /* display: flex;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 10px; */
+    padding: 10px;
   }
 
   .checkbox {
@@ -675,26 +645,16 @@
   }
 
   /* Botón buscar */
-  .boton-buscar {
-    display: flex;
-    weight: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-
   .boton-buscar .icon {
     position: absolute;
     left: 20px;
     color: var(--background-color);
     pointer-events: none;
-    font-size: 20px;
-    transition: color 0.3s ease;
   }
 
   .boton-buscar button {
-    width: 150px;
+    width: 100%;
+    padding: 12px;
     height: 50px;
     border-radius: 10px;
     font-size: 16px;
