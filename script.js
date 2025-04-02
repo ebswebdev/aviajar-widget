@@ -517,10 +517,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let airports = []; // Declarar la variable 
 
-if (typeof airportscity === "undefined") {
+// external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
+if (typeof external_file_AirportsCities === "undefined") {
     console.error("No se encuentran las ciudades");
 } else {
-    airports = airportscity.map(entry => {
+    airports = external_file_AirportsCities.map(entry => {
         // Dividir la entrada en partes usando el separador "|"
         const parts = entry.split("|").map(part => part.trim());
 
