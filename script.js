@@ -118,6 +118,7 @@
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
 
+// Contenido del popup de habitaciones
 document.addEventListener("DOMContentLoaded", function () {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -318,25 +319,67 @@ document.addEventListener("DOMContentLoaded", function () {
         generarHabitaciones(numHab);
     });
 
-    // Numero habitaciones
-    const selectPopupNumHab = document.createElement("select");
-    selectPopupNumHab.id = "popup-num-hab";
-    selectPopupNumHab.className = "popup-num-hab-select";
+    // Crear el contenedor del input numérico
+    const numericInputContainer = document.createElement("div");
+    numericInputContainer.className = "numeric-input";
 
-    for (let i = 1; i <= 4; i++) {
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = i;
-        selectPopupNumHab.appendChild(option);
-    }
+    // Crear el botón de decremento
+    const decrementButton = document.createElement("button");
+    decrementButton.className = "decrement";
+    decrementButton.textContent = "-";
 
-    popupNumHabInput.replaceWith(selectPopupNumHab);
+    // Crear el input numérico
+    const numericInput = document.createElement("input");
+    numericInput.type = "number";
+    numericInput.id = "numeric-value";
+    numericInput.value = "1";
+    numericInput.min = "1";
+    numericInput.max = "4";
 
-    // Agregar un evento para manejar los cambios en el select
-    selectPopupNumHab.addEventListener("change", function () {
-        const numHab = parseInt(selectPopupNumHab.value);
-        document.querySelector("#num-hab").value = numHab; // Sincronizar con el campo principal
-        generarHabitaciones(numHab); // Regenerar las habitaciones
+    // Crear el botón de incremento
+    const incrementButton = document.createElement("button");
+    incrementButton.className = "increment";
+    incrementButton.textContent = "+";
+
+    // Agregar los elementos al contenedor
+    numericInputContainer.appendChild(decrementButton);
+    numericInputContainer.appendChild(numericInput);
+    numericInputContainer.appendChild(incrementButton);
+
+    // Reemplazar el input original con el nuevo contenedor
+    popupNumHabInput.replaceWith(numericInputContainer);
+
+    // Agregar eventos para manejar los cambios en el valor
+    decrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+        if (currentValue > parseInt(numericInput.min)) {
+            numericInput.value = currentValue - 1;
+            document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
+            generarHabitaciones(numericInput.value); // Regenerar las habitaciones
+        }
+    });
+
+    incrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+        if (currentValue < parseInt(numericInput.max)) {
+            numericInput.value = currentValue + 1;
+            document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
+            generarHabitaciones(numericInput.value); // Regenerar las habitaciones
+        }
+    });
+
+    numericInput.addEventListener("input", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+
+        // Validar que el número esté dentro del rango permitido
+        if (currentValue < parseInt(numericInput.min)) {
+            numericInput.value = numericInput.min;
+        } else if (currentValue > parseInt(numericInput.max)) {
+            numericInput.value = numericInput.max;
+        }
+
+        document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
+        generarHabitaciones(numericInput.value); // Regenerar las habitaciones
     });
 });
 
@@ -411,6 +454,7 @@ function generateURL() {
 }
 
 // ------------------
+
 
 // Evento para el botón de búsqueda
 document.addEventListener("DOMContentLoaded", function () {
