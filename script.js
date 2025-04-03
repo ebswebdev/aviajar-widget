@@ -543,13 +543,26 @@ if (typeof external_file_AirportsCities === "undefined") {
             if (match) {
                 return { id: match[1], name: parts[0].trim(), country: parts[1].trim() };
             }
+        } else if (parts.length === 4) {
+            // Caso 4: Formato "Ciudad | NombreAirport (IDCIUDAD - IDAIRPORT)"
+            const match = parts[1].match(/^(.*) \((\w+) - (\w+)\)$/);
+            if (match) {
+                return {
+                    idCity: match[2],
+                    idAirport: match[3],
+                    name: parts[0].trim(),
+                    airport: match[1].trim()
+                };
+            }
         }
 
         // Si no coincide con ningún formato, devolver null
         return null;
     }).filter(Boolean); // Filtrar las entradas no válidas
-
-    console.log(airports);
+    if (airports.airport) {
+        airports = airports.filter(entry => entry.airport !== undefined); // Filtrar entradas con aeropuerto
+    }
+    // console.log(airports);
 }
 
 // Autocomplete Origen
@@ -576,17 +589,26 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Filtrar las ciudades que coincidan con el texto ingresado
-        const filteredCities = airports.filter(city =>
-            city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
+        // Filtrar las ciudades y aeropuertos que coincidan con el texto ingresado
+        const filteredEntries = airports.filter(entry =>
+            entry.name.toLowerCase().includes(query) ||
+            (entry.airport && entry.airport.toLowerCase().includes(query)) ||
+            entry.id.toLowerCase().includes(query)
         );
 
         // Mostrar las sugerencias
-        filteredCities.forEach((city) => {
+        filteredEntries.forEach((entry) => {
             const item = document.createElement("div");
             item.className = "autocomplete-item";
-            item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
-            item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
+            if (entry.airport) {
+                // Mostrar ciudad y aeropuerto
+                item.textContent = `${entry.name} | ${entry.airport} (${entry.idCity} - ${entry.idAirport})`;
+                item.dataset.id = entry.idAirport; // Guardar el ID del aeropuerto
+            } else {
+                // Mostrar solo ciudad
+                item.textContent = `${entry.name}, ${entry.country} (${entry.id})`;
+                item.dataset.id = entry.id; // Guardar el ID de la ciudad
+            }
 
             autocompleteList.appendChild(item);
         });
@@ -719,3 +741,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
