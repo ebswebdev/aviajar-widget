@@ -1,16 +1,17 @@
-// Verificar si el widget tiene en el atributo products el valor "AirHotel"
-// Si no lo tiene, no se ejecuta el script
-if (document.getElementById('widget-aviajar').getAttribute('products').includes("AirHotel")) {
-    (function () {
-        function createWidget() {
-            const widgetContainer = document.getElementById('widget-aviajar');
-            if (!widgetContainer) return;
 
-            const products = widgetContainer.getAttribute('products') || 'AirHotel,Air,Hotel,Extras';
-            const destination = widgetContainer.getAttribute('destination') || '';
+(function () {
+    function createWidget() {
+        const widgetContainer = document.getElementById('widget-aviajar');
+        if (!widgetContainer) return;
 
+        let products = widgetContainer.getAttribute('products') || '';
+        // products = '';
+        let destination = widgetContainer.getAttribute('destination') || '';
+
+        // Verificar si el widget tiene en el atributo products el valor "AirHotel"
+        if (products.includes("AirHotel")) {
             widgetContainer.innerHTML = `
-            <div class="widget">
+            <div class="widget" id="widget-container">
                 <div class="widget-header">
                     <div class="header">
                     <h3>Buscar Paquetes en Oferta</h3>
@@ -89,7 +90,7 @@ if (document.getElementById('widget-aviajar').getAttribute('products').includes(
                     </div>
                 </div>
             </div>
-        `;
+            `;
 
             // Esperar a que Flatpickr esté cargado
             if (typeof flatpickr !== 'undefined') {
@@ -109,99 +110,102 @@ if (document.getElementById('widget-aviajar').getAttribute('products').includes(
                 });
             }
         }
+        else {
+            console.log("No existe");
+            return
+        }
+    }
+    document.addEventListener("DOMContentLoaded", createWidget);
+})();
 
+document.addEventListener("DOMContentLoaded", function () {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
 
-        document.addEventListener("DOMContentLoaded", createWidget);
-    })();
+    const numHabInput = document.querySelector("#num-hab");
+    const popupNumHabInput = document.querySelector("#popup-num-hab");
+    const habPopup = document.querySelector("#hab-popup");
+    const closePopup = document.querySelector(".close-popup");
+    const habitacionesContainer = document.querySelector("#hab-container");
 
+    if (!numHabInput || !popupNumHabInput || !habPopup || !closePopup || !habitacionesContainer) return;
 
-    // -------------------------
+    // Mostrar el popup al hacer clic en el campo de habitaciones
+    numHabInput.addEventListener("click", function () {
+        habPopup.style.display = "flex"; // Mostrar el popup
+    });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const numHabInput = document.querySelector("#num-hab");
-        const popupNumHabInput = document.querySelector("#popup-num-hab");
-        const habPopup = document.querySelector("#hab-popup");
-        const closePopup = document.querySelector(".close-popup");
-        const habitacionesContainer = document.querySelector("#hab-container");
+    // Cerrar el popup al hacer clic en el botón de cierre
+    closePopup.addEventListener("click", function () {
+        habPopup.style.display = "none"; // Ocultar el popup
+    });
 
-        // Mostrar el popup al hacer clic en el campo de habitaciones
-        numHabInput.addEventListener("click", function () {
-            habPopup.style.display = "flex"; // Mostrar el popup
-        });
-
-        // Cerrar el popup al hacer clic en el botón de cierre
-        closePopup.addEventListener("click", function () {
+    // Cerrar el popup al hacer clic fuera del contenido
+    habPopup.addEventListener("click", function (e) {
+        if (e.target === habPopup) {
             habPopup.style.display = "none"; // Ocultar el popup
+        }
+    });
+
+    // Cerrar el popup al hacer click en el botón
+    document.querySelector("#accept-popup")?.addEventListener("click", function () {
+        habPopup.style.display = "none"; // Ocultar el popup
+    });
+
+    // Limitar numero de habitaciones       
+    popupNumHabInput.addEventListener("input", function () {
+        let numHab = parseInt(popupNumHabInput.value);
+
+        // Validar que el número esté dentro del rango permitido
+        if (numHab < 1 || numHab > 20) {
+            popupNumHabInput.value = 20;
+            return;
+        }
+
+        popupNumHabInput.value = numHab; // Actualizar el valor en el input
+        numHabInput.value = numHab; // Sincronizar con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
+
+    // Actualizar numero de pasajeros desde el popup
+    popupNumHabInput.addEventListener("input", function () {
+        const numHab = parseInt(popupNumHabInput.value) || 1;
+        numHabInput.value = numHab; // Sincronizar el valor con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
+
+    // Sincronizar el número de pasajeros al cerrar el popup
+    document.querySelector("#accept-popup")?.addEventListener("click", function () {
+        let totalAdultos = 0;
+        let totalNinos = 0;
+
+        const habitaciones = document.querySelectorAll("#hab-container > div");
+        habitaciones.forEach(habitacion => {
+            const numAdultos = parseInt(habitacion.querySelector("#num-adultos")?.value) || 0;
+            const numNinos = parseInt(habitacion.querySelector("#num-ninos")?.value) || 0;
+
+            totalAdultos += numAdultos;
+            totalNinos += numNinos;
         });
 
-        // Cerrar el popup al hacer clic fuera del contenido
-        habPopup.addEventListener("click", function (e) {
-            if (e.target === habPopup) {
-                habPopup.style.display = "none"; // Ocultar el popup
-            }
-        });
+        document.querySelector("#num-per").value = totalAdultos + totalNinos; // Actualizar el total de pasajeros
+    });
 
-        // Cerrar el popup al hacer click en el botón
-        document.querySelector("#accept-popup").addEventListener("click", function () {
-            habPopup.style.display = "none"; // Ocultar el popup
-        });
+    // Abrir popup si hago click en el input #num-per
+    const numPerInput = document.querySelector("#num-per");
+    numPerInput?.addEventListener("click", function () {
+        habPopup.style.display = "flex"; // Mostrar el popup
+    });
 
-        // Limitar numero de habitaciones       
-        popupNumHabInput.addEventListener("input", function () {
-            let numHab = parseInt(popupNumHabInput.value);
+    // ---------------------
 
-            // Validar que el número esté dentro del rango permitido
-            if (numHab < 1 || numHab > 20) {
-                popupNumHabInput.value = 20;
-                return;
-            }
+    // Función para generar habitaciones
+    function generarHabitaciones(numHab) {
+        habitacionesContainer.innerHTML = ""; // Limpiar el contenedor
 
-            popupNumHabInput.value = numHab; // Actualizar el valor en el input
-            numHabInput.value = numHab; // Sincronizar con el campo principal
-            generarHabitaciones(numHab); // Regenerar las habitaciones
-        });
-
-        // Actualizar numero de pasajeros desde el popup
-        popupNumHabInput.addEventListener("input", function () {
-            const numHab = parseInt(popupNumHabInput.value) || 1;
-            numHabInput.value = numHab; // Sincronizar el valor con el campo principal
-            generarHabitaciones(numHab); // Regenerar las habitaciones
-        });
-
-        // Sincronizar el número de pasajeros al cerrar el popup
-        document.querySelector("#accept-popup").addEventListener("click", function () {
-            let totalAdultos = 0;
-            let totalNinos = 0;
-
-            const habitaciones = document.querySelectorAll("#hab-container > div");
-            habitaciones.forEach(habitacion => {
-                const numAdultos = parseInt(habitacion.querySelector("#num-adultos").value) || 0;
-                const numNinos = parseInt(habitacion.querySelector("#num-ninos").value) || 0;
-
-                totalAdultos += numAdultos;
-                totalNinos += numNinos;
-            });
-
-            document.querySelector("#num-per").value = totalAdultos + totalNinos; // Actualizar el total de pasajeros
-        });
-
-        // Abrir popup si hago click en el input #num-per
-        const numPerInput = document.querySelector("#num-per");
-        numPerInput.addEventListener("click", function () {
-            habPopup.style.display = "flex"; // Mostrar el popup
-        });
-
-
-        // ---------------------
-
-
-        // Función para generar habitaciones
-        function generarHabitaciones(numHab) {
-            habitacionesContainer.innerHTML = ""; // Limpiar el contenedor
-
-            for (let i = 1; i <= numHab; i++) {
-                const habitacionDiv = document.createElement("div");
-                habitacionDiv.innerHTML = `
+        for (let i = 1; i <= numHab; i++) {
+            const habitacionDiv = document.createElement("div");
+            habitacionDiv.innerHTML = `
                 <div class="habitacion-header">
                     <h4>Habitación ${i}</h4>
                     <span class="icon"><i class="fas fa-bed"></i></span>
@@ -226,524 +230,533 @@ if (document.getElementById('widget-aviajar').getAttribute('products').includes(
                 </div>
             `;
 
-                habitacionesContainer.appendChild(habitacionDiv);
+            habitacionesContainer.appendChild(habitacionDiv);
 
-                // Seleccionar elementos dentro de esta habitación
-                const numAdultosSelect = document.createElement("select");
-                numAdultosSelect.id = "num-adultos";
-                numAdultosSelect.className = "num-adultos-select";
+            // Seleccionar elementos dentro de esta habitación
+            const numAdultosSelect = document.createElement("select");
+            numAdultosSelect.id = "num-adultos";
+            numAdultosSelect.className = "num-adultos-select";
 
-                const numNinosSelect = document.createElement("select");
-                numNinosSelect.id = "num-ninos";
-                numNinosSelect.className = "num-ninos-select";
+            const numNinosSelect = document.createElement("select");
+            numNinosSelect.id = "num-ninos";
+            numNinosSelect.className = "num-ninos-select";
 
-                // Generar opciones para el select (número de adultos de 1 a 7)
-                for (let i = 1; i <= 7; i++) {
-                    const option = document.createElement("option");
-                    option.value = i;
-                    option.textContent = i;
-                    numAdultosSelect.appendChild(option);
-                }
+            // Generar opciones para el select (número de adultos de 1 a 7)
+            for (let i = 1; i <= 7; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                numAdultosSelect.appendChild(option);
+            }
 
-                // Generar opciones para el select (número de niños de 0 a 4)
-                for (let i = 0; i <= 4; i++) {
-                    const option = document.createElement("option");
-                    option.value = i;
-                    option.textContent = i;
-                    numNinosSelect.appendChild(option);
-                }
+            // Generar opciones para el select (número de niños de 0 a 4)
+            for (let i = 0; i <= 4; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                numNinosSelect.appendChild(option);
+            }
 
-                const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
-                inputAdultosContainer.innerHTML = ""; // Limpiar el contenedor
+            const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
+            inputAdultosContainer.innerHTML = ""; // Limpiar el contenedor
 
-                // Crear el ícono
-                const iconoAdultos = document.createElement("span");
-                iconoAdultos.className = "icon";
-                iconoAdultos.innerHTML = `<i class="fas fa-user"></i>`;
+            // Crear el ícono
+            const iconoAdultos = document.createElement("span");
+            iconoAdultos.className = "icon";
+            iconoAdultos.innerHTML = `<i class="fas fa-user"></i>`;
 
-                const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
-                inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
+            const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
+            inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
 
-                // Crear el ícono
-                const iconoNinos = document.createElement("span");
-                iconoNinos.className = "icon";
-                iconoNinos.innerHTML = `<i class="fas fa-child"></i>`;
+            // Crear el ícono
+            const iconoNinos = document.createElement("span");
+            iconoNinos.className = "icon";
+            iconoNinos.innerHTML = `<i class="fas fa-child"></i>`;
 
-                // Agregar el select y el ícono al contenedor
-                inputAdultosContainer.appendChild(numAdultosSelect);
-                inputAdultosContainer.appendChild(iconoAdultos);
-                inputNinosContainer.appendChild(numNinosSelect);
-                inputNinosContainer.appendChild(iconoNinos);
+            // Agregar el select y el ícono al contenedor
+            inputAdultosContainer.appendChild(numAdultosSelect);
+            inputAdultosContainer.appendChild(iconoAdultos);
+            inputNinosContainer.appendChild(numNinosSelect);
+            inputNinosContainer.appendChild(iconoNinos);
 
-                const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
+            const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
 
-                // Generar dinámicamente los campos para las edades de los niños
-                numNinosSelect.addEventListener("change", function () {
-                    const numNinos = parseInt(numNinosSelect.value) || 0;
-                    edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
+            // Generar dinámicamente los campos para las edades de los niños
+            numNinosSelect.addEventListener("change", function () {
+                const numNinos = parseInt(numNinosSelect.value) || 0;
+                edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
 
-                    for (let j = 1; j <= numNinos; j++) {
-                        const label = document.createElement("label");
-                        label.textContent = `Edad del niño ${j}:`;
+                for (let j = 1; j <= numNinos; j++) {
+                    const label = document.createElement("label");
+                    label.textContent = `Edad del niño ${j}:`;
 
-                        const select = document.createElement("select");
-                        select.className = "edad-nino";
-                        select.name = `edad-nino-${j}`;
+                    const select = document.createElement("select");
+                    select.className = "edad-nino";
+                    select.name = `edad-nino-${j}`;
 
-                        // Generar opciones para el select (edades de 1 a 12)
-                        for (let edad = 1; edad <= 12; edad++) {
-                            const option = document.createElement("option");
-                            option.value = edad;
-                            option.textContent = edad;
-                            select.appendChild(option);
-                        }
-
-                        edadesNinosContainer.appendChild(label);
-                        edadesNinosContainer.appendChild(select);
+                    // Generar opciones para el select (edades de 1 a 12)
+                    for (let edad = 1; edad <= 12; edad++) {
+                        const option = document.createElement("option");
+                        option.value = edad;
+                        option.textContent = edad;
+                        select.appendChild(option);
                     }
-                });
-            }
+
+                    edadesNinosContainer.appendChild(label);
+                    edadesNinosContainer.appendChild(select);
+                }
+            });
         }
-
-        // Generar una habitación por defecto al cargar la página
-        generarHabitaciones(1);
-
-        // Actualizar habitaciones cuando el usuario cambie el número de habitaciones
-        numHabInput.addEventListener("input", function () {
-            const numHab = parseInt(numHabInput.value) || 1;
-            generarHabitaciones(numHab);
-        });
-
-        // Numero habitaciones
-        const selectPopupNumHab = document.createElement("select");
-        selectPopupNumHab.id = "popup-num-hab";
-        selectPopupNumHab.className = "popup-num-hab-select";
-
-        for (let i = 1; i <= 4; i++) {
-            const option = document.createElement("option");
-            option.value = i;
-            option.textContent = i;
-            selectPopupNumHab.appendChild(option);
-        }
-
-        popupNumHabInput.replaceWith(selectPopupNumHab);
-
-        // Agregar un evento para manejar los cambios en el select
-        selectPopupNumHab.addEventListener("change", function () {
-            const numHab = parseInt(selectPopupNumHab.value);
-            document.querySelector("#num-hab").value = numHab; // Sincronizar con el campo principal
-            generarHabitaciones(numHab); // Regenerar las habitaciones
-        });
-    });
-
-    // -------------------------
-
-    // Crear la url
-    function generateURL() {
-        const host = "https://reservas.aviajarcolombia.com/";
-        const culture = "es-CO";
-        const productType = "Package";
-
-        // Obtener valores del formulario
-        let cityFrom = document.querySelector("#origen-id").value;
-        let cityTo = document.querySelector("#destino-id").value; // Lugar de llegada
-        let dateRange = document.querySelector("#fecha-rango").value.split(" to "); // Rango de fechas
-        let dateFrom = dateRange[0]; // Fecha de salida
-        let dateTo = dateRange[1]; // Fecha de llegada
-
-        // Falta modificar bien las edades de los niños
-        // Rooms: 1, Adults: 2, Children: 0
-        let passengersRoom = document.querySelector('#num-hab').value; // Número de Habitaciones 
-        let passengersAdult = document.querySelector('#num-adultos').value; // Número de Adultos 
-
-        let baggageIncluded = document.querySelector("#checkbox-vequipaje").checked;
-        let directFlight = document.querySelector("#checkbox-vdirecto").checked;
-        let timeFrom = dateFrom; // Hora de salida
-        let timeTo = dateTo; // Hora de llegada
-
-        // Valores por defecto
-        let airline = "NA"; // Aerolínea
-        let cabinType = "Economy"; // Tipo de cabina
-        let departureTime = "NA"; // Hora de salida
-        let returnTime = "NA"; // Hora de regreso
-        let userService = "aviajar";
-        let branchCode = "003";
-
-        // Construir la URL
-
-        // Construir la información de habitaciones
-        let roomInfo = [];
-        const habitaciones = document.querySelectorAll("#hab-container > div");
-        habitaciones.forEach(habitacion => {
-            const numAdultos = habitacion.querySelector("#num-adultos").value || "1";
-            const numNinos = habitacion.querySelector("#num-ninos").value || "0";
-            const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
-                .map(select => select.value || "0")
-                .join("-");
-            if (numNinos > 0) {
-                roomInfo.push(`${numAdultos}-${edadesNinos}`);
-            } else {
-                roomInfo.push(`${numAdultos}`);
-            }
-        });
-
-        // Unir la información de habitaciones con "!"
-        let roomInfoString = roomInfo.join("!");
-        // Obtener las edades de los niños
-        let childrenAges = [];
-        document.querySelectorAll(".edad-nino").forEach(input => {
-            childrenAges.push(input.value || "");
-        });
-
-        // Incluir la información de habitaciones en la URL
-        let url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersAdult}/${passengersRoom}/0/${timeFrom}/${timeTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/${airline}/${cabinType}/${departureTime}/${userService}-show-${branchCode}---------#air`;
-
-        console.log("Generated URL:", url);
-        return url;
-
-
     }
 
-    // ------------------
+    // Generar una habitación por defecto al cargar la página
+    generarHabitaciones(1);
 
-    // Evento para el botón de búsqueda
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector("#buscar-btn").addEventListener("click", function (e) {
-            e.preventDefault(); // Evitar el comportamiento predeterminado del botón
-
-            // Obtener los valores de los campos
-            const origenInput = document.querySelector("#origen");
-            const destinoInput = document.querySelector("#destino");
-            const fechaRangoInput = document.querySelector("#fecha-rango");
-            const origenSelect = document.querySelector("#origen-id");
-            const destinoSelect = document.querySelector("#destino-id");
-
-            let valid = true;
-
-            // Función para mostrar mensajes de error y resaltar el input
-            function showError(input, message) {
-                // Buscar o crear el contenedor de errores global
-                let errorContainer = document.querySelector("#error-container");
-                if (!errorContainer) {
-                    errorContainer = document.createElement("div");
-                    errorContainer.id = "error-container";
-                    errorContainer.style.marginTop = "16px";
-                    errorContainer.style.color = "red";
-                    errorContainer.style.fontSize = "14px";
-                    document.querySelector(".widget-container").appendChild(errorContainer); // Agregarlo después del formulario
-                }
-
-                // Crear un mensaje de error específico para el campo
-                let fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                if (!fieldError) {
-                    fieldError = document.createElement("div");
-                    fieldError.className = `error-${input.id}`;
-                    errorContainer.appendChild(fieldError);
-                }
-
-                fieldError.textContent = message;
-
-                // Cambiar el fondo del input a rojo
-                input.classList.add("input-error");
-            }
-
-            // Función para limpiar mensajes de error y quitar el resaltado
-            function clearError(input) {
-                let errorContainer = document.querySelector("#error-container");
-                if (errorContainer) {
-                    const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                    if (fieldError) {
-                        fieldError.remove();
-                    }
-
-                    // Si no quedan errores, eliminar el contenedor de errores
-                    if (!errorContainer.hasChildNodes()) {
-                        errorContainer.remove();
-                    }
-                }
-
-                // Quitar el fondo rojo del input
-                input.classList.remove("input-error");
-            }
-
-            // Validar que se haya seleccionado un origen desde el autocompletado
-            if (!origenSelect || !origenSelect.value) {
-                showError(origenInput, "Por favor, selecciona un origen válido desde el autocompletado.");
-                valid = false;
-            } else {
-                clearError(origenInput);
-            }
-
-            // Validar que se haya seleccionado un destino desde el autocompletado
-            if (!destinoSelect || !destinoSelect.value) {
-                showError(destinoInput, "Por favor, selecciona un destino válido desde el autocompletado.");
-                valid = false;
-            } else {
-                clearError(destinoInput);
-            }
-
-            // Validar que el rango de fechas no esté vacío
-            if (!fechaRangoInput.value) {
-                fechaRangoInput.classList.add("input-error");
-                valid = false;
-            }
-
-            // Si todos los campos son válidos, generar la URL
-            if (valid) {
-                const generatedURL = generateURL();
-                // Redirigir al usuario a la URL generada
-                window.location.href = generatedURL;
-                // Limpiar basura del select origen y destino
-                document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
-                    const selectedOption = select.querySelector("option[selected]");
-                    if (!selectedOption) {
-                        select.innerHTML = ""; // Limpiar si no hay opción seleccionada
-                    }
-                });
-
-                // Limpiar los inputs de origen, destino y fecha-rango
-                origenInput.value = "";
-                destinoInput.value = "";
-                fechaRangoInput.value = "";
-            }
-        });
-
-        // Quitar la clase input-error cuando el rango de fechas cambie
-        document.querySelector("#fecha-rango").addEventListener("change", function () {
-            this.classList.remove("input-error");
-        });
+    // Actualizar habitaciones cuando el usuario cambie el número de habitaciones
+    numHabInput.addEventListener("input", function () {
+        const numHab = parseInt(numHabInput.value) || 1;
+        generarHabitaciones(numHab);
     });
 
-    // -------------------
+    // Numero habitaciones
+    const selectPopupNumHab = document.createElement("select");
+    selectPopupNumHab.id = "popup-num-hab";
+    selectPopupNumHab.className = "popup-num-hab-select";
 
-    // Autocomplete
-
-    let airports = []; // Declarar la variable 
-
-    // external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
-    if (typeof external_file_AirportsCities === "undefined") {
-        console.error("No se encuentran las ciudades");
-    } else {
-        airports = external_file_AirportsCities.map(entry => {
-            // Dividir la entrada en partes usando el separador "|"
-            const parts = entry.split("|").map(part => part.trim());
-
-            if (parts.length === 1) {
-                // Caso 1: Formato simple como "Ciudad, País (Código)"
-                const match = parts[0].match(/^(.*), (.*) \((\w+)\)$/);
-                if (match) {
-                    return { id: match[3], name: match[1], country: match[2] };
-                }
-            } else if (parts.length === 2) {
-                // Caso 2: Formato "Todos aeropuertos | Ciudad, País (Código)"
-                const match = parts[1].match(/^(.*), (.*) \((\w+)\)$/);
-                if (match) {
-                    return { id: match[3], name: match[1], country: match[2] };
-                }
-            } else if (parts.length === 3) {
-                // Caso 3: Formato "Ciudad | Detalles | Código"
-                const match = parts[2].match(/\((\w+)\)$/);
-                if (match) {
-                    return { id: match[1], name: parts[0].trim(), country: parts[1].trim() };
-                }
-            } else if (parts.length === 4) {
-                // Caso 4: Formato "Ciudad | NombreAirport (IDCIUDAD - IDAIRPORT)"
-                const match = parts[1].match(/^(.*) \((\w+) - (\w+)\)$/);
-                if (match) {
-                    return {
-                        idCity: match[2],
-                        idAirport: match[3],
-                        name: parts[0].trim(),
-                        airport: match[1].trim()
-                    };
-                }
-            }
-
-            // Si no coincide con ningún formato, devolver null
-            return null;
-        }).filter(Boolean); // Filtrar las entradas no válidas
-        if (airports.airport) {
-            airports = airports.filter(entry => entry.airport !== undefined); // Filtrar entradas con aeropuerto
-        }
-        // console.log(airports);
+    for (let i = 1; i <= 4; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i;
+        selectPopupNumHab.appendChild(option);
     }
 
-    // Autocomplete Origen
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.querySelector("#origen");
-        const autocompleteList = document.createElement("div");
-        autocompleteList.id = "autocomplete-list-origen"; // Updated ID
-        autocompleteList.className = "autocomplete-list";
-        input.parentNode.appendChild(autocompleteList);
+    popupNumHabInput.replaceWith(selectPopupNumHab);
 
-        // Crear un select oculto para almacenar el ID
-        const hiddenSelect = document.createElement("select");
-        hiddenSelect.id = "origen-id";
-        hiddenSelect.style.display = "none"; // Ocultar el select
-        document.body.appendChild(hiddenSelect);
+    // Agregar un evento para manejar los cambios en el select
+    selectPopupNumHab.addEventListener("change", function () {
+        const numHab = parseInt(selectPopupNumHab.value);
+        document.querySelector("#num-hab").value = numHab; // Sincronizar con el campo principal
+        generarHabitaciones(numHab); // Regenerar las habitaciones
+    });
+});
 
-        // Escuchar el evento "input" para filtrar las sugerencias
-        input.addEventListener("input", function () {
-            const query = input.value.toLowerCase();
-            autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+// -------------------------
 
-            if (!query) {
-                hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
-                return;
-            }
+// Crear la url
+function generateURL() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+    const host = "https://reservas.aviajarcolombia.com/";
+    const culture = "es-CO";
+    const productType = "Package";
 
-            // Filtrar las ciudades y aeropuertos que coincidan con el texto ingresado
-            const filteredEntries = airports.filter(entry =>
-                entry.name.toLowerCase().includes(query) ||
-                (entry.airport && entry.airport.toLowerCase().includes(query)) ||
-                entry.id.toLowerCase().includes(query)
-            );
+    // Obtener valores del formulario
+    let cityFrom = document.querySelector("#origen-id").value;
+    let cityTo = document.querySelector("#destino-id").value; // Lugar de llegada
+    let dateRange = document.querySelector("#fecha-rango").value.split(" to "); // Rango de fechas
+    let dateFrom = dateRange[0]; // Fecha de salida
+    let dateTo = dateRange[1]; // Fecha de llegada
 
-            // Mostrar las sugerencias
-            filteredEntries.forEach((entry) => {
-                const item = document.createElement("div");
-                item.className = "autocomplete-item";
-                if (entry.airport) {
-                    // Mostrar ciudad y aeropuerto
-                    item.textContent = `${entry.name} | ${entry.airport} (${entry.idCity} - ${entry.idAirport})`;
-                    item.dataset.id = entry.idAirport; // Guardar el ID del aeropuerto
-                } else {
-                    // Mostrar solo ciudad
-                    item.textContent = `${entry.name}, ${entry.country} (${entry.id})`;
-                    item.dataset.id = entry.id; // Guardar el ID de la ciudad
-                }
+    // Falta modificar bien las edades de los niños
+    // Rooms: 1, Adults: 2, Children: 0
+    let passengersRoom = document.querySelector('#num-hab').value; // Número de Habitaciones 
+    let passengersAdult = document.querySelector('#num-adultos').value; // Número de Adultos 
 
-                autocompleteList.appendChild(item);
-            });
-        });
+    let baggageIncluded = document.querySelector("#checkbox-vequipaje").checked;
+    let directFlight = document.querySelector("#checkbox-vdirecto").checked;
+    let timeFrom = dateFrom; // Hora de salida
+    let timeTo = dateTo; // Hora de llegada
 
-        // Manejar el clic en una sugerencia
-        autocompleteList.addEventListener("click", function (e) {
-            if (e.target && e.target.classList.contains("autocomplete-item")) {
-                const city = e.target.dataset.id;
-                input.value = e.target.textContent; // Mostrar toda la información en el input
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+    // Valores por defecto
+    let airline = "NA"; // Aerolínea
+    let cabinType = "Economy"; // Tipo de cabina
+    let departureTime = "NA"; // Hora de salida
+    let returnTime = "NA"; // Hora de regreso
+    let userService = "aviajar";
+    let branchCode = "003";
 
-                // Actualizar el select oculto con el ID seleccionado
-                hiddenSelect.innerHTML = ""; // Limpiar el select
-                const option = document.createElement("option");
-                option.value = city;
-                option.selected = true;
-                hiddenSelect.appendChild(option);
+    // Construir la URL
 
-                // Remover la clase de error del input
-                input.classList.remove("input-error");
-
-                // Ocultar el mensaje de error correspondiente
-                const errorContainer = document.querySelector("#error-container");
-                if (errorContainer) {
-                    const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                    if (fieldError) {
-                        fieldError.remove();
-                    }
-                }
-            }
-        });
-
-        input.addEventListener("focus", function () {
-            autocompleteList.classList.add("active"); // Activate the autocomplete list
-        });
-
-        input.addEventListener("blur", function () {
-            setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
-        });
-
-        // Cerrar la lista de sugerencias si el usuario hace clic fuera
-        document.addEventListener("click", function (e) {
-            if (!autocompleteList.contains(e.target) && e.target !== input) {
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-            }
-        });
+    // Construir la información de habitaciones
+    let roomInfo = [];
+    const habitaciones = document.querySelectorAll("#hab-container > div");
+    habitaciones.forEach(habitacion => {
+        const numAdultos = habitacion.querySelector("#num-adultos").value || "1";
+        const numNinos = habitacion.querySelector("#num-ninos").value || "0";
+        const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
+            .map(select => select.value || "0")
+            .join("-");
+        if (numNinos > 0) {
+            roomInfo.push(`${numAdultos}-${edadesNinos}`);
+        } else {
+            roomInfo.push(`${numAdultos}`);
+        }
     });
 
-    // Automcomplete destino
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.querySelector("#destino");
-        const autocompleteList = document.createElement("div");
-        autocompleteList.id = "autocomplete-list-destino"; // Updated ID
-        autocompleteList.className = "autocomplete-list";
-        input.parentNode.appendChild(autocompleteList);
-
-        // Crear un select oculto para almacenar el ID del destino
-        const hiddenSelect = document.createElement("select");
-        hiddenSelect.id = "destino-id";
-        hiddenSelect.style.display = "none"; // Ocultar el select
-        document.body.appendChild(hiddenSelect);
-
-        // Escuchar el evento "input" para filtrar las sugerencias
-        input.addEventListener("input", function () {
-            const query = input.value.toLowerCase();
-            autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-
-            if (!query) {
-                hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
-                return;
-            }
-
-            // Filtrar las ciudades que coincidan con el texto ingresado
-            const filteredCities = airports.filter(city =>
-                city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
-            );
-
-            // Mostrar las sugerencias
-            filteredCities.forEach((city) => {
-                const item = document.createElement("div");
-                item.className = "autocomplete-item";
-                item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
-                item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
-
-                autocompleteList.appendChild(item);
-            });
-        });
-
-        // Manejar el clic en una sugerencia
-        autocompleteList.addEventListener("click", function (e) {
-            if (e.target && e.target.classList.contains("autocomplete-item")) {
-                const city = e.target.dataset.id;
-                input.value = e.target.textContent; // Mostrar toda la información en el input
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-
-                // Actualizar el select oculto con el ID seleccionado
-                hiddenSelect.innerHTML = ""; // Limpiar el select
-                const option = document.createElement("option");
-                option.value = city;
-                option.selected = true;
-                hiddenSelect.appendChild(option);
-
-                // Remover la clase de error del input
-                input.classList.remove("input-error");
-
-                // Ocultar el mensaje de error correspondiente
-                const errorContainer = document.querySelector("#error-container");
-                if (errorContainer) {
-                    const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                    if (fieldError) {
-                        fieldError.remove();
-                    }
-                }
-            }
-        });
-
-        input.addEventListener("focus", function () {
-            autocompleteList.classList.add("active"); // Activate the autocomplete list
-        });
-
-        input.addEventListener("blur", function () {
-            setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
-        });
-
-        // Cerrar la lista de sugerencias si el usuario hace clic fuera
-        document.addEventListener("click", function (e) {
-            if (!autocompleteList.contains(e.target) && e.target !== input) {
-                autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-            }
-        });
+    // Unir la información de habitaciones con "!"
+    let roomInfoString = roomInfo.join("!");
+    // Obtener las edades de los niños
+    let childrenAges = [];
+    document.querySelectorAll(".edad-nino").forEach(input => {
+        childrenAges.push(input.value || "");
     });
+
+    // Incluir la información de habitaciones en la URL
+    let url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersAdult}/${passengersRoom}/0/${timeFrom}/${timeTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/${airline}/${cabinType}/${departureTime}/${userService}-show-${branchCode}---------#air`;
+
+    console.log("Generated URL:", url);
+    return url;
+
 
 }
+
+// ------------------
+
+// Evento para el botón de búsqueda
+document.addEventListener("DOMContentLoaded", function () {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+        e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+
+        // Obtener los valores de los campos
+        const origenInput = document.querySelector("#origen");
+        const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
+        const origenSelect = document.querySelector("#origen-id");
+        const destinoSelect = document.querySelector("#destino-id");
+
+        // Función para mostrar mensajes de error y resaltar el input
+        function showError(input, message) {
+            // Buscar o crear el contenedor de errores global
+            let errorContainer = document.querySelector("#error-container");
+            if (!errorContainer) {
+                errorContainer = document.createElement("div");
+                errorContainer.id = "error-container";
+                errorContainer.style.marginTop = "16px";
+                errorContainer.style.color = "red";
+                errorContainer.style.fontSize = "14px";
+                document.querySelector(".widget-container").appendChild(errorContainer); // Agregarlo después del formulario
+            }
+
+            // Crear un mensaje de error específico para el campo
+            let fieldError = errorContainer.querySelector(`.error-${input.id}`);
+            if (!fieldError) {
+                fieldError = document.createElement("div");
+                fieldError.className = `error-${input.id}`;
+                errorContainer.appendChild(fieldError);
+            }
+
+            fieldError.textContent = message;
+
+            // Cambiar el fondo del input a rojo
+            input.classList.add("input-error");
+        }
+
+        // Función para limpiar mensajes de error y quitar el resaltado
+        function clearError(input) {
+            let errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+
+                // Si no quedan errores, eliminar el contenedor de errores
+                if (!errorContainer.hasChildNodes()) {
+                    errorContainer.remove();
+                }
+            }
+
+            // Quitar el fondo rojo del input
+            input.classList.remove("input-error");
+        }
+
+        // Validar que se haya seleccionado un origen desde el autocompletado
+        if (!origenSelect || !origenSelect.value) {
+            showError(origenInput, "Por favor, selecciona un origen válido desde el autocompletado.");
+            valid = false;
+        } else {
+            clearError(origenInput);
+        }
+
+        // Validar que se haya seleccionado un destino desde el autocompletado
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput, "Por favor, selecciona un destino válido desde el autocompletado.");
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        // Validar que el rango de fechas no esté vacío
+        if (!fechaRangoInput.value) {
+            fechaRangoInput.classList.add("input-error");
+            valid = false;
+        }
+
+        // Si todos los campos son válidos, generar la URL
+        if (valid) {
+            const generatedURL = generateURL();
+            // Redirigir al usuario a la URL generada
+            window.location.href = generatedURL;
+            // Limpiar basura del select origen y destino
+            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
+                const selectedOption = select.querySelector("option[selected]");
+                if (!selectedOption) {
+                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
+                }
+            });
+
+            // Limpiar los inputs de origen, destino y fecha-rango
+            origenInput.value = "";
+            destinoInput.value = "";
+            fechaRangoInput.value = "";
+        }
+    });
+
+    // Quitar la clase input-error cuando el rango de fechas cambie
+    document.querySelector("#fecha-rango").addEventListener("change", function () {
+        this.classList.remove("input-error");
+    });
+});
+
+// -------------------
+
+// Autocomplete
+
+let airports = []; // Declarar la variable 
+
+// external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
+if (typeof external_file_AirportsCities === "undefined") {
+    console.error("No se encuentran las ciudades");
+} else {
+    airports = external_file_AirportsCities.map(entry => {
+        // Dividir la entrada en partes usando el separador "|"
+        const parts = entry.split("|").map(part => part.trim());
+
+        if (parts.length === 1) {
+            // Caso 1: Formato simple como "Ciudad, País (Código)"
+            const match = parts[0].match(/^(.*), (.*) \((\w+)\)$/);
+            if (match) {
+                return { id: match[3], name: match[1], country: match[2] };
+            }
+        } else if (parts.length === 2) {
+            // Caso 2: Formato "Todos aeropuertos | Ciudad, País (Código)"
+            const match = parts[1].match(/^(.*), (.*) \((\w+)\)$/);
+            if (match) {
+                return { id: match[3], name: match[1], country: match[2] };
+            }
+        } else if (parts.length === 3) {
+            // Caso 3: Formato "Ciudad | Detalles | Código"
+            const match = parts[2].match(/\((\w+)\)$/);
+            if (match) {
+                return { id: match[1], name: parts[0].trim(), country: parts[1].trim() };
+            }
+        } else if (parts.length === 4) {
+            // Caso 4: Formato "Ciudad | NombreAirport (IDCIUDAD - IDAIRPORT)"
+            const match = parts[1].match(/^(.*) \((\w+) - (\w+)\)$/);
+            if (match) {
+                return {
+                    idCity: match[2],
+                    idAirport: match[3],
+                    name: parts[0].trim(),
+                    airport: match[1].trim()
+                };
+            }
+        }
+
+        // Si no coincide con ningún formato, devolver null
+        return null;
+    }).filter(Boolean); // Filtrar las entradas no válidas
+    if (airports.airport) {
+        airports = airports.filter(entry => entry.airport !== undefined); // Filtrar entradas con aeropuerto
+    }
+    // console.log(airports);
+}
+
+// Autocomplete Origen
+document.addEventListener("DOMContentLoaded", function () {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+    const input = document.querySelector("#origen");
+    const autocompleteList = document.createElement("div");
+    autocompleteList.id = "autocomplete-list-origen"; // Updated ID
+    autocompleteList.className = "autocomplete-list";
+    input.parentNode.appendChild(autocompleteList);
+
+    // Crear un select oculto para almacenar el ID
+    const hiddenSelect = document.createElement("select");
+    hiddenSelect.id = "origen-id";
+    hiddenSelect.style.display = "none"; // Ocultar el select
+    document.body.appendChild(hiddenSelect);
+
+    // Escuchar el evento "input" para filtrar las sugerencias
+    input.addEventListener("input", function () {
+        const query = input.value.toLowerCase();
+        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+        if (!query) {
+            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
+        }
+
+        // Filtrar las ciudades y aeropuertos que coincidan con el texto ingresado
+        const filteredEntries = airports.filter(entry =>
+            entry.name.toLowerCase().includes(query) ||
+            (entry.airport && entry.airport.toLowerCase().includes(query)) ||
+            entry.id.toLowerCase().includes(query)
+        );
+
+        // Mostrar las sugerencias
+        filteredEntries.forEach((entry) => {
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            if (entry.airport) {
+                // Mostrar ciudad y aeropuerto
+                item.textContent = `${entry.name} | ${entry.airport} (${entry.idCity} - ${entry.idAirport})`;
+                item.dataset.id = entry.idAirport; // Guardar el ID del aeropuerto
+            } else {
+                // Mostrar solo ciudad
+                item.textContent = `${entry.name}, ${entry.country} (${entry.id})`;
+                item.dataset.id = entry.id; // Guardar el ID de la ciudad
+            }
+
+            autocompleteList.appendChild(item);
+        });
+    });
+
+    // Manejar el clic en una sugerencia
+    autocompleteList.addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("autocomplete-item")) {
+            const city = e.target.dataset.id;
+            input.value = e.target.textContent; // Mostrar toda la información en el input
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+
+            // Actualizar el select oculto con el ID seleccionado
+            hiddenSelect.innerHTML = ""; // Limpiar el select
+            const option = document.createElement("option");
+            option.value = city;
+            option.selected = true;
+            hiddenSelect.appendChild(option);
+
+            // Remover la clase de error del input
+            input.classList.remove("input-error");
+
+            // Ocultar el mensaje de error correspondiente
+            const errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+            }
+        }
+    });
+
+    input.addEventListener("focus", function () {
+        autocompleteList.classList.add("active"); // Activate the autocomplete list
+    });
+
+    input.addEventListener("blur", function () {
+        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
+    });
+
+    // Cerrar la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+        }
+    });
+});
+
+// Automcomplete destino
+document.addEventListener("DOMContentLoaded", function () {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+    const input = document.querySelector("#destino");
+    const autocompleteList = document.createElement("div");
+    autocompleteList.id = "autocomplete-list-destino"; // Updated ID
+    autocompleteList.className = "autocomplete-list";
+    input.parentNode.appendChild(autocompleteList);
+
+    // Crear un select oculto para almacenar el ID del destino
+    const hiddenSelect = document.createElement("select");
+    hiddenSelect.id = "destino-id";
+    hiddenSelect.style.display = "none"; // Ocultar el select
+    document.body.appendChild(hiddenSelect);
+
+    // Escuchar el evento "input" para filtrar las sugerencias
+    input.addEventListener("input", function () {
+        const query = input.value.toLowerCase();
+        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+        if (!query) {
+            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
+        }
+
+        // Filtrar las ciudades que coincidan con el texto ingresado
+        const filteredCities = airports.filter(city =>
+            city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
+        );
+
+        // Mostrar las sugerencias
+        filteredCities.forEach((city) => {
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
+            item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
+
+            autocompleteList.appendChild(item);
+        });
+    });
+
+    // Manejar el clic en una sugerencia
+    autocompleteList.addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("autocomplete-item")) {
+            const city = e.target.dataset.id;
+            input.value = e.target.textContent; // Mostrar toda la información en el input
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+
+            // Actualizar el select oculto con el ID seleccionado
+            hiddenSelect.innerHTML = ""; // Limpiar el select
+            const option = document.createElement("option");
+            option.value = city;
+            option.selected = true;
+            hiddenSelect.appendChild(option);
+
+            // Remover la clase de error del input
+            input.classList.remove("input-error");
+
+            // Ocultar el mensaje de error correspondiente
+            const errorContainer = document.querySelector("#error-container");
+            if (errorContainer) {
+                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
+                if (fieldError) {
+                    fieldError.remove();
+                }
+            }
+        }
+    });
+
+    input.addEventListener("focus", function () {
+        autocompleteList.classList.add("active"); // Activate the autocomplete list
+    });
+
+    input.addEventListener("blur", function () {
+        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
+    });
+
+    // Cerrar la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+        }
+    });
+});
+
+// -------------------
+
+
 
