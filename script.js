@@ -3,13 +3,41 @@
         const widgetContainer = document.getElementById('widget-aviajar');
         if (!widgetContainer) return;
 
-        let products = widgetContainer.getAttribute('products') || '';
-        // products = '';
-        let destination = widgetContainer.getAttribute('destination') || '';
+        // Crear tabs para Paquetes, Vuelos, Hoteles, Renta de autos
+        const tabs = document.createElement('div');
+        tabs.className = 'tabs';
+        tabs.innerHTML = `
+            <div class="tab" id="tab-paquetes">Paquetes</div>
+            <div class="tab" id="tab-vuelos">Vuelos</div>
+            <div class="tab" id="tab-hoteles">Hoteles</div>
+            <div class="tab" id="tab-autos">Renta de autos</div>
+        `;
+        widgetContainer.appendChild(tabs);
 
-        // Verificar si el widget tiene en el atributo products el valor "AirHotel"
-        if (products.includes("AirHotel")) {
-            widgetContainer.innerHTML = `
+        // Agregar evento de clic a cada tab
+        const tabsList = document.querySelectorAll('.tab');
+        tabsList.forEach(tab => {
+            tab.addEventListener('click', function () {
+                tabsList.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const selectedTab = this.id.replace('tab-', '');
+                widgetContainer.setAttribute('selected-tab', selectedTab);
+                console.log(`Selected tab: ${selectedTab}`);
+
+                // TAB PAQUETES --------------------------------------------------
+                if (widgetContainer.getAttribute('selected-tab') === 'paquetes') {
+                    widgetContainer.setAttribute('products', 'AirHotel');
+                } else {
+                    widgetContainer.setAttribute('products', 'Air');
+                }
+
+                // CREAR WIDGET PAQUETES
+                // Verificar si el widget tiene en el atributo products el valor "AirHotel"
+                console.log('Productos antes del if: ', widgetContainer.getAttribute('products'));
+
+                if (widgetContainer.getAttribute('products').includes("AirHotel")) {
+                    console.log('Productos dentro del if: ', widgetContainer.getAttribute('products'));
+                    widgetContainer.innerHTML = `
             <div class="widget" id="widget-container">
                 <div class="widget-header">
                     <div class="header">
@@ -91,31 +119,38 @@
             </div>
             `;
 
-            // Esperar a que Flatpickr esté cargado
-            if (typeof flatpickr !== 'undefined') {
-                flatpickr("#fecha-rango", {
-                    mode: "range",
-                    dateFormat: "Y-m-d",
-                    showMonths: 2,
-                    minDate: "today", // Disable dates earlier than today
-                    onClose: function (selectedDates) {
-                        if (selectedDates.length === 2) {
-                            const fecha1 = selectedDates[0].toISOString().split('T')[0];
-                            const fecha2 = selectedDates[1].toISOString().split('T')[0];
-                            console.log("Fecha de inicio:", fecha1);
-                            console.log("Fecha de fin:", fecha2);
-                        }
+                    // Esperar a que Flatpickr esté cargado
+                    if (typeof flatpickr !== 'undefined') {
+                        flatpickr("#fecha-rango", {
+                            mode: "range",
+                            dateFormat: "Y-m-d",
+                            showMonths: 2,
+                            minDate: "today", // Disable dates earlier than today
+                            onClose: function (selectedDates) {
+                                if (selectedDates.length === 2) {
+                                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                                    console.log("Fecha de inicio:", fecha1);
+                                    console.log("Fecha de fin:", fecha2);
+                                }
+                            }
+                        });
                     }
-                });
-            }
-        }
-        else {
-            console.log("No existe");
-            return
-        }
+                }
+                else {
+                    console.log("No existe");
+                    return
+                }
+            });
+        });
+        // let products = widgetContainer.getAttribute('products') || '';
+        // let destination = widgetContainer.getAttribute('destination') || '';
     }
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
+
+
+// FUNCIONES DE LOS WIDGETS
 
 // Contenido del popup de habitaciones
 document.addEventListener("DOMContentLoaded", function () {

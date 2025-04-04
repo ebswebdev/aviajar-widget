@@ -7,6 +7,38 @@
     --text-color: #333; /* Texto principal */
     --button-hover: #e0a800; /* Color de hover para botones */
   }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: auto;
+    gap; 20px;
+    padding: 20px;
+  }
+
+  .tab {
+    /* Estilos para un tab */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .tab:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.05);
+  }
+  .tab:active {
+    transform: scale(1);
+  }
 
   h4 {
     color: var(--text-color);
