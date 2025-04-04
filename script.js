@@ -10,7 +10,8 @@
             <div class="tab" id="tab-paquetes">Paquetes</div>
             <div class="tab" id="tab-vuelos">Vuelos</div>
             <div class="tab" id="tab-hoteles">Hoteles</div>
-            <div class="tab" id="tab-autos">Renta de autos</div>
+            <div class="tab" id="tab-autos">Autos</div>
+            <div class="tab" id="tab-tours">Tours</div>
         `;
         widgetContainer.appendChild(tabs);
 
