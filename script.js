@@ -1,4 +1,3 @@
-
 (function () {
     function createWidget() {
         const widgetContainer = document.getElementById('widget-aviajar');
@@ -182,14 +181,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const habitaciones = document.querySelectorAll("#hab-container > div");
         habitaciones.forEach(habitacion => {
-            const numAdultos = parseInt(habitacion.querySelector("#num-adultos")?.value) || 0;
-            const numNinos = parseInt(habitacion.querySelector("#num-ninos")?.value) || 0;
+            const numAdultos = parseInt(habitacion.querySelector(".input-adultos input")?.value) || 0;
+            const numNinos = parseInt(habitacion.querySelector(".input-ninos input")?.value) || 0;
 
             totalAdultos += numAdultos;
             totalNinos += numNinos;
         });
 
-        document.querySelector("#num-per").value = totalAdultos + totalNinos; // Actualizar el total de pasajeros
+        // Update the num-per input with the total passengers
+        document.querySelector("#num-per").value = totalAdultos + totalNinos;
+
+        // Close the popup
+        habPopup.style.display = "none";
     });
 
     // Abrir popup si hago click en el input #num-per
@@ -432,38 +435,22 @@ function generateURL() {
     const productType = "Package";
 
     // Obtener valores del formulario
-    let cityFrom = document.querySelector("#origen-id").value;
-    let cityTo = document.querySelector("#destino-id").value; // Lugar de llegada
-    let dateRange = document.querySelector("#fecha-rango").value.split(" to "); // Rango de fechas
-    let dateFrom = dateRange[0]; // Fecha de salida
-    let dateTo = dateRange[1]; // Fecha de llegada
+    const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
+    const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
+    const dateFrom = dateRange[0] || ""; // Fecha de salida
+    const dateTo = dateRange[1] || ""; // Fecha de llegada
 
-    // Falta modificar bien las edades de los niños
-    // Rooms: 1, Adults: 2, Children: 0
-    let passengersRoom = document.querySelector('#num-hab').value; // Número de Habitaciones 
-    let passengersAdult = document.querySelector('#num-adultos').value; // Número de Adultos 
-
-    let baggageIncluded = document.querySelector("#checkbox-vequipaje").checked;
-    let directFlight = document.querySelector("#checkbox-vdirecto").checked;
-    let timeFrom = dateFrom; // Hora de salida
-    let timeTo = dateTo; // Hora de llegada
-
-    // Valores por defecto
-    let airline = "NA"; // Aerolínea
-    let cabinType = "Economy"; // Tipo de cabina
-    let departureTime = "NA"; // Hora de salida
-    let returnTime = "NA"; // Hora de regreso
-    let userService = "aviajar";
-    let branchCode = "003";
-
-    // Construir la URL
+    const passengersRoom = document.querySelector("#num-hab")?.value || "1"; // Número de habitaciones
+    const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
+    const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
 
     // Construir la información de habitaciones
     let roomInfo = [];
     const habitaciones = document.querySelectorAll("#hab-container > div");
     habitaciones.forEach(habitacion => {
-        const numAdultos = habitacion.querySelector("#num-adultos").value || "1";
-        const numNinos = habitacion.querySelector("#num-ninos").value || "0";
+        const numAdultos = habitacion.querySelector(".input-adultos input")?.value || "1";
+        const numNinos = habitacion.querySelector(".input-ninos input")?.value || "0";
         const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
             .map(select => select.value || "0")
             .join("-");
@@ -474,21 +461,19 @@ function generateURL() {
         }
     });
 
-    // Unir la información de habitaciones con "!"
-    let roomInfoString = roomInfo.join("!");
-    // Obtener las edades de los niños
-    let childrenAges = [];
-    document.querySelectorAll(".edad-nino").forEach(input => {
-        childrenAges.push(input.value || "");
-    });
+    const roomInfoString = roomInfo.join("!");
 
-    // Incluir la información de habitaciones en la URL
-    let url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersAdult}/${passengersRoom}/0/${timeFrom}/${timeTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/${airline}/${cabinType}/${departureTime}/${userService}-show-${branchCode}---------#air`;
+    // Validar que todos los campos requeridos estén completos
+    if (!cityFrom || !cityTo || !dateFrom || !dateTo) {
+        console.error("Faltan parámetros obligatorios para generar la URL.");
+        return null;
+    }
+
+    // Construir la URL final
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/aviajar-show-003---------#air`;
 
     console.log("Generated URL:", url);
     return url;
-
-
 }
 
 // ------------------
@@ -501,6 +486,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelector("#buscar-btn").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+
+        // Inicializar la variable valid
+        let valid = true;
 
         // Obtener los valores de los campos
         const origenInput = document.querySelector("#origen");
@@ -573,15 +561,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Validar que el rango de fechas no esté vacío
         if (!fechaRangoInput.value) {
-            fechaRangoInput.classList.add("input-error");
+            showError(fechaRangoInput, "Por favor, selecciona un rango de fechas.");
             valid = false;
+        } else {
+            clearError(fechaRangoInput);
         }
 
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURL();
+            console.log("Generated URL:", generatedURL);
+
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
+
             // Limpiar basura del select origen y destino
             document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
                 const selectedOption = select.querySelector("option[selected]");
