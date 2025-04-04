@@ -8,22 +8,30 @@
     --button-hover: #e0a800; /* Color de hover para botones */
   }
 
+  #widget-aviajar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo del widget */
+    border-radius: 10px;
+    font-family: "Arial", sans-serif;
+    color: var(--text-color);
+    animation: fadeIn 0.5s ease-in-out;
+    margin: 0 auto; /* Centrar el widget horizontalmente */
+    padding: 20px; /* Espacio interno */
+  }
+
   .tabs {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 50%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     gap; 20px;
     padding: 20px;
   }
 
   .tab {
     /* Estilos para un tab */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
     background-color: var(--background-color);
     border-radius: 10px;
     padding: 20px;
@@ -39,6 +47,16 @@
   .tab:active {
     transform: scale(1);
   }
+
+  #widget-package {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: "Arial", sans-serif;
+    color: var(--text-color);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
 
   h4 {
     color: var(--text-color);
@@ -58,17 +76,6 @@
     -moz-appearance: textfield;
   }
 
-  #widget-aviajar {
-    display: flex;
-    width: 100%;
-    max-width: 1200px; /* Ancho máximo del widget */
-    height: auto;
-    border-radius: 10px;
-    font-family: "Arial", sans-serif;
-    color: var(--text-color);
-    animation: fadeIn 0.5s ease-in-out;
-    margin: 20px auto;
-  }
 
   .widget-container {
     width: 100%;
@@ -84,14 +91,12 @@
   .widget {
     display: flex;
     flex-direction: column;
-    width: 100%;
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
-    margin: 20px auto; /* Centra el widget horizontalmente */
   }
 
   /* Animación de entrada */
