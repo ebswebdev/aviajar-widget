@@ -216,10 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="label-adultos">
                             <label for="num-adultos">Adultos:</label>
                         </div>
-                        <div class="input-adultos">
-                            <input id="num-adultos" type="number" min="1" value="1">
-                            <span class="icon"><i class="fas fa-user"></i></span>
-                        </div>
+                        <div class="input-adultos"></div>
                     </div>
                     <div class="ninos">
                         <div class="label-ninos">
@@ -233,59 +230,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
             habitacionesContainer.appendChild(habitacionDiv);
 
-            // Seleccionar elementos dentro de esta habitación
-            const numAdultosSelect = document.createElement("select");
-            numAdultosSelect.id = "num-adultos";
-            numAdultosSelect.className = "num-adultos-select";
-
-            const numNinosSelect = document.createElement("select");
-            numNinosSelect.id = "num-ninos";
-            numNinosSelect.className = "num-ninos-select";
-
-            // Generar opciones para el select (número de adultos de 1 a 7)
-            for (let i = 1; i <= 7; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = i;
-                numAdultosSelect.appendChild(option);
-            }
-
-            // Generar opciones para el select (número de niños de 0 a 4)
-            for (let i = 0; i <= 4; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = i;
-                numNinosSelect.appendChild(option);
-            }
-
             const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
             inputAdultosContainer.innerHTML = ""; // Limpiar el contenedor
-
-            // Crear el ícono
-            const iconoAdultos = document.createElement("span");
-            iconoAdultos.className = "icon";
-            iconoAdultos.innerHTML = `<i class="fas fa-user"></i>`;
 
             const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
             inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
 
-            // Crear el ícono
-            const iconoNinos = document.createElement("span");
-            iconoNinos.className = "icon";
-            iconoNinos.innerHTML = `<i class="fas fa-child"></i>`;
+            // Crear el contenedor de input numérico para adultos
+            const numericInputAdultos = document.createElement("div");
+            numericInputAdultos.className = "numeric-input";
 
-            // Agregar el select y el ícono al contenedor
-            inputAdultosContainer.appendChild(numAdultosSelect);
-            inputAdultosContainer.appendChild(iconoAdultos);
-            inputNinosContainer.appendChild(numNinosSelect);
-            inputNinosContainer.appendChild(iconoNinos);
+            const decrementAdultos = document.createElement("button");
+            decrementAdultos.className = "decrement";
+            decrementAdultos.textContent = "-";
+
+            const inputAdultos = document.createElement("input");
+            inputAdultos.type = "number";
+            inputAdultos.id = "numeric-value-adultos";
+            inputAdultos.value = "1";
+            inputAdultos.min = "1";
+            inputAdultos.max = "7";
+
+            const incrementAdultos = document.createElement("button");
+            incrementAdultos.className = "increment";
+            incrementAdultos.textContent = "+";
+
+            numericInputAdultos.appendChild(decrementAdultos);
+            numericInputAdultos.appendChild(inputAdultos);
+            numericInputAdultos.appendChild(incrementAdultos);
+
+            inputAdultosContainer.appendChild(numericInputAdultos);
+
+            // Crear el contenedor de input numérico para niños
+            const numericInputNinos = document.createElement("div");
+            numericInputNinos.className = "numeric-input";
+
+            const decrementNinos = document.createElement("button");
+            decrementNinos.className = "decrement";
+            decrementNinos.textContent = "-";
+
+            const inputNinos = document.createElement("input");
+            inputNinos.type = "number";
+            inputNinos.id = "numeric-value-ninos";
+            inputNinos.value = "0";
+            inputNinos.min = "0";
+            inputNinos.max = "4";
+
+            const incrementNinos = document.createElement("button");
+            incrementNinos.className = "increment";
+            incrementNinos.textContent = "+";
+
+            numericInputNinos.appendChild(decrementNinos);
+            numericInputNinos.appendChild(inputNinos);
+            numericInputNinos.appendChild(incrementNinos);
+
+            inputNinosContainer.appendChild(numericInputNinos);
 
             const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
 
             // Generar dinámicamente los campos para las edades de los niños
-            numNinosSelect.addEventListener("change", function () {
-                const numNinos = parseInt(numNinosSelect.value) || 0;
-                edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor
+            inputNinos.addEventListener("input", function () {
+                const numNinos = parseInt(inputNinos.value) || 0;
+                edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor            
 
                 for (let j = 1; j <= numNinos; j++) {
                     const label = document.createElement("label");
@@ -305,6 +311,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     edadesNinosContainer.appendChild(label);
                     edadesNinosContainer.appendChild(select);
+                }
+            });
+
+            // Eventos para incrementar y decrementar adultos
+            decrementAdultos.addEventListener("click", function () {
+                let currentValue = parseInt(inputAdultos.value) || 1;
+                if (currentValue > parseInt(inputAdultos.min)) {
+                    inputAdultos.value = currentValue - 1;
+                }
+            });
+
+            incrementAdultos.addEventListener("click", function () {
+                let currentValue = parseInt(inputAdultos.value) || 1;
+                if (currentValue < parseInt(inputAdultos.max)) {
+                    inputAdultos.value = currentValue + 1;
+                }
+            });
+
+            // Eventos para incrementar y decrementar niños
+            decrementNinos.addEventListener("click", function () {
+                let currentValue = parseInt(inputNinos.value) || 0;
+                if (currentValue > parseInt(inputNinos.min)) {
+                    inputNinos.value = currentValue - 1;
+                    inputNinos.dispatchEvent(new Event("input"));
+                }
+            });
+
+            incrementNinos.addEventListener("click", function () {
+                let currentValue = parseInt(inputNinos.value) || 0;
+                if (currentValue < parseInt(inputNinos.max)) {
+                    inputNinos.value = currentValue + 1;
+                    inputNinos.dispatchEvent(new Event("input"));
                 }
             });
         }

@@ -14,6 +14,18 @@
     font-size: 18px;
   }
 
+  /* Deshabilitar las flechas de incremento y decremento en navegadores basados en WebKit (Chrome, Safari, Edge) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Deshabilitar las flechas en Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   #widget-aviajar {
     display: flex;
     width: 100%;
@@ -215,12 +227,11 @@
 
   /* Adultos */
   .adultos {
-    flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     border-radius: 5px;
-    position: relative;
   }
 
   .label-adultos {
@@ -241,7 +252,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     border-radius: 5px;
     position: relative;
   }
@@ -264,7 +274,7 @@
   /* Niños */
 
   .ninos {
-    flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -289,7 +299,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     border-radius: 5px;
     position: relative;
   }
@@ -816,13 +825,12 @@
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
+  .numeric-input input[type="number"] {
+    margin-bottom: 0px !important;
+  }
+
   #numeric-value {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-    margin-bottom: 0px !important;
   }
 }

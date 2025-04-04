@@ -193,12 +193,11 @@
 
   /* Adultos */
   .adultos {
-    flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     border-radius: 5px;
-    position: relative;
   }
 
   .label-adultos {
@@ -219,7 +218,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     border-radius: 5px;
     position: relative;
   }
@@ -242,7 +240,7 @@
 
   /* Niños */
   .ninos {
-    flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -267,7 +265,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     border-radius: 5px;
     position: relative;
   }
@@ -386,6 +383,8 @@
   #edades-ninos {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     gap: 10px;
     margin-top: 10px;
   }
@@ -767,13 +766,12 @@
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
+  .numeric-input input[type="number"] {
+    margin-bottom: 0px !important;
+  }
+
   #numeric-value {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-    margin-bottom: 0px !important;
   }
 }
