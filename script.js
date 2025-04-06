@@ -7,11 +7,21 @@
         const tabs = document.createElement('div');
         tabs.className = 'tabs';
         tabs.innerHTML = `
-            <div class="tab" id="tab-paquetes">Paquetes</div>
-            <div class="tab" id="tab-vuelos">Vuelos</div>
-            <div class="tab" id="tab-hoteles">Hoteles</div>
-            <div class="tab" id="tab-autos">Autos</div>
-            <div class="tab" id="tab-tours">Tours</div>
+            <div class="tab" id="tab-paquetes">
+                <i class="fa fa-suitcase" aria-hidden="true"></i>
+            </div>
+            <div class="tab" id="tab-vuelos">
+                <i class="fa fa-plane" aria-hidden="true"></i>
+            </div>
+            <div class="tab" id="tab-hoteles">
+                <i class="fa fa-h-square" aria-hidden="true"></i>
+            </div>
+            <div class="tab" id="tab-autos">
+                <i class="fa fa-car" aria-hidden="true"></i>
+            </div>
+            <div class="tab" id="tab-tours">
+                <i class="fa fa-ticket-alt" aria-hidden="true"></i>
+            </div>
         `;
         widgetContainer.appendChild(tabs);
 
@@ -142,8 +152,11 @@
                     }
                     // Renderizar paquetes
                     widgetContainer.appendChild(widgetPackage);
-                }
-                else {
+                    crearPopup(); // Crear el popup de habitaciones
+                    botonBusqueda(); // Asignar el evento al botón de búsqueda
+                    autocompleteOrigen(); // Asignar el evento al autocompletar de origen
+                    autocompleteDestino(); // Asignar el evento al autocompletar de destino
+                } else {
                     console.log("No existe");
                     return
                 }
@@ -162,7 +175,7 @@
 // FUNCIONES DE LOS WIDGETS
 
 // Contenido del popup de habitaciones
-document.addEventListener("DOMContentLoaded", function () {
+function crearPopup() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
@@ -466,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
         generarHabitaciones(numericInput.value); // Regenerar las habitaciones
     });
-});
+};
 
 // -------------------------
 
@@ -524,7 +537,7 @@ function generateURL() {
 
 
 // Evento para el botón de búsqueda
-document.addEventListener("DOMContentLoaded", function () {
+function botonBusqueda() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
@@ -638,7 +651,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#fecha-rango").addEventListener("change", function () {
         this.classList.remove("input-error");
     });
-});
+};
 
 // -------------------
 
@@ -695,7 +708,7 @@ if (typeof external_file_AirportsCities === "undefined") {
 }
 
 // Autocomplete Origen
-document.addEventListener("DOMContentLoaded", function () {
+function autocompleteOrigen() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
     const input = document.querySelector("#origen");
@@ -787,10 +800,10 @@ document.addEventListener("DOMContentLoaded", function () {
             autocompleteList.innerHTML = ""; // Limpiar las sugerencias
         }
     });
-});
+};
 
 // Automcomplete destino
-document.addEventListener("DOMContentLoaded", function () {
+function autocompleteDestino() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
     const input = document.querySelector("#destino");
@@ -873,7 +886,7 @@ document.addEventListener("DOMContentLoaded", function () {
             autocompleteList.innerHTML = ""; // Limpiar las sugerencias
         }
     });
-});
+};
 
 // -------------------
 

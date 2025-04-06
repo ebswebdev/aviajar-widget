@@ -7,7 +7,7 @@
     --text-color: #333; /* Texto principal */
     --button-hover: #e0a800; /* Color de hover para botones */
   }
-  
+
   #widget-aviajar {
     display: flex;
     flex-direction: column;
@@ -24,11 +24,16 @@
   .tabs {
     display: flex;
     align-items: center;
+    justify-content: left;
     height: 100%;
-    gap; 20px;
     padding: 20px;
     top: 50px;
     position: relative;
+    max-width: 100%; /* Evita que exceda el ancho del contenedor padre */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    overflow-x: auto; /* Permite scroll horizontal si el contenido interno es más grande */
+    word-wrap: break-word;
+    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
   }
 
   .tab {
@@ -40,6 +45,10 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     cursor: pointer;
     height: 20px;
+  }
+
+  .tab::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento en navegadores Webkit */
   }
 
   .tab:hover {
@@ -76,6 +85,7 @@
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
+    margin: 0 auto; /* Centrar el widget horizontalmente */
   }
 
   /* Animación de entrada */
@@ -725,6 +735,7 @@
     border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para la lista */
     animation: fadeIn 0.3s ease-in-out;

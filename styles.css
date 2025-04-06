@@ -651,12 +651,12 @@
 
   /* Checkboxs */
   .checkbox-group {
-    display: none !important;
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;
+    flex-direction: column; /* Cambia la dirección del eje principal a vertical */
+    justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
+    align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
-    padding: 10px; */
+    padding: 10px;
   }
 
   .checkbox {
@@ -782,6 +782,7 @@
     border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para la lista */
     animation: fadeIn 0.3s ease-in-out;
