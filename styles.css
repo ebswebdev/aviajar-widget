@@ -83,11 +83,10 @@
   .widget-container {
     width: 100%;
     display: flex;
-    height: 100%;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 50px;
     padding-top: 20px;
-    padding-bottom: 20px;
   }
 
   /* Contenedor principal del widget */
@@ -652,11 +651,12 @@
   /* Checkboxs */
   .checkbox-group {
     display: flex;
-    flex-direction: column; /* Cambia la dirección del eje principal a vertical */
     justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
     padding: 10px;
+    position: absolute;
+    top: 320px; /* Ajusta la posición vertical según sea necesario */
   }
 
   .checkbox {
@@ -675,6 +675,7 @@
     text-align: left;
     font-size: 14px;
     left: -10px;
+    top: 5px;
   }
 
   input[type="checkbox"] {
@@ -744,12 +745,21 @@
 
   .boton-buscar button {
     width: 150px;
-    height: 100%;
+    height: 70px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .boton-buscar button:hover {
+    background-color: #d4a200;
+    transform: scale(1.05);
+  }
+
+  .boton-buscar button:active {
+    transform: scale(1);
   }
 
   /* Autocomplete */
