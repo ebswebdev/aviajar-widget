@@ -74,6 +74,18 @@
     font-size: 18px;
   }
 
+  /* Deshabilitar las flechas de incremento y decremento en navegadores basados en WebKit (Chrome, Safari, Edge) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Deshabilitar las flechas en Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   /* Contenedor principal del widget */
   .widget {
     display: flex;
@@ -575,7 +587,6 @@
 
   /* Inputs */
 
-  /* Input cuando hay error */
   .input-error {
     background-color: #ffe6e6; /* Fondo rojo claro */
     border: 1px solid red; /* Borde rojo */

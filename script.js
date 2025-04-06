@@ -136,9 +136,8 @@
                     widgetContainer.appendChild(widgetPackage);
                     crearPopup(); // Crear el popup de habitaciones
                     botonBusqueda(); // Asignar el evento al botón de búsqueda
-                    autocompleteOrigen(); // Asignar el evento al autocompletar de origen
-                    autocompleteDestino(); // Asignar el evento al autocompletar de destino
                     inicializarFlatpickr();
+                    cargarAutocompletes()
 
                     prueba();
 
@@ -541,31 +540,42 @@ function botonBusqueda() {
         const origenSelect = document.querySelector("#origen-id");
         const destinoSelect = document.querySelector("#destino-id");
 
-        // Función para mostrar mensajes de error y resaltar el input
+        // Función para mostrar mensajes de error como etiquetas flotantes
         function showError(input, message) {
-            // Buscar o crear el contenedor de errores global
-            let errorContainer = document.querySelector("#error-container");
-            if (!errorContainer) {
-                errorContainer = document.createElement("div");
-                errorContainer.id = "error-container";
-                errorContainer.style.marginTop = "16px";
-                errorContainer.style.color = "red";
-                errorContainer.style.fontSize = "14px";
-                document.querySelector(".widget-container").appendChild(errorContainer); // Agregarlo después del formulario
+            // Verificar si ya existe un label de error para este input
+            let errorLabel = input.parentNode.querySelector(".error-label");
+            if (!errorLabel) {
+                // Crear el label de error si no existe
+                errorLabel = document.createElement("label");
+                errorLabel.className = "error-label";
+                errorLabel.style.color = "red";
+                errorLabel.style.fontSize = "12px";
+                errorLabel.style.position = "absolute";
+                errorLabel.style.top = "100%"; // Justo debajo del input
+                errorLabel.style.left = "0";
+                errorLabel.style.marginTop = "-5px";
+                errorLabel.style.zIndex = "10";
+                input.parentNode.style.position = "relative"; // Asegurar que el contenedor sea relativo
+                input.parentNode.appendChild(errorLabel);
             }
 
-            // Crear un mensaje de error específico para el campo
-            let fieldError = errorContainer.querySelector(`.error-${input.id}`);
-            if (!fieldError) {
-                fieldError = document.createElement("div");
-                fieldError.className = `error-${input.id}`;
-                errorContainer.appendChild(fieldError);
-            }
+            // Establecer el mensaje de error
+            errorLabel.textContent = message;
 
-            fieldError.textContent = message;
-
-            // Cambiar el fondo del input a rojo
+            // Resaltar el input con un borde rojo
             input.classList.add("input-error");
+        }
+
+        // Función para limpiar mensajes de error y quitar el resaltado
+        function clearError(input) {
+            // Buscar el label de error asociado al input
+            const errorLabel = input.parentNode.querySelector(".error-label");
+            if (errorLabel) {
+                errorLabel.remove(); // Eliminar el label de error
+            }
+
+            // Quitar el borde rojo del input
+            input.classList.remove("input-error");
         }
 
         // Función para limpiar mensajes de error y quitar el resaltado
@@ -647,233 +657,57 @@ function botonBusqueda() {
 let airports = []; // Declarar la variable 
 
 // external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
-if (typeof external_file_AirportsCities === "undefined") {
-    console.error("No se encuentran las ciudades");
-} else {
-    airports = external_file_AirportsCities.map(entry => {
-        // Dividir la entrada en partes usando el separador "|"
-        const parts = entry.split("|").map(part => part.trim());
+function autocompleteSearch(inputId, autocompleteListId, data) {
+    const input = document.querySelector(inputId);
+    const autocompleteList = document.querySelector(autocompleteListId);
 
-        if (parts.length === 1) {
-            // Caso 1: Formato simple como "Ciudad, País (Código)"
-            const match = parts[0].match(/^(.*), (.*) \((\w+)\)$/);
-            if (match) {
-                return { id: match[3], name: match[1], country: match[2] };
-            }
-        } else if (parts.length === 2) {
-            // Caso 2: Formato "Todos aeropuertos | Ciudad, País (Código)"
-            const match = parts[1].match(/^(.*), (.*) \((\w+)\)$/);
-            if (match) {
-                return { id: match[3], name: match[1], country: match[2] };
-            }
-        } else if (parts.length === 3) {
-            // Caso 3: Formato "Ciudad | Detalles | Código"
-            const match = parts[2].match(/\((\w+)\)$/);
-            if (match) {
-                return { id: match[1], name: parts[0].trim(), country: parts[1].trim() };
-            }
-        } else if (parts.length === 4) {
-            // Caso 4: Formato "Ciudad | NombreAirport (IDCIUDAD - IDAIRPORT)"
-            const match = parts[1].match(/^(.*) \((\w+) - (\w+)\)$/);
-            if (match) {
-                return {
-                    idCity: match[2],
-                    idAirport: match[3],
-                    name: parts[0].trim(),
-                    airport: match[1].trim()
-                };
-            }
+    // Si necesitas manejar un hiddenSelect
+    const hiddenSelectId = inputId === "#origen" ? "#origen-id" : "#destino-id";
+    const hiddenSelect = document.querySelector(hiddenSelectId);
+
+    input.addEventListener("input", function () {
+        const query = input.value.toLowerCase().trim();
+        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+        if (!query) {
+            if (hiddenSelect) hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
         }
 
-        // Si no coincide con ningún formato, devolver null
-        return null;
-    }).filter(Boolean); // Filtrar las entradas no válidas
-    if (airports.airport) {
-        airports = airports.filter(entry => entry.airport !== undefined); // Filtrar entradas con aeropuerto
-    }
-    // console.log(airports);
+        // Filtrar las coincidencias en la lista de datos
+        const filteredEntries = data.filter(entry => entry.toLowerCase().includes(query));
+
+        // Mostrar las coincidencias en el autocompletado
+        filteredEntries.forEach(entry => {
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            item.textContent = entry; // Mostrar el texto completo de la coincidencia
+            autocompleteList.appendChild(item);
+
+            // Manejar el clic en una sugerencia
+            item.addEventListener("click", function () {
+                input.value = entry; // Establecer el valor seleccionado en el input
+                autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+                // Actualizar el hiddenSelect si existe
+                if (hiddenSelect) {
+                    hiddenSelect.innerHTML = ""; // Limpiar el select
+                    const option = document.createElement("option");
+                    option.value = entry; // Puedes ajustar esto según el formato de los datos
+                    option.selected = true;
+                    hiddenSelect.appendChild(option);
+                }
+            });
+        });
+    });
+
+    // Cerrar la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+        }
+    });
 }
-
-// Autocomplete Origen
-function autocompleteOrigen() {
-    const widgetContainer = document.getElementById('widget-container');
-    if (!widgetContainer) return;
-    const input = document.querySelector("#origen");
-    const autocompleteList = document.createElement("div");
-    autocompleteList.id = "autocomplete-list-origen"; // Updated ID
-    autocompleteList.className = "autocomplete-list";
-    input.parentNode.appendChild(autocompleteList);
-
-    // Crear un select oculto para almacenar el ID
-    const hiddenSelect = document.createElement("select");
-    hiddenSelect.id = "origen-id";
-    hiddenSelect.style.display = "none"; // Ocultar el select
-    document.body.appendChild(hiddenSelect);
-
-    // Escuchar el evento "input" para filtrar las sugerencias
-    input.addEventListener("input", function () {
-        const query = input.value.toLowerCase();
-        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-
-        if (!query) {
-            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
-            return;
-        }
-
-        // Filtrar las ciudades y aeropuertos que coincidan con el texto ingresado
-        const filteredEntries = airports.filter(entry =>
-            entry.name.toLowerCase().includes(query) ||
-            (entry.airport && entry.airport.toLowerCase().includes(query)) ||
-            entry.id.toLowerCase().includes(query)
-        );
-
-        // Mostrar las sugerencias
-        filteredEntries.forEach((entry) => {
-            const item = document.createElement("div");
-            item.className = "autocomplete-item";
-            if (entry.airport) {
-                // Mostrar ciudad y aeropuerto
-                item.textContent = `${entry.name} | ${entry.airport} (${entry.idCity} - ${entry.idAirport})`;
-                item.dataset.id = entry.idAirport; // Guardar el ID del aeropuerto
-            } else {
-                // Mostrar solo ciudad
-                item.textContent = `${entry.name}, ${entry.country} (${entry.id})`;
-                item.dataset.id = entry.id; // Guardar el ID de la ciudad
-            }
-
-            autocompleteList.appendChild(item);
-        });
-    });
-
-    // Manejar el clic en una sugerencia
-    autocompleteList.addEventListener("click", function (e) {
-        if (e.target && e.target.classList.contains("autocomplete-item")) {
-            const city = e.target.dataset.id;
-            input.value = e.target.textContent; // Mostrar toda la información en el input
-            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-
-            // Actualizar el select oculto con el ID seleccionado
-            hiddenSelect.innerHTML = ""; // Limpiar el select
-            const option = document.createElement("option");
-            option.value = city;
-            option.selected = true;
-            hiddenSelect.appendChild(option);
-
-            // Remover la clase de error del input
-            input.classList.remove("input-error");
-
-            // Ocultar el mensaje de error correspondiente
-            const errorContainer = document.querySelector("#error-container");
-            if (errorContainer) {
-                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                if (fieldError) {
-                    fieldError.remove();
-                }
-            }
-        }
-    });
-
-    input.addEventListener("focus", function () {
-        autocompleteList.classList.add("active"); // Activate the autocomplete list
-    });
-
-    input.addEventListener("blur", function () {
-        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
-    });
-
-    // Cerrar la lista de sugerencias si el usuario hace clic fuera
-    document.addEventListener("click", function (e) {
-        if (!autocompleteList.contains(e.target) && e.target !== input) {
-            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-        }
-    });
-};
-
-// Automcomplete destino
-function autocompleteDestino() {
-    const widgetContainer = document.getElementById('widget-container');
-    if (!widgetContainer) return;
-    const input = document.querySelector("#destino");
-    const autocompleteList = document.createElement("div");
-    autocompleteList.id = "autocomplete-list-destino"; // Updated ID
-    autocompleteList.className = "autocomplete-list";
-    input.parentNode.appendChild(autocompleteList);
-
-    // Crear un select oculto para almacenar el ID del destino
-    const hiddenSelect = document.createElement("select");
-    hiddenSelect.id = "destino-id";
-    hiddenSelect.style.display = "none"; // Ocultar el select
-    document.body.appendChild(hiddenSelect);
-
-    // Escuchar el evento "input" para filtrar las sugerencias
-    input.addEventListener("input", function () {
-        const query = input.value.toLowerCase();
-        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-
-        if (!query) {
-            hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
-            return;
-        }
-
-        // Filtrar las ciudades que coincidan con el texto ingresado
-        const filteredCities = airports.filter(city =>
-            city.name.toLowerCase().includes(query) || city.id.toLowerCase().includes(query) // Filtrar por país también
-        );
-
-        // Mostrar las sugerencias
-        filteredCities.forEach((city) => {
-            const item = document.createElement("div");
-            item.className = "autocomplete-item";
-            item.textContent = `${city.name}, ${city.country} (${city.id})`; // Combinar ciudad, país y código
-            item.dataset.id = city.id; // Guardar el ID de la ciudad en un atributo de datos
-
-            autocompleteList.appendChild(item);
-        });
-    });
-
-    // Manejar el clic en una sugerencia
-    autocompleteList.addEventListener("click", function (e) {
-        if (e.target && e.target.classList.contains("autocomplete-item")) {
-            const city = e.target.dataset.id;
-            input.value = e.target.textContent; // Mostrar toda la información en el input
-            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-
-            // Actualizar el select oculto con el ID seleccionado
-            hiddenSelect.innerHTML = ""; // Limpiar el select
-            const option = document.createElement("option");
-            option.value = city;
-            option.selected = true;
-            hiddenSelect.appendChild(option);
-
-            // Remover la clase de error del input
-            input.classList.remove("input-error");
-
-            // Ocultar el mensaje de error correspondiente
-            const errorContainer = document.querySelector("#error-container");
-            if (errorContainer) {
-                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                if (fieldError) {
-                    fieldError.remove();
-                }
-            }
-        }
-    });
-
-    input.addEventListener("focus", function () {
-        autocompleteList.classList.add("active"); // Activate the autocomplete list
-    });
-
-    input.addEventListener("blur", function () {
-        setTimeout(() => autocompleteList.classList.remove("active"), 200); // Deactivate after a short delay
-    });
-
-    // Cerrar la lista de sugerencias si el usuario hace clic fuera
-    document.addEventListener("click", function (e) {
-        if (!autocompleteList.contains(e.target) && e.target !== input) {
-            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-        }
-    });
-};
 
 // -------------------
 
@@ -912,3 +746,13 @@ function prueba() {
         console.error("El input #fecha-rango no existe en el DOM.");
     }
 }
+
+function cargarAutocompletes() {
+    // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
+    if (typeof external_file_AirportsCities !== "undefined") {
+        autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities);
+        autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities);
+    } else {
+        console.error("external_file_AirportsCities no está definido.");
+    }
+};
