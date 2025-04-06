@@ -132,30 +132,17 @@
                         </div>
                     </div>
                     `;
-
-                    // Esperar a que Flatpickr esté cargado
-                    if (typeof flatpickr !== 'undefined') {
-                        flatpickr("#fecha-rango", {
-                            mode: "range",
-                            dateFormat: "Y-m-d",
-                            showMonths: 2,
-                            minDate: "today", // Disable dates earlier than today
-                            onClose: function (selectedDates) {
-                                if (selectedDates.length === 2) {
-                                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
-                                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
-                                    console.log("Fecha de inicio:", fecha1);
-                                    console.log("Fecha de fin:", fecha2);
-                                }
-                            }
-                        });
-                    }
                     // Renderizar paquetes
                     widgetContainer.appendChild(widgetPackage);
                     crearPopup(); // Crear el popup de habitaciones
                     botonBusqueda(); // Asignar el evento al botón de búsqueda
                     autocompleteOrigen(); // Asignar el evento al autocompletar de origen
                     autocompleteDestino(); // Asignar el evento al autocompletar de destino
+                    inicializarFlatpickr();
+
+                    prueba();
+
+
                 } else {
                     console.log("No existe");
                     return
@@ -890,5 +877,38 @@ function autocompleteDestino() {
 
 // -------------------
 
+// Flatpickr
+// Esperar a que Flatpickr esté cargado
+function inicializarFlatpickr() {
+    const fechaRango = document.querySelector("#fecha-rango");
+    if (fechaRango && typeof flatpickr !== 'undefined') {
+        flatpickr("#fecha-rango", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            showMonths: 2,
+            minDate: "today", // Disable dates earlier than today
+            onClose: function (selectedDates) {
+                if (selectedDates.length === 2) {
+                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                    console.log("Fecha de inicio:", fecha1);
+                    console.log("Fecha de fin:", fecha2);
+                }
+            }
+        });
+    } else {
+        console.error("El input #fecha-rango no existe o Flatpickr no está cargado.");
+    }
+}
 
-
+// ELIMINAR
+function prueba() {
+    const fechaRango = document.querySelector("#fecha-rango");
+    if (fechaRango) {
+        fechaRango.addEventListener("click", function () {
+            console.log("El input de fecha fue clickeado");
+        });
+    } else {
+        console.error("El input #fecha-rango no existe en el DOM.");
+    }
+}
