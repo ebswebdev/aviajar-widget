@@ -1,3 +1,5 @@
+// -------------------- TABS -------------------------
+
 (function () {
     function createWidget() {
         const widgetContainer = document.getElementById('widget-aviajar');
@@ -141,9 +143,6 @@
                     inicializarFlatpickr();
                     cargarAutocompletes()
 
-                    prueba();
-
-
                 } else {
                     console.log("No existe");
                     return
@@ -160,9 +159,10 @@
 })();
 
 
-// FUNCIONES DE LOS WIDGETS
+//  -------------- FUNCIONES AIRHOTEL ---------------
 
-// Contenido del popup de habitaciones
+// -------------------- POPUP -----------------------
+
 function crearPopup() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -469,7 +469,7 @@ function crearPopup() {
     });
 };
 
-// -------------------------
+// ----------------- GENERAR URL ---------------------
 
 // Crear la url
 function generateURL() {
@@ -492,21 +492,28 @@ function generateURL() {
 
     // Construir la información de habitaciones
     let roomInfo = [];
+    let totalAdultos = 0;
+    let totalNinos = 0;
+
     const habitaciones = document.querySelectorAll("#hab-container > div");
     habitaciones.forEach(habitacion => {
-        const numAdultos = habitacion.querySelector(".input-adultos input")?.value || "1";
-        const numNinos = habitacion.querySelector(".input-ninos input")?.value || "0";
+        const numAdultos = parseInt(habitacion.querySelector("#numeric-value-adultos")?.value || "1");
+        const numNinos = parseInt(habitacion.querySelector("#numeric-value-ninos")?.value || "0");
         const edadesNinos = Array.from(habitacion.querySelectorAll(".edad-nino"))
             .map(select => select.value || "0")
             .join("-");
+
+        totalAdultos += numAdultos;
+        totalNinos += numNinos;
+
         if (numNinos > 0) {
-            roomInfo.push(`${numAdultos}-${edadesNinos}`);
+            roomInfo.push(`${numAdultos}-${edadesNinos}`); // Formato: adultos-edadesNiños
         } else {
-            roomInfo.push(`${numAdultos}`);
+            roomInfo.push(`${numAdultos}`); // Solo adultos si no hay niños
         }
     });
 
-    const roomInfoString = roomInfo.join("!");
+    const roomInfoString = roomInfo.join("!"); // Separar habitaciones con "!"
 
     // Validar que todos los campos requeridos estén completos
     if (!cityFrom || !cityTo || !dateFrom || !dateTo) {
@@ -515,16 +522,14 @@ function generateURL() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/aviajar-show-003---------#air`;
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/aviajar-show-003---------#air`;
 
     console.log("Generated URL:", url);
     return url;
 }
 
-// ------------------
+// -------------- BOTON DE BUSQUEDA ------------------
 
-
-// Evento para el botón de búsqueda
 function botonBusqueda() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -547,29 +552,8 @@ function botonBusqueda() {
             input.classList.add("input-error");
         }
 
-        // Función para quitar el resaltado
         function clearError(input) {
-
             // Quitar el borde rojo del input
-            input.classList.remove("input-error");
-        }
-
-        // Función para limpiar mensajes de error y quitar el resaltado
-        function clearError(input) {
-            let errorContainer = document.querySelector("#error-container");
-            if (errorContainer) {
-                const fieldError = errorContainer.querySelector(`.error-${input.id}`);
-                if (fieldError) {
-                    fieldError.remove();
-                }
-
-                // Si no quedan errores, eliminar el contenedor de errores
-                if (!errorContainer.hasChildNodes()) {
-                    errorContainer.remove();
-                }
-            }
-
-            // Quitar el fondo rojo del input
             input.classList.remove("input-error");
         }
 
@@ -600,10 +584,8 @@ function botonBusqueda() {
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURL();
-            console.log("Generated URL:", generatedURL);
-
             // Redirigir al usuario a la URL generada
-            // window.location.href = generatedURL;
+            window.location.href = generatedURL;
 
             // Limpiar basura del select origen y destino
             document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
@@ -620,17 +602,24 @@ function botonBusqueda() {
         }
     });
 
+    // Quitar la clase input-error cuando el usuario selecciona algo desde el autocompletado
+    document.querySelector("#origen").addEventListener("input", function () {
+        this.classList.remove("input-error");
+    });
+
+    document.querySelector("#destino").addEventListener("input", function () {
+        this.classList.remove("input-error");
+    });
+
     // Quitar la clase input-error cuando el rango de fechas cambie
     document.querySelector("#fecha-rango").addEventListener("change", function () {
         this.classList.remove("input-error");
     });
 };
 
-// -------------------
+// ------------------- AUTOCOMPLETE ------------------
 
-// Autocomplete
-
-let airports = []; // Declarar la variable 
+let airports = [];
 
 // external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
 function autocompleteSearch(inputId, autocompleteListId, data) {
@@ -641,8 +630,13 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
     const hiddenSelectId = inputId === "#origen" ? "#origen-id" : "#destino-id";
     const hiddenSelect = document.querySelector(hiddenSelectId);
 
+    // Función para normalizar cadenas (eliminar tildes)
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
     input.addEventListener("input", function () {
-        const query = input.value.toLowerCase().trim();
+        const query = normalizeString(input.value.trim());
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
 
         if (!query) {
@@ -651,7 +645,10 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
         }
 
         // Filtrar las coincidencias en la lista de datos
-        const filteredEntries = data.filter(entry => entry.toLowerCase().includes(query));
+        const filteredEntries = data
+            // Por ahora lo oculto porque falta validar por que en medellin se pone eso
+            .filter(entry => !entry.toLowerCase().includes("punto de partida")) // Excluir "punto de partida"
+            .filter(entry => normalizeString(entry).includes(query)); // Coincidencias con la consulta normalizada
 
         // Mostrar las coincidencias en el autocompletado
         filteredEntries.forEach(entry => {
@@ -706,10 +703,10 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
         }
     });
 }
+
 // -------------------
 
 // Flatpickr
-// Esperar a que Flatpickr esté cargado
 function inicializarFlatpickr() {
     const fechaRango = document.querySelector("#fecha-rango");
     if (fechaRango && typeof flatpickr !== 'undefined') {
@@ -732,18 +729,7 @@ function inicializarFlatpickr() {
     }
 }
 
-// ELIMINAR
-function prueba() {
-    const fechaRango = document.querySelector("#fecha-rango");
-    if (fechaRango) {
-        fechaRango.addEventListener("click", function () {
-            console.log("El input de fecha fue clickeado");
-        });
-    } else {
-        console.error("El input #fecha-rango no existe en el DOM.");
-    }
-}
-
+// Mostrar autocomplete
 function cargarAutocompletes() {
     // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
     if (typeof external_file_AirportsCities !== "undefined") {
