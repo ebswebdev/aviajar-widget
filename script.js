@@ -65,6 +65,7 @@
                                         <span class="label-input">ORIGEN</span>
                                         <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
+                                        <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
                                     </div>
                                 </div>
@@ -73,6 +74,7 @@
                                         <span class="label-input">DESTINO</span>
                                         <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="">
                                         <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                                     </div>
                                 </div>
@@ -540,39 +542,13 @@ function botonBusqueda() {
         const origenSelect = document.querySelector("#origen-id");
         const destinoSelect = document.querySelector("#destino-id");
 
-        // Función para mostrar mensajes de error como etiquetas flotantes
-        function showError(input, message) {
-            // Verificar si ya existe un label de error para este input
-            let errorLabel = input.parentNode.querySelector(".error-label");
-            if (!errorLabel) {
-                // Crear el label de error si no existe
-                errorLabel = document.createElement("label");
-                errorLabel.className = "error-label";
-                errorLabel.style.color = "red";
-                errorLabel.style.fontSize = "12px";
-                errorLabel.style.position = "absolute";
-                errorLabel.style.top = "100%"; // Justo debajo del input
-                errorLabel.style.left = "0";
-                errorLabel.style.marginTop = "-5px";
-                errorLabel.style.zIndex = "10";
-                input.parentNode.style.position = "relative"; // Asegurar que el contenedor sea relativo
-                input.parentNode.appendChild(errorLabel);
-            }
-
-            // Establecer el mensaje de error
-            errorLabel.textContent = message;
-
+        function showError(input) {
             // Resaltar el input con un borde rojo
             input.classList.add("input-error");
         }
 
-        // Función para limpiar mensajes de error y quitar el resaltado
+        // Función para quitar el resaltado
         function clearError(input) {
-            // Buscar el label de error asociado al input
-            const errorLabel = input.parentNode.querySelector(".error-label");
-            if (errorLabel) {
-                errorLabel.remove(); // Eliminar el label de error
-            }
 
             // Quitar el borde rojo del input
             input.classList.remove("input-error");
@@ -599,7 +575,7 @@ function botonBusqueda() {
 
         // Validar que se haya seleccionado un origen desde el autocompletado
         if (!origenSelect || !origenSelect.value) {
-            showError(origenInput, "Por favor, selecciona un origen válido desde el autocompletado.");
+            showError(origenInput);
             valid = false;
         } else {
             clearError(origenInput);
@@ -607,7 +583,7 @@ function botonBusqueda() {
 
         // Validar que se haya seleccionado un destino desde el autocompletado
         if (!destinoSelect || !destinoSelect.value) {
-            showError(destinoInput, "Por favor, selecciona un destino válido desde el autocompletado.");
+            showError(destinoInput);
             valid = false;
         } else {
             clearError(destinoInput);
@@ -615,7 +591,7 @@ function botonBusqueda() {
 
         // Validar que el rango de fechas no esté vacío
         if (!fechaRangoInput.value) {
-            showError(fechaRangoInput, "Por favor, selecciona un rango de fechas.");
+            showError(fechaRangoInput);
             valid = false;
         } else {
             clearError(fechaRangoInput);
@@ -627,7 +603,7 @@ function botonBusqueda() {
             console.log("Generated URL:", generatedURL);
 
             // Redirigir al usuario a la URL generada
-            window.location.href = generatedURL;
+            // window.location.href = generatedURL;
 
             // Limpiar basura del select origen y destino
             document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
@@ -679,24 +655,38 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
 
         // Mostrar las coincidencias en el autocompletado
         filteredEntries.forEach(entry => {
+            // Dividir la entrada si contiene el carácter "|"
+            const parts = entry.split(" | ");
+            const displayText = parts.length > 1 ? parts[1] : entry; // Mostrar solo la segunda parte si existe
+
             const item = document.createElement("div");
             item.className = "autocomplete-item";
-            item.textContent = entry; // Mostrar el texto completo de la coincidencia
+            item.textContent = displayText; // Mostrar solo la segunda parte
             autocompleteList.appendChild(item);
 
             // Manejar el clic en una sugerencia
             item.addEventListener("click", function () {
-                input.value = entry; // Establecer el valor seleccionado en el input
+                input.value = displayText; // Establecer el valor seleccionado en el input
                 autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
 
-                // Actualizar el hiddenSelect si existe
+                // Extraer el ID del aeropuerto del texto seleccionado
+                const match = entry.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
+                let id = match ? match[1] : ""; // Si hay coincidencia, extraer el contenido
+
+                // Si el contenido tiene un guion "-", tomar solo el segundo ID
+                if (id.includes("-")) {
+                    id = id.split("-")[1].trim(); // Dividir y tomar solo el segundo ID
+                }
+
+                // Actualizar el hiddenSelect con el ID
                 if (hiddenSelect) {
                     hiddenSelect.innerHTML = ""; // Limpiar el select
                     const option = document.createElement("option");
-                    option.value = entry; // Puedes ajustar esto según el formato de los datos
+                    option.value = id; // Guardar el ID en el select
                     option.selected = true;
                     hiddenSelect.appendChild(option);
                 }
+                console.log('id', id); // Mostrar el ID en la consola
             });
         });
     });
@@ -708,7 +698,6 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
         }
     });
 }
-
 // -------------------
 
 // Flatpickr
