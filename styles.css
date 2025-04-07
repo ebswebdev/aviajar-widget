@@ -762,6 +762,19 @@
     transform: scale(1);
   }
 
+  .autocomplete-list::-webkit-scrollbar {
+    width: 6px; /* Hacer la barra de desplazamiento más delgada */
+  }
+
+  .autocomplete-list::-webkit-scrollbar-thumb {
+    background-color: #fdbe15; /* Amarillo */
+    border-radius: 10px; /* Bordes redondeados */
+  }
+
+  .autocomplete-list::-webkit-scrollbar-track {
+    background-color: #f4f4f4; /* Fondo claro */
+  }
+  
   /* Autocomplete */
   .autocomplete-container {
     position: relative;

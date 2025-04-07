@@ -662,6 +662,14 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
             const item = document.createElement("div");
             item.className = "autocomplete-item";
             item.textContent = displayText; // Mostrar solo la segunda parte
+            const match = displayText.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
+            if (match) {
+                const ids = match[1].split("-"); // Dividir el contenido por "-"
+                if (ids.length > 1) {
+                    item.textContent = `${displayText.replace(/\(.*?\)/, '').trim()} (${ids[1].trim()})`; // Mostrar el texto sin el primer paréntesis y agregar el segundo
+                }
+            }
+
             autocompleteList.appendChild(item);
 
             // Manejar el clic en una sugerencia
