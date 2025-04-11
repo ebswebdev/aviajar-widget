@@ -24,6 +24,7 @@
   .tabs {
     display: flex;
     align-items: center;
+    justify-content: left;
     height: 100%;
     gap; 20px;
     padding: 20px;

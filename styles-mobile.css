@@ -90,7 +90,6 @@
   .widget {
     display: flex;
     flex-direction: column;
-    width: 100%;
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 20px;
@@ -196,6 +195,10 @@
 
   .widget button:active {
     transform: scale(1);
+  }
+
+  .widget-package {
+    width: 100% !important;
   }
 
   /* Contenedor de habitaciones (Popup) */
