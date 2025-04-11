@@ -139,7 +139,7 @@
                     `;
                     // Renderizar paquetes
                     widgetContainer.appendChild(widgetPackage);
-                    crearPopup(); // Crear el popup de habitaciones
+                    crearPopupPaquetes(); // Crear el popup de habitaciones
                     botonBusqueda(); // Asignar el evento al botón de búsqueda
                     inicializarFlatpickr();
                     cargarAutocompletes()
@@ -230,6 +230,7 @@
                     `;
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetAir);
+                    crearPopupVuelos(); // Crear el popup de habitaciones
                 }
 
                 // ---------------------------- TAB HOTELES --------------------------------
@@ -502,7 +503,7 @@
 
 // -------------------- POPUP -----------------------
 
-function crearPopup() {
+function crearPopupPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
@@ -1083,20 +1084,19 @@ function cargarAutocompletes() {
 
 // Crear popup
 
-function crearPopup() {
+function crearPopupVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
-    const numHabInput = document.querySelector("#num-hab");
-    const popupNumHabInput = document.querySelector("#popup-num-hab");
+    const numPasajerosInput = document.querySelector("#num-pasajeros");
     const habPopup = document.querySelector("#hab-popup");
     const closePopup = document.querySelector(".close-popup");
-    const habitacionesContainer = document.querySelector("#hab-container");
+    const pasajerosContainer = document.querySelector("#hab-container");
 
-    if (!numHabInput || !popupNumHabInput || !habPopup || !closePopup || !habitacionesContainer) return;
+    if (!numPasajerosInput || !habPopup || !closePopup || !pasajerosContainer) return;
 
-    // Mostrar el popup al hacer clic en el campo de habitaciones
-    numHabInput.addEventListener("click", function () {
+    // Mostrar el popup al hacer clic en el campo de pasajeros
+    numPasajerosInput.addEventListener("click", function () {
         habPopup.style.display = "flex"; // Mostrar el popup
     });
 
@@ -1112,121 +1112,77 @@ function crearPopup() {
         }
     });
 
-    // Cerrar el popup al hacer click en el botón
+    // Cerrar el popup al hacer clic en el botón "Aceptar"
     document.querySelector("#accept-popup")?.addEventListener("click", function () {
-        habPopup.style.display = "none"; // Ocultar el popup
-    });
+        let totalAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 0;
+        let totalNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0;
 
-    // Limitar numero de habitaciones       
-    popupNumHabInput.addEventListener("input", function () {
-        let numHab = parseInt(popupNumHabInput.value);
+        // Actualizar el input de pasajeros con el total
+        numPasajerosInput.value = totalAdultos + totalNinos;
 
-        // Validar que el número esté dentro del rango permitido
-        if (numHab < 1 || numHab > 20) {
-            popupNumHabInput.value = 20;
-            return;
-        }
-
-        popupNumHabInput.value = numHab; // Actualizar el valor en el input
-        numHabInput.value = numHab; // Sincronizar con el campo principal
-        generarHabitaciones(numHab); // Regenerar las habitaciones
-    });
-
-    // Actualizar numero de pasajeros desde el popup
-    popupNumHabInput.addEventListener("input", function () {
-        const numHab = parseInt(popupNumHabInput.value) || 1;
-        numHabInput.value = numHab; // Sincronizar el valor con el campo principal
-        generarHabitaciones(numHab); // Regenerar las habitaciones
-    });
-
-    // Sincronizar el número de pasajeros al cerrar el popup
-    document.querySelector("#accept-popup")?.addEventListener("click", function () {
-        let totalAdultos = 0;
-        let totalNinos = 0;
-
-        const habitaciones = document.querySelectorAll("#hab-container > div");
-        habitaciones.forEach(habitacion => {
-            const numAdultos = parseInt(habitacion.querySelector(".input-adultos input")?.value) || 0;
-            const numNinos = parseInt(habitacion.querySelector(".input-ninos input")?.value) || 0;
-
-            totalAdultos += numAdultos;
-            totalNinos += numNinos;
-        });
-
-        // Update the num-per input with the total passengers
-        document.querySelector("#num-per").value = totalAdultos + totalNinos;
-
-        // Close the popup
+        // Ocultar el popup
         habPopup.style.display = "none";
     });
 
-    // Abrir popup si hago click en el input #num-per
-    const numPerInput = document.querySelector("#num-pasajeros");
-    numPerInput?.addEventListener("click", function () {
-        habPopup.style.display = "flex"; // Mostrar el popup
-    });
+    // Crear el contenedor para adultos
+    const adultosContainer = document.createElement("div");
+    adultosContainer.className = "numeric-input-group";
+    adultosContainer.innerHTML = `
+        <label>Adultos:</label>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-adultos">-</button>
+            <input type="number" id="numeric-value-adultos" value="1" min="1" max="10">
+            <button class="increment" id="increment-adultos">+</button>
+        </div>
+    `;
 
-    // ---------------------
+    // Crear el contenedor para niños
+    const ninosContainer = document.createElement("div");
+    ninosContainer.className = "numeric-input-group";
+    ninosContainer.innerHTML = `
+        <label>Niños:</label>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-ninos">-</button>
+            <input type="number" id="numeric-value-ninos" value="0" min="0" max="5">
+            <button class="increment" id="increment-ninos">+</button>
+        </div>
+    `;
 
-    // Crear el contenedor del input numérico
-    const numericInputContainer = document.createElement("div");
-    numericInputContainer.className = "numeric-input";
+    // Limpiar el contenedor y agregar los nuevos elementos
+    pasajerosContainer.innerHTML = "";
+    pasajerosContainer.appendChild(adultosContainer);
+    pasajerosContainer.appendChild(ninosContainer);
 
-    // Crear el botón de decremento
-    const decrementButton = document.createElement("button");
-    decrementButton.className = "decrement";
-    decrementButton.textContent = "-";
-
-    // Crear el input numérico
-    const numericInput = document.createElement("input");
-    numericInput.type = "number";
-    numericInput.id = "numeric-value";
-    numericInput.value = "1";
-    numericInput.min = "1";
-    numericInput.max = "4";
-
-    // Crear el botón de incremento
-    const incrementButton = document.createElement("button");
-    incrementButton.className = "increment";
-    incrementButton.textContent = "+";
-
-    // Agregar los elementos al contenedor
-    numericInputContainer.appendChild(decrementButton);
-    numericInputContainer.appendChild(numericInput);
-    numericInputContainer.appendChild(incrementButton);
-
-    // Reemplazar el input original con el nuevo contenedor
-    popupNumHabInput.replaceWith(numericInputContainer);
-
-    // Agregar eventos para manejar los cambios en el valor
-    decrementButton.addEventListener("click", function () {
-        let currentValue = parseInt(numericInput.value) || 1;
-        if (currentValue > parseInt(numericInput.min)) {
-            numericInput.value = currentValue - 1;
-            document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
-            generarHabitaciones(numericInput.value); // Regenerar las habitaciones
+    // Agregar eventos para manejar los botones de incremento y decremento
+    document.querySelector("#decrement-adultos").addEventListener("click", function () {
+        const inputAdultos = document.querySelector("#numeric-value-adultos");
+        let currentValue = parseInt(inputAdultos.value) || 1;
+        if (currentValue > parseInt(inputAdultos.min)) {
+            inputAdultos.value = currentValue - 1;
         }
     });
 
-    incrementButton.addEventListener("click", function () {
-        let currentValue = parseInt(numericInput.value) || 1;
-        if (currentValue < parseInt(numericInput.max)) {
-            numericInput.value = currentValue + 1;
-            document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
-            generarHabitaciones(numericInput.value); // Regenerar las habitaciones
+    document.querySelector("#increment-adultos").addEventListener("click", function () {
+        const inputAdultos = document.querySelector("#numeric-value-adultos");
+        let currentValue = parseInt(inputAdultos.value) || 1;
+        if (currentValue < parseInt(inputAdultos.max)) {
+            inputAdultos.value = currentValue + 1;
         }
     });
 
-    numericInput.addEventListener("input", function () {
-        let currentValue = parseInt(numericInput.value) || 1;
-
-        // Validar que el número esté dentro del rango permitido
-        if (currentValue < parseInt(numericInput.min)) {
-            numericInput.value = numericInput.min;
-        } else if (currentValue > parseInt(numericInput.max)) {
-            numericInput.value = numericInput.max;
+    document.querySelector("#decrement-ninos").addEventListener("click", function () {
+        const inputNinos = document.querySelector("#numeric-value-ninos");
+        let currentValue = parseInt(inputNinos.value) || 0;
+        if (currentValue > parseInt(inputNinos.min)) {
+            inputNinos.value = currentValue - 1;
         }
-
-        document.querySelector("#num-hab").value = numericInput.value; // Sincronizar con el campo principal
     });
-};
+
+    document.querySelector("#increment-ninos").addEventListener("click", function () {
+        const inputNinos = document.querySelector("#numeric-value-ninos");
+        let currentValue = parseInt(inputNinos.value) || 0;
+        if (currentValue < parseInt(inputNinos.max)) {
+            inputNinos.value = currentValue + 1;
+        }
+    });
+}
