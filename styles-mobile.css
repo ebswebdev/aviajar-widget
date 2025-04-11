@@ -19,6 +19,7 @@
     animation: fadeIn 0.5s ease-in-out;
     margin: 0 auto; /* Centrar el widget horizontalmente */
     padding: 20px; /* Espacio interno */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
   }
 
   .tabs {
@@ -630,7 +631,7 @@
   /* Checkboxs */
   .checkbox-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     margin-bottom: 20px;
     padding: 10px;
@@ -840,5 +841,37 @@
   #numeric-value {
     width: 100%;
     padding: 10px;
+  }
+
+  /* VUELOS */
+
+  /* Contenedor de habitaciones (Popup) */
+  #pasajeros-container {
+    background-color: var(--background-color);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--background-color);
+    letter-spacing: 1px; /* Espaciado entre letras */
+  }
+
+  .numeric-input-group {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+
+  #title-pasajeros {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    text-align: center; /* Centrado */
+    letter-spacing: 1px; /* Espaciado entre letras */
   }
 }

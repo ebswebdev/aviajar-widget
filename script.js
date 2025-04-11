@@ -196,14 +196,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="hab-popup" class="popup">
+                            <div id="pasajeros-popup" class="popup">
                                 <div class="popup-content">
                                     <span class="close-popup">&times;</span>
                                     <div class="popup-header">
-                                        <label for="popup-num-hab">Número de habitaciones:</label>
-                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
                                     </div>
-                                    <div id="hab-container"></div>
+                                    <div id="pasajeros-container"></div>
                                     <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
                                     </div>
@@ -231,6 +230,7 @@
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetAir);
                     crearPopupVuelos(); // Crear el popup de habitaciones
+                    inicializarFlatpickr()
                 }
 
                 // ---------------------------- TAB HOTELES --------------------------------
@@ -316,6 +316,8 @@
                     `;
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetHotel);
+                    inicializarFlatpickr()
+
                 }
 
                 // ------------------------------ TAB AUTOS --------------------------------
@@ -401,6 +403,7 @@
                     `;
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetAutos);
+                    inicializarFlatpickr()
                 }
 
 
@@ -487,6 +490,7 @@
                     `;
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetTours);
+                    inicializarFlatpickr()
                 }
 
             });
@@ -1089,26 +1093,26 @@ function crearPopupVuelos() {
     if (!widgetContainer) return;
 
     const numPasajerosInput = document.querySelector("#num-pasajeros");
-    const habPopup = document.querySelector("#hab-popup");
+    const pasajerosPopup = document.querySelector("#pasajeros-popup");
     const closePopup = document.querySelector(".close-popup");
-    const pasajerosContainer = document.querySelector("#hab-container");
+    const pasajerosContainer = document.querySelector("#pasajeros-container");
 
-    if (!numPasajerosInput || !habPopup || !closePopup || !pasajerosContainer) return;
+    if (!numPasajerosInput || !pasajerosPopup || !closePopup || !pasajerosContainer) return;
 
     // Mostrar el popup al hacer clic en el campo de pasajeros
     numPasajerosInput.addEventListener("click", function () {
-        habPopup.style.display = "flex"; // Mostrar el popup
+        pasajerosPopup.style.display = "flex"; // Mostrar el popup
     });
 
     // Cerrar el popup al hacer clic en el botón de cierre
     closePopup.addEventListener("click", function () {
-        habPopup.style.display = "none"; // Ocultar el popup
+        pasajerosPopup.style.display = "none"; // Ocultar el popup
     });
 
     // Cerrar el popup al hacer clic fuera del contenido
-    habPopup.addEventListener("click", function (e) {
-        if (e.target === habPopup) {
-            habPopup.style.display = "none"; // Ocultar el popup
+    pasajerosPopup.addEventListener("click", function (e) {
+        if (e.target === pasajerosPopup) {
+            pasajerosPopup.style.display = "none"; // Ocultar el popup
         }
     });
 
@@ -1121,7 +1125,7 @@ function crearPopupVuelos() {
         numPasajerosInput.value = totalAdultos + totalNinos;
 
         // Ocultar el popup
-        habPopup.style.display = "none";
+        pasajerosPopup.style.display = "none";
     });
 
     // Crear el contenedor para adultos

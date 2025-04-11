@@ -898,4 +898,26 @@
     width: 100%;
     padding: 10px;
   }
+
+  /* VUELOS */
+
+  /* Contenedor de habitaciones (Popup) */
+  #pasajeros-container {
+    background-color: var(--background-color);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--background-color);
+  }
+
+  .numeric-input-group {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
 }
