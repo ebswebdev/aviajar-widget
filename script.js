@@ -40,6 +40,15 @@
                 this.classList.add('active');
                 const selectedTab = this.id.replace('tab-', '');
                 widgetContainer.setAttribute('selected-tab', selectedTab);
+                // Cambiar el estilo del tab seleccionado
+                this.style.backgroundColor = "#fff"; // Cambiar el fondo del tab seleccionado
+                this.style.color = "#000"; // Cambiar el color del texto del tab seleccionado
+                tabsList.forEach(t => {
+                    if (t !== this) {
+                        t.style.backgroundColor = ""; // Restaurar el fondo de los otros tabs
+                        t.style.color = ""; // Restaurar el color del texto de los otros tabs
+                    }
+                });
                 console.log(`Selected tab: ${selectedTab}`);
 
                 // Eliminar widgets existentes antes de crear uno nuevo

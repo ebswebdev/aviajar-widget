@@ -16,7 +16,6 @@
     border-radius: 10px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
-    animation: fadeIn 0.5s ease-in-out;
     margin: 0 auto; /* Centrar el widget horizontalmente */
     padding: 20px; /* Espacio interno */
   }
@@ -44,9 +43,9 @@
   }
 
   .tab:hover {
-    background-color: #000;
+    background-color: #fff;
     transform: scale(1.05);
-    color: #fff; /* Cambia el color del texto al pasar el mouse */
+    color: #000; /* Cambia el color del texto al pasar el mouse */
   }
   .tab:active {
     transform: scale(1);
@@ -58,7 +57,6 @@
     width: 100%;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
-    animation: fadeIn 0.5s ease-in-out;
   }
 
 
@@ -99,7 +97,6 @@
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
-    animation: fadeIn 0.5s ease-in-out;
   }
 
   /* Animación de entrada */
