@@ -239,7 +239,9 @@
                     // Renderizar Vuelos
                     widgetContainer.appendChild(widgetAir);
                     crearPopupVuelos(); // Crear el popup de habitaciones
-                    inicializarFlatpickr()
+                    inicializarFlatpickr();
+                    cargarAutocompletes();
+                    botonBusquedaVuelos(); // Asignar el evento al botón de búsqueda
                 }
 
                 // ---------------------------- TAB HOTELES --------------------------------
@@ -511,10 +513,132 @@
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
 
+// ------------ FUNCIONES GENERALES -------------------
+// Autocomplete
+
+let airports = [];
+
+// external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
+function autocompleteSearch(inputId, autocompleteListId, data) {
+    const input = document.querySelector(inputId);
+    const autocompleteList = document.querySelector(autocompleteListId);
+
+    // Si necesitas manejar un hiddenSelect
+    const hiddenSelectId = inputId === "#origen" ? "#origen-id" : "#destino-id";
+    const hiddenSelect = document.querySelector(hiddenSelectId);
+
+    // Función para normalizar cadenas (eliminar tildes)
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    input.addEventListener("input", function () {
+        const query = normalizeString(input.value.trim());
+        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+        if (!query) {
+            if (hiddenSelect) hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
+            return;
+        }
+
+        // Filtrar las coincidencias en la lista de datos
+        const filteredEntries = data
+            // Por ahora lo oculto porque falta validar por que en medellin se pone eso
+            .filter(entry => !entry.toLowerCase().includes("punto de partida")) // Excluir "punto de partida"
+            .filter(entry => normalizeString(entry).includes(query)); // Coincidencias con la consulta normalizada
+
+        // Mostrar las coincidencias en el autocompletado
+        filteredEntries.forEach(entry => {
+            // Dividir la entrada si contiene el carácter "|"
+            const parts = entry.split(" | ");
+            const displayText = parts.length > 1 ? parts[1] : entry; // Mostrar solo la segunda parte si existe
+
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            item.textContent = displayText; // Mostrar solo la segunda parte
+            const match = displayText.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
+            if (match) {
+                const ids = match[1].split("-"); // Dividir el contenido por "-"
+                if (ids.length > 1) {
+                    item.textContent = `${displayText.replace(/\(.*?\)/, '').trim()} (${ids[1].trim()})`; // Mostrar el texto sin el primer paréntesis y agregar el segundo
+                }
+            }
+
+            autocompleteList.appendChild(item);
+
+            // Manejar el clic en una sugerencia
+            item.addEventListener("click", function () {
+                input.value = displayText; // Establecer el valor seleccionado en el input
+                autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
+
+                // Extraer el ID del aeropuerto del texto seleccionado
+                const match = entry.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
+                let id = match ? match[1] : ""; // Si hay coincidencia, extraer el contenido
+
+                // Si el contenido tiene un guion "-", tomar solo el segundo ID
+                if (id.includes("-")) {
+                    id = id.split("-")[1].trim(); // Dividir y tomar solo el segundo ID
+                }
+
+                // Actualizar el hiddenSelect con el ID
+                if (hiddenSelect) {
+                    hiddenSelect.innerHTML = ""; // Limpiar el select
+                    const option = document.createElement("option");
+                    option.value = id; // Guardar el ID en el select
+                    option.selected = true;
+                    hiddenSelect.appendChild(option);
+                }
+                console.log('id', id); // Mostrar el ID en la consola
+            });
+        });
+    });
+
+    // Cerrar la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
+        }
+    });
+}
+
+// Flatpickr
+function inicializarFlatpickr() {
+    const fechaRango = document.querySelector("#fecha-rango");
+    if (fechaRango && typeof flatpickr !== 'undefined') {
+        flatpickr("#fecha-rango", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            showMonths: 2,
+            minDate: "today", // Disable dates earlier than today
+            onClose: function (selectedDates) {
+                if (selectedDates.length === 2) {
+                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                    console.log("Fecha de inicio:", fecha1);
+                    console.log("Fecha de fin:", fecha2);
+                }
+            }
+        });
+    } else {
+        console.error("El input #fecha-rango no existe o Flatpickr no está cargado.");
+    }
+}
+
+// Mostrar autocomplete
+function cargarAutocompletes() {
+    // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
+    if (typeof external_file_AirportsCities !== "undefined") {
+        autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities);
+        autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities);
+    } else {
+        console.error("external_file_AirportsCities no está definido.");
+    }
+};
+
 
 //  -------------- FUNCIONES AIRHOTEL ---------------
 
-// -------------------- POPUP -----------------------
+// Popup
 
 function crearPopupPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
@@ -822,10 +946,9 @@ function crearPopupPaquetes() {
     });
 };
 
-// ----------------- GENERAR URL ---------------------
 
 // Crear la url
-function generateURL() {
+function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
     const host = "https://reservas.aviajarcolombia.com/";
@@ -881,7 +1004,7 @@ function generateURL() {
     return url;
 }
 
-// -------------- BOTON DE BUSQUEDA ------------------
+// Boton busqueda
 
 function botonBusqueda() {
     const widgetContainer = document.getElementById('widget-container');
@@ -936,7 +1059,7 @@ function botonBusqueda() {
 
         // Si todos los campos son válidos, generar la URL
         if (valid) {
-            const generatedURL = generateURL();
+            const generatedURL = generateURLPaquetes();
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
 
@@ -970,133 +1093,10 @@ function botonBusqueda() {
     });
 };
 
-// ------------------- AUTOCOMPLETE ------------------
-
-let airports = [];
-
-// external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
-function autocompleteSearch(inputId, autocompleteListId, data) {
-    const input = document.querySelector(inputId);
-    const autocompleteList = document.querySelector(autocompleteListId);
-
-    // Si necesitas manejar un hiddenSelect
-    const hiddenSelectId = inputId === "#origen" ? "#origen-id" : "#destino-id";
-    const hiddenSelect = document.querySelector(hiddenSelectId);
-
-    // Función para normalizar cadenas (eliminar tildes)
-    function normalizeString(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    }
-
-    input.addEventListener("input", function () {
-        const query = normalizeString(input.value.trim());
-        autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-
-        if (!query) {
-            if (hiddenSelect) hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
-            return;
-        }
-
-        // Filtrar las coincidencias en la lista de datos
-        const filteredEntries = data
-            // Por ahora lo oculto porque falta validar por que en medellin se pone eso
-            .filter(entry => !entry.toLowerCase().includes("punto de partida")) // Excluir "punto de partida"
-            .filter(entry => normalizeString(entry).includes(query)); // Coincidencias con la consulta normalizada
-
-        // Mostrar las coincidencias en el autocompletado
-        filteredEntries.forEach(entry => {
-            // Dividir la entrada si contiene el carácter "|"
-            const parts = entry.split(" | ");
-            const displayText = parts.length > 1 ? parts[1] : entry; // Mostrar solo la segunda parte si existe
-
-            const item = document.createElement("div");
-            item.className = "autocomplete-item";
-            item.textContent = displayText; // Mostrar solo la segunda parte
-            const match = displayText.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
-            if (match) {
-                const ids = match[1].split("-"); // Dividir el contenido por "-"
-                if (ids.length > 1) {
-                    item.textContent = `${displayText.replace(/\(.*?\)/, '').trim()} (${ids[1].trim()})`; // Mostrar el texto sin el primer paréntesis y agregar el segundo
-                }
-            }
-
-            autocompleteList.appendChild(item);
-
-            // Manejar el clic en una sugerencia
-            item.addEventListener("click", function () {
-                input.value = displayText; // Establecer el valor seleccionado en el input
-                autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
-
-                // Extraer el ID del aeropuerto del texto seleccionado
-                const match = entry.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
-                let id = match ? match[1] : ""; // Si hay coincidencia, extraer el contenido
-
-                // Si el contenido tiene un guion "-", tomar solo el segundo ID
-                if (id.includes("-")) {
-                    id = id.split("-")[1].trim(); // Dividir y tomar solo el segundo ID
-                }
-
-                // Actualizar el hiddenSelect con el ID
-                if (hiddenSelect) {
-                    hiddenSelect.innerHTML = ""; // Limpiar el select
-                    const option = document.createElement("option");
-                    option.value = id; // Guardar el ID en el select
-                    option.selected = true;
-                    hiddenSelect.appendChild(option);
-                }
-                console.log('id', id); // Mostrar el ID en la consola
-            });
-        });
-    });
-
-    // Cerrar la lista de sugerencias si el usuario hace clic fuera
-    document.addEventListener("click", function (e) {
-        if (!autocompleteList.contains(e.target) && e.target !== input) {
-            autocompleteList.innerHTML = ""; // Limpiar las sugerencias
-        }
-    });
-}
-
-// -------------------
-
-// Flatpickr
-function inicializarFlatpickr() {
-    const fechaRango = document.querySelector("#fecha-rango");
-    if (fechaRango && typeof flatpickr !== 'undefined') {
-        flatpickr("#fecha-rango", {
-            mode: "range",
-            dateFormat: "Y-m-d",
-            showMonths: 2,
-            minDate: "today", // Disable dates earlier than today
-            onClose: function (selectedDates) {
-                if (selectedDates.length === 2) {
-                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
-                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
-                    console.log("Fecha de inicio:", fecha1);
-                    console.log("Fecha de fin:", fecha2);
-                }
-            }
-        });
-    } else {
-        console.error("El input #fecha-rango no existe o Flatpickr no está cargado.");
-    }
-}
-
-// Mostrar autocomplete
-function cargarAutocompletes() {
-    // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
-    if (typeof external_file_AirportsCities !== "undefined") {
-        autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities);
-        autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities);
-    } else {
-        console.error("external_file_AirportsCities no está definido.");
-    }
-};
 
 // //  -------------- FUNCIONES AIR ---------------
 
 // Crear popup
-
 function crearPopupVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -1129,9 +1129,10 @@ function crearPopupVuelos() {
     document.querySelector("#accept-popup")?.addEventListener("click", function () {
         let totalAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 0;
         let totalNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0;
+        let totalInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0;
 
         // Actualizar el input de pasajeros con el total
-        numPasajerosInput.value = totalAdultos + totalNinos;
+        numPasajerosInput.value = totalAdultos + totalNinos + totalInfantes;
 
         // Ocultar el popup
         pasajerosPopup.style.display = "none";
@@ -1161,10 +1162,23 @@ function crearPopupVuelos() {
         </div>
     `;
 
+    // Crear el contenedor para infantes
+    const infantesContainer = document.createElement("div");
+    infantesContainer.className = "numeric-input-group";
+    infantesContainer.innerHTML = `
+        <label>Infantes:</label>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-infantes">-</button>
+            <input type="number" id="numeric-value-infantes" value="0" min="0" max="2">
+            <button class="increment" id="increment-infantes">+</button>
+        </div>
+    `;
+
     // Limpiar el contenedor y agregar los nuevos elementos
     pasajerosContainer.innerHTML = "";
     pasajerosContainer.appendChild(adultosContainer);
     pasajerosContainer.appendChild(ninosContainer);
+    pasajerosContainer.appendChild(infantesContainer);
 
     // Agregar eventos para manejar los botones de incremento y decremento
     document.querySelector("#decrement-adultos").addEventListener("click", function () {
@@ -1197,5 +1211,146 @@ function crearPopupVuelos() {
         if (currentValue < parseInt(inputNinos.max)) {
             inputNinos.value = currentValue + 1;
         }
+    });
+
+    document.querySelector("#decrement-infantes").addEventListener("click", function () {
+        const inputInfantes = document.querySelector("#numeric-value-infantes");
+        let currentValue = parseInt(inputInfantes.value) || 0;
+        if (currentValue > parseInt(inputInfantes.min)) {
+            inputInfantes.value = currentValue - 1;
+        }
+    });
+
+    document.querySelector("#increment-infantes").addEventListener("click", function () {
+        const inputInfantes = document.querySelector("#numeric-value-infantes");
+        let currentValue = parseInt(inputInfantes.value) || 0;
+        if (currentValue < parseInt(inputInfantes.max)) {
+            inputInfantes.value = currentValue + 1;
+        }
+    });
+}
+
+// Generar URL
+function generateURLVuelos() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    const host = "https://reservas.aviajarcolombia.com/";
+    const culture = "es-CO";
+    const productType = "Air";
+    const tripType = "RT"; // Tipo de viaje: RT (ida y vuelta)
+
+    // Obtener valores del formulario
+    const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
+    const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
+    const dateFrom = dateRange[0] || ""; // Fecha de ida
+    const dateTo = dateRange[1] || ""; // Fecha de regreso
+
+    const numAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 1; // Número de adultos
+    const numNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0; // Número de niños
+    const numInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0; // Número de infantes
+
+    const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
+    const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
+
+    // Validar que todos los campos requeridos estén completos
+    if (!cityFrom || !cityTo || !dateFrom || !dateTo) {
+        console.error("Faltan parámetros obligatorios para generar la URL.");
+        return null;
+    }
+
+    // Construir la URL final
+    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/aviajar-show-003---------#air`;
+
+    console.log("Generated URL:", url);
+    return url;
+}
+
+// Botón de búsqueda
+function botonBusquedaVuelos() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+        e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+
+        // Inicializar la variable valid
+        let valid = true;
+
+        // Obtener los valores de los campos
+        const origenInput = document.querySelector("#origen");
+        const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
+        const origenSelect = document.querySelector("#origen-id");
+        const destinoSelect = document.querySelector("#destino-id");
+
+        function showError(input) {
+            // Resaltar el input con un borde rojo
+            input.classList.add("input-error");
+        }
+
+        function clearError(input) {
+            // Quitar el borde rojo del input
+            input.classList.remove("input-error");
+        }
+
+        // Validar que se haya seleccionado un origen desde el autocompletado
+        if (!origenSelect || !origenSelect.value) {
+            showError(origenInput);
+            valid = false;
+        } else {
+            clearError(origenInput);
+        }
+
+        // Validar que se haya seleccionado un destino desde el autocompletado
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput);
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        // Validar que el rango de fechas no esté vacío
+        if (!fechaRangoInput.value) {
+            showError(fechaRangoInput);
+            valid = false;
+        } else {
+            clearError(fechaRangoInput);
+        }
+
+        // Si todos los campos son válidos, generar la URL
+        if (valid) {
+            const generatedURL = generateURLVuelos();
+            // Redirigir al usuario a la URL generada
+            window.location.href = generatedURL;
+
+            // Limpiar basura del select origen y destino
+            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
+                const selectedOption = select.querySelector("option[selected]");
+                if (!selectedOption) {
+                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
+                }
+            });
+
+            // Limpiar los inputs de origen, destino y fecha-rango
+            origenInput.value = "";
+            destinoInput.value = "";
+            fechaRangoInput.value = "";
+        }
+    });
+
+    // Quitar la clase input-error cuando el usuario selecciona algo desde el autocompletado
+    document.querySelector("#origen").addEventListener("input", function () {
+        this.classList.remove("input-error");
+    });
+
+    document.querySelector("#destino").addEventListener("input", function () {
+        this.classList.remove("input-error");
+    });
+
+    // Quitar la clase input-error cuando el rango de fechas cambie
+    document.querySelector("#fecha-rango").addEventListener("change", function () {
+        this.classList.remove("input-error");
     });
 }
