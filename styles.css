@@ -26,8 +26,7 @@
     justify-content: left;
     height: 100%;
     gap; 20px;
-    padding: 20px;
-    top: 50px;
+    padding-bottom: 0px;
     position: relative;
     border-radius: 10px;
   }
@@ -84,8 +83,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 50px;
     padding-top: 20px;
+    padding-bottom: 50px;
   }
 
   /* Contenedor principal del widget */
@@ -646,15 +645,84 @@
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
+  /* Radios */
+  .radio-group {
+    display: flex;
+    justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
+    align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
+    margin-bottom: 20px;
+    position: absolute;
+    top: 203px;
+    left: 500px;
+    gap: 10px;
+  }
+
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    top: 1px;
+    position: relative;
+    text-align: left;
+    left: 0px;
+  }
+
+  #radio-soloida {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+    }
+  }
+
+  #radio-idayregreso {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+    }
+  }
+
   /* Checkboxs */
   .checkbox-group {
     display: flex;
     justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
-    padding: 10px;
     position: absolute;
-    top: 320px; /* Ajusta la posición vertical según sea necesario */
+    top: 200px;
+    gap: 10px;
   }
 
   .checkbox {
@@ -681,7 +749,6 @@
     top: 5px;
     width: 20px;
     height: 20px;
-    background-color: var(--background-color);
     appearance: none;
     border: 1px solid #ddd;
     cursor: pointer;

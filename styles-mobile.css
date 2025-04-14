@@ -27,8 +27,7 @@
     align-items: center;
     justify-content: left;
     height: 100%;
-    padding: 20px;
-    top: 50px;
+    padding-bottom: 5px;
     position: relative;
     max-width: 100%; /* Evita que exceda el ancho del contenedor padre */
     box-sizing: border-box; /* Incluye padding y borde en el ancho */
@@ -362,7 +361,6 @@
     border-radius: 5px;
     position: relative;
     gap: 10px;
-    margin-bottom: 10px;
   }
 
   .habitaciones {
@@ -628,6 +626,72 @@
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
+  /* Radios */
+  .radio-group {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .radio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    top: 1px;
+    position: relative;
+    text-align: left;
+    left: 0px;
+  }
+
+  #radio-soloida {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+    }
+  }
+
+  #radio-idayregreso {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+    }
+  }
+
   /* Checkboxs */
   .checkbox-group {
     display: flex;
@@ -651,7 +715,6 @@
     top: -3px;
     position: relative;
     text-align: left;
-    font-size: 14px;
     left: -10px;
   }
 
@@ -660,7 +723,6 @@
     top: 5px;
     width: 20px;
     height: 20px;
-    background-color: var(--background-color);
     appearance: none;
     border: 1px solid #ddd;
     cursor: pointer;

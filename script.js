@@ -65,11 +65,6 @@
                     widgetPackage.id = 'widget-package';
                     widgetPackage.innerHTML = `
                     <div class="widget widget-package" id="widget-container">
-                        <div class="widget-header">
-                            <div class="header">
-                            <h3>Buscar Paquetes en Oferta</h3>
-                            </div>
-                        </div>
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -163,11 +158,6 @@
                     widgetAir.id = 'widget-air';
                     widgetAir.innerHTML = `
                     <div class="widget" id="widget-container">
-                        <div class="widget-header">
-                            <div class="header">
-                            <h3>VUELOS</h3>
-                            </div>
-                        </div>
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -217,14 +207,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="radio-group">
+                                <div class="radio">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso">
+                                    <label for="radio-idayregreso">Ida y regreso</label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida" checked>
+                                    <label for="radio-soloida">Solo ida</label>
+                                </div>
+                            </div>
                             <div class="checkbox-group">
                                 <div class="checkbox">
-                                    <input id="checkbox-soloida" type="checkbox">
-                                    <label for="checkbox-soloida">Solo ida</label>
+                                    <input id="checkbox-vequipaje" type="checkbox">
+                                    <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
                                 </div>
                                 <div class="checkbox">
-                                    <input id="checkbox-idayregreso" type="checkbox">
-                                    <label for="checkbox-idayregreso">Ida y regreso</label>
+                                    <input id="checkbox-vdirecto" type="checkbox">
+                                    <label for="checkbox-vdirecto">Solo vuelos directos</label>
                                 </div>
                             </div>
                             <div class="boton-buscar">
@@ -251,11 +251,6 @@
                     widgetHotel.id = 'widget-air';
                     widgetHotel.innerHTML = `
                     <div class="widget" id="widget-container">
-                        <div class="widget-header">
-                            <div class="header">
-                            <h3>HOTELES</h3>
-                            </div>
-                        </div>
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -338,11 +333,6 @@
                     widgetAutos.id = 'widget-air';
                     widgetAutos.innerHTML = `
                     <div class="widget" id="widget-container">
-                        <div class="widget-header">
-                            <div class="header">
-                            <h3>AUTOS</h3>
-                            </div>
-                        </div>
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -425,11 +415,6 @@
                     widgetTours.id = 'widget-air';
                     widgetTours.innerHTML = `
                     <div class="widget" id="widget-container">
-                        <div class="widget-header">
-                            <div class="header">
-                            <h3>TOURS</h3>
-                            </div>
-                        </div>
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -1238,14 +1223,16 @@ function generateURLVuelos() {
     const host = "https://reservas.aviajarcolombia.com/";
     const culture = "es-CO";
     const productType = "Air";
-    const tripType = "RT"; // Tipo de viaje: RT (ida y vuelta)
+
+    // Determinar el tipo de viaje (RT: Ida y regreso, OW: Solo ida)
+    const tripType = document.querySelector("#radio-soloida")?.checked ? "OW" : "RT";
 
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
     const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de ida
-    const dateTo = dateRange[1] || ""; // Fecha de regreso
+    const dateTo = tripType === "RT" ? (dateRange[1] || "") : ""; // Fecha de regreso (solo si es RT)
 
     const numAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 1; // Número de adultos
     const numNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0; // Número de niños
@@ -1255,7 +1242,7 @@ function generateURLVuelos() {
     const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
 
     // Validar que todos los campos requeridos estén completos
-    if (!cityFrom || !cityTo || !dateFrom || !dateTo) {
+    if (!cityFrom || !cityTo || !dateFrom || (tripType === "RT" && !dateTo)) {
         console.error("Faltan parámetros obligatorios para generar la URL.");
         return null;
     }
