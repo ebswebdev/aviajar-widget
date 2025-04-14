@@ -209,11 +209,11 @@
                             </div>
                             <div class="radio-group">
                                 <div class="radio">
-                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
                                     <label for="radio-idayregreso">Ida y regreso</label>
                                 </div>
                                 <div class="radio">
-                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida" checked>
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
                                     <label for="radio-soloida">Solo ida</label>
                                 </div>
                             </div>
