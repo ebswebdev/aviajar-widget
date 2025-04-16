@@ -1,5 +1,5 @@
 /* MOBILE */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   :root {
     --primary-color: #fdbe15; /* Color amarillo característico */
     --secondary-color: #004481; /* Azul oscuro para contrastes */
@@ -92,11 +92,9 @@
     flex-direction: column;
     border-radius: 10px;
     border: 1px solid #ddd;
-    padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
-    margin: 0 auto; /* Centrar el widget horizontalmente */
   }
 
   /* Animación de entrada */
@@ -199,6 +197,10 @@
 
   .widget-package {
     width: 100% !important;
+  }
+
+  .widget-container {
+    padding: 20px;
   }
 
   /* Contenedor de habitaciones (Popup) */

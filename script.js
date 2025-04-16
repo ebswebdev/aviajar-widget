@@ -5,31 +5,35 @@
         const widgetContainer = document.getElementById('widget-aviajar');
         if (!widgetContainer) return;
 
-        // Crear tabs para Paquetes, Vuelos, Hoteles, Renta de autos
+        // Leer products
+        const products = widgetContainer
+            .getAttribute('products')
+            ?.replace(/[\[\]\s]/g, '') // Eliminar los corchetes "[" y "]" y los espacios en blanco
+            .split(',') || [];
+        console.log(products);
+
+        const tabsConfig = {
+            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', text: 'Paquetes' },
+            Air: { id: 'vuelos', icon: 'fa-plane', text: 'Vuelos' },
+            Hotel: { id: 'hoteles', icon: 'fa-h-square', text: 'Hoteles' },
+            Autos: { id: 'autos', icon: 'fa-car', text: 'Autos' },
+            Extras: { id: 'tours', icon: 'fa-ticket-alt', text: 'Tours' }
+        };
+
+        // Crear las tabs dinámicamente según el atributo "products"
         const tabs = document.createElement('div');
         tabs.className = 'tabs';
-        tabs.innerHTML = `
-            <div class="tab" id="tab-paquetes">
-                <i class="fa fa-suitcase" aria-hidden="true"></i>
-                <span class="tab-text"> Paquetes</span>
-            </div>
-            <div class="tab" id="tab-vuelos">
-                <i class="fa fa-plane" aria-hidden="true"></i>
-                <span class="tab-text"> Vuelos</span>
-            </div>
-            <div class="tab" id="tab-hoteles">
-                <i class="fa fa-h-square" aria-hidden="true"></i>
-                <span class="tab-text"> Hoteles</span>
-            </div>
-            <div class="tab" id="tab-autos">
-                <i class="fa fa-car" aria-hidden="true"></i>
-                <span class="tab-text"> Autos</span>
-            </div>
-            <div class="tab" id="tab-tours">
-                <i class="fa fa-ticket-alt" aria-hidden="true"></i>
-                <span class="tab-text"> Tours</span>
-            </div>
-        `;
+        tabs.innerHTML = products
+            .map(product => {
+                const config = tabsConfig[product] || {};
+                return `
+                    <div class="tab" id="tab-${config.id}">
+                        <i class="fa ${config.icon}" aria-hidden="true"></i>
+                        <span class="tab-text"> ${config.text}</span>
+                    </div>
+                `;
+            })
+            .join('');
         widgetContainer.appendChild(tabs);
 
         // Agregar evento de clic a cada tab
@@ -40,6 +44,7 @@
                 this.classList.add('active');
                 const selectedTab = this.id.replace('tab-', '');
                 widgetContainer.setAttribute('selected-tab', selectedTab);
+
                 // Cambiar el estilo del tab seleccionado
                 this.style.backgroundColor = "#fff"; // Cambiar el fondo del tab seleccionado
                 this.style.color = "#000"; // Cambiar el color del texto del tab seleccionado
@@ -49,7 +54,6 @@
                         t.style.color = ""; // Restaurar el color del texto de los otros tabs
                     }
                 });
-                console.log(`Selected tab: ${selectedTab}`);
 
                 // Eliminar widgets existentes antes de crear uno nuevo
                 const existingWidget = document.querySelector('#widget-container');
@@ -57,14 +61,27 @@
                     existingWidget.remove();
                 }
 
-                // -------------------------------- TAB PAQUETES ---------------------------------------------
-                // Si se selecciona paquetes en tabs, se asigna el atributo products a AirHotel
-                if (selectedTab === 'paquetes') {
-                    widgetContainer.setAttribute('products', 'AirHotel');
-                    const widgetPackage = document.createElement('div');
-                    widgetPackage.id = 'widget-package';
-                    widgetPackage.innerHTML = `
-                    <div class="widget widget-package" id="widget-container">
+                // Crear el widget correspondiente al tab seleccionado
+                createWidgetContent(selectedTab);
+            });
+        });
+
+        // Seleccionar y renderizar el primer tab por defecto
+        if (products.length > 0) {
+            const firstTab = tabsList[0];
+            firstTab.click(); // Simular clic en el primer tab
+        }
+    }
+
+    function createWidgetContent(selectedTab) {
+        const widgetContainer = document.getElementById('widget-aviajar');
+        if (!widgetContainer) return;
+
+        let widgetHTML = '';
+        switch (selectedTab) {
+            case 'paquetes':
+                widgetHTML = `
+                <div class="widget widget-package" id="widget-container">
                         <div class="widget-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -111,7 +128,6 @@
                             </div>
                             <div id="hab-popup" class="popup">
                                 <div class="popup-content">
-                                    <span class="close-popup">&times;</span>
                                     <div class="popup-header">
                                         <label for="popup-num-hab">Número de habitaciones:</label>
                                         <input id="popup-num-hab" type="number" min="1" max="20" value="1">
@@ -141,23 +157,11 @@
                         </div>
                     </div>
                     `;
-                    // Renderizar paquetes
-                    widgetContainer.appendChild(widgetPackage);
-                    crearPopupPaquetes(); // Crear el popup de habitaciones
-                    botonBusqueda(); // Asignar el evento al botón de búsqueda
-                    inicializarFlatpickr();
-                    cargarAutocompletes()
+                break;
 
-                }
-
-                // ---------------------------- TAB VUELOS --------------------------------
-
-                if (selectedTab === 'vuelos') {
-                    widgetContainer.setAttribute('products', 'Air');
-                    const widgetAir = document.createElement('div');
-                    widgetAir.id = 'widget-air';
-                    widgetAir.innerHTML = `
-                    <div class="widget" id="widget-container">
+            case 'vuelos':
+                widgetHTML = `
+                <div class="widget" id="widget-container">
                         <div class="widget-container vuelos-container">
                             <div class="origen-destino">
                                 <div class="origen">
@@ -236,22 +240,14 @@
                         </div>
                     </div>
                     `;
-                    // Renderizar Vuelos
-                    widgetContainer.appendChild(widgetAir);
-                    crearPopupVuelos(); // Crear el popup de habitaciones
-                    inicializarFlatpickr();
-                    cargarAutocompletes();
-                    botonBusquedaVuelos(); // Asignar el evento al botón de búsqueda
-                }
 
-                // ---------------------------- TAB HOTELES --------------------------------
-                if (selectedTab === 'hoteles') {
-                    widgetContainer.setAttribute('products', 'Hotel');
-                    const widgetHotel = document.createElement('div');
-                    widgetHotel.id = 'widget-air';
-                    widgetHotel.innerHTML = `
-                    <div class="widget" id="widget-container">
-                        <div class="widget-container">
+
+                break;
+
+            case 'hoteles':
+                widgetHTML = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container vuelos-container">
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
@@ -288,17 +284,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="hab-popup" class="popup">
+                            <div id="pasajeros-popup" class="popup">
                                 <div class="popup-content">
                                     <span class="close-popup">&times;</span>
                                     <div class="popup-header">
-                                        <label for="popup-num-hab">Número de habitaciones:</label>
-                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
                                     </div>
-                                    <div id="hab-container"></div>
+                                    <div id="pasajeros-container"></div>
                                     <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="radio-group">
+                                <div class="radio">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
+                                    <label for="radio-idayregreso">Ida y regreso</label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
+                                    <label for="radio-soloida">Solo ida</label>
                                 </div>
                             </div>
                             <div class="checkbox-group">
@@ -320,20 +325,14 @@
                         </div>
                     </div>
                     `;
-                    // Renderizar Vuelos
-                    widgetContainer.appendChild(widgetHotel);
-                    inicializarFlatpickr()
 
-                }
 
-                // ------------------------------ TAB AUTOS --------------------------------
-                if (selectedTab === 'autos') {
-                    widgetContainer.setAttribute('products', 'Autos');
-                    const widgetAutos = document.createElement('div');
-                    widgetAutos.id = 'widget-air';
-                    widgetAutos.innerHTML = `
-                    <div class="widget" id="widget-container">
-                        <div class="widget-container">
+                break;
+
+            case 'autos':
+                widgetHTML = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container vuelos-container">
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
@@ -370,17 +369,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="hab-popup" class="popup">
+                            <div id="pasajeros-popup" class="popup">
                                 <div class="popup-content">
                                     <span class="close-popup">&times;</span>
                                     <div class="popup-header">
-                                        <label for="popup-num-hab">Número de habitaciones:</label>
-                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
                                     </div>
-                                    <div id="hab-container"></div>
+                                    <div id="pasajeros-container"></div>
                                     <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="radio-group">
+                                <div class="radio">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
+                                    <label for="radio-idayregreso">Ida y regreso</label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
+                                    <label for="radio-soloida">Solo ida</label>
                                 </div>
                             </div>
                             <div class="checkbox-group">
@@ -402,20 +410,14 @@
                         </div>
                     </div>
                     `;
-                    // Renderizar Vuelos
-                    widgetContainer.appendChild(widgetAutos);
-                    inicializarFlatpickr()
-                }
 
 
-                // ------------------------------ TAB TOURS --------------------------------
-                if (selectedTab === 'tours') {
-                    widgetContainer.setAttribute('products', 'Tours');
-                    const widgetTours = document.createElement('div');
-                    widgetTours.id = 'widget-air';
-                    widgetTours.innerHTML = `
-                    <div class="widget" id="widget-container">
-                        <div class="widget-container">
+                break;
+
+            case 'tours':
+                widgetHTML = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container vuelos-container">
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
@@ -452,17 +454,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="hab-popup" class="popup">
+                            <div id="pasajeros-popup" class="popup">
                                 <div class="popup-content">
                                     <span class="close-popup">&times;</span>
                                     <div class="popup-header">
-                                        <label for="popup-num-hab">Número de habitaciones:</label>
-                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
                                     </div>
-                                    <div id="hab-container"></div>
+                                    <div id="pasajeros-container"></div>
                                     <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="radio-group">
+                                <div class="radio">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
+                                    <label for="radio-idayregreso">Ida y regreso</label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
+                                    <label for="radio-soloida">Solo ida</label>
                                 </div>
                             </div>
                             <div class="checkbox-group">
@@ -484,19 +495,32 @@
                         </div>
                     </div>
                     `;
-                    // Renderizar Vuelos
-                    widgetContainer.appendChild(widgetTours);
-                    inicializarFlatpickr()
-                }
 
-            });
-        });
 
-        // let products = widgetContainer.getAttribute('products') || '';
-        // let destination = widgetContainer.getAttribute('destination') || '';
+                break;
+
+            default:
+                widgetHTML = `<p>Widget no disponible</p>`;
+        }
+
+        widgetContainer.insertAdjacentHTML('beforeend', widgetHTML);
+
+        // Inicializar funcionalidades específicas del widget
+        inicializarFlatpickr();
+        cargarAutocompletes();
+
+        // Paquetes
+        crearPopupPaquetes();
+        botonBusquedaPaquetes();
+
+        // Vuelos
+        crearPopupVuelos();
+        botonBusquedaVuelos();
     }
+
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
+
 
 // ------------ FUNCIONES GENERALES -------------------
 // Autocomplete
@@ -624,7 +648,6 @@ function cargarAutocompletes() {
 //  -------------- FUNCIONES AIRHOTEL ---------------
 
 // Popup
-
 function crearPopupPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -632,56 +655,16 @@ function crearPopupPaquetes() {
     const numHabInput = document.querySelector("#num-hab");
     const popupNumHabInput = document.querySelector("#popup-num-hab");
     const habPopup = document.querySelector("#hab-popup");
-    const closePopup = document.querySelector(".close-popup");
     const habitacionesContainer = document.querySelector("#hab-container");
 
-    if (!numHabInput || !popupNumHabInput || !habPopup || !closePopup || !habitacionesContainer) return;
+    if (!numHabInput || !popupNumHabInput || !habPopup || !habitacionesContainer) return;
 
     // Mostrar el popup al hacer clic en el campo de habitaciones
     numHabInput.addEventListener("click", function () {
         habPopup.style.display = "flex"; // Mostrar el popup
     });
 
-    // Cerrar el popup al hacer clic en el botón de cierre
-    closePopup.addEventListener("click", function () {
-        habPopup.style.display = "none"; // Ocultar el popup
-    });
-
-    // Cerrar el popup al hacer clic fuera del contenido
-    habPopup.addEventListener("click", function (e) {
-        if (e.target === habPopup) {
-            habPopup.style.display = "none"; // Ocultar el popup
-        }
-    });
-
-    // Cerrar el popup al hacer click en el botón
-    document.querySelector("#accept-popup")?.addEventListener("click", function () {
-        habPopup.style.display = "none"; // Ocultar el popup
-    });
-
-    // Limitar numero de habitaciones       
-    popupNumHabInput.addEventListener("input", function () {
-        let numHab = parseInt(popupNumHabInput.value);
-
-        // Validar que el número esté dentro del rango permitido
-        if (numHab < 1 || numHab > 20) {
-            popupNumHabInput.value = 20;
-            return;
-        }
-
-        popupNumHabInput.value = numHab; // Actualizar el valor en el input
-        numHabInput.value = numHab; // Sincronizar con el campo principal
-        generarHabitaciones(numHab); // Regenerar las habitaciones
-    });
-
-    // Actualizar numero de pasajeros desde el popup
-    popupNumHabInput.addEventListener("input", function () {
-        const numHab = parseInt(popupNumHabInput.value) || 1;
-        numHabInput.value = numHab; // Sincronizar el valor con el campo principal
-        generarHabitaciones(numHab); // Regenerar las habitaciones
-    });
-
-    // Sincronizar el número de pasajeros al cerrar el popup
+    // Cerrar el popup al hacer click en el botón "Aceptar"
     document.querySelector("#accept-popup")?.addEventListener("click", function () {
         let totalAdultos = 0;
         let totalNinos = 0;
@@ -695,10 +678,10 @@ function crearPopupPaquetes() {
             totalNinos += numNinos;
         });
 
-        // Update the num-per input with the total passengers
+        // Actualizar el input de pasajeros con el total
         document.querySelector("#num-per").value = totalAdultos + totalNinos;
 
-        // Close the popup
+        // Ocultar el popup
         habPopup.style.display = "none";
     });
 
@@ -931,7 +914,6 @@ function crearPopupPaquetes() {
     });
 };
 
-
 // Crear la url
 function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
@@ -991,7 +973,7 @@ function generateURLPaquetes() {
 
 // Boton busqueda
 
-function botonBusqueda() {
+function botonBusquedaPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 

@@ -1,5 +1,5 @@
 /* DESKTOP */
-@media (min-width: 800px) {
+@media (min-width: 1000px) {
   :root {
     --primary-color: #fdbe15; /* Color amarillo característico */
     --secondary-color: #004481; /* Azul oscuro para contrastes */
