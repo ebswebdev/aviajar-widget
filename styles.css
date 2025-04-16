@@ -646,13 +646,20 @@
   }
 
   /* Radios */
+
+  /* Padding mayor para el de vuelos */
+
+  .vuelos-container{
+    padding-bottom: 100px !important;
+  }
+
   .radio-group {
     display: flex;
     justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
     position: absolute;
-    top: 203px;
+    top: 240px;
     gap: 10px;
   }
 
@@ -702,6 +709,7 @@
     background-color: transparent;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 0px;
 
     &:checked {
       background-color: var(--primary-color);

@@ -158,7 +158,7 @@
                     widgetAir.id = 'widget-air';
                     widgetAir.innerHTML = `
                     <div class="widget" id="widget-container">
-                        <div class="widget-container">
+                        <div class="widget-container vuelos-container">
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
