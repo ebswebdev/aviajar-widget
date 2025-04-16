@@ -71,6 +71,40 @@
             const firstTab = tabsList[0];
             firstTab.click(); // Simular clic en el primer tab
         }
+
+        // Leer el atributo destination y actualizar el input destino
+        const destination = widgetContainer.getAttribute('destination');
+        if (destination) {
+            setDestination(destination);
+        }
+    }
+
+    function setDestination(destinationId) {
+        const inputDestino = document.querySelector('#destino');
+        const hiddenSelectDestino = document.querySelector('#destino-id');
+
+        if (!inputDestino || !hiddenSelectDestino || typeof external_file_AirportsCities === 'undefined') {
+            console.error('No se pudo configurar el destino. Verifica los elementos y datos.');
+            return;
+        }
+
+        // Buscar el destino en la lista de datos
+        const ciudadDestino = external_file_AirportsCities.find(entry => entry.includes(`(${destinationId})`));
+        if (ciudadDestino) {
+            // Extraer la ciudad del texto del autocompletado
+            const parts = ciudadDestino.split(' | ');
+            const displayText = parts.length > 1 ? parts[1] : ciudadDestino;
+
+            // Actualizar el input y el hidden select
+            inputDestino.value = displayText;
+            hiddenSelectDestino.innerHTML = ''; // Limpiar el select
+            const option = document.createElement('option');
+            option.value = destinationId;
+            option.selected = true;
+            hiddenSelectDestino.appendChild(option);
+        } else {
+            console.warn(`No se encontró un destino con el ID: ${destinationId}`);
+        }
     }
 
     function createWidgetContent(selectedTab) {
