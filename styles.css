@@ -960,13 +960,27 @@
   /* VUELOS */
 
   /* Contenedor de habitaciones (Popup) */
+  #pasajeros-popup {
+    display: none; /* Oculto por defecto */
+    background-color: var(--background-color);
+    position: absolute; /* Posicionarlo relativo al contenedor */
+    top: 200px; /* Justo debajo del elemento invocador */
+    left: 50%;
+    width: 400px; /* Ocupa el ancho del contenedor */
+    height: 400px; /* Altura del popup */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  }
+
   #pasajeros-container {
     background-color: var(--background-color);
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 15px;
-    height: 500px;
-    max-height: 500px;
+    height: 200px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
