@@ -596,8 +596,17 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
             const parts = entry.split(" | ");
             const displayText = parts.length > 1 ? parts[1] : entry; // Mostrar solo la segunda parte si existe
 
+            // Determinar si es una ciudad o un aeropuerto
+            const isCity = !entry.includes("-"); // Si no tiene -, es una ciudad
+            const iconClass = isCity ? "fas fa-map-marker-alt" : "fas fa-plane"; // Icono de ciudad o avión
+
+            // Crear el ícono
+            const icon = document.createElement("i");
+            icon.className = iconClass;
+            icon.style.padding = "5px";
+
             const item = document.createElement("div");
-            item.className = "autocomplete-item";
+            item.className = "autocomplete-item"
             item.textContent = displayText; // Mostrar solo la segunda parte
             const match = displayText.match(/\(([^)]+)\)$/); // Buscar el contenido entre paréntesis al final
             if (match) {
@@ -606,6 +615,9 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
                     item.textContent = `${displayText.replace(/\(.*?\)/, '').trim()} (${ids[1].trim()})`; // Mostrar el texto sin el primer paréntesis y agregar el segundo
                 }
             }
+
+            // Agregar el ícono 
+            item.appendChild(icon);
 
             autocompleteList.appendChild(item);
 
