@@ -148,14 +148,14 @@
                                 <div class="habitaciones">
                                     <div class="input-group">
                                         <span class="label-input">HABITACIONES</span>
-                                        <input id="num-hab" type="number" min="1" value="1">
+                                        <input id="num-hab" type="number" min="1" value="1" readonly>
                                         <span class="icon"><i class="fas fa-bed"></i></span>
                                     </div>
                                 </div>
                                 <div class="pasajeros">
                                     <div class="input-group">
                                         <span class="label-input">PERSONAS</span>
-                                        <input id="num-per" type="number" min="1" value="1">
+                                        <input id="num-per" type="number" min="1" value="1" readonly>
                                         <span class="icon"><i class="fas fa-users"></i></span>
                                     </div>
                                 </div>
@@ -693,9 +693,13 @@ function crearPopupPaquetes() {
 
     if (!numHabInput || !popupNumHabInput || !habPopup || !habitacionesContainer) return;
 
+    // Asegúrate de que el contenedor padre tenga `position: relative`
+    numHabInput.parentElement.style.position = "relative";
+
     // Mostrar el popup al hacer clic en el campo de habitaciones
     numHabInput.addEventListener("click", function () {
         habPopup.style.display = "flex"; // Mostrar el popup
+        habPopup.classList.toggle("active"); // Mostrar/ocultar el modal
     });
 
     // Cerrar el popup al hacer click en el botón "Aceptar"
@@ -714,6 +718,9 @@ function crearPopupPaquetes() {
 
         // Actualizar el input de pasajeros con el total
         document.querySelector("#num-per").value = totalAdultos + totalNinos;
+
+        // Remover la clase active para ocultar el popup
+        habPopup.classList.remove("active");
 
         // Ocultar el popup
         habPopup.style.display = "none";

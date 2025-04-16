@@ -206,12 +206,9 @@
 
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
-    background-color: var(--background-color);
-    border-radius: 10px;
-    border: 1px solid #ddd;
     padding: 15px;
-    height: 500px;
-    max-height: 500px;
+    height: 200px;
+    max-height: 200px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
@@ -511,28 +508,12 @@
     pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
   }
 
-  /* Estilo del fondo del popup */
-  .popup {
-    display: none; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    justify-content: center;
-    align-items: center;
-  }
-
   /* Contenido del popup */
   .popup-content {
     background-color: var(--background-color);
     border-radius: 10px;
     padding: 20px;
     width: 100%; /* Ocupa el 100% del ancho disponible */
-    max-width: 400px; /* Igual al max-width de .widget */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
   }
@@ -542,7 +523,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding-bottom: 20px;
   }
 
   .popup-header label {
@@ -550,7 +531,7 @@
     justify-content: space-between;
     align-items: center;
     height: 20px;
-    top: -5px;
+    top: 0px;
   }
 
   .popup-header input {
@@ -563,21 +544,6 @@
     color: var(--text-color);
   }
 
-  /* Botón de cierre */
-  .close-popup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-
-  .close-popup:hover {
-    color: var(--primary-color);
-  }
 
   /* Animación de entrada */
   @keyframes fadeIn {
@@ -589,6 +555,27 @@
       opacity: 1;
       transform: scale(1);
     }
+  }
+
+  /*  */
+  
+  #hab-popup {
+    display: none; /* Oculto por defecto */
+    background-color: var(--background-color);
+    position: absolute; /* Posicionarlo relativo al contenedor */
+    top: 200px; /* Justo debajo del elemento invocador */
+    left: 50%;
+    width: 400px; /* Ocupa el ancho del contenedor */
+    height: 400px; /* Altura del popup */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+  }
+
+  #hab-popup.active {
+    display: block; /* Mostrar el modal cuando esté activo */
   }
 
   /* Inputs */
