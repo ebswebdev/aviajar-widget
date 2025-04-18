@@ -202,6 +202,7 @@
     border-radius: 5px;
     position: relative;
     padding-right: 20px; /* Espacio para el ícono */
+    margin-right: 10px; /* Espacio entre los inputs */
   }
 
   /* Contenedor de habitaciones (Popup) */
