@@ -970,10 +970,15 @@ function crearPopupPaquetes() {
 // Crear la url
 function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
+    const widgetAviajar = document.getElementById('widget-aviajar');
     if (!widgetContainer) return;
     const host = "https://reservas.aviajarcolombia.com/";
     const culture = "es-CO";
     const productType = "Package";
+
+    // Leer los atributos userService y branchCode del HTML
+    const userService = widgetAviajar.getAttribute('userService'); // Valor por defecto: "aviajar"
+    const branchCode = widgetAviajar.getAttribute('branchCode'); // Valor por defecto: "003"
 
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
@@ -1018,7 +1023,7 @@ function generateURLPaquetes() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/aviajar-show-003---------#air`;
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}-show-${branchCode}---------#air`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1083,18 +1088,6 @@ function botonBusquedaPaquetes() {
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
 
-            // Limpiar basura del select origen y destino
-            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
-                const selectedOption = select.querySelector("option[selected]");
-                if (!selectedOption) {
-                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
-                }
-            });
-
-            // Limpiar los inputs de origen, destino y fecha-rango
-            origenInput.value = "";
-            destinoInput.value = "";
-            fechaRangoInput.value = "";
         }
     });
 
