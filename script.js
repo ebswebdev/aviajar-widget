@@ -543,6 +543,11 @@
         inicializarFlatpickr();
         cargarAutocompletes();
 
+        // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
+        window.addEventListener("resize", function () {
+            inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
+        });
+
         // Paquetes
         crearPopupPaquetes();
         botonBusquedaPaquetes();
@@ -660,11 +665,13 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
 function inicializarFlatpickr() {
     const fechaRango = document.querySelector("#fecha-rango");
     if (fechaRango && typeof flatpickr !== 'undefined') {
+        // Detectar el ancho de la pantalla
+        const isMobile = window.innerWidth <= 768; // Considerar móvil si el ancho es menor o igual a 768px
         flatpickr("#fecha-rango", {
             mode: "range",
             dateFormat: "Y-m-d",
-            showMonths: 2,
-            minDate: "today", // Disable dates earlier than today
+            showMonths: isMobile ? 1 : 2, // Mostrar 1 mes en móvil, 2 meses en escritorio
+            minDate: "today", // Deshabilitar fechas anteriores a hoy
             onClose: function (selectedDates) {
                 if (selectedDates.length === 2) {
                     const fecha1 = selectedDates[0].toISOString().split('T')[0];

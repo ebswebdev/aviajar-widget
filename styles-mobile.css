@@ -6,6 +6,29 @@
     --background-color: #f4f4f4; /* Fondo claro */
     --text-color: #333; /* Texto principal */
     --button-hover: #e0a800; /* Color de hover para botones */
+    --font-primary: "Poppins", sans-serif; /* Fuente principal */
+  }
+
+  body {
+    font-family: var(--font-primary);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-primary);
+    font-weight: 600; /* Negrita */
+  }
+
+  p,
+  label,
+  input,
+  button,
+  span {
+    font-family: var(--font-primary);
   }
 
   #widget-aviajar {
@@ -14,12 +37,18 @@
     width: 100%;
     max-width: 1200px; /* Ancho máximo del widget */
     border-radius: 10px;
-    font-family: "Arial", sans-serif;
+    font-family: var(--font-primary) !important;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
     margin: 0 auto; /* Centrar el widget horizontalmente */
     padding: 20px; /* Espacio interno */
-    letter-spacing: 0.5px; /* Espaciado entre letras */
+  }
+
+  .tab,
+  .flatpickr-calendar,
+  .widget,
+  .autocomplete-item {
+    font-family: var(--font-primary) !important;
   }
 
   .tabs {
@@ -58,6 +87,74 @@
   }
   .tab:active {
     transform: scale(1);
+  }
+
+  .tab-text {
+    font-size: 14px;
+    text-align: center; /* Centra el texto dentro del tab */
+  }
+
+  @media (max-width: 480px) {
+    .tab-text {
+      display: none !important; /* Oculta el texto en pantallas muy pequeñas */
+    }
+    .fa,
+    .fas {
+      font-weight: 900;
+      font-size: 15px;
+    }
+  }
+
+  /* Fechas */
+  /* Cambiar el color de fondo del calendario */
+  .flatpickr-calendar {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  /* Cambiar el color de los días seleccionados */
+  .flatpickr-day.selected {
+    background-color: var(--primary-color) !important;
+    color: #fff;
+  }
+
+  /* Cambiar el color de los días al pasar el mouse */
+  .flatpickr-day:hover {
+    background-color: var(--background-color) !important;
+    color: #fff;
+  }
+
+  /* Ajustar el tamaño del calendario en dispositivos móviles */
+  .flatpickr-calendar {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .flatpickr-innerContainer {
+    width: 100%;
+  }
+
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange,
+  .flatpickr-day.endRange,
+  .flatpickr-day.selected.inRange,
+  .flatpickr-day.startRange.inRange,
+  .flatpickr-day.endRange.inRange,
+  .flatpickr-day.selected:focus,
+  .flatpickr-day.startRange:focus,
+  .flatpickr-day.endRange:focus,
+  .flatpickr-day.selected:hover,
+  .flatpickr-day.startRange:hover,
+  .flatpickr-day.endRange:hover,
+  .flatpickr-day.selected.prevMonthDay,
+  .flatpickr-day.startRange.prevMonthDay,
+  .flatpickr-day.endRange.prevMonthDay,
+  .flatpickr-day.selected.nextMonthDay,
+  .flatpickr-day.startRange.nextMonthDay,
+  .flatpickr-day.endRange.nextMonthDay {
+    border-color: var(--primary-color) !important;
+    background-color: var(--primary-color) !important;
   }
 
   #widget-package {
@@ -124,7 +221,7 @@
   /* Etiquetas */
   .widget label {
     display: block;
-    font-size: 15px;
+    font-size: 12px;
     color: var(--text-color);
     top: 10px;
     left: 10px;
