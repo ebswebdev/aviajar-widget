@@ -311,7 +311,7 @@
 
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 15px;
@@ -631,7 +631,8 @@
 
   /* Contenido del popup */
   .popup-content {
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+    background-color: #fff;
     border-radius: 10px;
     padding: 20px;
     width: 100%; /* Ocupa el 100% del ancho disponible */
@@ -654,7 +655,8 @@
     justify-content: space-between;
     align-items: center;
     height: 20px;
-    top: -5px;
+    top: -2px;
+    font-size: 15px !important;
   }
 
   .popup-header input {
