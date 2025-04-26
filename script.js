@@ -24,6 +24,7 @@
         const tabs = document.createElement('div');
         tabs.className = 'tabs';
         tabs.innerHTML = products
+            .filter(product => tabsConfig[product]) // Filtrar solo los productos válidos
             .map(product => {
                 const config = tabsConfig[product] || {};
                 return `
@@ -111,6 +112,12 @@
         const widgetContainer = document.getElementById('widget-aviajar');
         if (!widgetContainer) return;
 
+        // Eliminar el widget existente si ya está presente
+        const existingWidget = document.querySelector('#widget-container');
+        if (existingWidget) {
+            existingWidget.remove();
+        }
+
         let widgetHTML = '';
         switch (selectedTab) {
             case 'paquetes':
@@ -191,6 +198,9 @@
                         </div>
                     </div>
                     `;
+                // Paquetes
+                crearPopupPaquetes();
+                botonBusquedaPaquetes();
 
                 break;
 
@@ -543,19 +553,20 @@
         inicializarFlatpickr();
         cargarAutocompletes();
 
-        // Paquetes
-        crearPopupPaquetes();
-        botonBusquedaPaquetes();
-
-
-        // Vuelos
-        crearPopupVuelos();
-        botonBusquedaVuelos();
-
+        // Inicializar funcionalidades específicas del widget
+        if (selectedTab === 'paquetes') {
+            crearPopupPaquetes();
+            botonBusquedaPaquetes();
+        } else if (selectedTab === 'vuelos') {
+            crearPopupVuelos();
+            botonBusquedaVuelos();
+        }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
-        window.addEventListener("resize", function () {
-            inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
+        document.addEventListener("DOMContentLoaded", function () {
+            window.addEventListener("resize", function () {
+                inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
+            });
         });
     }
 
