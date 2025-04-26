@@ -184,13 +184,14 @@
                             </div>
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn">Buscar</button>
+                                    <button id="buscar-btn-paquetes">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `;
+
                 break;
 
             case 'vuelos':
@@ -267,14 +268,13 @@
                             </div>
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn">Buscar</button>
+                                    <button id="buscar-btn-vuelos">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `;
-
 
                 break;
 
@@ -543,18 +543,20 @@
         inicializarFlatpickr();
         cargarAutocompletes();
 
-        // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
-        window.addEventListener("resize", function () {
-            inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
-        });
-
         // Paquetes
         crearPopupPaquetes();
         botonBusquedaPaquetes();
 
+
         // Vuelos
         crearPopupVuelos();
         botonBusquedaVuelos();
+
+
+        // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
+        window.addEventListener("resize", function () {
+            inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
+        });
     }
 
     document.addEventListener("DOMContentLoaded", createWidget);
@@ -1042,7 +1044,7 @@ function botonBusquedaPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
-    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+    document.querySelector("#buscar-btn-paquetes").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
 
         // Inicializar la variable valid
@@ -1294,7 +1296,7 @@ function botonBusquedaVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
-    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+    document.querySelector("#buscar-btn-vuelos").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
 
         // Inicializar la variable valid
