@@ -981,13 +981,13 @@ function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     const widgetAviajar = document.getElementById('widget-aviajar');
     if (!widgetContainer) return;
-    const host = "https://reservas.aviajarcolombia.com/";
-    const culture = "es-CO";
-    const productType = "Package";
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = widgetAviajar.getAttribute('productType') || "Package";
 
     // Leer los atributos userService y branchCode del HTML
-    const userService = widgetAviajar.getAttribute('userService'); // Valor por defecto: "aviajar"
-    const branchCode = widgetAviajar.getAttribute('branchCode'); // Valor por defecto: "003"
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar'; // Valor por defecto: "aviajar"
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003'; // Valor por defecto: "003"
 
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
@@ -1256,10 +1256,13 @@ function crearPopupVuelos() {
 function generateURLVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = widgetAviajar.getAttribute('productType') || "Air";
 
-    const host = "https://reservas.aviajarcolombia.com/";
-    const culture = "es-CO";
-    const productType = "Air";
+    // Leer los atributos userService y branchCode del HTML
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar'; // Valor por defecto: "aviajar"
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003'; // Valor por defecto: "003"
 
     // Determinar el tipo de viaje (RT: Ida y regreso, OW: Solo ida)
     const tripType = document.querySelector("#radio-soloida")?.checked ? "OW" : "RT";
@@ -1285,7 +1288,7 @@ function generateURLVuelos() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/aviajar-show-003---------#air`;
+    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/${userService}-show-${branchCode}---------#air`;
 
     console.log("Generated URL:", url);
     return url;
