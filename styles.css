@@ -907,8 +907,10 @@
   }
 
   .boton-buscar button:hover {
-    background-color: #d4a200;
+    background-color: var(--primary-color);
+    color: #fff; 
     transform: scale(1.05);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);    transform: scale(1.05);
   }
 
   .boton-buscar button:active {
