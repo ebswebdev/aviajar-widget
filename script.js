@@ -24,6 +24,7 @@
         const tabs = document.createElement('div');
         tabs.className = 'tabs';
         tabs.innerHTML = products
+            .filter(product => tabsConfig[product]) // Filtrar solo los productos válidos
             .map(product => {
                 const config = tabsConfig[product] || {};
                 return `
@@ -111,6 +112,12 @@
         const widgetContainer = document.getElementById('widget-aviajar');
         if (!widgetContainer) return;
 
+        // Eliminar el widget existente si ya está presente
+        const existingWidget = document.querySelector('#widget-container');
+        if (existingWidget) {
+            existingWidget.remove();
+        }
+
         let widgetHTML = '';
         switch (selectedTab) {
             case 'paquetes':
@@ -184,13 +191,17 @@
                             </div>
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn">Buscar</button>
+                                    <button id="buscar-btn-paquetes">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `;
+                // Paquetes
+                crearPopupPaquetes();
+                botonBusquedaPaquetes();
+
                 break;
 
             case 'vuelos':
@@ -267,14 +278,13 @@
                             </div>
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn">Buscar</button>
+                                    <button id="buscar-btn-vuelos">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     `;
-
 
                 break;
 
@@ -543,13 +553,21 @@
         inicializarFlatpickr();
         cargarAutocompletes();
 
-        // Paquetes
-        crearPopupPaquetes();
-        botonBusquedaPaquetes();
+        // Inicializar funcionalidades específicas del widget
+        if (selectedTab === 'paquetes') {
+            crearPopupPaquetes();
+            botonBusquedaPaquetes();
+        } else if (selectedTab === 'vuelos') {
+            crearPopupVuelos();
+            botonBusquedaVuelos();
+        }
 
-        // Vuelos
-        crearPopupVuelos();
-        botonBusquedaVuelos();
+        // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
+        document.addEventListener("DOMContentLoaded", function () {
+            window.addEventListener("resize", function () {
+                inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
+            });
+        });
     }
 
     document.addEventListener("DOMContentLoaded", createWidget);
@@ -660,11 +678,13 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
 function inicializarFlatpickr() {
     const fechaRango = document.querySelector("#fecha-rango");
     if (fechaRango && typeof flatpickr !== 'undefined') {
+        // Detectar el ancho de la pantalla
+        const isMobile = window.innerWidth <= 768; // Considerar móvil si el ancho es menor o igual a 768px
         flatpickr("#fecha-rango", {
             mode: "range",
             dateFormat: "Y-m-d",
-            showMonths: 2,
-            minDate: "today", // Disable dates earlier than today
+            showMonths: isMobile ? 1 : 2, // Mostrar 1 mes en móvil, 2 meses en escritorio
+            minDate: "today", // Deshabilitar fechas anteriores a hoy
             onClose: function (selectedDates) {
                 if (selectedDates.length === 2) {
                     const fecha1 = selectedDates[0].toISOString().split('T')[0];
@@ -970,10 +990,15 @@ function crearPopupPaquetes() {
 // Crear la url
 function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
+    const widgetAviajar = document.getElementById('widget-aviajar');
     if (!widgetContainer) return;
-    const host = "https://reservas.aviajarcolombia.com/";
-    const culture = "es-CO";
-    const productType = "Package";
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = widgetAviajar.getAttribute('productType') || "Package";
+
+    // Leer los atributos userService y branchCode del HTML
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar'; // Valor por defecto: "aviajar"
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003'; // Valor por defecto: "003"
 
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
@@ -1018,7 +1043,7 @@ function generateURLPaquetes() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/aviajar-show-003---------#air`;
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}-show-${branchCode}---------#air`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1030,7 +1055,7 @@ function botonBusquedaPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
-    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+    document.querySelector("#buscar-btn-paquetes").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
 
         // Inicializar la variable valid
@@ -1083,18 +1108,6 @@ function botonBusquedaPaquetes() {
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
 
-            // Limpiar basura del select origen y destino
-            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
-                const selectedOption = select.querySelector("option[selected]");
-                if (!selectedOption) {
-                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
-                }
-            });
-
-            // Limpiar los inputs de origen, destino y fecha-rango
-            origenInput.value = "";
-            destinoInput.value = "";
-            fechaRangoInput.value = "";
         }
     });
 
@@ -1254,10 +1267,13 @@ function crearPopupVuelos() {
 function generateURLVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = widgetAviajar.getAttribute('productType') || "Air";
 
-    const host = "https://reservas.aviajarcolombia.com/";
-    const culture = "es-CO";
-    const productType = "Air";
+    // Leer los atributos userService y branchCode del HTML
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar'; // Valor por defecto: "aviajar"
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003'; // Valor por defecto: "003"
 
     // Determinar el tipo de viaje (RT: Ida y regreso, OW: Solo ida)
     const tripType = document.querySelector("#radio-soloida")?.checked ? "OW" : "RT";
@@ -1283,7 +1299,7 @@ function generateURLVuelos() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/aviajar-show-003---------#air`;
+    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/${userService}-show-${branchCode}---------#air`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1294,7 +1310,7 @@ function botonBusquedaVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
 
-    document.querySelector("#buscar-btn").addEventListener("click", function (e) {
+    document.querySelector("#buscar-btn-vuelos").addEventListener("click", function (e) {
         e.preventDefault(); // Evitar el comportamiento predeterminado del botón
 
         // Inicializar la variable valid
