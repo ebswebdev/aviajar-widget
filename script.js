@@ -840,6 +840,21 @@ function crearPopupPaquetes() {
 
             inputAdultosContainer.appendChild(numericInputAdultos);
 
+            document.querySelector("#numeric-value-adultos").addEventListener("input", function () {
+                const maxAdultos = 7; // Límite máximo de adultos
+                let currentValue = parseInt(this.value) || 1;
+
+                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
+                if (currentValue > maxAdultos) {
+                    this.value = maxAdultos;
+                }
+
+                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
+                if (currentValue < parseInt(this.min)) {
+                    this.value = this.min;
+                }
+            });
+
             // Crear el contenedor de input numérico para niños
             const numericInputNinos = document.createElement("div");
             numericInputNinos.className = "numeric-input";
