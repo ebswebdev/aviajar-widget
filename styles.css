@@ -1,25 +1,41 @@
 /* DESKTOP */
 @media (min-width: 1000px) {
   :root {
-    --primary-color: #fdbe15; /* Color amarillo característico */
-    --secondary-color: #004481; /* Azul oscuro para contrastes */
-    --background-color: #f4f4f4; /* Fondo claro */
-    --text-color: #333; /* Texto principal */
-    --button-hover: #e0a800; /* Color de hover para botones */
-    --font-primary: 'Poppins', sans-serif; /* Fuente principal */
+    --primary-color: #fdbe15;
+    /* Color amarillo característico */
+    --secondary-color: #004481;
+    /* Azul oscuro para contrastes */
+    --background-color: #f4f4f4;
+    /* Fondo claro */
+    --text-color: #333;
+    /* Texto principal */
+    --button-hover: #e0a800;
+    /* Color de hover para botones */
+    --font-primary: 'Poppins', sans-serif;
+    /* Fuente principal */
   }
 
   body {
-      font-family: var(--font-primary);
+    font-family: var(--font-primary);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-primary);
-      font-weight: 600; /* Negrita */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    /* Negrita */
   }
 
-  p, label, input, button, span {
-      font-family: var(--font-primary);
+  p,
+  label,
+  input,
+  button,
+  span {
+    font-family: var(--font-primary);
   }
 
   #widget-aviajar {
@@ -27,14 +43,20 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1200px; /* Ancho máximo del widget */
+    max-width: 1200px;
+    /* Ancho máximo del widget */
     border-radius: 10px;
     color: var(--text-color);
-    margin: 0 auto; /* Centrar el widget horizontalmente */
-    padding: 20px; /* Espacio interno */
+    margin: 0 auto;
+    /* Centrar el widget horizontalmente */
+    padding: 20px;
+    /* Espacio interno */
   }
 
-  .tab, .flatpickr-calendar, .widget, .autocomplete-item {
+  .tab,
+  .flatpickr-calendar,
+  .widget,
+  .autocomplete-item {
     font-family: var(--font-primary) !important;
   }
 
@@ -43,7 +65,7 @@
     align-items: center;
     justify-content: left;
     height: 100%;
-    gap; 20px;
+    gap:20px;
     padding-bottom: 0px;
     position: relative;
     border-radius: 10px;
@@ -62,18 +84,21 @@
   .tab:hover {
     background-color: #fff;
     transform: scale(1.05);
-    color: #000; /* Cambia el color del texto al pasar el mouse */
+    color: #000;
+    /* Cambia el color del texto al pasar el mouse */
   }
+
   .tab:active {
     transform: scale(1);
   }
 
   .tab-text {
     font-size: 14px;
-    text-align: center; /* Centra el texto dentro del tab */
+    text-align: center;
+    /* Centra el texto dentro del tab */
   }
 
-   /* Fechas */
+  /* Fechas */
   /* Cambiar el color de fondo del calendario */
   .flatpickr-calendar {
     background-color: #f9f9f9;
@@ -103,7 +128,7 @@
     width: 100%;
   }
 
-  body > div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft > div.flatpickr-innerContainer > div > div.flatpickr-days > div:nth-child(1) > span.flatpickr-day.today:hover {
+  body>div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft>div.flatpickr-innerContainer>div>div.flatpickr-days>div:nth-child(1)>span.flatpickr-day.today:hover {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
@@ -131,7 +156,9 @@
   }
 
 
-  .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+  .flatpickr-day.selected.startRange+.endRange:not(:nth-child(7n+1)),
+  .flatpickr-day.startRange.startRange+.endRange:not(:nth-child(7n+1)),
+  .flatpickr-day.endRange.startRange+.endRange:not(:nth-child(7n+1)) {
     box-shadow: -10px 0 0 var(--primary-color) !important;
   }
 
@@ -146,13 +173,13 @@
 
   /* Iconos */
   .fas {
-    color: #000; 
-  } 
-  
+    color: #000;
+  }
+
   #lupa-icon {
     color: #fff;
   }
-  
+
 
   h4 {
     color: var(--text-color);
@@ -199,6 +226,7 @@
       opacity: 0;
       transform: translateY(-10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -245,6 +273,7 @@
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
+
   /* Checkboxes */
   .widget input[type="checkbox"] {
     display: flex;
@@ -281,10 +310,12 @@
   /* Label-Input */
   .label-input {
     position: absolute;
-    top: 1px; /* Ajustado para estar más abajo del input */
+    top: 1px;
+    /* Ajustado para estar más abajo del input */
     left: 10px;
     font-size: 10px;
-    color: var(--text-color); /* Usando el color de texto definido */
+    color: var(--text-color);
+    /* Usando el color de texto definido */
     pointer-events: none;
     transition: all 0.3s ease;
   }
@@ -296,8 +327,9 @@
     align-items: center;
     border-radius: 5px;
     position: relative;
-    padding-right: 20px; /* Espacio para el ícono */
-    margin-right: 10px; /* Espacio entre los inputs */
+    /* Espacio para el ícono */
+    margin-right: 10px;
+    /* Espacio entre los inputs */
   }
 
   /* Contenedor de habitaciones (Popup) */
@@ -395,11 +427,15 @@
 
   .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    right: 10px;
+    /* Alinea el ícono a la derecha */
+    color: var(--secondary-color);
+    /* Usa el color azul oscuro */
+    pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el input */
     top: 15px;
   }
+
   /* Niños */
 
   .ninos {
@@ -442,9 +478,12 @@
 
   .input-ninos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    right: 10px;
+    /* Alinea el ícono a la derecha */
+    color: var(--secondary-color);
+    /* Usa el color azul oscuro */
+    pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el input */
     top: 15px;
   }
 
@@ -454,7 +493,10 @@
     align-items: center;
     border-radius: 5px;
     position: relative;
-    padding-right: 20px; /* Espacio para el ícono */
+    
+    max-width: 200px;
+    margin-right: 10px;
+    /* Espacio para el ícono */
   }
 
   .habitaciones {
@@ -526,7 +568,7 @@
   }
 
   /* Habitaciones individuales */
-  #hab-container > div {
+  #hab-container>div {
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -536,7 +578,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  #hab-container > div:hover {
+  #hab-container>div:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -561,7 +603,8 @@
     border-radius: 5px;
     font-size: 14px;
     background-color: rgba(255, 255, 255, 0.8);
-    color: var(--text-color); /* Color del texto */
+    color: var(--text-color);
+    /* Color del texto */
     transition: all 0.3s ease;
     appearance: none;
     -webkit-appearance: none;
@@ -573,15 +616,17 @@
   .num-ninos-select:focus,
   .num-adultos-select:focus,
   .popup-num-hab-select:focus {
-    border-color: var(--primary-color); /* Amarillo */
-    background-color: rgba(
-      253,
-      190,
-      21,
-      0.2
-    ); /* Fondo amarillo semitransparente */
-    outline: none; /* Elimina el borde azul predeterminado */
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
+    border-color: var(--primary-color);
+    /* Amarillo */
+    background-color: rgba(253,
+        190,
+        21,
+        0.2);
+    /* Fondo amarillo semitransparente */
+    outline: none;
+    /* Elimina el borde azul predeterminado */
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    /* Sombra amarilla */
   }
 
   /* Cambiar el color del texto al seleccionar */
@@ -589,17 +634,22 @@
   .num-ninos-select option,
   .num-adultos-select option,
   .popup-num-hab-select option {
-    background-color: #fff; /* Fondo blanco para las opciones */
-    color: var(--text-color); /* Color del texto */
+    background-color: #fff;
+    /* Fondo blanco para las opciones */
+    color: var(--text-color);
+    /* Color del texto */
   }
 
   .input-ninos .icon,
   .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
+    right: 10px;
+    /* Alinea el ícono a la derecha */
     font-size: 16px;
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
+    color: var(--secondary-color);
+    /* Usa el color azul oscuro */
+    pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el select */
   }
 
   /* Contenido del popup */
@@ -607,7 +657,8 @@
     /* background-color: var(--background-color); */
     border-radius: 10px;
     padding: 20px;
-    width: 100%; /* Ocupa el 100% del ancho disponible */
+    width: 100%;
+    /* Ocupa el 100% del ancho disponible */
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
   }
@@ -645,6 +696,7 @@
       opacity: 0;
       transform: scale(0.9);
     }
+
     to {
       opacity: 1;
       transform: scale(1);
@@ -652,32 +704,41 @@
   }
 
   /*  */
-  
+
   #hab-popup {
-    display: none; /* Oculto por defecto */
+    display: none;
+    /* Oculto por defecto */
     background-color: var(--background-color);
-    position: absolute; /* Posicionarlo relativo al contenedor */
-    top: 200px; /* Justo debajo del elemento invocador */
+    position: absolute;
+    /* Posicionarlo relativo al contenedor */
+    top: 200px;
+    /* Justo debajo del elemento invocador */
     left: 50%;
-    width: 400px; /* Ocupa el ancho del contenedor */
-    height: 400px; /* Altura del popup */
+    width: 400px;
+    /* Ocupa el ancho del contenedor */
+    height: 400px;
+    /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
   }
 
   #hab-popup.active {
-    display: block; /* Mostrar el modal cuando esté activo */
+    display: block;
+    /* Mostrar el modal cuando esté activo */
   }
 
   /* Inputs */
-  
+
   /* Input cuando hay error */
   .input-error {
-    background-color: #ffe6e6; /* Fondo rojo claro */
-    border: 1px solid red; /* Borde rojo */
+    background-color: #ffe6e6;
+    /* Fondo rojo claro */
+    border: 1px solid red;
+    /* Borde rojo */
   }
 
   /* Contenedor de cada grupo de inputs */
@@ -697,27 +758,46 @@
     border-radius: 5px;
     font-size: 14px;
     transition: border-color 0.3s ease;
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+    white-space: nowrap;
+    /* Prevent text wrapping */
+    overflow: hidden;
+    /* Hide overflowing text */
+    text-overflow: ellipsis;
+    /* Add ellipsis for overflowing text */
+  }
+
+  
+  .pasajeros .input-group input{
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+  }
+  .habitaciones .input-group input{
+    border-right: none;
+    border-radius: 5px 0 0 5px;
   }
 
   .fechas {
-    padding-right: 20px; /* Espacio para el ícono del calendario */
+    min-width: 330px;
+    margin-right: 10px;
+    /* Espacio para el ícono del calendario */
   }
 
   /* Specific adjustment for the date input */
   #fecha-rango,
   #origen,
   #destino {
-    padding-right: 40px; /* Ensure extra space for the calendar icon */
+    padding-right: 40px;
+    /* Ensure extra space for the calendar icon */
   }
 
   .input-group .icon {
     position: absolute;
-    right: 15px; /* Position the icon to the right */
-    color: var(--secondary-color); /* Use the secondary color */
-    pointer-events: none; /* Prevent the icon from interfering with input clicks */
+    right: 15px;
+    /* Position the icon to the right */
+    color: var(--secondary-color);
+    /* Use the secondary color */
+    pointer-events: none;
+    /* Prevent the icon from interfering with input clicks */
   }
 
   /* Inputs en foco */
@@ -730,14 +810,16 @@
 
   /* Padding mayor para el de vuelos */
 
-  .vuelos-container{
+  .vuelos-container {
     padding-bottom: 100px !important;
   }
 
   .radio-group {
     display: flex;
-    justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
-    align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
+    justify-content: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
+    align-items: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
     position: absolute;
     top: 240px;
@@ -805,8 +887,10 @@
   /* Checkboxs */
   .checkbox-group {
     display: flex;
-    justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
-    align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
+    justify-content: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
+    align-items: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
     position: absolute;
     top: 200px;
@@ -872,6 +956,7 @@
     0% {
       transform: rotate(45deg) scale(0);
     }
+
     100% {
       transform: rotate(45deg) scale(1);
     }
@@ -908,9 +993,10 @@
 
   .boton-buscar button:hover {
     background-color: var(--primary-color);
-    color: #fff; 
+    color: #fff;
     transform: scale(1.05);
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);    transform: scale(1.05);
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
   }
 
   .boton-buscar button:active {
@@ -918,18 +1004,22 @@
   }
 
   .autocomplete-list::-webkit-scrollbar {
-    width: 6px; /* Hacer la barra de desplazamiento más delgada */
+    width: 6px;
+    /* Hacer la barra de desplazamiento más delgada */
   }
 
   .autocomplete-list::-webkit-scrollbar-thumb {
-    background-color: #fdbe15; /* Amarillo */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: #fdbe15;
+    /* Amarillo */
+    border-radius: 10px;
+    /* Bordes redondeados */
   }
 
   .autocomplete-list::-webkit-scrollbar-track {
-    background-color: #f4f4f4; /* Fondo claro */
+    background-color: #f4f4f4;
+    /* Fondo claro */
   }
-  
+
   /* Autocomplete */
   .autocomplete-container {
     position: relative;
@@ -946,8 +1036,10 @@
   }
 
   .autocomplete-input:focus {
-    border-color: #fdbe15; /* Amarillo */
-    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
+    border-color: #fdbe15;
+    /* Amarillo */
+    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
+    /* Sombra amarilla */
     outline: none;
   }
 
@@ -962,7 +1054,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para la lista */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra para la lista */
     animation: fadeIn 0.3s ease-in-out;
   }
 
@@ -972,15 +1065,21 @@
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .autocomplete-item:hover {
-    background-color: #fdbe15; /* Amarillo */
-    color: #fff; /* Texto blanco */
+    background-color: #fdbe15;
+    /* Amarillo */
+    color: #fff;
+    /* Texto blanco */
   }
 
   .autocomplete-item:active {
-    background-color: #e0a800; /* Amarillo más oscuro */
+    background-color: #e0a800;
+    /* Amarillo más oscuro */
   }
 
   @keyframes fadeIn {
@@ -988,6 +1087,7 @@
       opacity: 0;
       transform: translateY(-5px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -1057,18 +1157,24 @@
 
   /* Contenedor de habitaciones (Popup) */
   #pasajeros-popup {
-    display: none; /* Oculto por defecto */
+    display: none;
+    /* Oculto por defecto */
     background-color: var(--background-color);
-    position: absolute; /* Posicionarlo relativo al contenedor */
-    top: 200px; /* Justo debajo del elemento invocador */
+    position: absolute;
+    /* Posicionarlo relativo al contenedor */
+    top: 200px;
+    /* Justo debajo del elemento invocador */
     left: 50%;
-    width: 400px; /* Ocupa el ancho del contenedor */
-    height: 400px; /* Altura del popup */
+    width: 400px;
+    /* Ocupa el ancho del contenedor */
+    height: 400px;
+    /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
   }
 
   #pasajeros-container {

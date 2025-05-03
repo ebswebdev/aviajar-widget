@@ -685,6 +685,17 @@ function inicializarFlatpickr() {
             dateFormat: "Y-m-d",
             showMonths: isMobile ? 1 : 2, // Mostrar 1 mes en móvil, 2 meses en escritorio
             minDate: "today", // Deshabilitar fechas anteriores a hoy
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                  shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                  longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+                }, 
+                months: {
+                  shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+                  longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                },
+              },
             onClose: function (selectedDates) {
                 if (selectedDates.length === 2) {
                     const fecha1 = selectedDates[0].toISOString().split('T')[0];
@@ -816,6 +827,8 @@ function crearPopupPaquetes() {
             inputAdultos.value = "1";
             inputAdultos.min = "1";
             inputAdultos.max = "7";
+            inputAdultos.readOnly = true;
+
 
             const incrementAdultos = document.createElement("button");
             incrementAdultos.className = "increment";
