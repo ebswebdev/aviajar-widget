@@ -1089,3 +1089,42 @@
     padding-bottom: 10px;
   }
 }
+
+
+
+/* Modal Error Pasajeros */
+.modal {
+    position: absolute; /* Relativo al contenedor */
+    top: 100%; /* Justo debajo del input */
+    left: 0;
+    transform: translateY(10px); /* Espaciado debajo del input */
+    background-color: #ffcccc; /* Fondo rojo claro */
+    border: 1px solid #ff0000; /* Borde rojo */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    z-index: 1000;
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alinear el texto a la izquierda */
+    width: 250px; /* Ancho más pequeño */
+    font-size: 12px; /* Texto más pequeño */
+}
+
+.modal-content p {
+    margin: 0;
+    color: #ff0000; /* Texto rojo */
+    font-weight: bold;
+}
+
+.modal-content button {
+    padding: 5px;
+    background-color: #ff6666; /* Fondo rojo más oscuro */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #cc0000; /* Fondo rojo intenso */
+}
