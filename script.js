@@ -35,6 +35,11 @@
                 `;
             })
             .join('');
+            if(products.length==1){
+                tabs.style.display = "none";
+            }else{
+                tabs.style.display = "flex"
+            }
         widgetContainer.appendChild(tabs);
 
         // Agregar evento de clic a cada tab

@@ -218,6 +218,7 @@
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
+    position: relative;
   }
 
   /* Animación de entrada */
@@ -893,7 +894,7 @@
     /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
     position: absolute;
-    top: 200px;
+    top: 120px;
     gap: 10px;
   }
 
