@@ -802,6 +802,7 @@ function crearPopupPaquetes() {
             const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
             inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
 
+
             // Crear el contenedor de input numérico para adultos
             const numericInputAdultos = document.createElement("div");
             numericInputAdultos.className = "numeric-input";
@@ -842,6 +843,7 @@ function crearPopupPaquetes() {
                 }
             });
 
+
             // Crear el contenedor de input numérico para niños
             const numericInputNinos = document.createElement("div");
             numericInputNinos.className = "numeric-input";
@@ -856,6 +858,22 @@ function crearPopupPaquetes() {
             inputNinos.value = "0";
             inputNinos.min = "0";
             inputNinos.max = "4";
+
+            // Registrar el evento input directamente en el elemento creado
+            inputNinos.addEventListener("input", function () {
+                const maxNinos = 4; // Límite máximo de niños
+                let currentValue = parseInt(this.value) || 0;
+
+                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
+                if (currentValue > maxNinos) {
+                    this.value = maxNinos;
+                }
+
+                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
+                if (currentValue < parseInt(this.min)) {
+                    this.value = this.min;
+                }
+            });
 
             const incrementNinos = document.createElement("button");
             incrementNinos.className = "increment";
