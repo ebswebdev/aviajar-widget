@@ -869,6 +869,7 @@ function crearPopupPaquetes() {
             inputNinos.value = "0";
             inputNinos.min = "0";
             inputNinos.max = "4";
+            inputNinos.readOnly = true;
 
             const incrementNinos = document.createElement("button");
             incrementNinos.className = "increment";
@@ -879,6 +880,20 @@ function crearPopupPaquetes() {
             numericInputNinos.appendChild(incrementNinos);
 
             inputNinosContainer.appendChild(numericInputNinos);
+            document.querySelector("#numeric-value-ninos").addEventListener("input", function () {
+                const maxNinos = 4; // Límite máximo de niños
+                let currentValue = parseInt(this.value) || 1;
+
+                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
+                if (currentValue > maxNinos) {
+                    this.value = maxNinos;
+                }
+
+                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
+                if (currentValue < parseInt(this.min)) {
+                    this.value = this.min;
+                }
+            });
 
             const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
 
@@ -967,6 +982,7 @@ function crearPopupPaquetes() {
     numericInput.value = "1";
     numericInput.min = "1";
     numericInput.max = "4";
+    numericInput.readOnly = true;
 
     // Crear el botón de incremento
     const incrementButton = document.createElement("button");
@@ -980,6 +996,21 @@ function crearPopupPaquetes() {
 
     // Reemplazar el input original con el nuevo contenedor
     popupNumHabInput.replaceWith(numericInputContainer);
+
+    document.querySelector("#numeric-value").addEventListener("input", function () {
+        const maxHab = 4; // Límite máximo de adultos
+        let currentValue = parseInt(this.value) || 1;
+
+        // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
+        if (currentValue > maxHab) {
+            this.value = maxHab;
+        }
+
+        // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
+        if (currentValue <= parseInt(this.min)) {
+            this.value = this.min;
+        }
+    });
 
     // Agregar eventos para manejar los cambios en el valor
     decrementButton.addEventListener("click", function () {
@@ -1152,6 +1183,12 @@ function botonBusquedaPaquetes() {
     document.querySelector("#fecha-rango").addEventListener("change", function () {
         this.classList.remove("input-error");
     });
+
+    document.querySelector("#fecha-rango").addEventListener("change", function () {
+        if(document.querySelector("#fecha-rango").value.includes("to"))
+        document.querySelector("#fecha-rango").value = document.querySelector("#fecha-rango").value.replace("to","al")
+    });
+
 };
 
 
@@ -1309,7 +1346,7 @@ function generateURLVuelos() {
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
-    const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de ida
     const dateTo = tripType === "RT" ? (dateRange[1] || "") : ""; // Fecha de regreso (solo si es RT)
 
