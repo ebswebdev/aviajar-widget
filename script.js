@@ -171,6 +171,11 @@
                                         <span class="icon"><i class="fas fa-users"></i></span>
                                     </div>
                                 </div>
+                                <div id="modal-error" class="modal" style="display: none;">
+                                    <div class="modal-content">
+                                        <p>El número máximo de pasajeros permitidos es 7.</p>
+                                    </div>
+                                </div>
                             </div>
                             <div id="hab-popup" class="popup">
                                 <div class="popup-content">
@@ -202,6 +207,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     `;
                 // Paquetes
                 crearPopupPaquetes();
@@ -818,6 +824,7 @@ function crearPopupPaquetes() {
             const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
             inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
 
+
             // Crear el contenedor de input numérico para adultos
             const numericInputAdultos = document.createElement("div");
             numericInputAdultos.className = "numeric-input";
@@ -860,6 +867,7 @@ function crearPopupPaquetes() {
                 }
             });
 
+
             // Crear el contenedor de input numérico para niños
             const numericInputNinos = document.createElement("div");
             numericInputNinos.className = "numeric-input";
@@ -875,6 +883,22 @@ function crearPopupPaquetes() {
             inputNinos.min = "0";
             inputNinos.max = "4";
             inputNinos.readOnly = true;
+
+            // Registrar el evento input directamente en el elemento creado
+            inputNinos.addEventListener("input", function () {
+                const maxNinos = 4; // Límite máximo de niños
+                let currentValue = parseInt(this.value) || 0;
+
+                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
+                if (currentValue > maxNinos) {
+                    this.value = maxNinos;
+                }
+
+                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
+                if (currentValue < parseInt(this.min)) {
+                    this.value = this.min;
+                }
+            });
 
             const incrementNinos = document.createElement("button");
             incrementNinos.className = "increment";
@@ -1132,6 +1156,28 @@ function botonBusquedaPaquetes() {
         const origenSelect = document.querySelector("#origen-id");
         const destinoSelect = document.querySelector("#destino-id");
 
+        // Obtener el número total de pasajeros desde el campo #num-per
+        const totalPasajeros = parseInt(document.querySelector("#num-per")?.value) || 0;
+
+
+        // Validar que el número total de pasajeros no exceda el límite
+        if (totalPasajeros > 7) {
+            // Mostrar el modal
+            const modal = document.querySelector("#modal-error");
+            modal.style.display = "block";
+
+            // Agregar un pequeño retraso para evitar que el evento de clic cierre el modal inmediatamente
+            setTimeout(() => {
+                document.addEventListener("click", function cerrarModal(e) {
+                    const modalContent = document.querySelector(".modal-content");
+                    if (!modalContent.contains(e.target)) {
+                        modal.style.display = "none"; // Ocultar el modal
+                        document.removeEventListener("click", cerrarModal); // Eliminar el evento después de cerrarlo
+                    }
+                });
+            }, 100); // Retraso de 100 ms
+        }
+
         function showError(input) {
             // Resaltar el input con un borde rojo
             input.classList.add("input-error");
@@ -1166,8 +1212,13 @@ function botonBusquedaPaquetes() {
             clearError(fechaRangoInput);
         }
 
+        // Si alguna validación falla, detener la ejecución
+        if (!valid) {
+            return; // Salir de la función si hay errores
+
+        }
         // Si todos los campos son válidos, generar la URL
-        if (valid) {
+        else if (valid) {
             const generatedURL = generateURLPaquetes();
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
