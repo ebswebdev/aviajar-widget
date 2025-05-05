@@ -300,8 +300,7 @@
     padding: 10px;
 }
 
-  .origen-destino::after,
-  .habitaciones-pasajeros::after {
+  .origen-destino::after {
       content: "";
       position: absolute;
       top: 0%; 
@@ -313,11 +312,21 @@
   }
 
 
+  /* .habitaciones-pasajeros::after {
+      content: "";
+      position: absolute;
+      top: 0%; 
+      bottom: 0%; 
+      left: 50%; 
+      width: 1px; 
+      background-color: #ddd;
+      transform: translateX(-50%);
+  } */
+
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
-    padding: 15px;
-    height: 200px;
-    max-height: 200px;
+    padding: 10px;
+    height: 180px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
@@ -469,7 +478,8 @@
   }
 
   .habitaciones {
-    display: flex;
+    display: none;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -538,19 +548,17 @@
 
   /* Habitaciones individuales */
   #hab-container > div {
+    margin-top: -30px;
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  #hab-container > div:hover {
+  /* #hab-container > div:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+  } */
 
   /* Edades niños */
 
@@ -671,7 +679,6 @@
     top: 200px; /* Justo debajo del elemento invocador */
     left: 50%;
     width: 400px; /* Ocupa el ancho del contenedor */
-    height: 400px; /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;

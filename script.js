@@ -128,7 +128,7 @@
                                 <div class="origen">
                                     <div class="input-group">
                                         <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
+                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="" onclick="this.select()">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                         <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -137,7 +137,7 @@
                                 <div class="destino">
                                     <div class="input-group">
                                         <span class="label-input">DESTINO</span>
-                                        <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="">
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="" onclick="this.select()">
                                         <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                         <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-arrival"></i></span>
