@@ -223,9 +223,9 @@
     display: block;
     font-size: 15px;
     color: var(--text-color);
-    top: 10px;
+    /* top: 10px;
     left: 10px;
-    position: relative;
+    position: relative; */
   }
 
   /* Campos de entrada */
@@ -671,6 +671,9 @@
   }
 
   /*  */
+  .close-popup {
+    display: none;
+  }
   
   #hab-popup {
     display: none; /* Oculto por defecto */
@@ -1082,7 +1085,6 @@
     top: 200px; /* Justo debajo del elemento invocador */
     left: 50%;
     width: 400px; /* Ocupa el ancho del contenedor */
-    height: 400px; /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -1091,15 +1093,26 @@
   }
 
   #pasajeros-container {
-    background-color: var(--background-color);
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    height: 200px;
+    padding: 10px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--background-color);
+  }
+
+  #hab-container {
+    padding: 10px;
+    height: 180px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--background-color);
+  }
+
+  #hab-container input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
   .numeric-input-group {
@@ -1109,6 +1122,14 @@
   }
 }
 
+.info-text {
+    font-size: 12px;
+    color: #666;
+    position: absolute;
+    left: 30px;
+    margin-top: 20px;
+    text-align: left; /* Centrar el texto */
+  }
 
 
 /* Modal Error Pasajeros */
