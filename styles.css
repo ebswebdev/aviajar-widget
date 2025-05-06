@@ -206,7 +206,6 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
-    padding-bottom: 50px;
     gap: 15px;
   }
 
@@ -221,6 +220,29 @@
     color: var(--text-color);
     position: relative;
   }
+
+  .package-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .origen-destino { order: 1; }
+  .fechas { order: 2; }
+  .habitaciones-pasajeros { order: 3; }
+  .boton-buscar { order: 4 }
+  #hab-popup { order: 5; }
+  .checkbox-group { order: 6; flex: 1 1 100%; }
+  #mostrar-descuento { order: 7; }
+  .descuento { order: 8; flex: 1 1 100%; }
+  
+  #mostrar-descuento {
+    order: 7; /* justo antes del .descuento */
+    align-self: flex-start; /* se alinea como inline, sin ocupar toda la fila */
+    margin-top: 0.5rem;
+  }
+  
+
+  
 
   /* Animación de entrada */
   @keyframes fadeIn {
@@ -252,9 +274,9 @@
     display: block;
     font-size: 15px;
     color: var(--text-color);
-    top: 10px;
+    /* top: 10px;
     left: 10px;
-    position: relative;
+    position: relative; */
   }
 
   /* Campos de entrada */
@@ -269,9 +291,8 @@
 
   .widget input[type="text"]:focus,
   .widget input[type="number"]:focus {
-    border-color: var(--primary-color);
+    border: none;
     outline: none;
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
 
@@ -332,8 +353,7 @@
     padding: 10px;
 }
 
-  .origen-destino::after,
-  .habitaciones-pasajeros::after {
+  .origen-destino::after {
       content: "";
       position: absolute;
       top: 0%; 
@@ -345,11 +365,21 @@
   }
 
 
+  /* .habitaciones-pasajeros::after {
+      content: "";
+      position: absolute;
+      top: 0%; 
+      bottom: 0%; 
+      left: 50%; 
+      width: 1px; 
+      background-color: #ddd;
+      transform: translateX(-50%);
+  } */
+
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
-    padding: 15px;
-    height: 200px;
-    max-height: 200px;
+    padding: 10px;
+    height: 180px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
@@ -512,7 +542,8 @@
   }
 
   .habitaciones {
-    display: flex;
+    display: none;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -582,18 +613,15 @@
   /* Habitaciones individuales */
   #hab-container>div {
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   #hab-container>div:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+  } */
 
   /* Edades niños */
 
@@ -812,10 +840,9 @@
   }
 
   /* Inputs en foco */
-  .input-group input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  /* .input-group input:focus {
+    border-color: none;
+  } */
 
   /* Radios */
 
@@ -1159,10 +1186,10 @@
     transition: border-color 0.3s ease;
   }
 
-  .numeric-input input[type="number"]:focus {
+  /* .numeric-input input[type="number"]:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  } */
 
   .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
@@ -1198,15 +1225,26 @@
   }
 
   #pasajeros-container {
-    background-color: var(--background-color);
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    padding: 15px;
-    height: 200px;
+    padding: 10px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--background-color);
+  }
+
+  #hab-container {
+    padding: 10px;
+    height: 180px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--background-color);
+  }
+
+  #hab-container input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
   .numeric-input-group {
@@ -1214,6 +1252,37 @@
     justify-content: space-between;
     padding-bottom: 10px;
   }
+
+  .info-text {
+    font-size: 12px;
+    color: #666;
+    position: absolute;
+    left: 30px;
+    margin-top: 20px;
+    text-align: left; /* Centrar el texto */
+  }
+  
+  #mostrar-descuento {
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    margin-top: -5px;
+  }
+  
+  .codigo-descuento {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    top: 270px; 
+    padding: 10px;
+    width: 220px;
+  }
+
+  #codigo-descuento {
+    padding-right: 40px;
+  }
+
 }
 
 
@@ -1254,3 +1323,5 @@
 .modal-content button:hover {
     background-color: #cc0000; /* Fondo rojo intenso */
 }
+
+
