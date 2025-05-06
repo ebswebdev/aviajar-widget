@@ -226,7 +226,7 @@
     flex-wrap: wrap;
   }
   
-  .origen-destino { order: 1; }
+  .origen-destino { order: 1; width: 400px; }
   .fechas { order: 2; }
   .habitaciones-pasajeros { order: 3; }
   .boton-buscar { order: 4 }
@@ -234,7 +234,12 @@
   .checkbox-group { order: 6; flex: 1 1 100%; }
   #mostrar-descuento { order: 7; }
   .descuento { order: 8; flex: 1 1 100%; }
+  .options-paq {order: 8;}
   
+  .descuento-container{
+    margin-top: 3rem;
+  }
+
   #mostrar-descuento {
     order: 7; /* justo antes del .descuento */
     align-self: flex-start; /* se alinea como inline, sin ocupar toda la fila */
@@ -419,6 +424,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 30px;
   }
 
   .habitacion-header .icon {
@@ -535,8 +541,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    
-    max-width: 200px;
+    width: 160px;
     margin-right: 10px;
     /* Espacio para el ícono */
   }
@@ -708,7 +713,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   .popup-header label {
@@ -751,12 +756,12 @@
     background-color: var(--background-color);
     position: absolute;
     /* Posicionarlo relativo al contenedor */
-    top: 200px;
+    top: 120px;
     /* Justo debajo del elemento invocador */
-    left: 50%;
-    width: 400px;
+    left: 60%;
+    width: 350px;
     /* Ocupa el ancho del contenedor */
-    height: 400px;
+    height: 340px;
     /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
@@ -816,7 +821,7 @@
   }
 
   .fechas {
-    min-width: 330px;
+    min-width: 290px;
     margin-right: 10px;
     /* Espacio para el ícono del calendario */
   }
@@ -1113,8 +1118,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
+    flex-direction: row-reverse;
+    gap: 12px;
   }
 
   .autocomplete-item:hover {
@@ -1122,6 +1129,9 @@
     /* Amarillo */
     color: #fff;
     /* Texto blanco */
+  }
+  .autocomplete-item:hover i{
+    color: #fff !important;
   }
 
   .autocomplete-item:active {
@@ -1193,11 +1203,13 @@
 
   .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
+    height: 10px;
   }
 
   #numeric-value {
     width: 100%;
     padding: 10px;
+    height: 10px;
   }
 
   /* VUELOS */
@@ -1234,11 +1246,12 @@
 
   #hab-container {
     padding: 10px;
-    height: 180px;
+    height: 176px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--background-color);
+    padding-bottom: 0;
   }
 
   #hab-container input[type="number"]:focus {

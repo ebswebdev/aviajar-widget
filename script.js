@@ -35,11 +35,11 @@
                 `;
             })
             .join('');
-            if(products.length==1){
-                tabs.style.display = "none";
-            }else{
-                tabs.style.display = "flex"
-            }
+        if (products.length == 1) {
+            tabs.style.display = "none";
+        } else {
+            tabs.style.display = "flex"
+        }
         widgetContainer.appendChild(tabs);
 
         // Agregar evento de clic a cada tab
@@ -127,99 +127,107 @@
         switch (selectedTab) {
             case 'paquetes':
                 widgetHTML = `
-                <div class="widget widget-package" id="widget-container">
-                        <div class="widget-container package-container">
-                            <div class="origen-destino">
-                                <div class="origen">
-                                    <div class="input-group">
-                                        <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="" onclick="this.select()">
-                                        <div id="autocomplete-list-origen" class="autocomplete-list"></div>
-                                        <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
-                                        <span class="icon"><i class="fas fa-plane-departure"></i></span>
-                                    </div>
-                                </div>
-                                <div class="destino">
-                                    <div class="input-group">
-                                        <span class="label-input">DESTINO</span>
-                                        <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value="" onclick="this.select()">
-                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
-                                        <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
-                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="fechas">
-                            <div class="input-group">
-                                <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
-                                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
-                            </div>
-                            </div>
-                            <div class="habitaciones-pasajeros">
-                                <div class="habitaciones">
-                                    <div class="input-group">
-                                        <span class="label-input">HABITACIONES</span>
-                                        <input id="num-hab" type="number" min="1" value="1" readonly>
-                                        <span class="icon"><i class="fas fa-bed"></i></span>
-                                    </div>
-                                </div>
-                                <div class="pasajeros">
-                                    <div class="input-group">
-                                        <span class="label-input">PERSONAS</span>
-                                        <input id="num-per" type="number" min="1" value="1" readonly>
-                                        <span class="icon"><i class="fas fa-users"></i></span>
-                                    </div>
-                                </div>
-                                <div id="modal-error" class="modal" style="display: none;">
-                                    <div class="modal-content">
-                                        <p>El número máximo de pasajeros permitidos es 7.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="hab-popup" class="popup">
-                                <div class="popup-content">
-                                    <div class="popup-header">
-                                        <label for="popup-num-hab">Número de habitaciones:</label>
-                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
-                                    </div>
-                                    <div id="hab-container"></div>
-                                    <div class="button-accept">
-                                    <button id="accept-popup">Aceptar</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento 
-                            <i class="fas fa-chevron-down"></i>
-                            </a>
-                            <div class="descuento" style="display: none;">
-                                <div class="codigo-descuento">
-                                    <div class="input-group" id="input-descuento">
-                                        <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
-                                        <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
-                                        <span class="icon"><i class="fas fa-tag"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkbox-group">
-                                <div class="checkbox">
-                                    <input id="checkbox-vequipaje" type="checkbox">
-                                    <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
-                                </div>
-                                <div class="checkbox">
-                                    <input id="checkbox-vdirecto" type="checkbox">
-                                    <label for="checkbox-vdirecto">Solo vuelos directos</label>
-                                </div>
-                            </div>
-                            <div class="boton-buscar">
-                                <div class="input-group">
-                                    <button id="buscar-btn-paquetes">Buscar</button>
-                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
-                                </div>
-                            </div>
-                        </div>
+<div class="widget widget-package" id="widget-container">
+    <div class="widget-container package-container">
+        <div class="origen-destino">
+            <div class="origen">
+                <div class="input-group">
+                    <span class="label-input">ORIGEN</span>
+                    <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value=""
+                        onclick="this.select()">
+                    <div id="autocomplete-list-origen" class="autocomplete-list"></div>
+                    <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
+                    <span class="icon"><i class="fas fa-plane-departure"></i></span>
+                </div>
+            </div>
+            <div class="destino">
+                <div class="input-group">
+                    <span class="label-input">DESTINO</span>
+                    <input id="destino" type="text" class="autocomplete-input" placeholder="Hacia dónde viajas" value=""
+                        onclick="this.select()">
+                    <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                    <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
+                    <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="fechas">
+            <div class="input-group">
+                <span class="label-input">FECHA</span>
+                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+            </div>
+        </div>
+        <div class="habitaciones-pasajeros">
+            <div class="habitaciones">
+                <div class="input-group">
+                    <span class="label-input">HABITACIONES</span>
+                    <input id="num-hab" type="number" min="1" value="1" readonly>
+                    <span class="icon"><i class="fas fa-bed"></i></span>
+                </div>
+            </div>
+            <div class="pasajeros">
+                <div class="input-group">
+                    <span class="label-input">PERSONAS</span>
+                    <input id="num-per" type="number" min="1" value="1" readonly>
+                    <span class="icon"><i class="fas fa-users"></i></span>
+                </div>
+            </div>
+            <div id="modal-error" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <p>El número máximo de pasajeros permitidos es 7.</p>
+                </div>
+            </div>
+        </div>
+        <div id="hab-popup" class="popup">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <label for="popup-num-hab">Número de habitaciones:</label>
+                    <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                </div>
+                <div id="hab-container"></div>
+                <div class="button-accept">
+                    <button id="accept-popup">Aceptar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="boton-buscar">
+            <div class="input-group">
+                <button id="buscar-btn-paquetes">Buscar</button>
+                <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+            </div>
+        </div>
+        
+    </div>
+    <div class="options-paq">
+            
+        <div class="checkbox-group">
+            <div class="checkbox">
+                <input id="checkbox-vequipaje" type="checkbox">
+                <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
+            </div>
+            <div class="checkbox">
+                <input id="checkbox-vdirecto" type="checkbox">
+                <label for="checkbox-vdirecto">Solo vuelos directos</label>
+            </div>
+        </div>
+        <div class="descuento-container">
+            <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
+                <i class="fas fa-chevron-down"></i>
+            </a>
+            <div class="descuento" style="display: none;">
+                <div class="codigo-descuento">
+                    <div class="input-group" id="input-descuento">
+                        <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                        <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                        <span class="icon"><i class="fas fa-tag"></i></span>
                     </div>
-                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                     `;
                 // Paquetes
                 crearPopupPaquetes();
@@ -730,14 +738,14 @@ function inicializarFlatpickr() {
             locale: {
                 firstDayOfWeek: 1,
                 weekdays: {
-                  shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                  longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
-                }, 
-                months: {
-                  shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
-                  longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                    longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                 },
-              },
+                months: {
+                    shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+                    longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                },
+            },
             onClose: function (selectedDates) {
                 if (selectedDates.length === 2) {
                     const fecha1 = selectedDates[0].toISOString().split('T')[0];
@@ -1122,7 +1130,7 @@ function generateURLPaquetes() {
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
-    const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de salida
     const dateTo = dateRange[1] || ""; // Fecha de llegada
 
@@ -1255,8 +1263,8 @@ function botonBusquedaPaquetes() {
         else if (valid) {
             const generatedURL = generateURLPaquetes();
             // Redirigir al usuario a la URL generada
-            // window.location.href = generatedURL;
-            console.log(generatedURL);
+            window.location.href = generatedURL;
+            
 
         }
     });
@@ -1276,8 +1284,8 @@ function botonBusquedaPaquetes() {
     });
 
     document.querySelector("#fecha-rango").addEventListener("change", function () {
-        if(document.querySelector("#fecha-rango").value.includes("to"))
-        document.querySelector("#fecha-rango").value = document.querySelector("#fecha-rango").value.replace("to","al")
+        if (document.querySelector("#fecha-rango").value.includes("to"))
+            document.querySelector("#fecha-rango").value = document.querySelector("#fecha-rango").value.replace("to", "al")
     });
 
 };
