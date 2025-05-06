@@ -1,5 +1,5 @@
 /* DESKTOP */
-@media (min-width: 1000px) {
+@media (min-width: 1001px) {
   :root {
     --primary-color: #fdbe15;
     /* Color amarillo característico */
@@ -1028,7 +1028,7 @@
   }
 
   .autocomplete-list::-webkit-scrollbar-thumb {
-    background-color: #fdbe15;
+    background-color: #000;
     /* Amarillo */
     border-radius: 10px;
     /* Bordes redondeados */
@@ -1055,7 +1055,7 @@
   }
 
   .autocomplete-input:focus {
-    border-color: #fdbe15;
+    border-color: var(--primary-color);
     /* Amarillo */
     box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
     /* Sombra amarilla */
@@ -1065,7 +1065,7 @@
   .autocomplete-list {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -85px;
     right: 0;
     background-color: #fff;
     border-radius: 8px;
@@ -1076,6 +1076,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* Sombra para la lista */
     animation: fadeIn 0.3s ease-in-out;
+    width: 270px;
   }
 
   .autocomplete-item {
@@ -1090,14 +1091,14 @@
   }
 
   .autocomplete-item:hover {
-    background-color: #fdbe15;
+    background-color: var(--primary-color);
     /* Amarillo */
     color: #fff;
     /* Texto blanco */
   }
 
   .autocomplete-item:active {
-    background-color: #e0a800;
+    background-color: var(--button-hover);
     /* Amarillo más oscuro */
   }
 
