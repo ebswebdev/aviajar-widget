@@ -179,7 +179,6 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
-    padding-bottom: 50px;
     gap: 15px;
   }
 
@@ -193,6 +192,29 @@
     font-family: "Arial", sans-serif;
     color: var(--text-color);
   }
+
+  .package-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .origen-destino { order: 1; }
+  .fechas { order: 2; }
+  .habitaciones-pasajeros { order: 3; }
+  .boton-buscar { order: 4 }
+  #hab-popup { order: 5; }
+  .checkbox-group { order: 6; flex: 1 1 100%; }
+  #mostrar-descuento { order: 7; }
+  .descuento { order: 8; flex: 1 1 100%; }
+  
+  #mostrar-descuento {
+    order: 7; /* justo antes del .descuento */
+    align-self: flex-start; /* se alinea como inline, sin ocupar toda la fila */
+    margin-top: 0.5rem;
+  }
+  
+
+  
 
   /* Animación de entrada */
   @keyframes fadeIn {
@@ -240,9 +262,8 @@
 
   .widget input[type="text"]:focus,
   .widget input[type="number"]:focus {
-    border-color: var(--primary-color);
+    border: none;
     outline: none;
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
   /* Checkboxes */
@@ -735,10 +756,9 @@
   }
 
   /* Inputs en foco */
-  .input-group input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  /* .input-group input:focus {
+    border-color: none;
+  } */
 
   /* Radios */
 
@@ -830,7 +850,7 @@
     justify-content: flex-start; /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start; /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
-    position: absolute;
+    /* position: absolute; */
     top: 220px;
     gap: 10px;
   }
@@ -967,11 +987,7 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
-  .autocomplete-input:focus {
-    border-color: #fdbe15; /* Amarillo */
-    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
-    outline: none;
-  }
+
 
   .autocomplete-list {
     position: absolute;
@@ -1061,10 +1077,10 @@
     transition: border-color 0.3s ease;
   }
 
-  .numeric-input input[type="number"]:focus {
+  /* .numeric-input input[type="number"]:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  } */
 
   .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
@@ -1120,9 +1136,8 @@
     justify-content: space-between;
     padding-bottom: 10px;
   }
-}
 
-.info-text {
+  .info-text {
     font-size: 12px;
     color: #666;
     position: absolute;
@@ -1130,6 +1145,30 @@
     margin-top: 20px;
     text-align: left; /* Centrar el texto */
   }
+  
+  #mostrar-descuento {
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: left;
+    font-size: 14px;
+    margin-top: -5px;
+  }
+  
+  .codigo-descuento {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    top: 270px; 
+    padding: 10px;
+    width: 220px;
+  }
+
+  #codigo-descuento {
+    padding-right: 40px;
+  }
+
+}
+
 
 
 /* Modal Error Pasajeros */
@@ -1168,3 +1207,5 @@
 .modal-content button:hover {
     background-color: #cc0000; /* Fondo rojo intenso */
 }
+
+

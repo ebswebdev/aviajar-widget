@@ -123,7 +123,7 @@
             case 'paquetes':
                 widgetHTML = `
                 <div class="widget widget-package" id="widget-container">
-                        <div class="widget-container">
+                        <div class="widget-container package-container">
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
@@ -181,6 +181,18 @@
                                     <div id="hab-container"></div>
                                     <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento 
+                            <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <div class="descuento" style="display: none;">
+                                <div class="codigo-descuento">
+                                    <div class="input-group" id="input-descuento">
+                                        <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                        <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                        <span class="icon"><i class="fas fa-tag"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -581,7 +593,26 @@
 
 
 // ------------ FUNCIONES GENERALES -------------------
-// Autocomplete
+
+// Mostrar/ocultar el código de descuento
+document.addEventListener("DOMContentLoaded", function () {
+    const mostrarDescuento = document.querySelector("#mostrar-descuento");
+    const codigoDescuentoDiv = document.querySelector(".descuento");
+
+    if (mostrarDescuento && codigoDescuentoDiv) {
+        mostrarDescuento.addEventListener("click", function (e) {
+            e.preventDefault(); // Evitar comportamiento por defecto
+
+            // Alternar visibilidad
+            if (codigoDescuentoDiv.style.display === "none" || codigoDescuentoDiv.style.display === "") {
+                codigoDescuentoDiv.style.display = "block";
+            } else {
+                codigoDescuentoDiv.style.display = "none";
+            }
+        });
+    }
+});
+
 
 let airports = [];
 
@@ -1050,6 +1081,9 @@ function generateURLPaquetes() {
     const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
     const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
 
+    // Leer el código de descuento
+    const discountCode = document.querySelector("#codigo-descuento")?.value || ""
+
     // Construir la información de habitaciones
     let roomInfo = [];
     let totalAdultos = 0;
@@ -1082,7 +1116,7 @@ function generateURLPaquetes() {
     }
 
     // Construir la URL final
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}-show-${branchCode}---------#air`;
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}-show-${branchCode}---------${discountCode}`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1172,7 +1206,8 @@ function botonBusquedaPaquetes() {
         else if (valid) {
             const generatedURL = generateURLPaquetes();
             // Redirigir al usuario a la URL generada
-            window.location.href = generatedURL;
+            // window.location.href = generatedURL;
+            console.log(generatedURL);
 
         }
     });

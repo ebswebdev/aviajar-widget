@@ -230,10 +230,8 @@
   /* Etiquetas */
   .widget label {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-color);
-    top: 10px;
-    left: 10px;
     position: relative;
   }
 
@@ -315,11 +313,9 @@
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
     /* background-color: var(--background-color); */
-    border-radius: 10px;
-    border: 1px solid #ddd;
     padding: 15px;
-    height: 300px;
-    max-height: 300px;
+    height: 200px;
+    max-height: 200px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
@@ -334,7 +330,6 @@
 
   .habitacion label {
     display: block;
-    font-size: 15px;
     color: var(--text-color);
     margin-bottom: 10px;
   }
@@ -543,17 +538,9 @@
   /* Habitaciones individuales */
   #hab-container > div {
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  #hab-container > div:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: -30px;
+    margin-bottom: 30px;
   }
 
   /* Edades niños */
@@ -641,6 +628,7 @@
     padding: 20px;
     width: 100%; /* Ocupa el 100% del ancho disponible */
     max-width: 400px; /* Igual al max-width de .widget */
+    max-height: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
@@ -812,6 +800,7 @@
     justify-content: left;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 20px;
     padding: 10px;
   }
 
@@ -1030,17 +1019,11 @@
 
   /* Contenedor de habitaciones (Popup) */
   #pasajeros-container {
-    background-color: var(--background-color);
-    border-radius: 10px;
-    border: 1px solid #ddd;
     padding: 15px;
-    height: 500px;
-    max-height: 500px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--background-color);
-    letter-spacing: 1px; /* Espaciado entre letras */
   }
 
   .numeric-input-group {
@@ -1056,5 +1039,32 @@
     padding-bottom: 10px;
     text-align: center; /* Centrado */
     letter-spacing: 1px; /* Espaciado entre letras */
+  }
+
+  .close-popup {
+    display: none !important; /* Oculta el botón de cerrar */
+  }
+
+  .info-text {
+    font-size: 12px;
+    color: #666;
+    position: absolute;
+    left: 35px;
+    margin-top: 20px;
+    text-align: left; /* Centrar el texto */
+  }
+
+  #mostrar-descuento {
+    text-decoration: none;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: left;
+    position: absolute;
+    left: 60px;
+    font-size: 14px;
+  }
+
+  #input-descuento {
+    margin-bottom: -30px;
   }
 }
