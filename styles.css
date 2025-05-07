@@ -1,5 +1,5 @@
 /* DESKTOP */
-@media (min-width: 1001px) {
+@media (min-width: 1165px) {
   :root {
     --primary-color: #fdbe15;
     /* Color amarillo característico */
@@ -11,7 +11,7 @@
     /* Texto principal */
     --button-hover: #e0a800;
     /* Color de hover para botones */
-    --font-primary: 'Poppins', sans-serif;
+    --font-primary: "Poppins", sans-serif;
     /* Fuente principal */
   }
 
@@ -65,7 +65,7 @@
     align-items: center;
     justify-content: left;
     height: 100%;
-    gap:20px;
+    gap: 20px;
     padding-bottom: 0px;
     position: relative;
     border-radius: 10px;
@@ -128,7 +128,13 @@
     width: 100%;
   }
 
-  body>div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft>div.flatpickr-innerContainer>div>div.flatpickr-days>div:nth-child(1)>span.flatpickr-day.today:hover {
+  body
+    > div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft
+    > div.flatpickr-innerContainer
+    > div
+    > div.flatpickr-days
+    > div:nth-child(1)
+    > span.flatpickr-day.today:hover {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
@@ -155,10 +161,9 @@
     background-color: var(--primary-color) !important;
   }
 
-
-  .flatpickr-day.selected.startRange+.endRange:not(:nth-child(7n+1)),
-  .flatpickr-day.startRange.startRange+.endRange:not(:nth-child(7n+1)),
-  .flatpickr-day.endRange.startRange+.endRange:not(:nth-child(7n+1)) {
+  .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+  .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+  .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
     box-shadow: -10px 0 0 var(--primary-color) !important;
   }
 
@@ -170,16 +175,14 @@
     color: var(--text-color);
   }
 
-
   /* Iconos */
   .fas {
-    color: var(--primary-color) !important; 
-  } 
-  
+    color: var(--primary-color) !important;
+  }
+
   #lupa-icon {
     color: #fff !important;
   }
-
 
   h4 {
     color: var(--text-color);
@@ -198,7 +201,6 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
-
 
   .widget-container {
     width: 100%;
@@ -225,18 +227,38 @@
     display: flex;
     flex-wrap: wrap;
   }
-  
-  .origen-destino { order: 1; width: 400px; }
-  .fechas { order: 2; }
-  .habitaciones-pasajeros { order: 3; }
-  .boton-buscar { order: 4 }
-  #hab-popup { order: 5; }
-  .checkbox-group { order: 6; flex: 1 1 100%; }
-  #mostrar-descuento { order: 7; }
-  .descuento { order: 8; flex: 1 1 100%; }
-  .options-paq {order: 8;}
-  
-  .descuento-container{
+
+  .origen-destino {
+    order: 1;
+    /* width: 400px; */
+  }
+  .fechas {
+    order: 2;
+  }
+  .habitaciones-pasajeros {
+    order: 3;
+  }
+  .boton-buscar {
+    order: 4;
+  }
+  #hab-popup {
+    order: 5;
+  }
+  .checkbox-group {
+    order: 6;
+    /* flex: 1 1 100%; */
+  }
+  #mostrar-descuento {
+    order: 7;
+  }
+  .descuento {
+    order: 8;
+    flex: 1 1 100%;
+  }
+  .options-paq {
+    order: 8;
+  }
+  .descuento-container {
     margin-top: 3rem;
   }
 
@@ -245,9 +267,6 @@
     align-self: flex-start; /* se alinea como inline, sin ocupar toda la fila */
     margin-top: 0.5rem;
   }
-  
-
-  
 
   /* Animación de entrada */
   @keyframes fadeIn {
@@ -300,7 +319,6 @@
     outline: none;
   }
 
-
   /* Checkboxes */
   .widget input[type="checkbox"] {
     display: flex;
@@ -348,7 +366,8 @@
   }
 
   /* Origen-destino */
-  .origen-destino, .habitaciones-pasajeros {
+  .origen-destino,
+  .habitaciones-pasajeros {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -356,19 +375,18 @@
     border: 1px solid #ddd;
     position: relative;
     padding: 10px;
-}
-
-  .origen-destino::after {
-      content: "";
-      position: absolute;
-      top: 0%; 
-      bottom: 0%; 
-      left: 50%; 
-      width: 1px; 
-      background-color: #ddd;
-      transform: translateX(-50%);
   }
 
+  .origen-destino::after {
+    content: "";
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    left: 50%;
+    width: 1px;
+    background-color: #ddd;
+    transform: translateX(-50%);
+  }
 
   /* .habitaciones-pasajeros::after {
       content: "";
@@ -616,17 +634,18 @@
   }
 
   /* Habitaciones individuales */
-  #hab-container>div {
+  #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
     margin-bottom: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  #hab-container>div:hover {
+  #hab-container > div:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  } */
+  }
+  */
 
   /* Edades niños */
 
@@ -663,10 +682,7 @@
   .popup-num-hab-select:focus {
     border-color: var(--primary-color);
     /* Amarillo */
-    background-color: rgba(253,
-        190,
-        21,
-        0.2);
+    background-color: rgba(253, 190, 21, 0.2);
     /* Fondo amarillo semitransparente */
     outline: none;
     /* Elimina el borde azul predeterminado */
@@ -733,7 +749,6 @@
     font-weight: bold;
     color: var(--text-color);
   }
-
 
   /* Animación de entrada */
   @keyframes fadeIn {
@@ -810,21 +825,19 @@
     /* Add ellipsis for overflowing text */
   }
 
-  
-  .pasajeros .input-group input{
+  .pasajeros .input-group input {
     border-left: none;
     border-radius: 0 5px 5px 0;
   }
-  .habitaciones .input-group input{
+  .habitaciones .input-group input {
     border-right: none;
     border-radius: 5px 0 0 5px;
   }
 
-  .fechas {
+  /* .fechas {
     min-width: 290px;
     margin-right: 10px;
-    /* Espacio para el ícono del calendario */
-  }
+  } */
 
   /* Specific adjustment for the date input */
   #fecha-rango,
@@ -1130,7 +1143,7 @@
     color: #fff;
     /* Texto blanco */
   }
-  .autocomplete-item:hover i{
+  .autocomplete-item:hover i {
     color: #fff !important;
   }
 
@@ -1274,7 +1287,7 @@
     margin-top: 20px;
     text-align: left; /* Centrar el texto */
   }
-  
+
   #mostrar-descuento {
     text-decoration: none;
     color: var(--text-color);
@@ -1283,11 +1296,12 @@
     font-size: 14px;
     margin-top: -5px;
   }
-  
+
   .codigo-descuento {
+    margin-top: 10px;
     border-radius: 10px;
     border: 1px solid #ddd;
-    top: 270px; 
+    top: 270px;
     padding: 10px;
     width: 220px;
   }
@@ -1295,46 +1309,41 @@
   #codigo-descuento {
     padding-right: 40px;
   }
-
 }
-
-
 
 /* Modal Error Pasajeros */
 .modal {
-    position: absolute; /* Relativo al contenedor */
-    top: 100%; /* Justo debajo del input */
-    left: 0;
-    transform: translateY(10px); /* Espaciado debajo del input */
-    background-color: #ffcccc; /* Fondo rojo claro */
-    border: 1px solid #ff0000; /* Borde rojo */
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-    z-index: 1000;
-    padding: 10px; /* Espaciado interno */
-    text-align: left; /* Alinear el texto a la izquierda */
-    width: 250px; /* Ancho más pequeño */
-    font-size: 12px; /* Texto más pequeño */
+  position: absolute; /* Relativo al contenedor */
+  top: 100%; /* Justo debajo del input */
+  left: 0;
+  transform: translateY(10px); /* Espaciado debajo del input */
+  background-color: #ffcccc; /* Fondo rojo claro */
+  border: 1px solid #ff0000; /* Borde rojo */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  z-index: 1000;
+  padding: 10px; /* Espaciado interno */
+  text-align: left; /* Alinear el texto a la izquierda */
+  width: 250px; /* Ancho más pequeño */
+  font-size: 12px; /* Texto más pequeño */
 }
 
 .modal-content p {
-    margin: 0;
-    color: #ff0000; /* Texto rojo */
-    font-weight: bold;
+  margin: 0;
+  color: #ff0000; /* Texto rojo */
+  font-weight: bold;
 }
 
 .modal-content button {
-    padding: 5px;
-    background-color: #ff6666; /* Fondo rojo más oscuro */
-    color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    cursor: pointer;
+  padding: 5px;
+  background-color: #ff6666; /* Fondo rojo más oscuro */
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .modal-content button:hover {
-    background-color: #cc0000; /* Fondo rojo intenso */
+  background-color: #cc0000; /* Fondo rojo intenso */
 }
-
-
