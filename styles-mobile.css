@@ -246,7 +246,7 @@
     border-radius: 10px;
     transition: border-color 0.3s ease;
   }
-  .widget input[type="text"]{
+  .widget input[type="text"] {
     padding-right: 26px;
   }
 
@@ -315,14 +315,13 @@
     flex-direction: column;
   }
 
-  .boton-buscar{
+  .boton-buscar {
     order: 12;
   }
 
-  .descuento-container{
+  .descuento-container {
     margin-bottom: 20px;
   }
-
 
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
@@ -1082,5 +1081,4 @@
     text-align: left;
     font-size: 14px;
   }
-
 }

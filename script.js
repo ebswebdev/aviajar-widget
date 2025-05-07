@@ -647,6 +647,12 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
         const query = normalizeString(input.value.trim());
         autocompleteList.innerHTML = ""; // Limpiar la lista de sugerencias
 
+        // Si el input tiene menos de 3 caracteres, no hacer nada
+        if (query.length < 3) {
+            if (hiddenSelect) hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío o tiene pocos caracteres
+            return;
+        }
+
         if (!query) {
             if (hiddenSelect) hiddenSelect.innerHTML = ""; // Limpiar el select si el input está vacío
             return;
@@ -1264,7 +1270,7 @@ function botonBusquedaPaquetes() {
             const generatedURL = generateURLPaquetes();
             // Redirigir al usuario a la URL generada
             window.location.href = generatedURL;
-            
+
 
         }
     });
