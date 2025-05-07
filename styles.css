@@ -38,7 +38,7 @@
     font-family: var(--font-primary);
   }
 
-  #widget-aviajar {
+  #widget-net {
     font-family: var(--font-primary) !important;
     display: flex;
     flex-direction: column;

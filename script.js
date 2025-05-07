@@ -2,7 +2,7 @@
 
 (function () {
     function createWidget() {
-        const widgetContainer = document.getElementById('widget-aviajar');
+        const widgetContainer = document.getElementById('widget-net');
         if (!widgetContainer) return;
 
         // Leer products
@@ -114,7 +114,7 @@
     }
 
     function createWidgetContent(selectedTab) {
-        const widgetContainer = document.getElementById('widget-aviajar');
+        const widgetContainer = document.getElementById('widget-net');
         if (!widgetContainer) return;
 
         // Eliminar el widget existente si ya está presente
@@ -198,9 +198,7 @@
                 <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
             </div>
         </div>
-        
-    </div>
-    <div class="options-paq">
+        <div class="options-paq">
             
         <div class="checkbox-group">
             <div class="checkbox">
@@ -227,6 +225,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 </div>
                     `;
                 // Paquetes
@@ -1117,7 +1117,7 @@ function crearPopupPaquetes() {
 // Crear la url
 function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
-    const widgetAviajar = document.getElementById('widget-aviajar');
+    const widgetAviajar = document.getElementById('widget-net');
     if (!widgetContainer) return;
     let culture = widgetAviajar.getAttribute('culture') || "es-CO";
     let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
