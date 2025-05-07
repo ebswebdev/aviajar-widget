@@ -198,9 +198,7 @@
                 <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
             </div>
         </div>
-        
-    </div>
-    <div class="options-paq">
+        <div class="options-paq">
             
         <div class="checkbox-group">
             <div class="checkbox">
@@ -227,6 +225,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 </div>
                     `;
                 // Paquetes

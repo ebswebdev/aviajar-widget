@@ -246,6 +246,9 @@
     border-radius: 10px;
     transition: border-color 0.3s ease;
   }
+  .widget input[type="text"]{
+    padding-right: 26px;
+  }
 
   .widget input[type="checkbox"] {
     border-radius: 5px !important;
@@ -308,7 +311,18 @@
 
   .widget-container {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
+
+  .boton-buscar{
+    order: 12;
+  }
+
+  .descuento-container{
+    margin-bottom: 20px;
+  }
+
 
   /* Contenedor de habitaciones (Popup) */
   #hab-container {
@@ -320,6 +334,7 @@
     margin-bottom: 15px;
     scrollbar-width: thin;
     scrollbar-color: var(--primary-color) var(--background-color);
+    padding-top: 0;
   }
 
   #hab-container input[type="number"]:focus {
@@ -354,6 +369,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 31px;
   }
 
   .habitacion-header .icon {
@@ -539,8 +555,9 @@
   #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
-    margin-top: -30px;
-    margin-bottom: 30px;
+    margin-bottom: 7px;
+    border: 1px solid #ededed;
+    border-radius: 16px;
   }
 
   /* Edades niños */
@@ -717,9 +734,10 @@
   /* Estilo del ícono */
   .input-group .icon {
     position: absolute;
-    right: 30px; /* Alinea el ícono a la derecha */
+    right: 9px; /* Alinea el ícono a la derecha */
     color: var(--secondary-color); /* Usa el color azul oscuro */
     pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    top: 29%;
   }
 
   /* Inputs en foco */
@@ -796,19 +814,18 @@
 
   /* Checkboxs */
   .checkbox-group {
-    display: flex;
-    justify-content: left;
     align-items: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 10px;
+    /* padding: 10px; */
   }
 
   .checkbox {
-    display: flex;
+    display: grid;
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    grid-template-columns: 10% 86%;
+    width: 100%;
+    margin: 0;
   }
 
   .checkbox label {
@@ -818,7 +835,6 @@
     top: -3px;
     position: relative;
     text-align: left;
-    left: -10px;
   }
 
   input[type="checkbox"] {
@@ -915,7 +931,7 @@
 
   .autocomplete-list {
     position: absolute;
-    top: 100%;
+    top: 90%;
     left: 0;
     right: 0;
     background-color: #fff;
@@ -934,6 +950,11 @@
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 12px;
   }
 
   .autocomplete-item:hover {
@@ -1059,12 +1080,7 @@
     color: var(--text-color);
     cursor: pointer;
     text-align: left;
-    position: absolute;
-    left: 60px;
     font-size: 14px;
   }
 
-  #input-descuento {
-    margin-bottom: -30px;
-  }
 }
