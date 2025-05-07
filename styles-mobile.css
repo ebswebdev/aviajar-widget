@@ -820,9 +820,9 @@
   .checkbox {
     display: grid;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     cursor: pointer;
-    grid-template-columns: 10% 86%;
+    grid-template-columns: 2% 86%;
     width: 100%;
     margin: 0;
   }
