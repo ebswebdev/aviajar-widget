@@ -409,11 +409,11 @@
     scrollbar-color: var(--primary-color) var(--background-color);
   }
 
-  #hab-container input[type="number"]:focus {
+  /* #hab-container input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  } */
 
   .habitacion label {
     display: block;
@@ -637,15 +637,17 @@
   #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
+    padding-right: 20px;
     margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* border: 1px solid #ededed; */
+    /* border-radius: 16px; */
   }
 
   #hab-container > div:hover {
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
+    transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  */
 
   /* Edades niños */
 
