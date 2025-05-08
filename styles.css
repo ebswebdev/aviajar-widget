@@ -15,6 +15,10 @@
     /* Fuente principal */
   }
 
+  /* .contenedor-prueba {
+    width: 500px !important;
+  } */
+
   body {
     font-family: var(--font-primary);
   }
@@ -258,9 +262,9 @@
   .options-paq {
     order: 8;
   }
-  .descuento-container {
+  /* .descuento-container {
     margin-top: 3rem;
-  }
+  } */
 
   #mostrar-descuento {
     order: 7; /* justo antes del .descuento */
@@ -409,11 +413,11 @@
     scrollbar-color: var(--primary-color) var(--background-color);
   }
 
-  #hab-container input[type="number"]:focus {
+  /* #hab-container input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
+  } */
 
   .habitacion label {
     display: block;
@@ -637,15 +641,18 @@
   #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
+    padding-right: 20px;
     margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+    /* border: 1px solid #ededed; */
+    /* border-radius: 16px; */
   }
 
   #hab-container > div:hover {
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
+    transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  */
 
   /* Edades niños */
 
@@ -807,6 +814,7 @@
     align-items: center;
     display: flex;
     height: 50px;
+    width: 200px;
   }
 
   /* Estilo del input */
@@ -956,7 +964,7 @@
     align-items: flex-start;
     /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
-    position: absolute;
+    /* position: absolute; */
     top: 120px;
     gap: 10px;
   }
@@ -1099,19 +1107,19 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
+  /*
   .autocomplete-input:focus {
     border-color: var(--primary-color);
-    /* Amarillo */
     box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
-    /* Sombra amarilla */
     outline: none;
   }
+    */
 
   .autocomplete-list {
     position: absolute;
     top: 100%;
-    left: -85px;
-    right: 0;
+    /* left: -85px;
+    right: 0; */
     background-color: #fff;
     border-radius: 8px;
     max-height: 200px;

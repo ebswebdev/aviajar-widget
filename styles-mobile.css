@@ -554,7 +554,8 @@
   #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
-    margin-bottom: 7px;
+    padding-right: 20px;
+    margin-bottom: 20px;
     border: 1px solid #ededed;
     border-radius: 16px;
   }
