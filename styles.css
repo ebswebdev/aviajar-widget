@@ -1101,19 +1101,19 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
+  /*
   .autocomplete-input:focus {
     border-color: var(--primary-color);
-    /* Amarillo */
     box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
-    /* Sombra amarilla */
     outline: none;
   }
+    */
 
   .autocomplete-list {
     position: absolute;
     top: 100%;
-    left: -85px;
-    right: 0;
+    /* left: -85px;
+    right: 0; */
     background-color: #fff;
     border-radius: 8px;
     max-height: 200px;
