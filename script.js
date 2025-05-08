@@ -1138,7 +1138,7 @@ function generateURLPaquetes() {
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
     const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de salida
-    const dateTo = dateRange[1] || ""; // Fecha de llegada
+    const dateTo = dateRange[1] || dateFrom; // Fecha de llegada (igual a ida si no se selecciona otra)
 
     const passengersRoom = document.querySelector("#num-hab")?.value || "1"; // Número de habitaciones
     const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
