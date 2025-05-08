@@ -116,9 +116,9 @@
 
 
     // Llamar a la función después de cargar el widget
-    document.addEventListener("DOMContentLoaded", function () {
-        toggleDestinoInput();
-    });
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     toggleDestinoInput();
+    // });
 
     function createWidgetContent(selectedTab) {
         const widgetContainer = document.getElementById('widget-net');
@@ -134,6 +134,7 @@
         switch (selectedTab) {
             case 'paquetes':
                 widgetHTML = `
+                <div class="contenedor-prueba">
                 <div class="widget widget-package" id="widget-container">
                     <div class="widget-container package-container">
                         <div class="origen-destino">
@@ -234,6 +235,7 @@
                     </div>
                     </div>
                     
+                </div>
                 </div>
                     `;
                 // Paquetes
@@ -633,7 +635,56 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+function cargarEstilosSegunContenedor() {
+    const widget = document.querySelector('#widget-net');
+    if (!widget) {
+        console.error('No se encontró el widget.');
+        return;
+    }
 
+    // Buscar el primer ancestro cuyo ancho sea menor al viewport
+    let contenedor = widget;
+    while (
+        contenedor.parentElement &&
+        contenedor.parentElement !== document.body &&
+        contenedor.parentElement.offsetWidth >= window.innerWidth - 1 // -1 por posibles decimales
+    ) {
+        contenedor = contenedor.parentElement;
+    }
+
+    // Si no se encontró un contenedor más pequeño, usar el widget
+    const anchoContenedor = contenedor.offsetWidth;
+    console.log(`Contenedor usado:`, contenedor);
+    console.log(`Ancho del contenedor: ${anchoContenedor}px`);
+
+    const existingLink = document.querySelector('#dynamic-styles');
+    const nuevoArchivoCSS = anchoContenedor < 1165 ? 'styles-mobile.css' : 'styles.css';
+
+    if (existingLink && existingLink.getAttribute('href') === nuevoArchivoCSS) {
+        return;
+    }
+    if (existingLink) {
+        existingLink.remove();
+    }
+
+    const link = document.createElement('link');
+    link.id = 'dynamic-styles';
+    link.rel = 'stylesheet';
+    link.href = nuevoArchivoCSS;
+    document.head.appendChild(link);
+
+    console.log(`Cargado: ${nuevoArchivoCSS}`);
+}
+
+window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
+window.addEventListener('resize', cargarEstilosSegunContenedor);
+
+// Ejecutar al cargar la página y al redimensionar
+window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
+window.addEventListener('resize', cargarEstilosSegunContenedor);
+
+
+// Autocomplete
 let airports = [];
 
 // external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server

@@ -15,6 +15,10 @@
     /* Fuente principal */
   }
 
+  /* .contenedor-prueba {
+    width: 500px !important;
+  } */
+
   body {
     font-family: var(--font-primary);
   }
