@@ -258,9 +258,9 @@
   .options-paq {
     order: 8;
   }
-  .descuento-container {
+  /* .descuento-container {
     margin-top: 3rem;
-  }
+  } */
 
   #mostrar-descuento {
     order: 7; /* justo antes del .descuento */
@@ -639,6 +639,7 @@
     padding: 10px;
     padding-right: 20px;
     margin-bottom: 20px;
+    margin-top: 10px;
     /* border: 1px solid #ededed; */
     /* border-radius: 16px; */
   }
@@ -809,6 +810,7 @@
     align-items: center;
     display: flex;
     height: 50px;
+    width: 200px;
   }
 
   /* Estilo del input */
@@ -958,7 +960,7 @@
     align-items: flex-start;
     /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
-    position: absolute;
+    /* position: absolute; */
     top: 120px;
     gap: 10px;
   }
