@@ -1632,7 +1632,6 @@ function botonBusquedaVuelos() {
 function ajustarWidget() {
     const contenedor = document.querySelector('.contenedor-widget');
     if (!contenedor) return;
-  
     const esEscritorio = window.innerWidth >= 1024;
     const contenedorEstrecho = contenedor.offsetWidth < 1000;
   
