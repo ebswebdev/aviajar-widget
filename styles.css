@@ -212,14 +212,12 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
-    gap: 15px;
+    row-gap: 15px;
   }
 
   /* Contenedor principal del widget */
   .widget {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
+    border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     font-family: "Arial", sans-serif;
@@ -563,8 +561,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    width: 160px;
-    margin-right: 10px;
+    width: 140px;
     /* Espacio para el ícono */
   }
 
@@ -814,7 +811,10 @@
     align-items: center;
     display: flex;
     height: 50px;
-    width: 200px;
+  }
+
+  .boton-buscar .input-group{
+    width: 100%;
   }
 
   /* Estilo del input */
@@ -1037,7 +1037,6 @@
   /* Botón buscar */
   .boton-buscar {
     display: flex;
-    weight: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -1051,6 +1050,7 @@
     pointer-events: none;
     font-size: 20px;
     transition: color 0.3s ease;
+    width: fit-content;
   }
 
   .boton-buscar button {
@@ -1316,6 +1316,36 @@
 
   #codigo-descuento {
     padding-right: 40px;
+  }
+
+
+
+  .origen-destino{
+    width: 40%;
+  }
+  .fechas{
+    width: 25%;
+  }
+  .habitaciones-pasajeros{
+    width: 12%;
+  }
+  .boton-buscar {
+    width: 12%;
+    min-width: 140px;
+  }
+
+  .widget-ajustado .origen-destino, 
+  .widget-ajustado .origen,
+  .widget-ajustado .destino, 
+  .widget-ajustado .input-group{
+    width: 100%;
+  }
+  .widget-ajustado .fechas{
+    width: 40%;
+  }
+  .widget-ajustado .habitaciones-pasajeros{
+    margin: 0 10px;
+    width: 20%;
   }
 }
 
