@@ -1,5 +1,17 @@
 @media (min-width:1165px) {
 
+    .options-paq,
+    .tabs,
+    .widget {
+        position: relative
+    }
+
+    .autocomplete-list,
+    .tab,
+    .widget {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, .1)
+    }
+
     body,
     button,
     h1,
@@ -32,13 +44,7 @@
     #widget-net,
     #widget-package {
         color: var(--text-color);
-        width: 100%;
-        display: flex
-    }
-
-    .tabs,
-    .widget {
-        position: relative
+        width: 100%
     }
 
     .tab,
@@ -57,8 +63,13 @@
     #hab-popup,
     #pasajeros-popup {
         background-color: var(--background-color);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
         z-index: 1000
+    }
+
+    #hab-container>div,
+    #hab-popup,
+    .tab:hover {
+        background-color: #fff
     }
 
     #hab-container>div:hover,
@@ -93,6 +104,7 @@
     }
 
     #widget-net {
+        display: flex;
         flex-direction: column;
         max-width: 1200px;
         margin: 0 auto;
@@ -101,7 +113,8 @@
 
     #widget-package,
     .widget {
-        font-family: Arial, sans-serif
+        font-family: Arial, sans-serif;
+        display: flex
     }
 
     .tabs {
@@ -115,12 +128,10 @@
 
     .tab,
     .widget {
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, .1)
+        padding: 20px
     }
 
     .tab:hover {
-        background-color: #fff;
         transform: scale(1.05);
         color: #000
     }
@@ -161,12 +172,7 @@
         pointer-events: none
     }
 
-    .boton-buscar .input-group,
-    .flatpickr-innerContainer,
-    .widget-ajustado .destino,
-    .widget-ajustado .input-group,
-    .widget-ajustado .origen,
-    .widget-ajustado .origen-destino {
+    .flatpickr-innerContainer {
         width: 100%
     }
 
@@ -240,11 +246,12 @@
         justify-content: space-between;
         align-items: center;
         padding-top: 20px;
-        row-gap: 15px
+        gap: 15px
     }
 
     .widget {
-        border-radius: 16px
+        flex-direction: column;
+        border-radius: 10px
     }
 
     .package-container {
@@ -289,7 +296,12 @@
     }
 
     .options-paq {
-        order: 8
+        order: 8;
+        width: 100%
+    }
+
+    .descuento-container {
+        margin-top: 3rem
     }
 
     .widget .header h3 {
@@ -327,8 +339,7 @@
         align-items: center;
         width: auto;
         margin-right: 10px;
-        cursor: pointer;
-        transition: transform .2s
+        cursor: pointer
     }
 
     .widget button {
@@ -473,11 +484,6 @@
         transition: border-color .3s
     }
 
-    .input-adultos .icon,
-    .input-ninos .icon {
-        top: 15px
-    }
-
     .ninos {
         display: flex;
         justify-content: space-between;
@@ -498,7 +504,9 @@
     .habitaciones-pasajeros {
         display: flex;
         align-items: center;
-        position: relative
+        position: relative;
+        width: 160px;
+        margin-right: 10px
     }
 
     .habitaciones {
@@ -556,14 +564,13 @@
     }
 
     #hab-container>div {
-        background-color: #fff;
-        padding: 10px 20px 10px 10px;
+        padding: 10px;
         margin-bottom: 20px;
-        margin-top: 10px
+        transition: transform .3s, box-shadow .3s
     }
 
     #hab-container>div:hover {
-        transform: scale(1.02)
+        transform: translateY(-5px)
     }
 
     #edades-ninos {
@@ -616,6 +623,7 @@
 
     .input-adultos .icon,
     .input-ninos .icon {
+        top: 15px;
         position: absolute;
         right: 10px;
         font-size: 16px
@@ -665,7 +673,6 @@
         left: 60%;
         width: 350px;
         height: 340px;
-        background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 10px
     }
@@ -677,6 +684,12 @@
     .input-error {
         background-color: #ffe6e6;
         border: 1px solid red
+    }
+
+    #pasajeros-popup,
+    .autocomplete-list {
+        background-color: #fff;
+        position: absolute
     }
 
     .input-group {
@@ -758,24 +771,14 @@
         left: 0
     }
 
-    .checkbox label,
-    input[type=checkbox] {
-        top: 5px;
-        position: relative;
-        display: flex;
-        cursor: pointer
-    }
-
     #radio-soloida {
         border: 2px solid var(--primary-color);
-        border-radius: 50%;
-        cursor: pointer
+        border-radius: 50%
     }
 
     #radio-idayregreso {
         border: 2px solid var(--primary-color);
         border-radius: 50%;
-        cursor: pointer;
         margin-left: 0
     }
 
@@ -791,6 +794,7 @@
         justify-content: flex-start;
         align-items: flex-start;
         margin-bottom: 20px;
+        position: absolute;
         top: 120px;
         gap: 10px
     }
@@ -846,6 +850,7 @@
 
     .boton-buscar {
         display: flex;
+        weight: 100%;
         height: 100%;
         justify-content: center;
         align-items: center;
@@ -858,8 +863,7 @@
         color: var(--background-color);
         pointer-events: none;
         font-size: 20px;
-        transition: color .3s;
-        width: fit-content
+        transition: color .3s
     }
 
     .boton-buscar button {
@@ -911,16 +915,21 @@
         transition: box-shadow .3s, border-color .3s
     }
 
+    .autocomplete-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 8px rgba(253, 190, 21, .5);
+        outline: 0
+    }
+
     .autocomplete-list {
-        position: absolute;
         top: 100%;
-        background-color: #fff;
+        left: -85px;
+        right: 0;
         border-radius: 8px;
         max-height: 200px;
         overflow-y: auto;
         overflow-x: hidden;
         z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
         animation: .3s ease-in-out fadeIn;
         width: 270px
     }
@@ -1004,12 +1013,10 @@
 
     #pasajeros-popup {
         display: none;
-        position: absolute;
         top: 200px;
         left: 50%;
         width: 400px;
         height: 400px;
-        background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 10px
     }
@@ -1041,29 +1048,6 @@
         top: 270px;
         padding: 10px;
         width: 220px
-    }
-
-    .origen-destino,
-    .widget-ajustado .fechas {
-        width: 40%
-    }
-
-    .fechas {
-        width: 25%
-    }
-
-    .habitaciones-pasajeros {
-        width: 12%
-    }
-
-    .boton-buscar {
-        width: 12%;
-        min-width: 140px
-    }
-
-    .widget-ajustado .habitaciones-pasajeros {
-        margin: 0 10px;
-        width: 20%
     }
 }
 
@@ -1105,6 +1089,15 @@
 
 @media (max-width:1164px) {
 
+    .boton-buscar button:hover,
+    .numeric-input button,
+    .tab,
+    .widget .header h3,
+    .widget button,
+    input[type=checkbox]:checked {
+        background-color: var(--primary-color)
+    }
+
     body,
     button,
     h1,
@@ -1141,15 +1134,12 @@
 
     .tab,
     .widget button {
-        transition: background-color .3s, transform .2s;
-        background-color: var(--primary-color);
-        cursor: pointer
+        transition: background-color .3s, transform .2s
     }
 
-    .tab,
-    .widget .header h3,
-    .widget button {
-        background-color: var(--primary-color)
+    .numeric-input button:hover,
+    .widget button:hover {
+        background-color: var(--button-hover)
     }
 
     .close-popup,
@@ -1270,7 +1260,8 @@
         color: #fff
     }
 
-    .flatpickr-innerContainer {
+    .flatpickr-innerContainer,
+    .pasajeros {
         width: 100%
     }
 
@@ -1338,7 +1329,6 @@
         margin: 0
     }
 
-    #hab-container>div,
     .descuento-container,
     .widget .header h3 {
         margin-bottom: 20px
@@ -1391,7 +1381,8 @@
         width: auto;
         margin-right: 10px;
         cursor: pointer;
-        transition: transform .2s
+        transition: transform .2s;
+        margin-left: 0 !important
     }
 
     #hab-container input[type=number]:focus,
@@ -1412,6 +1403,18 @@
         transition: .3s
     }
 
+    .habitacion-header .icon,
+    .habitaciones,
+    .habitaciones-pasajeros,
+    .input-adultos,
+    .input-ninos,
+    .label-adultos,
+    .label-ninos,
+    .ninos,
+    .pasajeros {
+        position: relative
+    }
+
     .widget button {
         width: 100%;
         padding: 12px;
@@ -1423,7 +1426,6 @@
     }
 
     .widget button:hover {
-        background-color: var(--button-hover);
         transform: scale(1.05)
     }
 
@@ -1481,11 +1483,11 @@
 
     .habitacion-header .icon {
         align-items: center;
-        right: 10px;
-        position: relative
+        right: 10px
     }
 
-    .adultos {
+    .adultos,
+    .ninos {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1498,7 +1500,6 @@
         justify-content: left;
         font-size: 15px;
         color: var(--text-color);
-        position: relative;
         padding: 10px
     }
 
@@ -1512,8 +1513,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-radius: 5px;
-        position: relative
+        border-radius: 5px
     }
 
     .input-adultos #num-adultos,
@@ -1530,20 +1530,11 @@
         top: 15px
     }
 
-    .ninos {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        position: relative
-    }
-
     .label-ninos {
         display: flex;
         align-items: center;
         font-size: 15px;
         color: var(--text-color);
-        position: relative;
         padding: 10px
     }
 
@@ -1552,7 +1543,6 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        position: relative;
         gap: 10px
     }
 
@@ -1560,10 +1550,6 @@
     .popup {
         display: none;
         width: 100%
-    }
-
-    .habitaciones {
-        position: relative
     }
 
     .habitaciones .input,
@@ -1584,11 +1570,6 @@
         top: 25px
     }
 
-    .pasajeros {
-        width: 100%;
-        position: relative
-    }
-
     #hab-container::-webkit-scrollbar {
         width: 8px
     }
@@ -1604,7 +1585,8 @@
 
     #hab-container>div {
         background-color: #fff;
-        padding: 10px 20px 10px 10px;
+        padding: 10px;
+        margin-bottom: 7px;
         border: 1px solid #ededed;
         border-radius: 16px
     }
@@ -1651,12 +1633,6 @@
     .popup-num-hab-select option {
         background-color: #fff;
         color: var(--text-color)
-    }
-
-    .boton-buscar button:hover,
-    .numeric-input button,
-    input[type=checkbox]:checked {
-        background-color: var(--primary-color)
     }
 
     .input-adultos .icon,
@@ -1767,6 +1743,8 @@
         gap: 20px
     }
 
+    .autocomplete-item,
+    .checkbox label,
     .radio,
     .radio label {
         display: flex;
@@ -1810,13 +1788,6 @@
         grid-template-columns: 10% 86%;
         width: 100%;
         margin: 0
-    }
-
-    .autocomplete-item,
-    .checkbox label {
-        display: flex;
-        align-items: center;
-        cursor: pointer
     }
 
     .checkbox label {
@@ -1985,10 +1956,6 @@
         display: flex;
         justify-content: center;
         align-items: center
-    }
-
-    .numeric-input button:hover {
-        background-color: var(--button-hover)
     }
 
     .numeric-input input[type=number] {
