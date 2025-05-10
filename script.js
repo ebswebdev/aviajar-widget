@@ -20,7 +20,7 @@
             Extras: { id: 'tours', icon: 'fa-ticket-alt', text: 'Tours' }
         };
 
-       
+
 
         // Crear las tabs dinámicamente según el atributo "products"
         const tabs = document.createElement('div');
@@ -179,7 +179,7 @@
                             <div class="pasajeros">
                                 <div class="input-group">
                                     <span class="label-input">PERSONAS</span>
-                                    <input id="num-per" type="number" min="1" value="1" readonly>
+                                    <input id="num-per" type="number" min="2" value="2" readonly>
                                     <span class="icon"><i class="fas fa-users"></i></span>
                                 </div>
                             </div>
@@ -594,8 +594,8 @@
         // Inicializar funcionalidades específicas del widget
         inicializarFlatpickr();
         cargarAutocompletes();
-         // ajustar width del widget
-         ajustarWidget();
+        // ajustar width del widget
+        ajustarWidget();
 
         // Inicializar funcionalidades específicas del widget
         if (selectedTab === 'paquetes') {
@@ -943,7 +943,7 @@ function crearPopupPaquetes() {
             const inputAdultos = document.createElement("input");
             inputAdultos.type = "number";
             inputAdultos.id = "numeric-value-adultos";
-            inputAdultos.value = "1";
+            inputAdultos.value = "2";
             inputAdultos.min = "1";
             inputAdultos.max = "7";
             inputAdultos.readOnly = true;
@@ -1634,6 +1634,6 @@ function ajustarWidget() {
     if (!contenedor) return;
     const esEscritorio = window.innerWidth >= 1024;
     const contenedorEstrecho = contenedor.offsetWidth < 1000;
-  
+
     contenedor.classList.toggle('widget-ajustado', esEscritorio && contenedorEstrecho);
-  }
+}

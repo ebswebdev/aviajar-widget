@@ -641,6 +641,7 @@
     padding-right: 20px;
     margin-bottom: 20px;
     margin-top: 10px;
+
     /* border: 1px solid #ededed; */
     /* border-radius: 16px; */
   }
@@ -780,7 +781,7 @@
     left: 60%;
     width: 350px;
     /* Ocupa el ancho del contenedor */
-    height: 340px;
+    height: 400px;
     /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
@@ -793,6 +794,18 @@
   #hab-popup.active {
     display: block;
     /* Mostrar el modal cuando esté activo */
+  }
+
+  .button-accept {
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* width: 50%; */
+    margin-top: 20px;
+    position: absolute;
+    bottom: 20px;
   }
 
   /* Inputs */
@@ -813,7 +826,7 @@
     height: 50px;
   }
 
-  .boton-buscar .input-group{
+  .boton-buscar .input-group {
     width: 100%;
   }
 
@@ -1267,7 +1280,7 @@
 
   #hab-container {
     padding: 10px;
-    height: 176px;
+    height: 230px;
     overflow-y: auto;
     margin-bottom: 15px;
     scrollbar-width: thin;
@@ -1318,15 +1331,13 @@
     padding-right: 40px;
   }
 
-
-
-  .origen-destino{
+  .origen-destino {
     width: 40%;
   }
-  .fechas{
+  .fechas {
     width: 25%;
   }
-  .habitaciones-pasajeros{
+  .habitaciones-pasajeros {
     width: 12%;
   }
   .boton-buscar {
@@ -1334,16 +1345,16 @@
     min-width: 140px;
   }
 
-  .widget-ajustado .origen-destino, 
+  .widget-ajustado .origen-destino,
   .widget-ajustado .origen,
-  .widget-ajustado .destino, 
-  .widget-ajustado .input-group{
+  .widget-ajustado .destino,
+  .widget-ajustado .input-group {
     width: 100%;
   }
-  .widget-ajustado .fechas{
+  .widget-ajustado .fechas {
     width: 40%;
   }
-  .widget-ajustado .habitaciones-pasajeros{
+  .widget-ajustado .habitaciones-pasajeros {
     margin: 0 10px;
     width: 20%;
   }
