@@ -191,11 +191,11 @@
                         </div>
                         <div id="hab-popup" class="popup">
                             <div class="popup-content">
+                                <div id="hab-container"></div>
                                 <div class="popup-header">
-                                    <label for="popup-num-hab">Número de habitaciones:</label>
+                                    <label for="popup-num-hab">¿Cuántas habitaciones?</label>
                                     <input id="popup-num-hab" type="number" min="1" max="20" value="1">
                                 </div>
-                                <div id="hab-container"></div>
                                 <div class="button-accept">
                                     <button id="accept-popup">Aceptar</button>
                                 </div>
