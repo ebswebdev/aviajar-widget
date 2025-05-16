@@ -1,7 +1,7 @@
 /* MOBILE */
 @media (max-width: 1164px) {
   :root {
-    --primary-color: #fdbe15; /* Color amarillo característico */
+    --primary-color: #fdbe15; /* Color amarillo caracterÃ­stico */
     --secondary-color: #004481; /* Azul oscuro para contrastes */
     --background-color: #f4f4f4; /* Fondo claro */
     --text-color: #333; /* Texto principal */
@@ -35,7 +35,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1200px; /* Ancho máximo del widget */
+    max-width: 1200px; /* Ancho mÃ¡ximo del widget */
     border-radius: 10px;
     font-family: var(--font-primary) !important;
     color: var(--text-color);
@@ -60,7 +60,7 @@
     position: relative;
     max-width: 100%; /* Evita que exceda el ancho del contenedor padre */
     box-sizing: border-box; /* Incluye padding y borde en el ancho */
-    overflow-x: auto; /* Permite scroll horizontal si el contenido interno es más grande */
+    overflow-x: auto; /* Permite scroll horizontal si el contenido interno es mÃ¡s grande */
     word-wrap: break-word;
     scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
   }
@@ -96,7 +96,7 @@
 
   @media (max-width: 480px) {
     .tab-text {
-      display: none !important; /* Oculta el texto en pantallas muy pequeñas */
+      display: none !important; /* Oculta el texto en pantallas muy pequeÃ±as */
     }
     .fa,
     .fas {
@@ -113,19 +113,19 @@
     border-radius: 5px;
   }
 
-  /* Cambiar el color de los días seleccionados */
+  /* Cambiar el color de los dÃ­as seleccionados */
   .flatpickr-day.selected {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  /* Cambiar el color de los días al pasar el mouse */
+  /* Cambiar el color de los dÃ­as al pasar el mouse */
   .flatpickr-day:hover {
     background-color: var(--background-color) !important;
     color: #fff;
   }
 
-  /* Ajustar el tamaño del calendario en dispositivos móviles */
+  /* Ajustar el tamaÃ±o del calendario en dispositivos mÃ³viles */
   .flatpickr-calendar {
     width: 100%;
     font-size: 14px;
@@ -203,7 +203,7 @@
     animation: fadeIn 0.5s ease-in-out;
   }
 
-  /* Animación de entrada */
+  /* AnimaciÃ³n de entrada */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -264,7 +264,7 @@
   /* Label-Input */
   .label-input {
     position: absolute;
-    top: 10px; /* Ajustado para estar más abajo del input */
+    top: 10px; /* Ajustado para estar mÃ¡s abajo del input */
     left: 10px;
     font-size: 10px;
     color: var(--text-color); /* Usando el color de texto definido */
@@ -279,10 +279,10 @@
     width: auto;
     margin-right: 10px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    margin-left: 0 !important;
   }
 
-  /* Botón de búsqueda */
+  /* BotÃ³n de bÃºsqueda */
   .widget button {
     width: 100%;
     padding: 12px;
@@ -420,13 +420,13 @@
 
   .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
+    right: 10px; /* Alinea el Ã­cono a la derecha */
     color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    pointer-events: none; /* Evita que el Ã­cono interfiera con el clic en el input */
     top: 15px;
   }
 
-  /* Niños */
+  /* NiÃ±os */
   .ninos {
     display: flex;
     justify-content: space-between;
@@ -467,9 +467,9 @@
 
   .input-ninos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
+    right: 10px; /* Alinea el Ã­cono a la derecha */
     color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    pointer-events: none; /* Evita que el Ã­cono interfiera con el clic en el input */
     top: 15px;
   }
 
@@ -560,7 +560,7 @@
     border-radius: 16px;
   }
 
-  /* Edades niños */
+  /* Edades niÃ±os */
 
   #edades-ninos {
     display: flex;
@@ -617,10 +617,10 @@
   .input-ninos .icon,
   .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
+    right: 10px; /* Alinea el Ã­cono a la derecha */
     font-size: 16px;
     color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
+    pointer-events: none; /* Evita que el Ã­cono interfiera con el clic en el select */
   }
 
   /* Estilo del fondo del popup */
@@ -632,7 +632,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    z-index: 1000; /* Asegura que estÃ© por encima de otros elementos */
     justify-content: center;
     align-items: center;
   }
@@ -678,7 +678,7 @@
     color: var(--text-color);
   }
 
-  /* Botón de cierre */
+  /* BotÃ³n de cierre */
   .close-popup {
     position: absolute;
     top: 10px;
@@ -694,7 +694,7 @@
     color: var(--primary-color);
   }
 
-  /* Animación de entrada */
+  /* AnimaciÃ³n de entrada */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -723,7 +723,7 @@
   /* Estilo del input */
   .input-group input {
     width: 100%;
-    height: 50px;
+    height: 70px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -731,12 +731,12 @@
     transition: border-color 0.3s ease;
   }
 
-  /* Estilo del ícono */
+  /* Estilo del Ã­cono */
   .input-group .icon {
     position: absolute;
-    right: 9px; /* Alinea el ícono a la derecha */
+    right: 9px; /* Alinea el Ã­cono a la derecha */
     color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    pointer-events: none; /* Evita que el Ã­cono interfiera con el clic en el input */
     top: 29%;
   }
 
@@ -838,10 +838,10 @@
   }
 
   input[type="checkbox"] {
-    position: relative;
+    position: relative !important;
     top: 5px;
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
     appearance: none;
     border: 1px solid #ddd;
     cursor: pointer;
@@ -856,21 +856,21 @@
   }
 
   input[type="checkbox"]::before {
-    content: "";
+    content: "" !important;
     position: absolute;
     top: 2px;
-    left: 6px;
+    left: 1px;
     width: 5px;
     height: 10px;
     border: 4px solid transparent;
     border-left: none;
     border-top: none;
-    transform: rotate(45deg) scale(1);
+    transform: rotate(135deg) scale(1,-1);
   }
 
   input[type="checkbox"]:checked:before {
     border-color: #fff;
-    animation: checkmark 0.2s ease;
+    margin: 0 !important;
   }
 
   @keyframes checkmark {
@@ -882,7 +882,7 @@
     }
   }
 
-  /* Botón buscar */
+  /* BotÃ³n buscar */
   .boton-buscar .icon {
     position: absolute;
     left: 20px;
@@ -963,7 +963,7 @@
   }
 
   .autocomplete-item:active {
-    background-color: #e0a800; /* Amarillo más oscuro */
+    background-color: #e0a800; /* Amarillo mÃ¡s oscuro */
   }
 
   @keyframes fadeIn {
@@ -1063,7 +1063,7 @@
   }
 
   .close-popup {
-    display: none !important; /* Oculta el botón de cerrar */
+    display: none !important; /* Oculta el botÃ³n de cerrar */
   }
 
   .info-text {

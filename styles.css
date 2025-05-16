@@ -2,7 +2,7 @@
 @media (min-width: 1165px) {
   :root {
     --primary-color: #fdbe15;
-    /* Color amarillo característico */
+    /* Color amarillo caracterÃ­stico */
     --secondary-color: #004481;
     /* Azul oscuro para contrastes */
     --background-color: #f4f4f4;
@@ -48,7 +48,7 @@
     flex-direction: column;
     width: 100%;
     max-width: 1200px;
-    /* Ancho máximo del widget */
+    /* Ancho mÃ¡ximo del widget */
     border-radius: 10px;
     color: var(--text-color);
     margin: 0 auto;
@@ -110,19 +110,19 @@
     border-radius: 5px;
   }
 
-  /* Cambiar el color de los días seleccionados */
+  /* Cambiar el color de los dÃ­as seleccionados */
   .flatpickr-day.selected {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  /* Cambiar el color de los días al pasar el mouse */
+  /* Cambiar el color de los dÃ­as al pasar el mouse */
   .flatpickr-day:hover {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  /* Ajustar el tamaño del calendario en dispositivos móviles */
+  /* Ajustar el tamaÃ±o del calendario en dispositivos mÃ³viles */
   .flatpickr-calendar {
     width: 100%;
     font-size: 14px;
@@ -270,7 +270,7 @@
     margin-top: 0.5rem;
   }
 
-  /* Animación de entrada */
+  /* AnimaciÃ³n de entrada */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -329,9 +329,10 @@
     margin-right: 10px;
     cursor: pointer;
     transition: transform 0.2s ease;
+    margin-left: 0 !important;
   }
 
-  /* Botón de búsqueda */
+  /* BotÃ³n de bÃºsqueda */
   .widget button {
     width: 100px;
     padding: 12px;
@@ -358,7 +359,7 @@
   .label-input {
     position: absolute;
     top: 1px;
-    /* Ajustado para estar más abajo del input */
+    /* Ajustado para estar mÃ¡s abajo del input */
     left: 10px;
     font-size: 10px;
     color: var(--text-color);
@@ -497,15 +498,15 @@
   .input-adultos .icon {
     position: absolute;
     right: 10px;
-    /* Alinea el ícono a la derecha */
+    /* Alinea el Ã­cono a la derecha */
     color: var(--secondary-color);
     /* Usa el color azul oscuro */
     pointer-events: none;
-    /* Evita que el ícono interfiera con el clic en el input */
+    /* Evita que el Ã­cono interfiera con el clic en el input */
     top: 15px;
   }
 
-  /* Niños */
+  /* NiÃ±os */
 
   .ninos {
     display: flex;
@@ -548,11 +549,11 @@
   .input-ninos .icon {
     position: absolute;
     right: 10px;
-    /* Alinea el ícono a la derecha */
+    /* Alinea el Ã­cono a la derecha */
     color: var(--secondary-color);
     /* Usa el color azul oscuro */
     pointer-events: none;
-    /* Evita que el ícono interfiera con el clic en el input */
+    /* Evita que el Ã­cono interfiera con el clic en el input */
     top: 15px;
   }
 
@@ -562,7 +563,7 @@
     align-items: center;
     position: relative;
     width: 140px;
-    /* Espacio para el ícono */
+    /* Espacio para el Ã­cono */
   }
 
   .habitaciones {
@@ -651,7 +652,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  /* Edades niños */
+  /* Edades niÃ±os */
 
   #edades-ninos {
     display: flex;
@@ -709,12 +710,12 @@
   .input-adultos .icon {
     position: absolute;
     right: 10px;
-    /* Alinea el ícono a la derecha */
+    /* Alinea el Ã­cono a la derecha */
     font-size: 16px;
     color: var(--secondary-color);
     /* Usa el color azul oscuro */
     pointer-events: none;
-    /* Evita que el ícono interfiera con el clic en el select */
+    /* Evita que el Ã­cono interfiera con el clic en el select */
   }
 
   /* Contenido del popup */
@@ -757,7 +758,7 @@
     color: var(--text-color);
   }
 
-  /* Animación de entrada */
+  /* AnimaciÃ³n de entrada */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -790,12 +791,12 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    /* Asegura que esté por encima de otros elementos */
+    /* Asegura que estÃ© por encima de otros elementos */
   }
 
   #hab-popup.active {
     display: block;
-    /* Mostrar el modal cuando esté activo */
+    /* Mostrar el modal cuando estÃ© activo */
   }
 
   .button-accept {
@@ -989,6 +990,7 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    margin: 10px 0 !important;
   }
 
   .checkbox label {
@@ -1004,10 +1006,10 @@
   }
 
   input[type="checkbox"] {
-    position: relative;
+    position: relative !important;
     top: 5px;
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
     appearance: none;
     border: 1px solid #ddd;
     cursor: pointer;
@@ -1022,21 +1024,22 @@
   }
 
   input[type="checkbox"]::before {
-    content: "";
+    content: "" !important;
     position: absolute;
     top: 2px;
-    left: 6px;
+    left: 1px;
     width: 5px;
     height: 10px;
     border: 4px solid transparent;
     border-left: none;
     border-top: none;
-    transform: rotate(45deg) scale(1);
+    transform: rotate(135deg) scale(1,-1);
   }
 
   input[type="checkbox"]:checked:before {
     border-color: #fff;
-    animation: checkmark 0.2s ease;
+    margin: 0 !important;
+    color: #fff;
   }
 
   @keyframes checkmark {
@@ -1049,7 +1052,7 @@
     }
   }
 
-  /* Botón buscar */
+  /* BotÃ³n buscar */
   .boton-buscar {
     display: flex;
     height: 100%;
@@ -1092,7 +1095,7 @@
 
   .autocomplete-list::-webkit-scrollbar {
     width: 6px;
-    /* Hacer la barra de desplazamiento más delgada */
+    /* Hacer la barra de desplazamiento mÃ¡s delgada */
   }
 
   .autocomplete-list::-webkit-scrollbar-thumb {
@@ -1172,7 +1175,7 @@
 
   .autocomplete-item:active {
     background-color: var(--button-hover);
-    /* Amarillo más oscuro */
+    /* Amarillo mÃ¡s oscuro */
   }
 
   @keyframes fadeIn {
@@ -1269,7 +1272,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    /* Asegura que esté por encima de otros elementos */
+    /* Asegura que estÃ© por encima de otros elementos */
   }
 
   #pasajeros-container {
@@ -1375,8 +1378,8 @@
   z-index: 1000;
   padding: 10px; /* Espaciado interno */
   text-align: left; /* Alinear el texto a la izquierda */
-  width: 250px; /* Ancho más pequeño */
-  font-size: 12px; /* Texto más pequeño */
+  width: 250px; /* Ancho mÃ¡s pequeÃ±o */
+  font-size: 12px; /* Texto mÃ¡s pequeÃ±o */
 }
 
 .modal-content p {
@@ -1387,7 +1390,7 @@
 
 .modal-content button {
   padding: 5px;
-  background-color: #ff6666; /* Fondo rojo más oscuro */
+  background-color: #ff6666; /* Fondo rojo mÃ¡s oscuro */
   color: white;
   border: none;
   border-radius: 3px;
