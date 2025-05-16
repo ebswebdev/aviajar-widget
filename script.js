@@ -143,7 +143,7 @@
                             <div class="origen">
                                 <div class="input-group">
                                     <span class="label-input">ORIGEN</span>
-                                    <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value=""
+                                    <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value=""
                                         onclick="this.select()">
                                     <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                     <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
@@ -164,7 +164,7 @@
                         <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <input id="fecha-rango" type="text" placeholder="Seleccione las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                         </div>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="descuento-container">
-                            <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
+                            <a id="mostrar-descuento" href="#" style="cursor: pointer;">¿Tiene un código de descuento?
                                 <i class="fas fa-chevron-down"></i>
                             </a>
                             <div class="descuento" style="display: none;">
@@ -254,7 +254,7 @@
                                 <div class="origen">
                                     <div class="input-group">
                                         <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="" onclick="this.select()">
+                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="" onclick="this.select()">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                         <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -273,7 +273,7 @@
                             <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <input id="fecha-rango" type="text" placeholder="Seleccione las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                             </div>
@@ -338,7 +338,7 @@
                                 <div class="origen">
                                     <div class="input-group">
                                         <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="">
+                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                         <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -357,7 +357,7 @@
                             <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <input id="fecha-rango" type="text" placeholder="Seleccione las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                             </div>
@@ -423,7 +423,7 @@
                                 <div class="origen">
                                     <div class="input-group">
                                         <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="">
+                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                         <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -442,7 +442,7 @@
                             <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <input id="fecha-rango" type="text" placeholder="Seleccione las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                             </div>
@@ -508,7 +508,7 @@
                                 <div class="origen">
                                     <div class="input-group">
                                         <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="">
+                                        <input id="origen" type="text" class="autocomplete-input" placeholder="Desde dónde viajas" value="">
                                         <div id="autocomplete-list-origen" class="autocomplete-list"></div>
                                         <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -527,7 +527,7 @@
                             <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <input id="fecha-rango" type="text" placeholder="Seleccione las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                             </div>
