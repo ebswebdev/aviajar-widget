@@ -422,16 +422,6 @@
                             </div>
 
                             <div class="options-hotel">
-                                <div class="checkbox-group">
-                                    <div class="checkbox">
-                                        <input id="checkbox-vequipaje" type="checkbox">
-                                        <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="checkbox-vdirecto" type="checkbox">
-                                        <label for="checkbox-vdirecto">Solo vuelos directos</label>
-                                    </div>
-                                </div>
                                 <div class="descuento-container">
                                     <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
                                         <i class="fas fa-chevron-down"></i>
@@ -1568,8 +1558,7 @@ function crearPopupVuelos() {
 
 // Generar URL
 function generateURLVuelos() {
-    const widgetContainer = document.getElementById('widget-container');
-    if (!widgetContainer) return;
+    const widgetAviajar = document.getElementById('widget-net');
     let culture = widgetAviajar.getAttribute('culture') || "es-CO";
     let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
     let productType = widgetAviajar.getAttribute('productType') || "Air";
@@ -1584,7 +1573,7 @@ function generateURLVuelos() {
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
-    const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de ida
     const dateTo = tripType === "RT" ? (dateRange[1] || "") : ""; // Fecha de regreso (solo si es RT)
 
@@ -1595,14 +1584,23 @@ function generateURLVuelos() {
     const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
     const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
 
+    // Leer el código de descuento
+    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
+
+    // Dentro de generateURLVuelos, antes de la validación:
+    console.log("cityFrom:", cityFrom);
+    console.log("cityTo:", cityTo);
+    console.log("dateFrom:", dateFrom);
+    console.log("dateTo:", dateTo);
+
     // Validar que todos los campos requeridos estén completos
     if (!cityFrom || !cityTo || !dateFrom || (tripType === "RT" && !dateTo)) {
         console.error("Faltan parámetros obligatorios para generar la URL.");
         return null;
     }
 
-    // Construir la URL final
-    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/${userService}-show-${branchCode}---------#air`;
+    // Construir la URL final (agregando el código de descuento al final)
+    const url = `${host}${culture}/${productType}/${tripType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${numAdultos}/${numNinos}/${numInfantes}/NA/NA/NA/NA/NA/${baggageIncluded}/${directFlight}/${userService}-show-${branchCode}---------${discountCode}#air`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1627,13 +1625,11 @@ function botonBusquedaVuelos() {
         const destinoSelect = document.querySelector("#destino-id");
 
         function showError(input) {
-            // Resaltar el input con un borde rojo
-            input.classList.add("input-error");
+            if (input) input.classList.add("input-error");
         }
 
         function clearError(input) {
-            // Quitar el borde rojo del input
-            input.classList.remove("input-error");
+            if (input) input.classList.remove("input-error");
         }
 
         // Validar que se haya seleccionado un origen desde el autocompletado
@@ -1653,7 +1649,7 @@ function botonBusquedaVuelos() {
         }
 
         // Validar que el rango de fechas no esté vacío
-        if (!fechaRangoInput.value) {
+        if (!fechaRangoInput || !fechaRangoInput.value) {
             showError(fechaRangoInput);
             valid = false;
         } else {
@@ -1663,37 +1659,50 @@ function botonBusquedaVuelos() {
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURLVuelos();
-            // Redirigir al usuario a la URL generada
-            window.location.href = generatedURL;
+            // Redirigir solo si la URL es válida
+            if (generatedURL) {
+                window.location.href = generatedURL;
 
-            // Limpiar basura del select origen y destino
-            document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
-                const selectedOption = select.querySelector("option[selected]");
-                if (!selectedOption) {
-                    select.innerHTML = ""; // Limpiar si no hay opción seleccionada
-                }
-            });
+                // Limpiar basura del select origen y destino
+                document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
+                    const selectedOption = select.querySelector("option[selected]");
+                    if (!selectedOption) {
+                        select.innerHTML = ""; // Limpiar si no hay opción seleccionada
+                    }
+                });
 
-            // Limpiar los inputs de origen, destino y fecha-rango
-            origenInput.value = "";
-            destinoInput.value = "";
-            fechaRangoInput.value = "";
+                // Limpiar los inputs de origen, destino y fecha-rango
+                if (origenInput) origenInput.value = "";
+                if (destinoInput) destinoInput.value = "";
+                if (fechaRangoInput) fechaRangoInput.value = "";
+            } else {
+                alert("Por favor completa todos los campos obligatorios.");
+            }
         }
     });
 
     // Quitar la clase input-error cuando el usuario selecciona algo desde el autocompletado
-    document.querySelector("#origen").addEventListener("input", function () {
-        this.classList.remove("input-error");
-    });
+    const origenInput = document.querySelector("#origen");
+    if (origenInput) {
+        origenInput.addEventListener("input", function () {
+            this.classList.remove("input-error");
+        });
+    }
 
-    document.querySelector("#destino").addEventListener("input", function () {
-        this.classList.remove("input-error");
-    });
+    const destinoInput = document.querySelector("#destino");
+    if (destinoInput) {
+        destinoInput.addEventListener("input", function () {
+            this.classList.remove("input-error");
+        });
+    }
 
     // Quitar la clase input-error cuando el rango de fechas cambie
-    document.querySelector("#fecha-rango").addEventListener("change", function () {
-        this.classList.remove("input-error");
-    });
+    const fechaRangoInput = document.querySelector("#fecha-rango");
+    if (fechaRangoInput) {
+        fechaRangoInput.addEventListener("change", function () {
+            this.classList.remove("input-error");
+        });
+    }
 }
 
 function ajustarWidget() {
