@@ -264,17 +264,9 @@
   .options-air {
     order: 8;
   }
-  /* .descuento-container {
+  .options-hotel {
     order: 8;
-    flex: 1 1 100%;
-  } */
-  /* .radio-group {
-    order: 9;
-    flex: 1 1 100%;
-  } */
-  /* .descuento-container {
-    margin-top: 3rem;
-  } */
+  }
 
   #mostrar-descuento {
     order: 7; /* justo antes del .descuento */
@@ -402,16 +394,15 @@
     transform: translateX(-50%);
   }
 
-  /* .habitaciones-pasajeros::after {
-      content: "";
-      position: absolute;
-      top: 0%; 
-      bottom: 0%; 
-      left: 50%; 
-      width: 1px; 
-      background-color: #ddd;
-      transform: translateX(-50%);
-  } */
+  /* Quitar la raya de en medio en hoteles */
+  .origen-destino.sin-raya::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .destino-hotel {
+    width: 100% !important;
+  }
 
   /* Contenedor de habitaciones (Popup) */
   #hab-container {

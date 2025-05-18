@@ -292,7 +292,7 @@
                                 <div class="pasajeros">
                                     <div class="input-group">
                                         <span class="label-input">PASAJEROS Y CLASE</span>
-                                        <input id="num-pasajeros" type="number" min="1" value="1">
+                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly>
                                         <span class="icon"><i class="fas fa-users"></i></span>
                                     </div>
                                 </div>
@@ -367,16 +367,7 @@
                 <div class="widget" id="widget-container">
                         <div class="widget-container vuelos-container">
                             <div class="origen-destino">
-                                <div class="origen">
-                                    <div class="input-group">
-                                        <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="">
-                                        <div id="autocomplete-list-origen" class="autocomplete-list"></div>
-                                        <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
-                                        <span class="icon"><i class="fas fa-plane-departure"></i></span>
-                                    </div>
-                                </div>
-                                <div class="destino">
+                                <div class="destino destino-hotel">
                                     <div class="input-group">
                                         <span class="label-input">DESTINO</span>
                                         <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Hacia dónde viajas" value="">
@@ -386,54 +377,77 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="fechas">
-                            <div class="input-group">
-                                <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
-                                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                <div class="input-group">
+                                    <span class="label-input">FECHA</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
                             </div>
-                            </div>
+
                             <div class="habitaciones-pasajeros">
+                                <div class="habitaciones">
+                                    <div class="input-group">
+                                        <span class="label-input">HABITACIONES</span>
+                                        <input id="num-hab" type="number" min="1" value="1" readonly>
+                                        <span class="icon"><i class="fas fa-bed"></i></span>
+                                    </div>
+                                </div>
                                 <div class="pasajeros">
                                     <div class="input-group">
-                                        <span class="label-input">PASAJEROS Y CLASE</span>
-                                        <input id="num-pasajeros" type="number" min="1" value="1">
+                                        <span class="label-input">PERSONAS</span>
+                                        <input id="num-per" type="number" min="2" value="2" readonly>
                                         <span class="icon"><i class="fas fa-users"></i></span>
                                     </div>
                                 </div>
+                                <div id="modal-error" class="modal" style="display: none;">
+                                    <div class="modal-content">
+                                        <p>El número máximo de pasajeros permitidos es 7.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="pasajeros-popup" class="popup">
+
+                            <div id="hab-popup" class="popup">
                                 <div class="popup-content">
-                                    <span class="close-popup">&times;</span>
+                                    <div id="hab-container"></div>
                                     <div class="popup-header">
-                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
+                                        <label for="popup-num-hab">¿Cuántas habitaciones?</label>
+                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
                                     </div>
-                                    <div id="pasajeros-container"></div>
                                     <div class="button-accept">
-                                    <button id="accept-popup">Aceptar</button>
+                                        <button id="accept-popup">Aceptar</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="radio-group">
-                                <div class="radio">
-                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
-                                    <label for="radio-idayregreso">Ida y regreso</label>
+
+                            <div class="options-hotel">
+                                <div class="checkbox-group">
+                                    <div class="checkbox">
+                                        <input id="checkbox-vequipaje" type="checkbox">
+                                        <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="checkbox-vdirecto" type="checkbox">
+                                        <label for="checkbox-vdirecto">Solo vuelos directos</label>
+                                    </div>
                                 </div>
-                                <div class="radio">
-                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
-                                    <label for="radio-soloida">Solo ida</label>
+                                <div class="descuento-container">
+                                    <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="checkbox-group">
-                                <div class="checkbox">
-                                    <input id="checkbox-vequipaje" type="checkbox">
-                                    <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
-                                </div>
-                                <div class="checkbox">
-                                    <input id="checkbox-vdirecto" type="checkbox">
-                                    <label for="checkbox-vdirecto">Solo vuelos directos</label>
-                                </div>
-                            </div>
+                            
                             <div class="boton-buscar">
                                 <div class="input-group">
                                     <button id="buscar-btn">Buscar</button>
@@ -482,7 +496,7 @@
                                 <div class="pasajeros">
                                     <div class="input-group">
                                         <span class="label-input">PASAJEROS Y CLASE</span>
-                                        <input id="num-pasajeros" type="number" min="1" value="1">
+                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly>
                                         <span class="icon"><i class="fas fa-users"></i></span>
                                     </div>
                                 </div>
@@ -650,7 +664,18 @@
                 inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
             });
         });
+
+        // Quitar la raya si el tab es hoteles
+        const origenDestino = document.querySelector('.origen-destino');
+        if (origenDestino) {
+            if (selectedTab === 'hoteles') {
+                origenDestino.classList.add('sin-raya');
+            } else {
+                origenDestino.classList.remove('sin-raya');
+            }
+        }
     }
+
 
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
@@ -871,12 +896,16 @@ function inicializarFlatpickr() {
 function cargarAutocompletes() {
     // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
     if (typeof external_file_AirportsCities !== "undefined") {
-        autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities);
-        autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities);
+        if (document.querySelector("#origen")) {
+            autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities);
+        }
+        if (document.querySelector("#destino")) {
+            autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities);
+        }
     } else {
         console.error("external_file_AirportsCities no está definido.");
     }
-};
+}
 
 
 //  -------------- FUNCIONES AIRHOTEL ---------------
