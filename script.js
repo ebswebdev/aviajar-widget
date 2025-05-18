@@ -626,7 +626,7 @@
         // Inicializar funcionalidades específicas del widget
         inicializarFlatpickr();
         cargarAutocompletes();
-        // ajustar width del widget
+        inicializarDescuento();
         ajustarWidget();
 
         // Inicializar funcionalidades específicas del widget
@@ -652,16 +652,14 @@
 
 // ------------ FUNCIONES GENERALES -------------------
 
-// Mostrar/ocultar el código de descuento
-document.addEventListener("DOMContentLoaded", function () {
+// Codigo descuento
+function inicializarDescuento() {
     const mostrarDescuento = document.querySelector("#mostrar-descuento");
     const codigoDescuentoDiv = document.querySelector(".descuento");
 
     if (mostrarDescuento && codigoDescuentoDiv) {
         mostrarDescuento.addEventListener("click", function (e) {
-            e.preventDefault(); // Evitar comportamiento por defecto
-
-            // Alternar visibilidad
+            e.preventDefault();
             if (codigoDescuentoDiv.style.display === "none" || codigoDescuentoDiv.style.display === "") {
                 codigoDescuentoDiv.style.display = "block";
             } else {
@@ -669,7 +667,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-});
+}
 
 function cargarEstilosSegunContenedor() {
     const widget = document.querySelector('#widget-net');
