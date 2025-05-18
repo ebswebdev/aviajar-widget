@@ -126,11 +126,12 @@
         const widgetContainer = document.getElementById('widget-net');
         if (!widgetContainer) return;
 
-        // Eliminar el widget existente si ya está presente
-        const existingWidget = document.querySelector('#widget-container');
-        if (existingWidget) {
-            existingWidget.remove();
-        }
+        // Eliminar todos los hijos excepto las tabs
+        Array.from(widgetContainer.children).forEach(child => {
+            if (!child.classList.contains('tabs')) {
+                widgetContainer.removeChild(child);
+            }
+        });
 
         let widgetHTML = '';
         switch (selectedTab) {
@@ -155,7 +156,7 @@
                             <div class="destino">
                                 <div class="input-group">
                                     <span class="label-input">DESTINO</span>
-                                    <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras)Hacia dónde viajas" value=""
+                                    <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Hacia dónde viajas" value=""
                                         onclick="this.select()">
                                     <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                     <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
@@ -271,7 +272,7 @@
                                 <div class="destino">
                                     <div class="input-group">
                                         <span class="label-input">DESTINO</span>
-                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras)Hacia dónde viajas" value="" onclick="this.select()">
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Hacia dónde viajas" value="" onclick="this.select()">
                                         <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                         <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-arrival"></i></span>
@@ -378,7 +379,7 @@
                                 <div class="destino">
                                     <div class="input-group">
                                         <span class="label-input">DESTINO</span>
-                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras)Hacia dónde viajas" value="">
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Hacia dónde viajas" value="">
                                         <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                         <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-arrival"></i></span>
@@ -825,6 +826,9 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
 
 // Flatpickr
 function inicializarFlatpickr() {
+    // Eliminar calendarios previos de Flatpickr
+    document.querySelectorAll('.flatpickr-calendar').forEach(el => el.remove());
+
     const fechaRango = document.querySelector("#fecha-rango");
     if (fechaRango && typeof flatpickr !== 'undefined') {
         // Detectar el ancho de la pantalla
