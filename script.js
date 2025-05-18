@@ -629,6 +629,12 @@
         inicializarDescuento();
         ajustarWidget();
 
+        // Restaurar el destino automático si existe
+        const destination = widgetContainer.getAttribute('destination');
+        if (destination) {
+            setDestination(destination);
+        }
+
         // Inicializar funcionalidades específicas del widget
         if (selectedTab === 'paquetes') {
             crearPopupPaquetes();
