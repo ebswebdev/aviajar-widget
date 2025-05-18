@@ -225,7 +225,8 @@
     position: relative;
   }
 
-  .package-container {
+  .package-container,
+  .vuelos-container {
     display: flex;
     flex-wrap: wrap;
   }
@@ -260,6 +261,17 @@
   .options-paq {
     order: 8;
   }
+  .options-air {
+    order: 8;
+  }
+  /* .descuento-container {
+    order: 8;
+    flex: 1 1 100%;
+  } */
+  /* .radio-group {
+    order: 9;
+    flex: 1 1 100%;
+  } */
   /* .descuento-container {
     margin-top: 3rem;
   } */
@@ -728,15 +740,17 @@
     animation: fadeIn 0.3s ease-in-out;
   }
 
+  .close-popup {
+    display: none;
+  }
+
   /* Popup header */
   .popup-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* padding-bottom: 10px; */
     padding: 20px;
-    border-top: 1px solid #e5e5e5;
-    padding-bottom: 10px;
+    padding-left: 10px;
   }
 
   .popup-header label {
@@ -889,19 +903,11 @@
 
   /* Padding mayor para el de vuelos */
 
-  .vuelos-container {
-    padding-bottom: 100px !important;
-  }
-
   .radio-group {
     display: flex;
     justify-content: flex-start;
-    /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start;
-    /* Opcional: Alinea los elementos al inicio */
-    margin-bottom: 20px;
-    position: absolute;
-    top: 260px;
+    margin-bottom: 10px;
     gap: 10px;
   }
 
@@ -1253,23 +1259,17 @@
   /* Contenedor de habitaciones (Popup) */
   #pasajeros-popup {
     display: none;
-    /* Oculto por defecto */
     background-color: var(--background-color);
     position: absolute;
-    /* Posicionarlo relativo al contenedor */
-    top: 200px;
-    /* Justo debajo del elemento invocador */
+    top: 120px;
     left: 50%;
     width: 400px;
-    /* Ocupa el ancho del contenedor */
-    height: 400px;
-    /* Altura del popup */
+    height: 350px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    /* Asegura que esté por encima de otros elementos */
   }
 
   #pasajeros-container {
@@ -1299,7 +1299,7 @@
   .numeric-input-group {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
   }
 
   .info-text {

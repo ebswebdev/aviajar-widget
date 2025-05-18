@@ -139,6 +139,7 @@
                 <div class="contenedor-widget">
                 <div class="widget widget-package" id="widget-container">
                     <div class="widget-container package-container">
+
                         <div class="origen-destino">
                             <div class="origen">
                                 <div class="input-group">
@@ -150,6 +151,7 @@
                                     <span class="icon"><i class="fas fa-plane-departure"></i></span>
                                 </div>
                             </div>
+
                             <div class="destino">
                                 <div class="input-group">
                                     <span class="label-input">DESTINO</span>
@@ -168,6 +170,7 @@
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                         </div>
+
                         <div class="habitaciones-pasajeros">
                             <div class="habitaciones">
                                 <div class="input-group">
@@ -189,6 +192,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="hab-popup" class="popup">
                             <div class="popup-content">
                                 <div id="hab-container"></div>
@@ -220,6 +224,7 @@
                                 <label for="checkbox-vdirecto">Solo vuelos directos</label>
                             </div>
                         </div>
+
                         <div class="descuento-container">
                             <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
                                 <i class="fas fa-chevron-down"></i>
@@ -234,6 +239,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     </div>
                     
@@ -250,6 +256,7 @@
                 widgetHTML = `
                 <div class="widget" id="widget-container">
                         <div class="widget-container vuelos-container">
+
                             <div class="origen-destino">
                                 <div class="origen">
                                     <div class="input-group">
@@ -260,6 +267,7 @@
                                         <span class="icon"><i class="fas fa-plane-departure"></i></span>
                                     </div>
                                 </div>
+
                                 <div class="destino">
                                     <div class="input-group">
                                         <span class="label-input">DESTINO</span>
@@ -270,13 +278,15 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="fechas">
-                            <div class="input-group">
-                                <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
-                                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                <div class="input-group">
+                                    <span class="label-input">FECHA</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
                             </div>
-                            </div>
+
                             <div class="habitaciones-pasajeros">
                                 <div class="pasajeros">
                                     <div class="input-group">
@@ -286,6 +296,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div id="pasajeros-popup" class="popup">
                                 <div class="popup-content">
                                     <span class="close-popup">&times;</span>
@@ -298,26 +309,46 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="radio-group">
-                                <div class="radio">
-                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
-                                    <label for="radio-idayregreso">Ida y regreso</label>
+                            
+                            <div class="options-air">
+                                <div class="radio-group">
+                                    <div class="radio">
+                                        <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
+                                        <label for="radio-idayregreso">Ida y regreso</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
+                                        <label for="radio-soloida">Solo ida</label>
+                                    </div>
                                 </div>
-                                <div class="radio">
-                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
-                                    <label for="radio-soloida">Solo ida</label>
+                                <div class="checkbox-group">
+                                    <div class="checkbox">
+                                        <input id="checkbox-vequipaje" type="checkbox">
+                                        <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="checkbox-vdirecto" type="checkbox">
+                                        <label for="checkbox-vdirecto">Solo vuelos directos</label>
+                                    </div>
+                                </div>
+                                <div class="descuento-container">
+                                    <a id="mostrar-descuento" href="#" style="cursor: pointer;">Código de descuento
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="checkbox-group">
-                                <div class="checkbox">
-                                    <input id="checkbox-vequipaje" type="checkbox">
-                                    <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
-                                </div>
-                                <div class="checkbox">
-                                    <input id="checkbox-vdirecto" type="checkbox">
-                                    <label for="checkbox-vdirecto">Solo vuelos directos</label>
-                                </div>
-                            </div>
+
+
+
                             <div class="boton-buscar">
                                 <div class="input-group">
                                     <button id="buscar-btn-vuelos">Buscar</button>
@@ -1627,7 +1658,6 @@ function botonBusquedaVuelos() {
         this.classList.remove("input-error");
     });
 }
-
 
 function ajustarWidget() {
     const contenedor = document.querySelector('.contenedor-widget');
