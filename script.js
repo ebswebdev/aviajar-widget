@@ -1713,3 +1713,5 @@ function ajustarWidget() {
 
     contenedor.classList.toggle('widget-ajustado', esEscritorio && contenedorEstrecho);
 }
+
+//  -------------- FUNCIONES HOTELS ---------------
