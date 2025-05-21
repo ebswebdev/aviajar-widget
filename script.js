@@ -116,12 +116,6 @@
         }
     }
 
-
-    // Llamar a la función después de cargar el widget
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     toggleDestinoInput();
-    // });
-
     function createWidgetContent(selectedTab) {
         const widgetContainer = document.getElementById('widget-net');
         if (!widgetContainer) return;
@@ -646,6 +640,7 @@
         } else if (selectedTab === 'vuelos') {
             crearPopupVuelos();
             botonBusquedaVuelos();
+            activarFlatpickrVuelosDinamico();
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -665,7 +660,6 @@
             }
         }
     }
-
 
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
@@ -1712,6 +1706,61 @@ function ajustarWidget() {
     const contenedorEstrecho = contenedor.offsetWidth < 1000;
 
     contenedor.classList.toggle('widget-ajustado', esEscritorio && contenedorEstrecho);
+}
+
+function inicializarFlatpickrVuelos() {
+    const fechaRango = document.querySelector("#fecha-rango");
+    if (!fechaRango || typeof flatpickr === 'undefined') return;
+
+    // Destruir instancia previa si existe
+    if (fechaRango._flatpickr) {
+        fechaRango._flatpickr.destroy();
+    }
+
+    // Detectar si es solo ida
+    const soloIda = document.querySelector("#radio-soloida")?.checked;
+    // Detectar si es móvil
+    const isMobile = window.innerWidth <= 768;
+
+    flatpickr("#fecha-rango", {
+        mode: soloIda ? "single" : "range",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        showMonths: isMobile ? 1 : 2, // <-- Esto hace que no se vea gigante en escritorio
+        locale: {
+            firstDayOfWeek: 1,
+            weekdays: {
+                shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            },
+            months: {
+                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            },
+        },
+        onClose: function (selectedDates) {
+            if (selectedDates.length > 0) {
+                const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                if (soloIda) {
+                    fechaRango.value = fecha1;
+                } else if (selectedDates.length === 2) {
+                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                    fechaRango.value = `${fecha1} to ${fecha2}`;
+                }
+            }
+        }
+    });
+}
+
+function activarFlatpickrVuelosDinamico() {
+    const radioSoloIda = document.querySelector("#radio-soloida");
+    const radioIdaYRegreso = document.querySelector("#radio-idayregreso");
+
+    if (radioSoloIda && radioIdaYRegreso) {
+        radioSoloIda.addEventListener("change", inicializarFlatpickrVuelos);
+        radioIdaYRegreso.addEventListener("change", inicializarFlatpickrVuelos);
+    }
+    inicializarFlatpickrVuelos();
 }
 
 //  -------------- FUNCIONES HOTELS ---------------
