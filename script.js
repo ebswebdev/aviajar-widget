@@ -640,7 +640,7 @@
         } else if (selectedTab === 'vuelos') {
             crearPopupVuelos();
             botonBusquedaVuelos();
-            activarFlatpickrVuelosDinamico();
+            inicializarFlatpickrVuelos();
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -1697,6 +1697,9 @@ function botonBusquedaVuelos() {
             this.classList.remove("input-error");
         });
     }
+
+    setupFlatpickrEvents();
+    inicializarFlatpickrVuelos();
 }
 
 function ajustarWidget() {
@@ -1726,7 +1729,8 @@ function inicializarFlatpickrVuelos() {
         mode: soloIda ? "single" : "range",
         dateFormat: "Y-m-d",
         minDate: "today",
-        showMonths: isMobile ? 1 : 2, // <-- Esto hace que no se vea gigante en escritorio
+        showMonths: isMobile ? 1 : 2,
+        disableMobile: true, // Evitar que use el picker nativo en móvil
         locale: {
             firstDayOfWeek: 1,
             weekdays: {
@@ -1750,17 +1754,25 @@ function inicializarFlatpickrVuelos() {
             }
         }
     });
+
+    // Forzar el tipo y placeholder después de inicializar Flatpickr
+    fechaRango.setAttribute("type", "text");
+    fechaRango.setAttribute("placeholder", soloIda ? "Selecciona la fecha de ida" : "Selecciona un rango de fechas");
 }
 
-function activarFlatpickrVuelosDinamico() {
+function setupFlatpickrEvents() {
     const radioSoloIda = document.querySelector("#radio-soloida");
-    const radioIdaYRegreso = document.querySelector("#radio-idayregreso");
+    const radioIdaRegreso = document.querySelector("#radio-idayregreso");
 
-    if (radioSoloIda && radioIdaYRegreso) {
+    if (radioSoloIda) {
         radioSoloIda.addEventListener("change", inicializarFlatpickrVuelos);
-        radioIdaYRegreso.addEventListener("change", inicializarFlatpickrVuelos);
     }
-    inicializarFlatpickrVuelos();
+
+    if (radioIdaRegreso) {
+        radioIdaRegreso.addEventListener("change", inicializarFlatpickrVuelos);
+    }
 }
+
+
 
 //  -------------- FUNCIONES HOTELS ---------------
