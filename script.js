@@ -1774,5 +1774,4 @@ function setupFlatpickrEvents() {
 }
 
 
-
 //  -------------- FUNCIONES HOTELS ---------------
