@@ -160,8 +160,8 @@
                         </div>
                         <div class="fechas">
                             <div class="input-group">
-                                <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                <span class="label-input">FECHAS</span>
+                                <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de viaje">
                                 <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                             </div>
                         </div>
@@ -276,8 +276,8 @@
 
                             <div class="fechas">
                                 <div class="input-group">
-                                    <span class="label-input">FECHA</span>
-                                    <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                    <span class="label-input">FECHAS</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de viaje">
                                     <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                                 </div>
                             </div>
@@ -374,8 +374,8 @@
 
                             <div class="fechas">
                                 <div class="input-group">
-                                    <span class="label-input">FECHA</span>
-                                    <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
+                                    <span class="label-input">FECHAS</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de estadía">
                                     <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                                 </div>
                             </div>
@@ -623,7 +623,6 @@
 
         // Inicializar funcionalidades específicas del widget
         inicializarFlatpickr();
-        cargarAutocompletes();
         inicializarDescuento();
         ajustarWidget();
 
@@ -637,10 +636,28 @@
         if (selectedTab === 'paquetes') {
             crearPopupPaquetes();
             botonBusquedaPaquetes();
+            cargarAutocompletes();
+
         } else if (selectedTab === 'vuelos') {
             crearPopupVuelos();
             botonBusquedaVuelos();
             inicializarFlatpickrVuelos();
+            cargarAutocompletes();
+
+        } else if (selectedTab === 'hoteles') {
+            const widgetAviajar = document.getElementById('widget-net');
+            let apiUrlBase = widgetAviajar.getAttribute('autocomplete-api') || "https://reservas.aviajarcolombia.com/NetCoreapi/AutocompleteDestinationStaticContent";
+            let userServices = widgetAviajar.getAttribute('userService') || "aviajar";
+            let lang = widgetAviajar.getAttribute('culture') || "es";
+
+            autocompleteHotelesCiudadesAPI(
+                "#destino",
+                "#autocomplete-list-destino",
+                "#destino-id",
+                apiUrlBase,
+                userServices,
+                lang
+            );
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -732,11 +749,9 @@ window.addEventListener('resize', cargarEstilosSegunContenedor);
 window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
 window.addEventListener('resize', cargarEstilosSegunContenedor);
 
-
-// Autocomplete
+// Autocomplete para paquetes & vuelo 
 let airports = [];
 
-// external_file_AirportsCities es un array de strings de ciudades y aeropuertos de un server
 function autocompleteSearch(inputId, autocompleteListId, data) {
     const input = document.querySelector(inputId);
     const autocompleteList = document.querySelector(autocompleteListId);
@@ -837,7 +852,6 @@ function autocompleteSearch(inputId, autocompleteListId, data) {
     });
 }
 
-// Flatpickr
 function inicializarFlatpickr() {
     // Eliminar calendarios previos de Flatpickr
     document.querySelectorAll('.flatpickr-calendar').forEach(el => el.remove());
@@ -876,7 +890,6 @@ function inicializarFlatpickr() {
     }
 }
 
-// Mostrar autocomplete
 function cargarAutocompletes() {
     // Asegúrate de que external_file_AirportsCities esté definido antes de invocar
     if (typeof external_file_AirportsCities !== "undefined") {
@@ -894,7 +907,6 @@ function cargarAutocompletes() {
 
 //  -------------- FUNCIONES AIRHOTEL ---------------
 
-// Popup
 function crearPopupPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -1234,7 +1246,6 @@ function crearPopupPaquetes() {
     });
 };
 
-// Crear la url
 function generateURLPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
     const widgetAviajar = document.getElementById('widget-net');
@@ -1298,8 +1309,6 @@ function generateURLPaquetes() {
     console.log("Generated URL:", url);
     return url;
 }
-
-// Boton busqueda
 
 function botonBusquedaPaquetes() {
     const widgetContainer = document.getElementById('widget-container');
@@ -1413,7 +1422,6 @@ function botonBusquedaPaquetes() {
 
 // //  -------------- FUNCIONES AIR ---------------
 
-// Crear popup
 function crearPopupVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -1550,7 +1558,6 @@ function crearPopupVuelos() {
     });
 }
 
-// Generar URL
 function generateURLVuelos() {
     const widgetAviajar = document.getElementById('widget-net');
     let culture = widgetAviajar.getAttribute('culture') || "es-CO";
@@ -1600,7 +1607,6 @@ function generateURLVuelos() {
     return url;
 }
 
-// Botón de búsqueda
 function botonBusquedaVuelos() {
     const widgetContainer = document.getElementById('widget-container');
     if (!widgetContainer) return;
@@ -1775,3 +1781,127 @@ function setupFlatpickrEvents() {
 
 
 //  -------------- FUNCIONES HOTELS ---------------
+function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelectId, apiUrlBase, userServices, lang) {
+    // 1. Obtiene referencias a los elementos del DOM
+    const input = document.querySelector(inputId);
+    const autocompleteList = document.querySelector(autocompleteListId);
+    const hiddenSelect = document.querySelector(hiddenSelectId);
+
+    // 2. Función para normalizar cadenas (quita tildes y pone en minúsculas)
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // 3. Evento: cuando el usuario escribe en el input
+    input.addEventListener("input", function () {
+        const query = normalizeString(input.value.trim());
+        autocompleteList.innerHTML = ""; // Limpia la lista de sugerencias
+
+        // Si hay menos de 3 letras, limpia el select oculto y no busca nada
+        if (query.length < 3) {
+            if (hiddenSelect) hiddenSelect.innerHTML = "";
+            return;
+        }
+
+        // 4. Construye la URL de la API para buscar hoteles/ciudades
+        const url = apiUrlBase + "?searchCriteria=" + encodeURIComponent(query) + "&userServices=" + userServices + "&lang=" + lang;
+
+        // 5. Hace la petición a la API
+        fetch(url)
+            .then(res => res.json())
+            .then(responseData => {
+                // 6. Procesa la respuesta: separa hoteles y ciudades
+                const hoteles = (responseData.Hotels || responseData.hotels || []).map(hotel => ({
+                    name: hotel.hotel_name,
+                    subtitle: hotel.address || "",
+                    type: "hotel",
+                    id: hotel.Id
+                }));
+
+                const ciudades = (responseData.Locations || responseData.locations || []).map(city => ({
+                    name: city.Name,
+                    subtitle: city.NameFull || "",
+                    type: "ciudad",
+                    id: city.Id
+                }));
+
+                // 7. Junta hoteles y ciudades en un solo array
+                const data = ciudades.concat(hoteles);
+
+                // 8. Por cada resultado, crea un div de sugerencia
+                data.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.className = "autocomplete-item";
+                    itemDiv.textContent = item.name + (item.subtitle ? `, ${item.subtitle}` : "");
+
+                    // 9. Cuando el usuario hace clic en una sugerencia:
+                    itemDiv.addEventListener("click", function () {
+                        // Llena el input con el nombre seleccionado
+                        input.value = item.name + (item.subtitle ? `, ${item.subtitle}` : "");
+                        autocompleteList.innerHTML = ""; // Limpia la lista
+
+                        // 10. Prefijo: "h" para hotel, "l" para ciudad
+                        const code = (item.type === "hotel" ? "h" : "l") + item.id;
+
+                        // 11. Guarda el código en el select oculto
+                        if (hiddenSelect) {
+                            hiddenSelect.innerHTML = "";
+                            const option = document.createElement("option");
+                            option.value = code;
+                            option.selected = true;
+                            hiddenSelect.appendChild(option);
+
+                            // Guarda el tipo como atributo extra (opcional)
+                            hiddenSelect.setAttribute("data-tipo", item.type);
+                        }
+                        // 12. Log para depuración
+                        console.log("Seleccionado:", input.value, "Código:", code, "Tipo:", item.type);
+                    });
+
+                    // 13. Agrega la sugerencia a la lista
+                    autocompleteList.appendChild(itemDiv);
+                });
+            })
+            .catch(err => {
+                // 14. Si hay error en la petición, lo muestra en consola
+                console.error("Error en el autocomplete de hoteles/ciudades:", err);
+            });
+    });
+
+    // 15. Cierra la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = "";
+        }
+    });
+}
+
+function generateURLHoteles() {
+    const widgetAviajar = document.getElementById('widget-net');
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = widgetAviajar.getAttribute('productType') || "netsuite-hotels";
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
+
+    // Obtener valores del formulario
+    const destino = document.querySelector("#destino-id")?.value || ""; // ID con prefijo h/l
+    const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
+    const dateFrom = dateRange[0] || ""; // Fecha de entrada
+    const dateTo = dateRange[1] || dateFrom; // Fecha de salida (igual a entrada si no hay otra)
+    const numHab = document.querySelector("#num-hab")?.value || "1"; // Número de habitaciones
+    const numPer = document.querySelector("#num-per")?.value || "2"; // Número de personas
+    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
+
+    // Validar campos requeridos
+    if (!destino || !dateFrom || !dateTo) {
+        console.error("Faltan parámetros obligatorios para generar la URL de hoteles.");
+        return null;
+    }
+
+    // Construir la URL final (ajusta el formato según tu backend)
+    const url = `${host}${productType}/'results'/${culture}/${userService}/${destino}/${dateFrom}/${dateTo}/${numHab}/${numPer}/${branchCode}---------${discountCode}`;
+
+    console.log("Generated Hotel URL:", url);
+    return url;
+}
