@@ -1899,7 +1899,7 @@ function generateURLHoteles() {
         return null;
     }
 
-    // Construir la URL final (ajusta el formato según tu backend)
+    // Construir la URL final
     const url = `${host}${productType}/'results'/${culture}/${userService}/${destino}/${dateFrom}/${dateTo}/${numHab}/${numPer}/${branchCode}---------${discountCode}`;
 
     console.log("Generated Hotel URL:", url);
