@@ -650,6 +650,7 @@
             let userServices = widgetAviajar.getAttribute('userService') || "aviajar";
             let lang = widgetAviajar.getAttribute('culture') || "es";
 
+            crearPopupHoteles();
             botonBusquedaHoteles();
             autocompleteHotelesCiudadesAPI(
                 "#destino",
@@ -1863,14 +1864,13 @@ function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelec
 function generateURLHoteles() {
     const widgetAviajar = document.getElementById('widget-net');
     let culture = widgetAviajar.getAttribute('culture') || "es-CO";
-    let host = widgetAviajar.getAttribute('host') || "reservas.aviajarcolombia.com/";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
     let productType = widgetAviajar.getAttribute('productType') || "netsuite-hotels";
     let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
     let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
 
     // Obtener valores del formulario
-    const destino = document.querySelector("#destino-id")?.value || ""; // ID con prefijo h/l
-    // Soportar ambos formatos: "YYYY-MM-DD to YYYY-MM-DD" y "YYYY-MM-DD al YYYY-MM-DD"
+    const destino = document.querySelector("#destino-id")?.value || "";
     let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
     let dateFrom = "", dateTo = "";
     if (dateRangeRaw.includes(" to ")) {
@@ -1881,18 +1881,33 @@ function generateURLHoteles() {
         dateFrom = dateRangeRaw.trim();
         dateTo = dateRangeRaw.trim();
     }
-    const numHab = document.querySelector("#num-hab")?.value || "1"; // Número de habitaciones
-    const numPer = document.querySelector("#num-per")?.value || "2"; // Número de personas
     const discountCode = document.querySelector("#codigo-descuento")?.value || "";
 
+    // Construir info de habitaciones
+    let habitaciones = document.querySelectorAll("#hab-container > div");
+    let habitacionesArr = [];
+    habitaciones.forEach(habitacion => {
+        const numAdultos = parseInt(habitacion.querySelector(".input-adultos input")?.value) || 0;
+        const numNinos = parseInt(habitacion.querySelector(".input-ninos input")?.value) || 0;
+        let habitacionStr = `${numAdultos}`;
+        if (numNinos > 0) {
+            // Obtener edades de los niños
+            const edades = Array.from(habitacion.querySelectorAll(".edad-nino")).map(sel => sel.value).join("-");
+            habitacionStr += `-${edades}`;
+        }
+        habitacionesArr.push(habitacionStr);
+    });
+    const habitacionesParam = habitacionesArr.join("!");
+
     // Validar campos requeridos
-    if (!destino || !dateFrom || !dateTo) {
+    if (!destino || !dateFrom || !dateTo || !habitacionesParam) {
         console.error("Faltan parámetros obligatorios para generar la URL de hoteles.");
         return null;
     }
 
     // Construir la URL final
-    const url = `${host}${productType}/results/${culture}/${userService}/${destino}/${dateFrom}/${dateTo}/${numHab}/${numPer}?branchCode=${branchCode}&promoCode=${discountCode}`;
+    const url = `${host}${productType}/results/${culture}/${userService}/${destino}/${dateFrom}/${dateTo}/${habitacionesParam}?branchCode=${branchCode}${discountCode ? `&promoCode=${discountCode}` : ""}`;
+
 
     return url;
 }
@@ -1995,4 +2010,238 @@ function botonBusquedaHoteles() {
             this.classList.remove("input-error");
         });
     }
+}
+
+function crearPopupHoteles() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    const numHabInput = document.querySelector("#num-hab");
+    const popupNumHabInput = document.querySelector("#popup-num-hab");
+    const habPopup = document.querySelector("#hab-popup");
+    const habitacionesContainer = document.querySelector("#hab-container");
+
+    if (!numHabInput || !popupNumHabInput || !habPopup || !habitacionesContainer) return;
+
+    numHabInput.parentElement.style.position = "relative";
+
+    // Mostrar el popup al hacer clic en el campo de habitaciones
+    numHabInput.addEventListener("click", function () {
+        habPopup.style.display = "flex";
+        habPopup.classList.toggle("active");
+    });
+
+    // Cerrar el popup al hacer click en el botón "Aceptar"
+    document.querySelector("#accept-popup")?.addEventListener("click", function () {
+        let totalAdultos = 0;
+        let totalNinos = 0;
+
+        const habitaciones = document.querySelectorAll("#hab-container > div");
+        habitaciones.forEach(habitacion => {
+            const numAdultos = parseInt(habitacion.querySelector(".input-adultos input")?.value) || 0;
+            const numNinos = parseInt(habitacion.querySelector(".input-ninos input")?.value) || 0;
+
+            totalAdultos += numAdultos;
+            totalNinos += numNinos;
+        });
+
+        // Actualizar el input de personas con el total
+        document.querySelector("#num-per").value = totalAdultos + totalNinos;
+
+        habPopup.classList.remove("active");
+        habPopup.style.display = "none";
+    });
+
+    // Abrir popup si hago click en el input #num-per
+    const numPerInput = document.querySelector("#num-per");
+    numPerInput?.addEventListener("click", function () {
+        habPopup.style.display = "flex";
+    });
+
+    // Generar habitaciones (puedes copiar la función generarHabitaciones de paquetes)
+    function generarHabitaciones(numHab) {
+        habitacionesContainer.innerHTML = "";
+        for (let i = 1; i <= numHab; i++) {
+            const habitacionDiv = document.createElement("div");
+            habitacionDiv.innerHTML = `
+                <div class="habitacion-header">
+                    <h4>Habitación ${i}</h4>
+                    <span class="icon"><i class="fas fa-bed"></i></span>
+                </div>
+                <div class="habitacion">
+                    <div class="adultos">
+                        <div class="label-adultos">
+                            <label for="num-adultos">Adultos:</label>
+                        </div>
+                        <div class="input-adultos"></div>
+                    </div>
+                    <div class="ninos">
+                        <div class="label-ninos">
+                            <label for="num-ninos">Niños:</label>
+                        </div>
+                        <div class="input-ninos"></div>
+                    </div>
+                    <div id="edades-ninos"></div>
+                </div>
+            `;
+
+            habitacionesContainer.appendChild(habitacionDiv);
+
+            const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
+            inputAdultosContainer.innerHTML = "";
+
+            const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
+            inputNinosContainer.innerHTML = "";
+
+            // Adultos
+            const numericInputAdultos = document.createElement("div");
+            numericInputAdultos.className = "numeric-input";
+            const decrementAdultos = document.createElement("button");
+            decrementAdultos.className = "decrement";
+            decrementAdultos.textContent = "-";
+            const inputAdultos = document.createElement("input");
+            inputAdultos.type = "number";
+            inputAdultos.value = "2";
+            inputAdultos.min = "1";
+            inputAdultos.max = "7";
+            inputAdultos.readOnly = true;
+            const incrementAdultos = document.createElement("button");
+            incrementAdultos.className = "increment";
+            incrementAdultos.textContent = "+";
+            numericInputAdultos.appendChild(decrementAdultos);
+            numericInputAdultos.appendChild(inputAdultos);
+            numericInputAdultos.appendChild(incrementAdultos);
+            inputAdultosContainer.appendChild(numericInputAdultos);
+
+            // Niños
+            const numericInputNinos = document.createElement("div");
+            numericInputNinos.className = "numeric-input";
+            const decrementNinos = document.createElement("button");
+            decrementNinos.className = "decrement";
+            decrementNinos.textContent = "-";
+            const inputNinos = document.createElement("input");
+            inputNinos.type = "number";
+            inputNinos.value = "0";
+            inputNinos.min = "0";
+            inputNinos.max = "4";
+            inputNinos.readOnly = true;
+            const incrementNinos = document.createElement("button");
+            incrementNinos.className = "increment";
+            incrementNinos.textContent = "+";
+            numericInputNinos.appendChild(decrementNinos);
+            numericInputNinos.appendChild(inputNinos);
+            numericInputNinos.appendChild(incrementNinos);
+            inputNinosContainer.appendChild(numericInputNinos);
+
+            const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
+            inputNinos.addEventListener("input", function () {
+                const numNinos = parseInt(inputNinos.value) || 0;
+                edadesNinosContainer.innerHTML = "";
+                for (let j = 1; j <= numNinos; j++) {
+                    const label = document.createElement("label");
+                    label.textContent = `Edad del niño ${j}:`;
+                    const select = document.createElement("select");
+                    select.className = "edad-nino";
+                    select.name = `edad-nino-${j}`;
+                    for (let edad = 1; edad <= 12; edad++) {
+                        const option = document.createElement("option");
+                        option.value = edad;
+                        option.textContent = edad;
+                        select.appendChild(option);
+                    }
+                    edadesNinosContainer.appendChild(label);
+                    edadesNinosContainer.appendChild(select);
+                }
+            });
+
+            // Eventos adultos
+            decrementAdultos.addEventListener("click", function () {
+                let currentValue = parseInt(inputAdultos.value) || 1;
+                if (currentValue > parseInt(inputAdultos.min)) {
+                    inputAdultos.value = currentValue - 1;
+                }
+            });
+            incrementAdultos.addEventListener("click", function () {
+                let currentValue = parseInt(inputAdultos.value) || 1;
+                if (currentValue < parseInt(inputAdultos.max)) {
+                    inputAdultos.value = currentValue + 1;
+                }
+            });
+
+            // Eventos niños
+            decrementNinos.addEventListener("click", function () {
+                let currentValue = parseInt(inputNinos.value) || 0;
+                if (currentValue > parseInt(inputNinos.min)) {
+                    inputNinos.value = currentValue - 1;
+                    inputNinos.dispatchEvent(new Event("input"));
+                }
+            });
+            incrementNinos.addEventListener("click", function () {
+                let currentValue = parseInt(inputNinos.value) || 0;
+                if (currentValue < parseInt(inputNinos.max)) {
+                    inputNinos.value = currentValue + 1;
+                    inputNinos.dispatchEvent(new Event("input"));
+                }
+            });
+        }
+    }
+
+    // Generar una habitación por defecto al cargar la página
+    generarHabitaciones(1);
+
+    // Actualizar habitaciones cuando el usuario cambie el número de habitaciones
+    numHabInput.addEventListener("input", function () {
+        const numHab = parseInt(numHabInput.value) || 1;
+        generarHabitaciones(numHab);
+    });
+
+    // Reemplazar el input original del popup por un control numérico igual al de paquetes
+    const numericInputContainer = document.createElement("div");
+    numericInputContainer.className = "numeric-input";
+    const decrementButton = document.createElement("button");
+    decrementButton.className = "decrement";
+    decrementButton.textContent = "-";
+    const numericInput = document.createElement("input");
+    numericInput.type = "number";
+    numericInput.id = "numeric-value";
+    numericInput.value = "1";
+    numericInput.min = "1";
+    numericInput.max = "4";
+    numericInput.readOnly = true;
+    const incrementButton = document.createElement("button");
+    incrementButton.className = "increment";
+    incrementButton.textContent = "+";
+    numericInputContainer.appendChild(decrementButton);
+    numericInputContainer.appendChild(numericInput);
+    numericInputContainer.appendChild(incrementButton);
+    popupNumHabInput.replaceWith(numericInputContainer);
+
+    numericInput.addEventListener("input", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+        if (currentValue < parseInt(numericInput.min)) {
+            numericInput.value = numericInput.min;
+        } else if (currentValue > parseInt(numericInput.max)) {
+            numericInput.value = numericInput.max;
+        }
+        document.querySelector("#num-hab").value = numericInput.value;
+        generarHabitaciones(numericInput.value);
+    });
+
+    decrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+        if (currentValue > parseInt(numericInput.min)) {
+            numericInput.value = currentValue - 1;
+            document.querySelector("#num-hab").value = numericInput.value;
+            generarHabitaciones(numericInput.value);
+        }
+    });
+
+    incrementButton.addEventListener("click", function () {
+        let currentValue = parseInt(numericInput.value) || 1;
+        if (currentValue < parseInt(numericInput.max)) {
+            numericInput.value = currentValue + 1;
+            document.querySelector("#num-hab").value = numericInput.value;
+            generarHabitaciones(numericInput.value);
+        }
+    });
 }
