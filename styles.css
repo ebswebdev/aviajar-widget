@@ -1351,6 +1351,39 @@
     margin: 0 10px;
     width: 20%;
   }
+
+  /* Autocomplete hoteles */
+  .autocomplete-item-hoteles {
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 12px;
+  }
+
+  .autocomplete-item-hoteles:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+
+  .autocomplete-item-hoteles:hover .title-autocomplete-item,
+  .autocomplete-item-hoteles:hover .subtitle-autocomplete-item {
+    color: #fff !important;
+  }
+
+  .title-autocomplete-item {
+    color: var(--text-color);
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .subtitle-autocomplete-item {
+    font-size: 12px;
+    color: #666;
+    padding: 10px 20px;
+    margin-top: -20px;
+  }
 }
 
 /* Modal Error Pasajeros */

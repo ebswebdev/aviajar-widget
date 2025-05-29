@@ -1824,8 +1824,11 @@ function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelec
 
                 data.forEach(item => {
                     const itemDiv = document.createElement("div");
-                    itemDiv.className = "autocomplete-item";
-                    itemDiv.textContent = item.name + (item.subtitle ? `, ${item.subtitle}` : "");
+                    itemDiv.className = "autocomplete-item-hoteles"
+                    itemDiv.innerHTML = `
+                        <div class="title-autocomplete-item">${item.name}</div>
+                        ${item.subtitle ? `<div class="subtitle-autocomplete-item">${item.subtitle}</div>` : ""}
+                    `;
 
                     itemDiv.addEventListener("click", function () {
                         input.value = item.name + (item.subtitle ? `, ${item.subtitle}` : "");
@@ -1844,6 +1847,7 @@ function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelec
                             hiddenSelect.setAttribute("data-tipo", item.type);
                         }
                         console.log("Seleccionado:", input.value, "Código:", code, "Tipo:", item.type);
+                        console.log(item.name + (item.subtitle ? `, ${item.subtitle}` : ""), "ID:", item.id);
                     });
 
                     autocompleteList.appendChild(itemDiv);
