@@ -701,16 +701,68 @@
                 tramoDiv.className = 'tramo';
                 tramoDiv.style.marginBottom = '10px';
                 tramoDiv.innerHTML = `
-            <div style="display:flex;gap:8px;align-items:center;">
+        <div style="display:flex;gap:8px;align-items:center;">
+            <div style="position:relative;">
                 <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
-                <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
-                <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
-                <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
+                <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
             </div>
-        `;
+            <div style="position:relative;">
+                <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
+                <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
+            </div>
+            <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
+            <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
+        </div>
+    `;
+
                 // Quitar tramo
                 tramoDiv.querySelector('.btn-quitar-tramo').onclick = () => tramoDiv.remove();
                 tramosContainer.appendChild(tramoDiv);
+
+                // Asignar IDs únicos
+                const origenInput = tramoDiv.querySelector('.input-tramo-origen');
+                const destinoInput = tramoDiv.querySelector('.input-tramo-destino');
+                const fechaInput = tramoDiv.querySelector('.input-tramo-fecha');
+                origenInput.id = `input-tramo-origen-${idx}`;
+                destinoInput.id = `input-tramo-destino-${idx}`;
+                fechaInput.id = `input-tramo-fecha-${idx}`;
+
+                // Autocomplete para origen y destino
+                if (typeof external_file_AirportsCities !== "undefined") {
+                    autocompleteSearch(
+                        `#${origenInput.id}`,
+                        `#autocomplete-list-tramo-origen-${idx}`,
+                        external_file_AirportsCities
+                    );
+                    autocompleteSearch(
+                        `#${destinoInput.id}`,
+                        `#autocomplete-list-tramo-destino-${idx}`,
+                        external_file_AirportsCities
+                    );
+                }
+
+                const fechaInput2 = tramoDiv.querySelector('.input-tramo-fecha');
+                fechaInput2.id = `input-tramo-fecha-${idx}`;
+
+                // Flatpickr para la fecha del tramo
+                if (typeof flatpickr !== "undefined") {
+                    flatpickr(fechaInput2, {
+                        dateFormat: "Y-m-d",
+                        minDate: "today",
+                        disableMobile: true,
+                        locale: {
+                            firstDayOfWeek: 1,
+                            weekdays: {
+                                shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                                longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            },
+                            months: {
+                                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            },
+                        }
+                    });
+                }
             }
 
             // Agregar tramo al hacer clic
