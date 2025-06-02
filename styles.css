@@ -960,6 +960,26 @@
     }
   }
 
+  #radio-multidestino {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    }
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+    }
+  }
+
   /* Fechas */
   .fechas {
     border-radius: 10px;
@@ -1383,6 +1403,35 @@
     color: #666;
     padding: 10px 20px;
     margin-top: -20px;
+  }
+
+  #btn-agregar-tramo {
+    position: absolute;
+    display: inline-block;
+    margin: 10px 0px;
+    right: 20px;
+    width: 150px;
+  }
+
+  .input-tramo-origen,
+  .input-tramo-destino,
+  .input-tramo-fecha {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  .btn-quitar-tramo {
+    background-color: transparent !important;
+    width: 30px !important;
   }
 }
 

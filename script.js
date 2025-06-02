@@ -315,7 +315,13 @@
                                         <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
                                         <label for="radio-soloida">Solo ida</label>
                                     </div>
+                                    <div class="radio">
+                                        <input id="radio-multidestino" type="radio" name="trip-type" value="multidestino">
+                                        <label for="radio-multidestino">Multi destino</label>
+                                    </div>
                                 </div>
+                                <button id="btn-agregar-tramo" style="display:none; margin:10px 0;">Agregar tramo</button>
+                                <div id="multidestino-tramos"></div>
                                 <div class="checkbox-group">
                                     <div class="checkbox">
                                         <input id="checkbox-vequipaje" type="checkbox">
@@ -668,6 +674,54 @@
                 inicializarFlatpickr(); // Reinicializar Flatpickr al cambiar el tamaño de la pantalla
             });
         });
+
+        if (selectedTab === 'vuelos') {
+            // Multi-destino: mostrar botón y gestionar tramos
+            const radioMulti = document.getElementById('radio-multidestino');
+            const btnAgregarTramo = document.getElementById('btn-agregar-tramo');
+            const tramosContainer = document.getElementById('multidestino-tramos');
+            const radios = document.querySelectorAll('input[name="trip-type"]');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (radioMulti.checked) {
+                        btnAgregarTramo.style.display = 'inline-block';
+                        tramosContainer.style.display = 'block';
+                    } else {
+                        btnAgregarTramo.style.display = 'none';
+                        tramosContainer.style.display = 'none';
+                        tramosContainer.innerHTML = '';
+                    }
+                });
+            });
+
+            // Función para crear un tramo
+            function crearTramo(idx) {
+                const tramoDiv = document.createElement('div');
+                tramoDiv.className = 'tramo';
+                tramoDiv.style.marginBottom = '10px';
+                tramoDiv.innerHTML = `
+            <div style="display:flex;gap:8px;align-items:center;">
+                <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
+                <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
+                <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
+                <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
+            </div>
+        `;
+                // Quitar tramo
+                tramoDiv.querySelector('.btn-quitar-tramo').onclick = () => tramoDiv.remove();
+                tramosContainer.appendChild(tramoDiv);
+            }
+
+            // Agregar tramo al hacer clic
+            btnAgregarTramo.addEventListener('click', function () {
+                if (tramosContainer.children.length >= 6) {
+                    // alert("Solo puedes agregar hasta 6 tramos.");
+                    return;
+                }
+                crearTramo(tramosContainer.children.length + 1);
+            });
+        }
 
         // Quitar la raya si el tab es hoteles
         const origenDestino = document.querySelector('.origen-destino');
