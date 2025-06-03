@@ -701,19 +701,19 @@
                 tramoDiv.className = 'tramo';
                 tramoDiv.style.marginBottom = '10px';
                 tramoDiv.innerHTML = `
-        <div style="display:flex;gap:8px;align-items:center;">
-            <div style="position:relative;">
-                <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
-                <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
-            </div>
-            <div style="position:relative;">
-                <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
-                <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
-            </div>
-            <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
-            <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
-        </div>
-    `;
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <div style="position:relative;">
+                            <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
+                            <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
+                        </div>
+                        <div style="position:relative;">
+                            <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
+                            <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
+                        </div>
+                        <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
+                        <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
+                    </div>
+                `;
 
                 // Quitar tramo
                 tramoDiv.querySelector('.btn-quitar-tramo').onclick = () => tramoDiv.remove();
@@ -740,16 +740,17 @@
                         external_file_AirportsCities
                     );
                 }
-
                 const fechaInput2 = tramoDiv.querySelector('.input-tramo-fecha');
                 fechaInput2.id = `input-tramo-fecha-${idx}`;
 
                 // Flatpickr para la fecha del tramo
                 if (typeof flatpickr !== "undefined") {
+                    const isMobile = window.innerWidth <= 768; 
                     flatpickr(fechaInput2, {
                         dateFormat: "Y-m-d",
                         minDate: "today",
                         disableMobile: true,
+                        showMonths: isMobile ? 1 : 2, // 1 mes en mobile, 2 en desktop
                         locale: {
                             firstDayOfWeek: 1,
                             weekdays: {
