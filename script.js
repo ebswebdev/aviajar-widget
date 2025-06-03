@@ -697,6 +697,12 @@
                         document.querySelector("#origen").classList.remove("input-error");
                         document.querySelector("#destino").classList.remove("input-error");
                         document.querySelector("#fecha-rango").classList.remove("input-error");
+                        // Generar 2 tramos automáticamente si no existen
+                        if (tramosContainer.children.length < 2) {
+                            tramosContainer.innerHTML = "";
+                            crearTramo(1);
+                            crearTramo(2);
+                        }
                     } else {
                         btnAgregarTramo.style.display = 'none';
                         tramosContainer.style.display = 'none';
@@ -728,7 +734,7 @@
                             <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
                             <select class="input-tramo-destino-id" style="display:none"></select>
                         </div>
-                        <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
+                        <input type="text" class="input-tramo-fecha" placeholder="Fecha" style="width:130px;">
                         <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
                     </div>
                 `;
@@ -784,6 +790,26 @@
                         }
                     });
                 }
+
+                // En proceso....
+                // --- COPIAR DESTINO AL SIGUIENTE ORIGEN ---
+
+                // destinoInput.addEventListener('change', function () {
+                //     // Solo si existe un siguiente tramo
+                //     const nextTramo = tramosContainer.children[idx]; // idx es base 1, children es base 0
+                //     if (nextTramo) {
+                //         const nextOrigenInput = nextTramo.querySelector('.input-tramo-origen');
+                //         const nextOrigenSelect = nextTramo.querySelector('.input-tramo-origen-id');
+                //         const thisDestinoSelect = tramoDiv.querySelector('.input-tramo-destino-id');
+                //         // Copiar valor visible
+                //         if (nextOrigenInput) nextOrigenInput.value = destinoInput.value;
+                //         // Copiar valor oculto (ID)
+                //         if (nextOrigenSelect && thisDestinoSelect) {
+                //             nextOrigenSelect.innerHTML = thisDestinoSelect.innerHTML;
+                //         }
+                //     }
+                // });
+
             }
 
             // Agregar tramo al hacer clic
