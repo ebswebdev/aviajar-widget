@@ -687,10 +687,26 @@
                     if (radioMulti.checked) {
                         btnAgregarTramo.style.display = 'inline-block';
                         tramosContainer.style.display = 'block';
+                        // Deshabilitar inputs principales
+                        document.querySelector("#origen").disabled = true;
+                        document.querySelector("#destino").disabled = true;
+                        document.querySelector("#origen-id").disabled = true;
+                        document.querySelector("#destino-id").disabled = true;
+                        document.querySelector("#fecha-rango").disabled = true;
+                        // Quitar errores visuales
+                        document.querySelector("#origen").classList.remove("input-error");
+                        document.querySelector("#destino").classList.remove("input-error");
+                        document.querySelector("#fecha-rango").classList.remove("input-error");
                     } else {
                         btnAgregarTramo.style.display = 'none';
                         tramosContainer.style.display = 'none';
                         tramosContainer.innerHTML = '';
+                        // Habilitar inputs principales
+                        document.querySelector("#origen").disabled = false;
+                        document.querySelector("#destino").disabled = false;
+                        document.querySelector("#origen-id").disabled = false;
+                        document.querySelector("#destino-id").disabled = false;
+                        document.querySelector("#fecha-rango").disabled = false;
                     }
                 });
             });
@@ -705,10 +721,12 @@
                         <div style="position:relative;">
                             <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
+                            <select class="input-tramo-origen-id" style="display:none"></select>
                         </div>
                         <div style="position:relative;">
                             <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
+                            <select class="input-tramo-destino-id" style="display:none"></select>
                         </div>
                         <input type="text" class="input-tramo-fecha" placeholder="Fecha (YYYY-MM-DD)" style="width:130px;">
                         <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
@@ -732,12 +750,14 @@
                     autocompleteSearch(
                         `#${origenInput.id}`,
                         `#autocomplete-list-tramo-origen-${idx}`,
-                        external_file_AirportsCities
+                        external_file_AirportsCities,
+                        `select.input-tramo-origen-id`
                     );
                     autocompleteSearch(
                         `#${destinoInput.id}`,
                         `#autocomplete-list-tramo-destino-${idx}`,
-                        external_file_AirportsCities
+                        external_file_AirportsCities,
+                        `select.input-tramo-destino-id`
                     );
                 }
                 const fechaInput2 = tramoDiv.querySelector('.input-tramo-fecha');
@@ -745,7 +765,7 @@
 
                 // Flatpickr para la fecha del tramo
                 if (typeof flatpickr !== "undefined") {
-                    const isMobile = window.innerWidth <= 768; 
+                    const isMobile = window.innerWidth <= 768;
                     flatpickr(fechaInput2, {
                         dateFormat: "Y-m-d",
                         minDate: "today",
@@ -861,13 +881,12 @@ window.addEventListener('resize', cargarEstilosSegunContenedor);
 // Autocomplete para paquetes & vuelo 
 let airports = [];
 
-function autocompleteSearch(inputId, autocompleteListId, data) {
+function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId) {
     const input = document.querySelector(inputId);
     const autocompleteList = document.querySelector(autocompleteListId);
-
-    // Si necesitas manejar un hiddenSelect
-    const hiddenSelectId = inputId === "#origen" ? "#origen-id" : "#destino-id";
-    const hiddenSelect = document.querySelector(hiddenSelectId);
+    const hiddenSelect = hiddenSelectId
+        ? input.parentElement.querySelector(hiddenSelectId)
+        : (inputId === "#origen" ? document.querySelector("#origen-id") : document.querySelector("#destino-id"));
 
     // Función para normalizar cadenas (eliminar tildes)
     function normalizeString(str) {
@@ -1677,6 +1696,61 @@ function generateURLVuelos() {
     let userService = widgetAviajar.getAttribute('userService') || 'aviajar'; // Valor por defecto: "aviajar"
     let branchCode = widgetAviajar.getAttribute('branchCode') || '003'; // Valor por defecto: "003"
 
+    // Detectar si es multidestino
+    const isMultiDestino = document.querySelector("#radio-multidestino")?.checked;
+
+    // Pasajeros
+    const numAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 1;
+    const numNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0;
+    const numInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0;
+
+    const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false";
+    const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false";
+    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
+
+    // --- MULTIDESTINO ---
+    if (isMultiDestino) {
+        const tramos = Array.from(document.querySelectorAll('.tramo'));
+        if (tramos.length < 2) {
+            alert("Debes agregar al menos dos tramos para multidestino.");
+            return null;
+        }
+
+        // Extraer los IDs de origen y destino y las fechas de cada tramo
+        const origenes = [];
+        const destinos = [];
+        const fechas = [];
+
+        for (const tramo of tramos) {
+            // Busca el select oculto para el ID, si no existe usa el valor del input
+            const origenSelect = tramo.querySelector('select.input-tramo-origen-id');
+            const destinoSelect = tramo.querySelector('select.input-tramo-destino-id');
+            const origenInput = tramo.querySelector('.input-tramo-origen');
+            const destinoInput = tramo.querySelector('.input-tramo-destino');
+            const fechaInput = tramo.querySelector('.input-tramo-fecha');
+
+            // Si tienes selects ocultos para IDs, usa su value, si no, usa el valor del input
+            const origen = origenSelect?.value || origenInput?.value.trim();
+            const destino = destinoSelect?.value || destinoInput?.value.trim();
+            const fecha = fechaInput?.value.trim();
+
+            if (!origen || !destino || !fecha) {
+                alert("Completa todos los campos de los tramos.");
+                return null;
+            }
+
+            origenes.push(origen);
+            destinos.push(destino);
+            fechas.push(fecha);
+        }
+
+        // Construir la URL multidestino
+        const url = `${host}${culture}/${productType}/MD/${origenes.join(",")}/${destinos.join(",")}/${fechas.join(",")}/${numAdultos}/${numNinos}/${numInfantes}/${baggageIncluded}/${directFlight}/NA/NA/NA/${userService}-show-${branchCode}---------${discountCode}#air`;
+        console.log("Generated URL (MD):", url);
+        return url;
+    }
+
+    // --- NORMAL (IDA Y REGRESO O SOLO IDA) ---
     // Determinar el tipo de viaje (RT: Ida y regreso, OW: Solo ida)
     const tripType = document.querySelector("#radio-soloida")?.checked ? "OW" : "RT";
 
@@ -1686,16 +1760,6 @@ function generateURLVuelos() {
     const dateRange = document.querySelector("#fecha-rango")?.value.split(" to ") || []; // Rango de fechas
     const dateFrom = dateRange[0] || ""; // Fecha de ida
     const dateTo = tripType === "RT" ? (dateRange[1] || "") : ""; // Fecha de regreso (solo si es RT)
-
-    const numAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 1; // Número de adultos
-    const numNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0; // Número de niños
-    const numInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0; // Número de infantes
-
-    const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
-    const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
-
-    // Leer el código de descuento
-    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
 
     // Dentro de generateURLVuelos, antes de la validación:
     console.log("cityFrom:", cityFrom);
@@ -1741,36 +1805,36 @@ function botonBusquedaVuelos() {
             if (input) input.classList.remove("input-error");
         }
 
-        // Validar que se haya seleccionado un origen desde el autocompletado
-        if (!origenSelect || !origenSelect.value) {
-            showError(origenInput);
-            valid = false;
-        } else {
-            clearError(origenInput);
-        }
+        const isMultiDestino = document.querySelector("#radio-multidestino")?.checked;
 
-        // Validar que se haya seleccionado un destino desde el autocompletado
-        if (!destinoSelect || !destinoSelect.value) {
-            showError(destinoInput);
-            valid = false;
-        } else {
-            clearError(destinoInput);
-        }
-
-        // Validar que el rango de fechas no esté vacío
-        if (!fechaRangoInput || !fechaRangoInput.value) {
-            showError(fechaRangoInput);
-            valid = false;
-        } else {
-            clearError(fechaRangoInput);
+        // Solo validar los inputs principales si NO es multidestino
+        if (!isMultiDestino) {
+            if (!origenSelect || !origenSelect.value) {
+                showError(origenInput);
+                valid = false;
+            } else {
+                clearError(origenInput);
+            }
+            if (!destinoSelect || !destinoSelect.value) {
+                showError(destinoInput);
+                valid = false;
+            } else {
+                clearError(destinoInput);
+            }
+            if (!fechaRangoInput || !fechaRangoInput.value) {
+                showError(fechaRangoInput);
+                valid = false;
+            } else {
+                clearError(fechaRangoInput);
+            }
         }
 
         // Si todos los campos son válidos, generar la URL
         if (valid) {
             const generatedURL = generateURLVuelos();
-            // Redirigir solo si la URL es válida
             if (generatedURL) {
-                window.location.href = generatedURL;
+                console.log(generatedURL);
+                // window.location.href = generatedURL;
 
                 // Limpiar basura del select origen y destino
                 document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
