@@ -842,6 +842,17 @@
                     return;
                 }
                 crearTramo(tramosContainer.children.length + 1);
+                // Hacer focus en el penúltimo tramo (el recién creado es el último)
+                if (tramosContainer.children.length > 1) {
+                    const penultimoTramo = tramosContainer.children[tramosContainer.children.length - 2];
+                    if (penultimoTramo) {
+                        const penultimoDestinoInput = penultimoTramo.querySelector('.input-tramo-destino');
+                        if (penultimoDestinoInput) {
+                            penultimoDestinoInput.focus();
+                            penultimoDestinoInput.blur(); // Quitar foco para activar el trigger de cambio
+                        }
+                    }
+                }
             });
         }
 
@@ -1775,17 +1786,19 @@ function generateURLVuelos() {
         const fechas = [];
 
         for (const tramo of tramos) {
-            // Busca el select oculto para el ID, si no existe usa el valor del input
             const origenSelect = tramo.querySelector('select.input-tramo-origen-id');
             const destinoSelect = tramo.querySelector('select.input-tramo-destino-id');
-            const origenInput = tramo.querySelector('.input-tramo-origen');
-            const destinoInput = tramo.querySelector('.input-tramo-destino');
             const fechaInput = tramo.querySelector('.input-tramo-fecha');
 
-            // Si tienes selects ocultos para IDs, usa su value, si no, usa el valor del input
             const origen = origenSelect?.value || '';
             const destino = destinoSelect?.value || '';
             const fecha = fechaInput?.value.trim();
+
+            // Validar que todos los campos estén completos
+            if (!origen || !destino || !fecha) {
+                alert("Completa todos los campos de cada tramo.");
+                return null;
+            }
 
             origenes.push(origen);
             destinos.push(destino);
