@@ -274,6 +274,11 @@
                                 </div>
                             </div>
 
+                            <div id="multidestino-placeholder" style="display:none;">
+                                <button id="btn-agregar-tramo" style="display:none; margin:10px 0;">Agregar tramo</button>
+                            </div>
+                            <div id="multidestino-tramos"></div>
+
                             <div class="fechas">
                                 <div class="input-group">
                                     <span class="label-input">FECHAS</span>
@@ -305,7 +310,7 @@
                                 </div>
                             </div>
                             
-                            <div class="options-air">
+                            <div class="options-air">            
                                 <div class="radio-group">
                                     <div class="radio">
                                         <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
@@ -320,8 +325,6 @@
                                         <label for="radio-multidestino">Multi destino</label>
                                     </div>
                                 </div>
-                                <button id="btn-agregar-tramo" style="display:none; margin:10px 0;">Agregar tramo</button>
-                                <div id="multidestino-tramos"></div>
                                 <div class="checkbox-group">
                                     <div class="checkbox">
                                         <input id="checkbox-vequipaje" type="checkbox">
@@ -475,6 +478,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="multidestino-placeholder"></div>
                             <div class="fechas">
                             <div class="input-group">
                                 <span class="label-input">FECHA</span>
@@ -681,22 +685,45 @@
             const btnAgregarTramo = document.getElementById('btn-agregar-tramo');
             const tramosContainer = document.getElementById('multidestino-tramos');
             const radios = document.querySelectorAll('input[name="trip-type"]');
+            const botonBuscar = document.querySelector('.boton-buscar');
+
+            // Asegúrate de ocultar el botón al cargar
+            btnAgregarTramo.style.display = (radioMulti && radioMulti.checked) ? 'inline-block' : 'none';
 
             radios.forEach(radio => {
                 radio.addEventListener('change', function () {
+                    const placeholder = document.getElementById('multidestino-placeholder');
                     if (radioMulti.checked) {
                         btnAgregarTramo.style.display = 'inline-block';
                         tramosContainer.style.display = 'block';
-                        // Deshabilitar inputs principales
+                        placeholder.style.display = 'flex';
+
+                        if (botonBuscar) {
+                            botonBuscar.classList.add('full-width');
+                            botonBuscar.classList.add('orden-99');
+                        }
+
+                        // Mover los tramos al placeholder (donde estaban los inputs originales)
+                        if (placeholder && !placeholder.contains(tramosContainer)) {
+                            placeholder.appendChild(tramosContainer);
+                        }
+
+                        // Deshabilitar y ocultar inputs principales
                         document.querySelector("#origen").disabled = true;
                         document.querySelector("#destino").disabled = true;
                         document.querySelector("#origen-id").disabled = true;
                         document.querySelector("#destino-id").disabled = true;
                         document.querySelector("#fecha-rango").disabled = true;
+
+                        // Ocultar los inputs originales
+                        document.querySelector('.origen-destino').style.display = 'none';
+                        document.querySelector('.fechas').style.display = 'none';
+
                         // Quitar errores visuales
                         document.querySelector("#origen").classList.remove("input-error");
                         document.querySelector("#destino").classList.remove("input-error");
                         document.querySelector("#fecha-rango").classList.remove("input-error");
+
                         // Generar 2 tramos automáticamente si no existen
                         if (tramosContainer.children.length < 2) {
                             tramosContainer.innerHTML = "";
@@ -707,14 +734,36 @@
                         btnAgregarTramo.style.display = 'none';
                         tramosContainer.style.display = 'none';
                         tramosContainer.innerHTML = '';
-                        // Habilitar inputs principales
+                        placeholder.style.display = 'none';
+
+                        if (botonBuscar) botonBuscar.classList.remove('full-width');
+                        if (botonBuscar) botonBuscar.classList.remove('orden-99'); // <-- quita la clase
+
+
+
+                        // Habilitar y mostrar inputs principales
                         document.querySelector("#origen").disabled = false;
                         document.querySelector("#destino").disabled = false;
                         document.querySelector("#origen-id").disabled = false;
                         document.querySelector("#destino-id").disabled = false;
                         document.querySelector("#fecha-rango").disabled = false;
+
+                        // Mostrar los inputs originales
+                        document.querySelector('.origen-destino').style.display = '';
+                        document.querySelector('.fechas').style.display = '';
+
+                        // Opcional: mover los tramos fuera del placeholder si quieres
+                        document.getElementById('widget-container').appendChild(tramosContainer);
                     }
                 });
+
+                if (botonBuscar) {
+                    if (radioMulti && radioMulti.checked) {
+                        botonBuscar.classList.add('full-width');
+                    } else {
+                        botonBuscar.classList.remove('full-width');
+                    }
+                }
             });
 
             // Función para crear un tramo
@@ -723,19 +772,27 @@
                 tramoDiv.className = 'tramo';
                 tramoDiv.style.marginBottom = '10px';
                 tramoDiv.innerHTML = `
-                    <div style="display:flex;gap:8px;align-items:center;">
-                        <div style="position:relative;">
-                            <input type="text" class="input-tramo-origen" placeholder="Origen" style="width:120px;">
+                    <div class="tramo-content">
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">ORIGEN</span>
+                            <input type="text" class="input-tramo-origen" placeholder="Origen" id="input-tramo-origen-${idx}">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
                             <select class="input-tramo-origen-id" style="display:none"></select>
+                            <span class="icon"><i class="fas fa-plane-departure"></i></span>
                         </div>
-                        <div style="position:relative;">
-                            <input type="text" class="input-tramo-destino" placeholder="Destino" style="width:120px;">
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">DESTINO</span>
+                            <input type="text" class="input-tramo-destino" placeholder="Destino" id="input-tramo-destino-${idx}">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
                             <select class="input-tramo-destino-id" style="display:none"></select>
+                            <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                         </div>
-                        <input type="text" class="input-tramo-fecha" placeholder="Fecha" style="width:130px;">
-                        <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">&times;</button>
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">FECHA</span>
+                            <input type="text" class="input-tramo-fecha flatpickr-input" placeholder="Fecha" id="input-tramo-fecha-${idx}" readonly="readonly">
+                            <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">×</button>
                     </div>
                 `;
 

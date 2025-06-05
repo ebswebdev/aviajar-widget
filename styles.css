@@ -267,6 +267,37 @@
   .options-hotel {
     order: 8;
   }
+  /* #multidestino-tramos {
+    order: 3 !important;
+  } */
+  .tramo {
+    flex: 1 1 100%;
+    /* Asegura que ocupe todo el ancho disponible */
+  }
+
+  .options-air {
+    width: 100% !important;
+    gap: 10px;
+    box-sizing: border-box;
+    order: 8; 
+  }
+
+  .descuento-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .descuento {
+    width: 100%;
+  }
+
+  .codigo-descuento {
+    width: 100%;
+  }
+  #input-descuento {
+    width: 100%;
+  }
 
   #mostrar-descuento {
     order: 7; /* justo antes del .descuento */
@@ -367,6 +398,16 @@
     font-size: 10px;
     color: var(--text-color);
     /* Usando el color de texto definido */
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .label-input-tramo {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 9px;
+    color: var(--text-color);
     pointer-events: none;
     transition: all 0.3s ease;
   }
@@ -835,6 +876,23 @@
 
   .boton-buscar .input-group {
     width: 100%;
+  }
+
+  .boton-buscar.full-width {
+    width: 100% !important;
+    min-width: unset !important;
+    margin-top: 20px;
+    grid-column: 1 / -1; /* Si usas grid */
+    display: flex;
+    justify-content: center;
+  }
+
+  .boton-buscar.full-width button {
+    min-width: unset !important;
+  }
+
+  .boton-buscar.orden-99 {
+    order: 99 !important;
   }
 
   /* Estilo del input */
@@ -1406,7 +1464,8 @@
   }
 
   #btn-agregar-tramo {
-    position: absolute;
+    display: flex !important;
+    justify-content: center;
     display: inline-block;
     margin: 10px 0px;
     right: 20px;
@@ -1418,6 +1477,7 @@
   .input-tramo-fecha {
     width: 100%;
     padding: 10px;
+    padding-right: 40px !important;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
@@ -1432,6 +1492,30 @@
   .btn-quitar-tramo {
     background-color: transparent !important;
     width: 30px !important;
+  }
+
+  .tramo-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    gap: 10px;
+    height: 100%;
+  }
+
+  .input-tramo,
+  .input-tramo-fecha {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 100%;
+  }
+
+  #multidestino-placeholder {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    background: #fff;
   }
 }
 
