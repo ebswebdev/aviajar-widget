@@ -791,31 +791,54 @@
                     });
                 }
 
-                // En proceso....
-                // --- COPIAR DESTINO AL SIGUIENTE ORIGEN ---
+                // --- COPIAR DESTINO AL SIGUIENTE ORIGEN AL SALIR DEL INPUT ---
+                const thisDestinoSelect = tramoDiv.querySelector('.input-tramo-destino-id');
+                destinoInput.addEventListener('blur', copiarDestinoAOtroTramo);
 
-                // destinoInput.addEventListener('change', function () {
-                //     // Solo si existe un siguiente tramo
-                //     const nextTramo = tramosContainer.children[idx]; // idx es base 1, children es base 0
-                //     if (nextTramo) {
-                //         const nextOrigenInput = nextTramo.querySelector('.input-tramo-origen');
-                //         const nextOrigenSelect = nextTramo.querySelector('.input-tramo-origen-id');
-                //         const thisDestinoSelect = tramoDiv.querySelector('.input-tramo-destino-id');
-                //         // Copiar valor visible
-                //         if (nextOrigenInput) nextOrigenInput.value = destinoInput.value;
-                //         // Copiar valor oculto (ID)
-                //         if (nextOrigenSelect && thisDestinoSelect) {
-                //             nextOrigenSelect.innerHTML = thisDestinoSelect.innerHTML;
-                //         }
-                //     }
-                // });
+                function copiarDestinoAOtroTramo() {
+                    const nextTramo = tramosContainer.children[idx];
+                    if (nextTramo) {
+                        // Copiar el texto visible
+                        const nextOrigenInput = nextTramo.querySelector('.input-tramo-origen');
+                        if (nextOrigenInput) nextOrigenInput.value = destinoInput.value;
 
+                        // Copiar el ID oculto
+                        const nextOrigenSelect = nextTramo.querySelector('.input-tramo-origen-id');
+                        if (nextOrigenSelect) {
+                            nextOrigenSelect.innerHTML = "";
+                            let id = "";
+                            // 1. Si hay un option seleccionado en el select oculto, úsalo
+                            let selectedOption = thisDestinoSelect.querySelector("option[selected]");
+                            if (!selectedOption) selectedOption = thisDestinoSelect.querySelector("option");
+                            if (selectedOption && selectedOption.value) {
+                                id = selectedOption.value;
+                            } else if (typeof external_file_AirportsCities !== "undefined") {
+                                // 2. Si no hay option, intenta buscar el ID por el texto visible
+                                const match = external_file_AirportsCities.find(entry => {
+                                    const parts = entry.split(" | ");
+                                    const displayText = parts.length > 1 ? parts[1] : entry;
+                                    return displayText.trim().toLowerCase() === destinoInput.value.trim().toLowerCase();
+                                });
+                                if (match) {
+                                    const matchId = match.match(/\(([^)]+)\)$/);
+                                    if (matchId) id = matchId[1];
+                                }
+                            }
+                            if (id) {
+                                const newOption = document.createElement("option");
+                                newOption.value = id;
+                                newOption.selected = true;
+                                nextOrigenSelect.appendChild(newOption);
+                                nextOrigenSelect.dispatchEvent(new Event('change'));
+                            }
+                        }
+                    }
+                }
             }
 
             // Agregar tramo al hacer clic
             btnAgregarTramo.addEventListener('click', function () {
                 if (tramosContainer.children.length >= 6) {
-                    // alert("Solo puedes agregar hasta 6 tramos.");
                     return;
                 }
                 crearTramo(tramosContainer.children.length + 1);
@@ -994,6 +1017,10 @@ function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId) {
                     hiddenSelect.appendChild(option);
                 }
                 console.log('id', id); // Mostrar el ID en la consola
+
+                // Poner foco y quitarlo, para activar el trigger
+                input.focus();
+                input.blur();
             });
         });
     });
@@ -1756,14 +1783,9 @@ function generateURLVuelos() {
             const fechaInput = tramo.querySelector('.input-tramo-fecha');
 
             // Si tienes selects ocultos para IDs, usa su value, si no, usa el valor del input
-            const origen = origenSelect?.value || origenInput?.value.trim();
-            const destino = destinoSelect?.value || destinoInput?.value.trim();
+            const origen = origenSelect?.value || '';
+            const destino = destinoSelect?.value || '';
             const fecha = fechaInput?.value.trim();
-
-            if (!origen || !destino || !fecha) {
-                alert("Completa todos los campos de los tramos.");
-                return null;
-            }
 
             origenes.push(origen);
             destinos.push(destino);
