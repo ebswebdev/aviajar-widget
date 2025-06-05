@@ -698,11 +698,6 @@
                         tramosContainer.style.display = 'block';
                         placeholder.style.display = 'flex';
 
-                        if (botonBuscar) {
-                            botonBuscar.classList.add('full-width');
-                            botonBuscar.classList.add('orden-99');
-                        }
-
                         // Mover los tramos al placeholder (donde estaban los inputs originales)
                         if (placeholder && !placeholder.contains(tramosContainer)) {
                             placeholder.appendChild(tramosContainer);
@@ -735,11 +730,6 @@
                         tramosContainer.style.display = 'none';
                         tramosContainer.innerHTML = '';
                         placeholder.style.display = 'none';
-
-                        if (botonBuscar) botonBuscar.classList.remove('full-width');
-                        if (botonBuscar) botonBuscar.classList.remove('orden-99'); // <-- quita la clase
-
-
 
                         // Habilitar y mostrar inputs principales
                         document.querySelector("#origen").disabled = false;

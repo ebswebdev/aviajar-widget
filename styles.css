@@ -229,6 +229,7 @@
   .vuelos-container {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
   }
 
   .origen-destino {
@@ -270,16 +271,12 @@
   /* #multidestino-tramos {
     order: 3 !important;
   } */
-  .tramo {
-    flex: 1 1 100%;
-    /* Asegura que ocupe todo el ancho disponible */
-  }
 
   .options-air {
     width: 100% !important;
     gap: 10px;
     box-sizing: border-box;
-    order: 8; 
+    order: 8;
   }
 
   .descuento-container {
@@ -878,23 +875,6 @@
     width: 100%;
   }
 
-  .boton-buscar.full-width {
-    width: 100% !important;
-    min-width: unset !important;
-    margin-top: 20px;
-    grid-column: 1 / -1; /* Si usas grid */
-    display: flex;
-    justify-content: center;
-  }
-
-  .boton-buscar.full-width button {
-    min-width: unset !important;
-  }
-
-  .boton-buscar.orden-99 {
-    order: 99 !important;
-  }
-
   /* Estilo del input */
   .input-group input {
     width: 100%;
@@ -920,17 +900,10 @@
     border-radius: 5px 0 0 5px;
   }
 
-  /* .fechas {
-    min-width: 290px;
-    margin-right: 10px;
-  } */
-
-  /* Specific adjustment for the date input */
   #fecha-rango,
   #origen,
   #destino {
     padding-right: 40px;
-    /* Ensure extra space for the calendar icon */
   }
 
   .input-group .icon {
@@ -1135,6 +1108,7 @@
 
   .boton-buscar .icon {
     position: absolute;
+    margin-top: 20px;
     left: 20px;
     color: var(--background-color);
     pointer-events: none;
@@ -1147,6 +1121,7 @@
     width: 150px;
     height: 70px;
     border-radius: 10px;
+    margin-top: 20px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
@@ -1512,7 +1487,6 @@
   }
 
   #multidestino-placeholder {
-    width: 100%;
     display: flex;
     flex-direction: column-reverse;
     background: #fff;
