@@ -765,21 +765,21 @@
                     <div class="tramo-content">
                         <div class="input-tramo input-group">
                             <span class="label-input-tramo">ORIGEN</span>
-                            <input type="text" class="input-tramo-origen" placeholder="Origen" id="input-tramo-origen-${idx}">
+                            <input type="text" class="input-tramo-origen" placeholder="Desde dónde viajas" id="input-tramo-origen-${idx}">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${idx}"></div>
                             <select class="input-tramo-origen-id" style="display:none"></select>
                             <span class="icon"><i class="fas fa-plane-departure"></i></span>
                         </div>
                         <div class="input-tramo input-group">
                             <span class="label-input-tramo">DESTINO</span>
-                            <input type="text" class="input-tramo-destino" placeholder="Destino" id="input-tramo-destino-${idx}">
+                            <input type="text" class="input-tramo-destino" placeholder="Hacia dónde viajas" id="input-tramo-destino-${idx}">
                             <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${idx}"></div>
                             <select class="input-tramo-destino-id" style="display:none"></select>
                             <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                         </div>
                         <div class="input-tramo input-group">
                             <span class="label-input-tramo">FECHA</span>
-                            <input type="text" class="input-tramo-fecha flatpickr-input" placeholder="Fecha" id="input-tramo-fecha-${idx}" readonly="readonly">
+                            <input type="text" class="input-tramo-fecha flatpickr-input" placeholder="Selecciona la fecha de viaje" id="input-tramo-fecha-${idx}" readonly="readonly">
                             <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                         </div>
                         <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">×</button>
