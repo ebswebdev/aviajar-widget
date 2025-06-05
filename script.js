@@ -1895,7 +1895,7 @@ function botonBusquedaVuelos() {
             const generatedURL = generateURLVuelos();
             if (generatedURL) {
                 console.log(generatedURL);
-                // window.location.href = generatedURL;
+                window.location.href = generatedURL;
 
                 // Limpiar basura del select origen y destino
                 document.querySelectorAll("#origen-id, #destino-id").forEach(select => {
