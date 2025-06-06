@@ -2258,7 +2258,7 @@ function botonBusquedaHoteles() {
     if (!buscarBtn) return;
 
     buscarBtn.addEventListener("click", function (e) {
-        e.preventDefault(); // Evitar el comportamiento predeterminado del botón
+        e.preventDefault();
 
         let valid = true;
 
@@ -2305,7 +2305,7 @@ function botonBusquedaHoteles() {
             const generatedURL = generateURLHoteles();
 
             if (generatedURL) {
-                // window.location.href = generatedURL;
+                window.location.href = generatedURL;
                 console.log(generatedURL);
                 if (destinoSelect) {
                     const selectedOption = destinoSelect.querySelector("option[selected]");
