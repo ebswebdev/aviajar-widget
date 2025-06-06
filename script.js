@@ -251,7 +251,6 @@
                 widgetHTML = `
                 <div class="widget" id="widget-container">
                         <div class="widget-container vuelos-container">
-
                             <div class="radio-group">
                                 <div class="radio">
                                     <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
@@ -814,8 +813,18 @@
                         `select.input-tramo-destino-id`
                     );
                 }
+
                 const fechaInput2 = tramoDiv.querySelector('.input-tramo-fecha');
                 fechaInput2.id = `input-tramo-fecha-${idx}`;
+
+                // Obtener la fecha del tramo anterior (si existe)
+                let minDate = "today";
+                if (idx > 1) {
+                    const prevFechaInput = document.querySelector(`#input-tramo-fecha-${idx - 1}`);
+                    if (prevFechaInput && prevFechaInput.value) {
+                        minDate = prevFechaInput.value;
+                    }
+                }
 
                 // Flatpickr para la fecha del tramo
                 if (typeof flatpickr !== "undefined") {
@@ -835,8 +844,36 @@
                                 shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                                 longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                             },
-                        }
+                        },
+
                     });
+                }
+
+                if (idx > 1) {
+                    const prevFechaInput = document.querySelector(`#input-tramo-fecha-${idx - 1}`);
+                    if (prevFechaInput) {
+                        prevFechaInput.addEventListener('change', function () {
+                            const isMobile = window.innerWidth <= 768;
+                            if (fechaInput2._flatpickr) fechaInput2._flatpickr.destroy();
+                            flatpickr(fechaInput2, {
+                                dateFormat: "Y-m-d",
+                                minDate: prevFechaInput.value || "today",
+                                disableMobile: true,
+                                showMonths: isMobile ? 1 : 2,
+                                locale: {
+                                    firstDayOfWeek: 1,
+                                    weekdays: {
+                                        shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                                        longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                                    },
+                                    months: {
+                                        shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                                        longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                                    },
+                                }
+                            });
+                        });
+                    }
                 }
 
                 // --- COPIAR DESTINO AL SIGUIENTE ORIGEN AL SALIR DEL INPUT ---
@@ -884,12 +921,29 @@
                 }
             }
 
+            function actualizarMinDatesTramos() {
+                const tramos = Array.from(document.querySelectorAll('.tramo'));
+                for (let i = 1; i < tramos.length; i++) {
+                    const prevFechaInput = tramos[i - 1].querySelector('.input-tramo-fecha');
+                    const currFechaInput = tramos[i].querySelector('.input-tramo-fecha');
+                    if (currFechaInput && currFechaInput._flatpickr) {
+                        let minDate = "today";
+                        if (prevFechaInput && prevFechaInput.value) {
+                            minDate = prevFechaInput.value;
+                        }
+                        currFechaInput._flatpickr.set('minDate', minDate);
+                    }
+                }
+            }
+
             // Agregar tramo al hacer clic
             btnAgregarTramo.addEventListener('click', function () {
                 if (tramosContainer.children.length >= 6) {
                     return;
                 }
                 crearTramo(tramosContainer.children.length + 1);
+                actualizarMinDatesTramos(); // <-- Llama aquí
+
                 // Hacer focus en el penúltimo tramo (el recién creado es el último)
                 if (tramosContainer.children.length > 1) {
                     const penultimoTramo = tramosContainer.children[tramosContainer.children.length - 2];
