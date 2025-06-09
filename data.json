@@ -23,7 +23,19 @@
       "soloVuelosEquipaje": "Solo vuelos con equipaje",
       "soloVuelosDirecto": "Solo vuelos directos",
       "codigoDescuento": "Código de descuento",
-      "codigoDescuentoPlaceholder": "Ingresa tu código de descuento"
+      "codigoDescuentoPlaceholder": "Ingresa tu código de descuento",
+      "adultos": "Adultos",
+      "ninos": "Niños",
+      "habitacion": "Habitación",
+      "edadNino": "Edad del niño"
+    },
+    "vuelos": {
+      "idaYRegreso": "Ida y regreso",
+      "soloIda": "Solo ida",
+      "multiDestino": "Multi destino",
+      "agregarTramo": "Agregar tramo",
+      "pasajerosYClase": "Pasajeros y clase",
+      "numeroPasajeros": "Número de Pasajeros"
     }
   },
   "en": {
@@ -50,7 +62,19 @@
       "soloVuelosEquipaje": "Only flights with baggage",
       "soloVuelosDirecto": "Only direct flights",
       "codigoDescuento": "Discount code",
-      "codigoDescuentoPlaceholder": "Enter your discount code"
+      "codigoDescuentoPlaceholder": "Enter your discount code",
+      "adultos": "Adults",
+      "ninos": "Children",
+      "habitacion": "Room",
+      "edadNino": "Child's age"
+    },
+    "vuelos": {
+      "idaYRegreso": "Round trip",
+      "soloIda": "One way",
+      "multiDestino": "Multi destination",
+      "agregarTramo": "Add segment",
+      "pasajerosYClase": "Passengers and class",
+      "numeroPasajeros": "Number of Passengers"
     }
   }
 }
