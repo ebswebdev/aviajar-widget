@@ -289,6 +289,14 @@
     width: 100%;
   }
 
+  .descuento-toggle {
+    display: flex;
+    gap: 10px;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
   .codigo-descuento {
     width: 100%;
   }
@@ -915,7 +923,6 @@
     pointer-events: none;
     /* Prevent the icon from interfering with input clicks */
   }
-
 
   .radio-group {
     display: flex;

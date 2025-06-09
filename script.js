@@ -221,8 +221,10 @@
                             </div>
 
                             <div class="descuento-container">
-                                <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
-                                <i class="fas fa-chevron-down"></i>
+                                <div class="descuento-toggle">
+                                    <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
                                 <div class="descuento" style="display: none;">
                                     <div class="codigo-descuento">
                                         <div class="input-group" id="input-descuento">
