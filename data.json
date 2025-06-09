@@ -1,0 +1,56 @@
+{
+  "es": {
+    "productos": {
+      "vuelos": "Vuelos",
+      "hoteles": "Hoteles",
+      "paquetes": "Paquetes",
+      "autos": "Autos",
+      "tours": "Tours"
+    },
+    "formulario": {
+      "origen": "Origen",
+      "origenPlaceholder": "(mín. 3 letras) Desde dónde viajas",
+      "destino": "Destino",
+      "destinoPlaceholder": "(mín. 3 letras) Hacia dónde viajas",
+      "fechas": "Fechas",
+      "fechasPlaceholder": "Selecciona las fechas de viaje",
+      "habitaciones": "Habitaciones",
+      "personas": "Personas",
+      "modalMaxPasajeros": "El número máximo de pasajeros permitidos es 7.",
+      "cuantasHabitaciones": "¿Cuántas habitaciones?",
+      "aceptar": "Aceptar",
+      "buscar": "Buscar",
+      "soloVuelosEquipaje": "Solo vuelos con equipaje",
+      "soloVuelosDirecto": "Solo vuelos directos",
+      "codigoDescuento": "Código de descuento",
+      "codigoDescuentoPlaceholder": "Ingresa tu código de descuento"
+    }
+  },
+  "en": {
+    "productos": {
+      "vuelos": "Flights",
+      "hoteles": "Hotels",
+      "paquetes": "Packages",
+      "autos": "Cars",
+      "tours": "Tours"
+    },
+    "formulario": {
+      "origen": "Origin",
+      "origenPlaceholder": "(min. 3 letters) Where are you traveling from",
+      "destino": "Destination",
+      "destinoPlaceholder": "(min. 3 letters) Where are you traveling to",
+      "fechas": "Dates",
+      "fechasPlaceholder": "Select your travel dates",
+      "habitaciones": "Rooms",
+      "personas": "People",
+      "modalMaxPasajeros": "The maximum number of passengers allowed is 7.",
+      "cuantasHabitaciones": "How many rooms?",
+      "aceptar": "Accept",
+      "buscar": "Search",
+      "soloVuelosEquipaje": "Only flights with baggage",
+      "soloVuelosDirecto": "Only direct flights",
+      "codigoDescuento": "Discount code",
+      "codigoDescuentoPlaceholder": "Enter your discount code"
+    }
+  }
+}
