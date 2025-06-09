@@ -305,9 +305,7 @@
                                 <div class="pasajeros">
                                     <div class="input-group">
                                         <span class="label-input">PASAJEROS Y CLASE</span>
-                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly>
-                                        <span class="icon"><i class="fas fa-users"></i></span>
-                                    </div>
+                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly tabindex="-1" inputmode="none">                                    </div>
                                 </div>
                             </div>
 
@@ -1721,9 +1719,35 @@ function crearPopupVuelos() {
     if (!widgetContainer) return;
 
     const numPasajerosInput = document.querySelector("#num-pasajeros");
+    if (numPasajerosInput) {
+        numPasajerosInput.setAttribute("readonly", "readonly");
+        numPasajerosInput.setAttribute("tabindex", "-1");
+        numPasajerosInput.setAttribute("inputmode", "none");
+        numPasajerosInput.style.caretColor = "transparent";
+    }
+
     const pasajerosPopup = document.querySelector("#pasajeros-popup");
     const closePopup = document.querySelector(".close-popup");
     const pasajerosContainer = document.querySelector("#pasajeros-container");
+
+    if (numPasajerosInput) {
+        // Bloquear teclado
+        numPasajerosInput.addEventListener("keydown", function (e) {
+            e.preventDefault();
+        });
+        // Bloquear scroll con mouse
+        numPasajerosInput.addEventListener("wheel", function (e) {
+            e.preventDefault();
+        });
+        // Bloquear pegar
+        numPasajerosInput.addEventListener("paste", function (e) {
+            e.preventDefault();
+        });
+        // Bloquear arrastrar
+        numPasajerosInput.addEventListener("drop", function (e) {
+            e.preventDefault();
+        });
+    }
 
     if (!numPasajerosInput || !pasajerosPopup || !closePopup || !pasajerosContainer) return;
 
@@ -1744,6 +1768,8 @@ function crearPopupVuelos() {
         }
     });
 
+
+
     // Cerrar el popup al hacer clic en el botón "Aceptar"
     document.querySelector("#accept-popup")?.addEventListener("click", function () {
         let totalAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 0;
@@ -1751,7 +1777,7 @@ function crearPopupVuelos() {
         let totalInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0;
 
         // Actualizar el input de pasajeros con el total
-        numPasajerosInput.value = totalAdultos + totalNinos + totalInfantes;
+        numPasajerosInput.value = Math.max(1, totalAdultos + totalNinos + totalInfantes);
 
         // Ocultar el popup
         pasajerosPopup.style.display = "none";
@@ -1801,6 +1827,28 @@ function crearPopupVuelos() {
     pasajerosContainer.appendChild(adultosContainer);
     pasajerosContainer.appendChild(ninosContainer);
     pasajerosContainer.appendChild(infantesContainer);
+
+    // Hacer que los inputs de número sean de solo lectura y evitar entradas por teclado
+    ["#numeric-value-adultos", "#numeric-value-ninos", "#numeric-value-infantes"].forEach(selector => {
+        const input = document.querySelector(selector);
+        if (input) {
+            input.setAttribute("readonly", "readonly");
+            input.setAttribute("tabindex", "-1");
+            input.setAttribute("inputmode", "none");
+            // Bloquear teclado, scroll, pegar y arrastrar
+            ["keydown", "wheel", "paste", "drop"].forEach(evt =>
+                input.addEventListener(evt, e => e.preventDefault())
+            );
+            // Nunca permitir valores negativos ni fuera de rango
+            input.addEventListener("input", function () {
+                let min = parseInt(input.min) || 0;
+                let max = parseInt(input.max) || 99;
+                let val = parseInt(input.value) || min;
+                if (val < min) input.value = min;
+                if (val > max) input.value = max;
+            });
+        }
+    });
 
     // Agregar eventos para manejar los botones de incremento y decremento
     document.querySelector("#decrement-adultos").addEventListener("click", function () {
