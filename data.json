@@ -26,8 +26,12 @@
       "codigoDescuentoPlaceholder": "Ingresa tu código de descuento",
       "adultos": "Adultos",
       "ninos": "Niños",
+      "infantes": "Infantes",
       "habitacion": "Habitación",
-      "edadNino": "Edad del niño"
+      "edadNino": "Edad del niño",
+      "infoAdultos": "12 o más años",
+      "infoNinos": "2 a 11 años",
+      "infoInfantes": "0 a 23 meses"
     },
     "vuelos": {
       "idaYRegreso": "Ida y regreso",
@@ -65,8 +69,12 @@
       "codigoDescuentoPlaceholder": "Enter your discount code",
       "adultos": "Adults",
       "ninos": "Children",
+      "infantes": "Infants",
       "habitacion": "Room",
-      "edadNino": "Child's age"
+      "edadNino": "Child's age",
+      "infoAdultos": "12 years or older",
+      "infoNinos": "2 to 11 years",
+      "infoInfantes": "0 to 23 months"
     },
     "vuelos": {
       "idaYRegreso": "Round trip",

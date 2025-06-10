@@ -1756,64 +1756,41 @@ function crearPopupVuelos() {
     const pasajerosContainer = document.querySelector("#pasajeros-container");
 
     if (numPasajerosInput) {
-        // Bloquear teclado
-        numPasajerosInput.addEventListener("keydown", function (e) {
-            e.preventDefault();
-        });
-        // Bloquear scroll con mouse
-        numPasajerosInput.addEventListener("wheel", function (e) {
-            e.preventDefault();
-        });
-        // Bloquear pegar
-        numPasajerosInput.addEventListener("paste", function (e) {
-            e.preventDefault();
-        });
-        // Bloquear arrastrar
-        numPasajerosInput.addEventListener("drop", function (e) {
-            e.preventDefault();
-        });
+        ["keydown", "wheel", "paste", "drop"].forEach(evt =>
+            numPasajerosInput.addEventListener(evt, e => e.preventDefault())
+        );
     }
 
     if (!numPasajerosInput || !pasajerosPopup || !closePopup || !pasajerosContainer) return;
 
-    // Mostrar el popup al hacer clic en el campo de pasajeros
     numPasajerosInput.addEventListener("click", function () {
-        pasajerosPopup.style.display = "flex"; // Mostrar el popup
+        pasajerosPopup.style.display = "flex";
     });
 
-    // Cerrar el popup al hacer clic en el botón de cierre
     closePopup.addEventListener("click", function () {
-        pasajerosPopup.style.display = "none"; // Ocultar el popup
+        pasajerosPopup.style.display = "none";
     });
 
-    // Cerrar el popup al hacer clic fuera del contenido
     pasajerosPopup.addEventListener("click", function (e) {
         if (e.target === pasajerosPopup) {
-            pasajerosPopup.style.display = "none"; // Ocultar el popup
+            pasajerosPopup.style.display = "none";
         }
     });
 
-
-
-    // Cerrar el popup al hacer clic en el botón "Aceptar"
     document.querySelector("#accept-popup")?.addEventListener("click", function () {
         let totalAdultos = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 0;
         let totalNinos = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0;
         let totalInfantes = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0;
-
-        // Actualizar el input de pasajeros con el total
         numPasajerosInput.value = Math.max(1, totalAdultos + totalNinos + totalInfantes);
-
-        // Ocultar el popup
         pasajerosPopup.style.display = "none";
     });
 
-    // Crear el contenedor para adultos
+    // Traducción: Usar data-i18n en los textos
     const adultosContainer = document.createElement("div");
     adultosContainer.className = "numeric-input-group";
     adultosContainer.innerHTML = `
-        <label>Adultos:</label>
-        <span class="info-text">12 o más años</span>
+        <label data-i18n="formulario.adultos"></label>
+        <span class="info-text" data-i18n="formulario.infoAdultos"></span>
         <div class="numeric-input">
             <button class="decrement" id="decrement-adultos">-</button>
             <input type="number" id="numeric-value-adultos" value="1" min="1" max="10">
@@ -1821,12 +1798,11 @@ function crearPopupVuelos() {
         </div>
     `;
 
-    // Crear el contenedor para niños
     const ninosContainer = document.createElement("div");
     ninosContainer.className = "numeric-input-group";
     ninosContainer.innerHTML = `
-        <label>Niños:</label>
-        <span class="info-text">2 a 11 años</span>
+        <label data-i18n="formulario.ninos"></label>
+        <span class="info-text" data-i18n="formulario.infoNinos"></span>
         <div class="numeric-input">
             <button class="decrement" id="decrement-ninos">-</button>
             <input type="number" id="numeric-value-ninos" value="0" min="0" max="5">
@@ -1834,12 +1810,11 @@ function crearPopupVuelos() {
         </div>
     `;
 
-    // Crear el contenedor para infantes
     const infantesContainer = document.createElement("div");
     infantesContainer.className = "numeric-input-group";
     infantesContainer.innerHTML = `
-        <label>Infantes:</label>
-        <span class="info-text">0 a 23 meses</span>
+        <label data-i18n="formulario.infantes"></label>
+        <span class="info-text" data-i18n="formulario.infoInfantes"></span>
         <div class="numeric-input">
             <button class="decrement" id="decrement-infantes">-</button>
             <input type="number" id="numeric-value-infantes" value="0" min="0" max="2">
@@ -1847,24 +1822,24 @@ function crearPopupVuelos() {
         </div>
     `;
 
-    // Limpiar el contenedor y agregar los nuevos elementos
     pasajerosContainer.innerHTML = "";
     pasajerosContainer.appendChild(adultosContainer);
     pasajerosContainer.appendChild(ninosContainer);
     pasajerosContainer.appendChild(infantesContainer);
 
-    // Hacer que los inputs de número sean de solo lectura y evitar entradas por teclado
+    // Traduce los textos del popup
+    const lang = document.getElementById('widget-net')?.getAttribute('language')?.substring(0, 2) || "es";
+    applyTranslations(lang);
+
     ["#numeric-value-adultos", "#numeric-value-ninos", "#numeric-value-infantes"].forEach(selector => {
         const input = document.querySelector(selector);
         if (input) {
             input.setAttribute("readonly", "readonly");
             input.setAttribute("tabindex", "-1");
             input.setAttribute("inputmode", "none");
-            // Bloquear teclado, scroll, pegar y arrastrar
             ["keydown", "wheel", "paste", "drop"].forEach(evt =>
                 input.addEventListener(evt, e => e.preventDefault())
             );
-            // Nunca permitir valores negativos ni fuera de rango
             input.addEventListener("input", function () {
                 let min = parseInt(input.min) || 0;
                 let max = parseInt(input.max) || 99;
@@ -1875,7 +1850,6 @@ function crearPopupVuelos() {
         }
     });
 
-    // Agregar eventos para manejar los botones de incremento y decremento
     document.querySelector("#decrement-adultos").addEventListener("click", function () {
         const inputAdultos = document.querySelector("#numeric-value-adultos");
         let currentValue = parseInt(inputAdultos.value) || 1;
