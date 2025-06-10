@@ -2109,6 +2109,11 @@ function inicializarFlatpickrVuelos() {
         fechaRango._flatpickr.destroy();
     }
 
+    // Detectar idioma desde el atributo language del widget
+    const lang = document.getElementById('widget-net')?.getAttribute('language')?.substring(0, 2) || "es";
+    const t = translations[lang] || translations["es"];
+    const flatpickrT = t.flatpickr || {};
+
     // Detectar si es solo ida
     const soloIda = document.querySelector("#radio-soloida")?.checked;
     // Detectar si es móvil
@@ -2119,16 +2124,16 @@ function inicializarFlatpickrVuelos() {
         dateFormat: "Y-m-d",
         minDate: "today",
         showMonths: isMobile ? 1 : 2,
-        disableMobile: true, // Evitar que use el picker nativo en móvil
+        disableMobile: true,
         locale: {
             firstDayOfWeek: 1,
             weekdays: {
-                shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                shorthand: flatpickrT.weekdays?.shorthand || ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                longhand: flatpickrT.weekdays?.longhand || ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             },
             months: {
-                shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                longhand: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                shorthand: flatpickrT.months?.shorthand || ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                longhand: flatpickrT.months?.longhand || ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             },
         },
         onClose: function (selectedDates) {
@@ -2144,9 +2149,14 @@ function inicializarFlatpickrVuelos() {
         }
     });
 
-    // Forzar el tipo y placeholder después de inicializar Flatpickr
+    // Placeholder traducido desde el JSON
     fechaRango.setAttribute("type", "text");
-    fechaRango.setAttribute("placeholder", soloIda ? "Selecciona la fecha de ida" : "Selecciona un rango de fechas");
+    fechaRango.setAttribute(
+        "placeholder",
+        soloIda
+            ? (flatpickrT.placeholderIda || "Selecciona la fecha de ida")
+            : (flatpickrT.placeholderRango || "Selecciona un rango de fechas")
+    );
 }
 
 function setupFlatpickrEvents() {
