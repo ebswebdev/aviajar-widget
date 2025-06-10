@@ -1304,38 +1304,42 @@ function crearPopupPaquetes() {
     function generarHabitaciones(numHab) {
         habitacionesContainer.innerHTML = ""; // Limpiar el contenedor
 
+        const lang = document.getElementById('widget-net')?.getAttribute('language')?.substring(0, 2) || "es";
+
         for (let i = 1; i <= numHab; i++) {
             const habitacionDiv = document.createElement("div");
             habitacionDiv.innerHTML = `
-                <div class="habitacion-header">
-                    <h4>Habitación ${i}</h4>
-                    <span class="icon"><i class="fas fa-bed"></i></span>
-                </div>
-                <div class="habitacion">
-                    <div class="adultos">
-                        <div class="label-adultos">
-                            <label for="num-adultos">Adultos:</label>
-                        </div>
-                        <div class="input-adultos"></div>
+            <div class="habitacion-header">
+                <h4><span data-i18n="formulario.habitacion"></span> ${i}</h4>
+                <span class="icon"><i class="fas fa-bed"></i></span>
+            </div>
+            <div class="habitacion">
+                <div class="adultos">
+                    <div class="label-adultos">
+                        <label for="num-adultos"><span data-i18n="formulario.adultos"></span>:</label>
                     </div>
-                    <div class="ninos">
-                        <div class="label-ninos">
-                            <label for="num-ninos">Niños:</label>
-                        </div>
-                        <div class="input-ninos"></div>
-                    </div>
-                    <div id="edades-ninos"></div>
+                    <div class="input-adultos"></div>
                 </div>
-            `;
+                <div class="ninos">
+                    <div class="label-ninos">
+                        <label for="num-ninos"><span data-i18n="formulario.ninos"></span>:</label>
+                    </div>
+                    <div class="input-ninos"></div>
+                </div>
+                <div id="edades-ninos"></div>
+            </div>
+        `;
 
             habitacionesContainer.appendChild(habitacionDiv);
+
+            // Traducir los textos recién insertados
+            applyTranslations(lang);
 
             const inputAdultosContainer = habitacionDiv.querySelector(".input-adultos");
             inputAdultosContainer.innerHTML = ""; // Limpiar el contenedor
 
             const inputNinosContainer = habitacionDiv.querySelector(".input-ninos");
             inputNinosContainer.innerHTML = ""; // Limpiar el contenedor
-
 
             // Crear el contenedor de input numérico para adultos
             const numericInputAdultos = document.createElement("div");
@@ -1353,7 +1357,6 @@ function crearPopupPaquetes() {
             inputAdultos.max = "7";
             inputAdultos.readOnly = true;
 
-
             const incrementAdultos = document.createElement("button");
             incrementAdultos.className = "increment";
             incrementAdultos.textContent = "+";
@@ -1365,20 +1368,11 @@ function crearPopupPaquetes() {
             inputAdultosContainer.appendChild(numericInputAdultos);
 
             document.querySelector("#numeric-value-adultos").addEventListener("input", function () {
-                const maxAdultos = 7; // Límite máximo de adultos
+                const maxAdultos = 7;
                 let currentValue = parseInt(this.value) || 1;
-
-                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
-                if (currentValue > maxAdultos) {
-                    this.value = maxAdultos;
-                }
-
-                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
-                if (currentValue < parseInt(this.min)) {
-                    this.value = this.min;
-                }
+                if (currentValue > maxAdultos) this.value = maxAdultos;
+                if (currentValue < parseInt(this.min)) this.value = this.min;
             });
-
 
             // Crear el contenedor de input numérico para niños
             const numericInputNinos = document.createElement("div");
@@ -1396,20 +1390,11 @@ function crearPopupPaquetes() {
             inputNinos.max = "4";
             inputNinos.readOnly = true;
 
-            // Registrar el evento input directamente en el elemento creado
             inputNinos.addEventListener("input", function () {
-                const maxNinos = 4; // Límite máximo de niños
+                const maxNinos = 4;
                 let currentValue = parseInt(this.value) || 0;
-
-                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
-                if (currentValue > maxNinos) {
-                    this.value = maxNinos;
-                }
-
-                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
-                if (currentValue < parseInt(this.min)) {
-                    this.value = this.min;
-                }
+                if (currentValue > maxNinos) this.value = maxNinos;
+                if (currentValue < parseInt(this.min)) this.value = this.min;
             });
 
             const incrementNinos = document.createElement("button");
@@ -1421,19 +1406,12 @@ function crearPopupPaquetes() {
             numericInputNinos.appendChild(incrementNinos);
 
             inputNinosContainer.appendChild(numericInputNinos);
+
             document.querySelector("#numeric-value-ninos").addEventListener("input", function () {
-                const maxNinos = 4; // Límite máximo de niños
+                const maxNinos = 4;
                 let currentValue = parseInt(this.value) || 1;
-
-                // Si el valor ingresado es mayor al máximo permitido, ajustarlo al máximo
-                if (currentValue > maxNinos) {
-                    this.value = maxNinos;
-                }
-
-                // Si el valor ingresado es menor al mínimo permitido, ajustarlo al mínimo
-                if (currentValue < parseInt(this.min)) {
-                    this.value = this.min;
-                }
+                if (currentValue > maxNinos) this.value = maxNinos;
+                if (currentValue < parseInt(this.min)) this.value = this.min;
             });
 
             const edadesNinosContainer = habitacionDiv.querySelector("#edades-ninos");
@@ -1441,25 +1419,23 @@ function crearPopupPaquetes() {
             // Generar dinámicamente los campos para las edades de los niños
             inputNinos.addEventListener("input", function () {
                 const numNinos = parseInt(inputNinos.value) || 0;
-                edadesNinosContainer.innerHTML = ""; // Limpiar el contenedor            
-
+                edadesNinosContainer.innerHTML = "";
                 for (let j = 1; j <= numNinos; j++) {
                     const label = document.createElement("label");
-                    label.textContent = `Edad del niño ${j}:`;
+                    label.innerHTML = `<span data-i18n="formulario.edadNino"></span> ${j}:`;
+                    edadesNinosContainer.appendChild(label);
+                    // Traducir el label recién insertado
+                    applyTranslations(lang);
 
                     const select = document.createElement("select");
                     select.className = "edad-nino";
                     select.name = `edad-nino-${j}`;
-
-                    // Generar opciones para el select (edades de 1 a 12)
                     for (let edad = 1; edad <= 12; edad++) {
                         const option = document.createElement("option");
                         option.value = edad;
                         option.textContent = edad;
                         select.appendChild(option);
                     }
-
-                    edadesNinosContainer.appendChild(label);
                     edadesNinosContainer.appendChild(select);
                 }
             });
