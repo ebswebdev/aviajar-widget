@@ -106,6 +106,9 @@
     .tabs {
       gap: 10px;
     }
+    .widget input[type="text"] {
+      padding-right: 50px !important; /* Aumenta el padding derecho para el ícono */
+    }
   }
 
   /* Fechas */

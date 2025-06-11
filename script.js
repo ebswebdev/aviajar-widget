@@ -457,78 +457,47 @@
                 widgetHTML = `
                 <div class="widget" id="widget-container">
                         <div class="widget-container vuelos-container">
-                            <div class="origen-destino">
-                                <div class="origen">
+                            <div class="lugar-retiro">
+                                <div class="retiro">
                                     <div class="input-group">
-                                        <span class="label-input">ORIGEN</span>
-                                        <input id="origen" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Desde dónde viajas" value="">
-                                        <div id="autocomplete-list-origen" class="autocomplete-list"></div>
-                                        <select id="origen-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
-                                        <span class="icon"><i class="fas fa-plane-departure"></i></span>
-                                    </div>
-                                </div>
-                                <div class="destino">
-                                    <div class="input-group">
-                                        <span class="label-input">DESTINO</span>
-                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras)Hacia dónde viajas" value="">
+                                        <span class="label-input">LUGAR DE RETIRO</span>
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona" value="">
                                         <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                         <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
                                         <span class="icon"><i class="fas fa-plane-arrival"></i></span>
                                     </div>
                                 </div>
                             </div>
-                            <div id="multidestino-placeholder"></div>
-                            <div class="fechas">
-                            <div class="input-group">
-                                <span class="label-input">FECHA</span>
-                                <input id="fecha-rango" type="text" placeholder="Selecciona un rango de fechas">
-                                <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+
+                            <div class="fechas fechas-cars">
+                                <div class="input-group">
+                                    <span class="label-input">FECHAS</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de retiro y entrega">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
                             </div>
-                            </div>
-                            <div class="habitaciones-pasajeros">
-                                <div class="pasajeros">
-                                    <div class="input-group">
-                                        <span class="label-input">PASAJEROS Y CLASE</span>
-                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly>
-                                        <span class="icon"><i class="fas fa-users"></i></span>
+
+                            <div class="options-cars">
+                                <div class="descuento-container">
+                                    <div class="descuento-toggle">
+                                        <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="pasajeros-popup" class="popup">
-                                <div class="popup-content">
-                                    <span class="close-popup">&times;</span>
-                                    <div class="popup-header">
-                                        <label id="title-pasajeros" for="popup-num-pasajeros">Número de Pasajeros</label>
-                                    </div>
-                                    <div id="pasajeros-container"></div>
-                                    <div class="button-accept">
-                                    <button id="accept-popup">Aceptar</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="radio-group">
-                                <div class="radio">
-                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
-                                    <label for="radio-idayregreso">Ida y regreso</label>
-                                </div>
-                                <div class="radio">
-                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
-                                    <label for="radio-soloida">Solo ida</label>
-                                </div>
-                            </div>
-                            <div class="checkbox-group">
-                                <div class="checkbox">
-                                    <input id="checkbox-vequipaje" type="checkbox">
-                                    <label for="checkbox-vequipaje">Solo vuelos con equipaje</label>
-                                </div>
-                                <div class="checkbox">
-                                    <input id="checkbox-vdirecto" type="checkbox">
-                                    <label for="checkbox-vdirecto">Solo vuelos directos</label>
-                                </div>
-                            </div>
+                            
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn">Buscar</button>
+                                    <button id="buscar-btn-cars">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
@@ -538,6 +507,8 @@
 
 
                 break;
+
+
 
             case 'tours':
                 widgetHTML = `

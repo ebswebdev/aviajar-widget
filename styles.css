@@ -419,7 +419,8 @@
 
   /* Origen-destino */
   .origen-destino,
-  .habitaciones-pasajeros {
+  .habitaciones-pasajeros,
+  .lugar-retiro {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1377,7 +1378,8 @@
     padding-right: 40px;
   }
 
-  .origen-destino {
+  .origen-destino,
+  .lugar-retiro {
     width: 40%;
   }
   .fechas {
@@ -1389,6 +1391,23 @@
   .boton-buscar {
     width: 12%;
     min-width: 140px;
+  }
+
+  .retiro {
+    width: 100%;
+  }
+
+  .options-cars {
+    display: flex;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+    padding: 10px;
+    order: 6; /* Para que aparezca después de los pasajeros */
+  }
+
+  .fechas-cars {
+    width: 40%;
   }
 
   .widget-ajustado .origen-destino,
