@@ -103,6 +103,9 @@
       font-weight: 900;
       font-size: 15px;
     }
+    .tabs {
+      gap: 10px;
+    }
   }
 
   /* Fechas */
