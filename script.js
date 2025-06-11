@@ -2353,6 +2353,21 @@ function botonBusquedaHoteles() {
             showError(numHabInput);
             showError(numPerInput);
             valid = false;
+
+            // Mostrar el modal de error igual que en paquetes
+            const modal = document.querySelector("#modal-error");
+            if (modal) {
+                modal.style.display = "block";
+                setTimeout(() => {
+                    document.addEventListener("click", function cerrarModal(e) {
+                        const modalContent = document.querySelector(".modal-content");
+                        if (!modalContent.contains(e.target)) {
+                            modal.style.display = "none";
+                            document.removeEventListener("click", cerrarModal);
+                        }
+                    });
+                }, 100);
+            }
         } else {
             clearError(numHabInput);
             clearError(numPerInput);
