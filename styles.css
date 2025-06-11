@@ -268,6 +268,10 @@
   .options-hotel {
     order: 8;
   }
+  .time-cars {
+    order: 2;
+    /* flex: 1 1 100%; */
+  }
   /* #multidestino-tramos {
     order: 3 !important;
   } */
@@ -420,7 +424,8 @@
   /* Origen-destino */
   .origen-destino,
   .habitaciones-pasajeros,
-  .lugar-retiro {
+  .lugar-retiro,
+  .time-cars {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1407,7 +1412,6 @@
   }
 
   .fechas-cars {
-    width: 40%;
   }
 
   .widget-ajustado .origen-destino,
@@ -1509,6 +1513,15 @@
     display: flex;
     flex-direction: column-reverse;
     background: #fff;
+  }
+
+  .time-cars {
+    width: 80px;
+  }
+
+  .icon-time {
+    position: absolute;
+    right: 0px !important;
   }
 }
 

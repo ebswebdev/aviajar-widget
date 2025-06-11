@@ -476,6 +476,21 @@
                                     <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                                 </div>
                             </div>
+                            
+                            <div class="time-cars">
+                                <div class="input-group">
+                                    <span class="label-input">RETIRO</span>
+                                    <input id="time-retiro" type="text">
+                                    <span class="icon icon-time"><i class="fas fa-clock"></i></span>
+                                </div>
+                            </div>
+                            <div class="time-cars">
+                                <div class="input-group">
+                                    <span class="label-input">ENTREGA</span>
+                                    <input id="time-retiro" type="text">
+                                    <span class="icon icon-time"><i class="fas fa-clock"></i></span>
+                                </div>
+                            </div>
 
                             <div class="options-cars">
                                 <div class="descuento-container">
