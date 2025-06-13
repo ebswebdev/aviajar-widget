@@ -480,14 +480,14 @@
                             <div class="time-cars">
                                 <div class="input-group">
                                     <span class="label-input">RETIRO</span>
-                                    <input id="time-retiro" type="text" placeholder="10:00">
+                                    <input id="time-retiro" type="text" placeholder="10:00" readonly>
                                     <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                                 </div>
                             </div>
                             <div class="time-cars">
                                 <div class="input-group">
                                     <span class="label-input">ENTREGA</span>
-                                    <input id="time-entrega" type="text" placeholder="10:00">
+                                    <input id="time-entrega" type="text" placeholder="10:00" readonly>
                                     <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                                 </div>
                             </div>
@@ -961,12 +961,27 @@
     function inicializarFlatpickrHorasAutos() {
         if (typeof flatpickr === "undefined") return;
 
+        // Destruir instancia previa si existe
+        const timeRetiro = document.querySelector("#time-retiro");
+        const timeEntrega = document.querySelector("#time-entrega");
+
+        if (timeRetiro && timeRetiro._flatpickr) {
+            timeRetiro._flatpickr.destroy();
+            timeRetiro.type = "text"; // Asegura que no quede como 'time'
+        }
+        if (timeEntrega && timeEntrega._flatpickr) {
+            timeEntrega._flatpickr.destroy();
+            timeEntrega.type = "text";
+        }
+
         flatpickr("#time-retiro", {
             enableTime: true,
             noCalendar: true,
             dateFormat: "H:i",
             time_24hr: true,
-            defaultDate: "10:00"
+            defaultDate: "10:00",
+            disableMobile: true,
+            allowInput: false
         });
 
         flatpickr("#time-entrega", {
@@ -974,7 +989,9 @@
             noCalendar: true,
             dateFormat: "H:i",
             time_24hr: true,
-            defaultDate: "10:00"
+            defaultDate: "10:00",
+            disableMobile: true,
+            allowInput: false
         });
     }
 

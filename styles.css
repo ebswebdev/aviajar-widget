@@ -1561,3 +1561,33 @@
 .modal-content button:hover {
   background-color: #cc0000; /* Fondo rojo intenso */
 }
+
+/* Limita el ancho del popup de Flatpickr */
+.flatpickr-calendar {
+  min-width: 180px !important;
+  max-width: 260px;
+  width: 90vw;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+}
+
+/* Ajusta el ancho en pantallas pequeñas */
+@media (max-width: 600px) {
+  .flatpickr-calendar {
+    min-width: 140px !important;
+    max-width: 95vw;
+    font-size: 15px;
+  }
+  .flatpickr-time {
+    font-size: 15px;
+  }
+}
+
+/* Ajusta el tamaño del selector de hora */
+.flatpickr-time input,
+.flatpickr-time .flatpickr-am-pm {
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
