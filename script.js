@@ -961,13 +961,12 @@
     function inicializarFlatpickrHorasAutos() {
         if (typeof flatpickr === "undefined") return;
 
-        // Destruir instancia previa si existe
-        const timeRetiro = document.querySelector("#time-retiro");
-        const timeEntrega = document.querySelector("#time-entrega");
+        const timeRetiro = document.getElementById("time-retiro");
+        const timeEntrega = document.getElementById("time-entrega");
 
         if (timeRetiro && timeRetiro._flatpickr) {
             timeRetiro._flatpickr.destroy();
-            timeRetiro.type = "text"; // Asegura que no quede como 'time'
+            timeRetiro.type = "text";
         }
         if (timeEntrega && timeEntrega._flatpickr) {
             timeEntrega._flatpickr.destroy();
@@ -993,7 +992,28 @@
             disableMobile: true,
             allowInput: false
         });
+
+        document.addEventListener("mousedown", function (e) {
+            if (
+                timeRetiro &&
+                timeRetiro._flatpickr &&
+                !timeRetiro.contains(e.target) &&
+                !document.querySelector(".flatpickr-calendar")?.contains(e.target)
+            ) {
+                timeRetiro._flatpickr.close();
+            }
+            if (
+                timeEntrega &&
+                timeEntrega._flatpickr &&
+                !timeEntrega.contains(e.target) &&
+                !document.querySelector(".flatpickr-calendar")?.contains(e.target)
+            ) {
+                timeEntrega._flatpickr.close();
+            }
+        });
     }
+
+
 
     document.addEventListener("DOMContentLoaded", createWidget);
 })();
