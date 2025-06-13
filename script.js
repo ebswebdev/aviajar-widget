@@ -480,14 +480,14 @@
                             <div class="time-cars">
                                 <div class="input-group">
                                     <span class="label-input">RETIRO</span>
-                                    <input id="time-retiro" type="text">
+                                    <input id="time-retiro" type="text" placeholder="10:00">
                                     <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                                 </div>
                             </div>
                             <div class="time-cars">
                                 <div class="input-group">
                                     <span class="label-input">ENTREGA</span>
-                                    <input id="time-retiro" type="text">
+                                    <input id="time-entrega" type="text" placeholder="10:00">
                                     <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                                 </div>
                             </div>
@@ -520,9 +520,7 @@
                     </div>
                     `;
 
-
                 break;
-
 
 
             case 'tours':
@@ -658,6 +656,9 @@
                 userServices,
                 lang
             );
+        } else if (selectedTab === 'autos') {
+            inicializarFlatpickrHorasAutos();
+
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -955,6 +956,26 @@
                 origenDestino.classList.remove('sin-raya');
             }
         }
+    }
+
+    function inicializarFlatpickrHorasAutos() {
+        if (typeof flatpickr === "undefined") return;
+
+        flatpickr("#time-retiro", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            defaultDate: "10:00"
+        });
+
+        flatpickr("#time-entrega", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: true,
+            defaultDate: "10:00"
+        });
     }
 
     document.addEventListener("DOMContentLoaded", createWidget);
