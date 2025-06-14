@@ -566,7 +566,7 @@
                             
                             <div class="boton-buscar">
                                 <div class="input-group">
-                                    <button id="buscar-btn-cars">Buscar</button>
+                                    <button id="buscar-btn-tours">Buscar</button>
                                     <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
                                 </div>
                             </div>
@@ -627,7 +627,12 @@
             );
         } else if (selectedTab === 'autos') {
             inicializarFlatpickrHorasAutos();
+            cargarAutocompletes();
 
+        } else if (selectedTab === 'tours') {
+            cargarAutocompletes();
+            botonBusquedaTours();
+            generarURLTours();
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -2669,3 +2674,107 @@ function crearPopupHoteles() {
     });
 }
 
+//  -------------- FUNCIONES CARS ---------------
+
+
+
+// --------------- FUNCIONES TOURS ---------------
+
+function generarURLTours() {
+    const widgetAviajar = document.getElementById('widget-net');
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = "Extras";
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
+
+    // Obtener valores del formulario
+    const destino = document.querySelector("#destino-id")?.value || "";
+    let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
+    let dateFrom = "", dateTo = "";
+    if (dateRangeRaw.includes(" to ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" to ").map(f => f.trim());
+    } else if (dateRangeRaw.includes(" al ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" al ").map(f => f.trim());
+    } else if (dateRangeRaw) {
+        dateFrom = dateRangeRaw.trim();
+        dateTo = dateRangeRaw.trim();
+    }
+    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
+
+    // Validar que todos los campos requeridos estén completos
+    if (!destino || !dateFrom || !dateTo) {
+        console.error("Faltan parámetros obligatorios para generar la URL de Tours.");
+        return null;
+    }
+
+    // Construir la URL final
+    const url = `${host}${culture}/${productType}/${destino}/NA/${dateFrom}/${dateTo}/${userService}-show-${branchCode}---------${discountCode}`;
+    console.log("Generated URL Tours:", url);
+    return url;
+}
+
+function botonBusquedaTours() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    const buscarBtn = document.getElementById('buscar-btn-tours');
+    if (!buscarBtn) return;
+
+    buscarBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        let valid = true;
+
+        const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
+        const destinoSelect = document.querySelector("#destino-id");
+
+        function showError(input) {
+            if (input) input.classList.add("input-error");
+        }
+
+        function clearError(input) {
+            if (input) input.classList.remove("input-error");
+        }
+
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput);
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        if (!fechaRangoInput || !fechaRangoInput.value) {
+            showError(fechaRangoInput);
+            valid = false;
+        } else {
+            clearError(fechaRangoInput);
+        }
+
+        if (valid) {
+            const generatedURL = generarURLTours();
+            if (generatedURL) {
+                window.location.href = generatedURL;
+                if (destinoInput) destinoInput.value = "";
+                if (fechaRangoInput) fechaRangoInput.value = "";
+            } else {
+                alert("Por favor completa todos los campos obligatorios.");
+            }
+        }
+    });
+
+    const destinoInput = document.querySelector("#destino");
+    if (destinoInput) {
+        destinoInput.addEventListener("input", function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const fechaRangoInput = document.querySelector("#fecha-rango");
+    if (fechaRangoInput) {
+        fechaRangoInput.addEventListener('change', function () {
+            this.classList.remove("input-error");
+        });
+    }
+}
