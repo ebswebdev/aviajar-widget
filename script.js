@@ -546,7 +546,7 @@
                                 </div>
                             </div>
 
-                            <div class="options-cars">
+                            <div class="options-tours">
                                 <div class="descuento-container">
                                     <div class="descuento-toggle">
                                         <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
@@ -633,6 +633,7 @@
             cargarAutocompletes();
             botonBusquedaTours();
             generarURLTours();
+            autocompleteSearchCiudadesTours();
         }
 
         // Invocar funcion cuando se cambia tamaño de pantalla (Para Testing)
@@ -1063,7 +1064,7 @@ window.addEventListener('resize', cargarEstilosSegunContenedor);
 // Autocomplete para paquetes & vuelo 
 let airports = [];
 
-function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId) {
+function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId, soloCiudades = false) {
     const input = document.querySelector(inputId);
     const autocompleteList = document.querySelector(autocompleteListId);
     const hiddenSelect = hiddenSelectId
@@ -1091,10 +1092,14 @@ function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId) {
         }
 
         // Filtrar las coincidencias en la lista de datos
-        const filteredEntries = data
-            // Por ahora lo oculto porque falta validar por que en medellin se pone eso
-            .filter(entry => !entry.toLowerCase().includes("punto de partida")) // Excluir "punto de partida"
-            .filter(entry => normalizeString(entry).includes(query)); // Coincidencias con la consulta normalizada
+        let filteredEntries = data
+            .filter(entry => !entry.toLowerCase().includes("punto de partida"))
+            .filter(entry => normalizeString(entry).includes(query));
+
+        // Filtrar si se necesitan solo ciudades (Tours)
+        if (soloCiudades) {
+            filteredEntries = filteredEntries.filter(entry => !entry.includes("-"));
+        }
 
         // Mostrar las coincidencias en el autocompletado
         filteredEntries.forEach(entry => {
@@ -2777,4 +2782,14 @@ function botonBusquedaTours() {
             this.classList.remove("input-error");
         });
     }
+}
+
+function autocompleteSearchCiudadesTours() {
+    autocompleteSearch(
+        "#destino",
+        "#autocomplete-list-destino",
+        external_file_AirportsCities,
+        "#destino-id",
+        true // solo ciudades
+    );
 }
