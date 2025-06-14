@@ -94,7 +94,7 @@
     text-align: center; /* Centra el texto dentro del tab */
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 562px) {
     .tab-text {
       display: none !important; /* Oculta el texto en pantallas muy pequeñas */
     }
@@ -1194,7 +1194,6 @@
     background: #fff;
     box-sizing: border-box;
   }
-
 }
 
 @media (max-width: 570px) {

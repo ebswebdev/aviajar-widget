@@ -226,7 +226,10 @@
   }
 
   .package-container,
-  .vuelos-container {
+  .vuelos-container,
+  .autos-container,
+  .hoteles-container,
+  .tours-container {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -425,7 +428,8 @@
   .origen-destino,
   .habitaciones-pasajeros,
   .lugar-retiro,
-  .time-cars {
+  .time-cars,
+  .destino-extras {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1025,6 +1029,10 @@
     padding: 10px;
   }
 
+  .fechas-tours {
+    width: 40% !important;
+  }
+
   /* Checkboxs */
   .checkbox-group {
     display: flex;
@@ -1384,7 +1392,8 @@
   }
 
   .origen-destino,
-  .lugar-retiro {
+  .lugar-retiro,
+  .destino-extras {
     width: 40%;
   }
   .fechas {
@@ -1399,6 +1408,10 @@
   }
 
   .retiro {
+    width: 100%;
+  }
+
+  .destino-tours {
     width: 100%;
   }
 
