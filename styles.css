@@ -1537,6 +1537,12 @@
     position: absolute;
     right: 0px !important;
   }
+
+  .checkbox-tours {
+    order: 5;
+    margin-top: -10px;
+    margin-bottom: -10px;
+  }
 }
 
 /* Modal Error Pasajeros */

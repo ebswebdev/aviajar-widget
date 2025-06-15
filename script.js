@@ -492,6 +492,15 @@
                                 </div>
                             </div>
 
+                            <div class="checkbox-tours" style="display: flex;">
+                                <div class="input-group">
+                                    <input type="checkbox" id="devolver-otro-destino" style="margin-top: 10px;" />
+                                    <label for="devolver-otro-destino" style="display: inline; margin-left: 6px;">
+                                        Devolver en otro destino
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="options-cars">
                                 <div class="descuento-container">
                                     <div class="descuento-toggle">
@@ -627,8 +636,15 @@
             );
         } else if (selectedTab === 'autos') {
             inicializarFlatpickrHorasAutos();
-            cargarAutocompletes();
-
+            botonBusquedaAutos();
+            generarURLAutos();
+            autocompleteSearchAutosV2(
+                "#destino",
+                "#autocomplete-list-destino",
+                window.external_file_AirportsCities,
+                window.external_file_Neighborhood,
+                "#destino-id"
+            );
         } else if (selectedTab === 'tours') {
             cargarAutocompletes();
             botonBusquedaTours();
@@ -2682,7 +2698,124 @@ function crearPopupHoteles() {
 
 //  -------------- FUNCIONES CARS ---------------
 
+function autocompleteSearchAutosV2(inputId, autocompleteListId, dataCiudadesAeropuertos, dataBarrios, hiddenSelectId) {
+    const input = document.querySelector(inputId);
+    const autocompleteList = document.querySelector(autocompleteListId);
+    const hiddenSelect = hiddenSelectId
+        ? input.parentElement.querySelector(hiddenSelectId)
+        : document.querySelector("#destino-id");
 
+    // Normaliza cadenas para búsqueda
+    function normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    // Convierte barrios a string para mostrar
+    function barrioToString(barrio) {
+        // Ejemplo: "Hachijo Jima, Queens (HAC)"
+        return `${barrio.Desc} (${barrio.City})`;
+    }
+
+    input.addEventListener("input", function () {
+        const query = normalizeString(input.value.trim());
+        autocompleteList.innerHTML = "";
+
+        if (query.length < 3) {
+            if (hiddenSelect) hiddenSelect.innerHTML = "";
+            return;
+        }
+
+        // Filtrar ciudades y aeropuertos
+        let filteredCiudadesAeropuertos = dataCiudadesAeropuertos
+            .filter(entry => !entry.toLowerCase().includes("punto de partida"))
+            .filter(entry => normalizeString(entry).includes(query));
+
+        // Filtrar barrios/zonas
+        let filteredBarrios = (dataBarrios || [])
+            .filter(barrio => normalizeString(barrio.Desc).includes(query));
+
+        // Mostrar ciudades y aeropuertos
+        filteredCiudadesAeropuertos.forEach(entry => {
+            const parts = entry.split(" | ");
+            const displayText = parts.length > 1 ? parts[1] : entry;
+            const isCity = !entry.includes("-");
+            const iconClass = isCity ? "fas fa-map-marker-alt" : "fas fa-plane";
+
+            const icon = document.createElement("i");
+            icon.className = iconClass;
+            icon.style.padding = "5px";
+
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            item.textContent = displayText;
+            item.appendChild(icon);
+
+            item.addEventListener("click", function () {
+                input.value = displayText;
+                autocompleteList.innerHTML = "";
+
+                // Extraer el ID del aeropuerto del texto seleccionado
+                const match = entry.match(/\(([^)]+)\)$/);
+                let id = match ? match[1] : "";
+                if (id.includes("-")) {
+                    id = id.split("-")[1].trim();
+                }
+
+                if (hiddenSelect) {
+                    hiddenSelect.innerHTML = "";
+                    const option = document.createElement("option");
+                    option.value = id;
+                    option.selected = true;
+                    hiddenSelect.appendChild(option);
+                }
+                input.focus();
+                input.blur();
+            });
+
+            autocompleteList.appendChild(item);
+        });
+
+        // Mostrar barrios/zonas
+        filteredBarrios.forEach(barrio => {
+            const displayText = barrioToString(barrio);
+            const icon = document.createElement("i");
+            icon.className = "fas fa-map-pin";
+            icon.style.padding = "5px";
+
+            const item = document.createElement("div");
+            item.className = "autocomplete-item";
+            item.textContent = displayText;
+            item.appendChild(icon);
+
+            item.addEventListener("click", function () {
+                input.value = displayText;
+                autocompleteList.innerHTML = "";
+
+                // El ID será el código de ciudad del barrio
+                let id = barrio.City;
+
+                if (hiddenSelect) {
+                    hiddenSelect.innerHTML = "";
+                    const option = document.createElement("option");
+                    option.value = id;
+                    option.selected = true;
+                    hiddenSelect.appendChild(option);
+                }
+                input.focus();
+                input.blur();
+            });
+
+            autocompleteList.appendChild(item);
+        });
+    });
+
+    // Cerrar la lista de sugerencias si el usuario hace clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = "";
+        }
+    });
+}
 
 // --------------- FUNCIONES TOURS ---------------
 
@@ -2792,4 +2925,134 @@ function autocompleteSearchCiudadesTours() {
         "#destino-id",
         true // solo ciudades
     );
+}
+
+function generarURLAutos() {
+    const widgetAviajar = document.getElementById('widget-net');
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = "Car";
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
+
+    // Obtener valores del formulario
+    const destino = document.querySelector("#destino-id")?.value || "";
+    let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
+    let dateFrom = "", dateTo = "";
+    if (dateRangeRaw.includes(" to ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" to ").map(f => f.trim());
+    } else if (dateRangeRaw.includes(" al ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" al ").map(f => f.trim());
+    } else if (dateRangeRaw) {
+        dateFrom = dateRangeRaw.trim();
+        dateTo = dateRangeRaw.trim();
+    }
+    const timeRetiro = document.querySelector("#time-retiro")?.value.replace(":", "") || "1000";
+    const timeEntrega = document.querySelector("#time-entrega")?.value.replace(":", "") || "1000";
+
+    // Validar que todos los campos requeridos estén completos
+    if (!destino || !dateFrom || !dateTo || !timeRetiro || !timeEntrega) {
+        return null;
+    }
+
+    // Construir la URL final
+    const url = `${host}${culture}/${productType}/City/${destino}/${dateFrom}/${timeRetiro}/City/${destino}/${dateTo}/${timeEntrega}/NA/NA/NA/${userService}-show-${branchCode}---------`;
+    console.log("Generated URL Autos:", url);
+    return url;
+}
+
+function botonBusquedaAutos() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    const buscarBtn = document.getElementById('buscar-btn-cars');
+    if (!buscarBtn) return;
+
+    buscarBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        let valid = true;
+
+        const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
+        const destinoSelect = document.querySelector("#destino-id");
+        const timeRetiroInput = document.querySelector("#time-retiro");
+        const timeEntregaInput = document.querySelector("#time-entrega");
+
+        function showError(input) {
+            if (input) input.classList.add("input-error");
+        }
+
+        function clearError(input) {
+            if (input) input.classList.remove("input-error");
+        }
+
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput);
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        if (!fechaRangoInput || !fechaRangoInput.value) {
+            showError(fechaRangoInput);
+            valid = false;
+        } else {
+            clearError(fechaRangoInput);
+        }
+
+        if (!timeRetiroInput || !timeRetiroInput.value) {
+            showError(timeRetiroInput);
+            valid = false;
+        } else {
+            clearError(timeRetiroInput);
+        }
+
+        if (!timeEntregaInput || !timeEntregaInput.value) {
+            showError(timeEntregaInput);
+            valid = false;
+        } else {
+            clearError(timeEntregaInput);
+        }
+
+        if (valid) {
+            const generatedURL = generarURLAutos();
+            if (generatedURL) {
+                window.location.href = generatedURL;
+                if (destinoInput) destinoInput.value = "";
+                if (fechaRangoInput) fechaRangoInput.value = "";
+            } else {
+                alert("Por favor completa todos los campos obligatorios.");
+            }
+        }
+    });
+
+    // Limpiar errores al editar
+    const destinoInput = document.querySelector("#destino");
+    if (destinoInput) {
+        destinoInput.addEventListener("input", function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const fechaRangoInput = document.querySelector("#fecha-rango");
+    if (fechaRangoInput) {
+        fechaRangoInput.addEventListener('change', function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const timeRetiroInput = document.querySelector("#time-retiro");
+    if (timeRetiroInput) {
+        timeRetiroInput.addEventListener("change", function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const timeEntregaInput = document.querySelector("#time-entrega");
+    if (timeEntregaInput) {
+        timeEntregaInput.addEventListener("change", function () {
+            this.classList.remove("input-error");
+        });
+    }
 }
