@@ -540,8 +540,8 @@
 
                             <div class="fechas fechas-tours">
                                 <div class="input-group">
-                                    <span class="label-input">FECHAS</span>
-                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de partida y regreso">
+                                    <span class="label-input" data-i18n="formulario.fechas"></span>
+                                    <input id="fecha-rango" type="text" data-i18n-placeholder="formulario.fechasPlaceholder">
                                     <span class="icon"><i class="fas fa-calendar-alt"></i></span>
                                 </div>
                             </div>
@@ -2709,7 +2709,6 @@ function generarURLTours() {
 
     // Validar que todos los campos requeridos estén completos
     if (!destino || !dateFrom || !dateTo) {
-        console.error("Faltan parámetros obligatorios para generar la URL de Tours.");
         return null;
     }
 
