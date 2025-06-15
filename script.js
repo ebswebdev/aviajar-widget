@@ -994,6 +994,14 @@
 })();
 
 
+window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
+window.addEventListener('resize', cargarEstilosSegunContenedor);
+
+// Ejecutar al cargar la página y al redimensionar
+window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
+window.addEventListener('resize', cargarEstilosSegunContenedor);
+
+
 // ------------ FUNCIONES GENERALES -------------------
 
 // Codigo descuento
@@ -1053,13 +1061,6 @@ function cargarEstilosSegunContenedor() {
 
     console.log(`Cargado: ${nuevoArchivoCSS}`);
 }
-
-window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
-window.addEventListener('resize', cargarEstilosSegunContenedor);
-
-// Ejecutar al cargar la página y al redimensionar
-window.addEventListener('DOMContentLoaded', cargarEstilosSegunContenedor);
-window.addEventListener('resize', cargarEstilosSegunContenedor);
 
 // Autocomplete para paquetes & vuelo 
 let airports = [];
