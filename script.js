@@ -638,6 +638,7 @@
             inicializarFlatpickrHorasAutos();
             botonBusquedaAutos();
             generarURLAutos();
+            inicializarCheckboxOtroDestino();
             autocompleteSearchAutosV2(
                 "#destino",
                 "#autocomplete-list-destino",
@@ -2817,6 +2818,184 @@ function autocompleteSearchAutosV2(inputId, autocompleteListId, dataCiudadesAero
     });
 }
 
+function inicializarCheckboxOtroDestino() {
+    const checkbox = document.getElementById('devolver-otro-destino');
+    const lugarRetiroDiv = document.querySelector('.lugar-retiro .retiro');
+
+    if (!checkbox || !lugarRetiroDiv) return;
+
+    checkbox.addEventListener('change', function () {
+        // Si se marca el checkbox, agrega el input de devolución
+        if (checkbox.checked) {
+            // Evita duplicados
+            if (document.getElementById('input-otro-destino')) return;
+
+            // Crea el nuevo input-group
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+            inputGroup.id = 'input-otro-destino';
+            inputGroup.style.marginTop = '10px';
+
+            inputGroup.innerHTML = `
+                <span class="label-input">LUGAR DE DEVOLUCIÓN</span>
+                <input id="destino-otro" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona" value="">
+                <div id="autocomplete-list-destino-otro" class="autocomplete-list"></div>
+                <select id="destino-otro-id" style="display: none;"></select>
+                <span class="icon"><i class="fas fa-plane-departure"></i></span>
+            `;
+
+            // Inserta después del input original
+            lugarRetiroDiv.appendChild(inputGroup);
+
+            // Inicializa el autocomplete para el nuevo input
+            autocompleteSearchAutosV2(
+                "#destino-otro",
+                "#autocomplete-list-destino-otro",
+                window.external_file_AirportsCities,
+                window.external_file_Neighborhood,
+                "#destino-otro-id"
+            );
+        } else {
+            // Si se desmarca, elimina el input de devolución
+            const inputGroup = document.getElementById('input-otro-destino');
+            if (inputGroup) inputGroup.remove();
+        }
+    });
+}
+
+function generarURLAutos() {
+    const widgetAviajar = document.getElementById('widget-net');
+    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
+    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
+    let productType = "Car";
+    let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
+    let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
+
+    // Obtener valores del formulario
+    const destino = document.querySelector("#destino-id")?.value || "";
+    const destinoOtro = document.querySelector("#destino-otro-id")?.value || destino; // Si no hay otro destino, usa el mismo
+
+    let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
+    let dateFrom = "", dateTo = "";
+    if (dateRangeRaw.includes(" to ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" to ").map(f => f.trim());
+    } else if (dateRangeRaw.includes(" al ")) {
+        [dateFrom, dateTo] = dateRangeRaw.split(" al ").map(f => f.trim());
+    } else if (dateRangeRaw) {
+        dateFrom = dateRangeRaw.trim();
+        dateTo = dateRangeRaw.trim();
+    }
+    const timeRetiro = document.querySelector("#time-retiro")?.value.replace(":", "") || "1000";
+    const timeEntrega = document.querySelector("#time-entrega")?.value.replace(":", "") || "1000";
+
+    // Validar que todos los campos requeridos estén completos
+    if (!destino || !dateFrom || !dateTo || !timeRetiro || !timeEntrega) {
+        return null;
+    }
+
+    // Construir la URL final
+    // Si hay destinoOtro, lo usa, si no, usa destino para ambos
+    const url = `${host}${culture}/${productType}/City/${destino}/${dateFrom}/${timeRetiro}/City/${destinoOtro}/${dateTo}/${timeEntrega}/NA/NA/NA/${userService}-show-${branchCode}---------`;
+    console.log("Generated URL Autos:", url);
+    return url;
+}
+
+function botonBusquedaAutos() {
+    const widgetContainer = document.getElementById('widget-container');
+    if (!widgetContainer) return;
+
+    const buscarBtn = document.getElementById('buscar-btn-cars');
+    if (!buscarBtn) return;
+
+    buscarBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        let valid = true;
+
+        const destinoInput = document.querySelector("#destino");
+        const fechaRangoInput = document.querySelector("#fecha-rango");
+        const destinoSelect = document.querySelector("#destino-id");
+        const timeRetiroInput = document.querySelector("#time-retiro");
+        const timeEntregaInput = document.querySelector("#time-entrega");
+
+        function showError(input) {
+            if (input) input.classList.add("input-error");
+        }
+
+        function clearError(input) {
+            if (input) input.classList.remove("input-error");
+        }
+
+        if (!destinoSelect || !destinoSelect.value) {
+            showError(destinoInput);
+            valid = false;
+        } else {
+            clearError(destinoInput);
+        }
+
+        if (!fechaRangoInput || !fechaRangoInput.value) {
+            showError(fechaRangoInput);
+            valid = false;
+        } else {
+            clearError(fechaRangoInput);
+        }
+
+        if (!timeRetiroInput || !timeRetiroInput.value) {
+            showError(timeRetiroInput);
+            valid = false;
+        } else {
+            clearError(timeRetiroInput);
+        }
+
+        if (!timeEntregaInput || !timeEntregaInput.value) {
+            showError(timeEntregaInput);
+            valid = false;
+        } else {
+            clearError(timeEntregaInput);
+        }
+
+        if (valid) {
+            const generatedURL = generarURLAutos();
+            if (generatedURL) {
+                window.location.href = generatedURL;
+                if (destinoInput) destinoInput.value = "";
+                if (fechaRangoInput) fechaRangoInput.value = "";
+            } else {
+                alert("Por favor completa todos los campos obligatorios.");
+            }
+        }
+    });
+
+    // Limpiar errores al editar
+    const destinoInput = document.querySelector("#destino");
+    if (destinoInput) {
+        destinoInput.addEventListener("input", function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const fechaRangoInput = document.querySelector("#fecha-rango");
+    if (fechaRangoInput) {
+        fechaRangoInput.addEventListener('change', function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const timeRetiroInput = document.querySelector("#time-retiro");
+    if (timeRetiroInput) {
+        timeRetiroInput.addEventListener("change", function () {
+            this.classList.remove("input-error");
+        });
+    }
+
+    const timeEntregaInput = document.querySelector("#time-entrega");
+    if (timeEntregaInput) {
+        timeEntregaInput.addEventListener("change", function () {
+            this.classList.remove("input-error");
+        });
+    }
+}
+
 // --------------- FUNCIONES TOURS ---------------
 
 function generarURLTours() {
@@ -2927,132 +3106,3 @@ function autocompleteSearchCiudadesTours() {
     );
 }
 
-function generarURLAutos() {
-    const widgetAviajar = document.getElementById('widget-net');
-    let culture = widgetAviajar.getAttribute('culture') || "es-CO";
-    let host = widgetAviajar.getAttribute('host') || "https://reservas.aviajarcolombia.com/";
-    let productType = "Car";
-    let userService = widgetAviajar.getAttribute('userService') || 'aviajar';
-    let branchCode = widgetAviajar.getAttribute('branchCode') || '003';
-
-    // Obtener valores del formulario
-    const destino = document.querySelector("#destino-id")?.value || "";
-    let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
-    let dateFrom = "", dateTo = "";
-    if (dateRangeRaw.includes(" to ")) {
-        [dateFrom, dateTo] = dateRangeRaw.split(" to ").map(f => f.trim());
-    } else if (dateRangeRaw.includes(" al ")) {
-        [dateFrom, dateTo] = dateRangeRaw.split(" al ").map(f => f.trim());
-    } else if (dateRangeRaw) {
-        dateFrom = dateRangeRaw.trim();
-        dateTo = dateRangeRaw.trim();
-    }
-    const timeRetiro = document.querySelector("#time-retiro")?.value.replace(":", "") || "1000";
-    const timeEntrega = document.querySelector("#time-entrega")?.value.replace(":", "") || "1000";
-
-    // Validar que todos los campos requeridos estén completos
-    if (!destino || !dateFrom || !dateTo || !timeRetiro || !timeEntrega) {
-        return null;
-    }
-
-    // Construir la URL final
-    const url = `${host}${culture}/${productType}/City/${destino}/${dateFrom}/${timeRetiro}/City/${destino}/${dateTo}/${timeEntrega}/NA/NA/NA/${userService}-show-${branchCode}---------`;
-    console.log("Generated URL Autos:", url);
-    return url;
-}
-
-function botonBusquedaAutos() {
-    const widgetContainer = document.getElementById('widget-container');
-    if (!widgetContainer) return;
-
-    const buscarBtn = document.getElementById('buscar-btn-cars');
-    if (!buscarBtn) return;
-
-    buscarBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        let valid = true;
-
-        const destinoInput = document.querySelector("#destino");
-        const fechaRangoInput = document.querySelector("#fecha-rango");
-        const destinoSelect = document.querySelector("#destino-id");
-        const timeRetiroInput = document.querySelector("#time-retiro");
-        const timeEntregaInput = document.querySelector("#time-entrega");
-
-        function showError(input) {
-            if (input) input.classList.add("input-error");
-        }
-
-        function clearError(input) {
-            if (input) input.classList.remove("input-error");
-        }
-
-        if (!destinoSelect || !destinoSelect.value) {
-            showError(destinoInput);
-            valid = false;
-        } else {
-            clearError(destinoInput);
-        }
-
-        if (!fechaRangoInput || !fechaRangoInput.value) {
-            showError(fechaRangoInput);
-            valid = false;
-        } else {
-            clearError(fechaRangoInput);
-        }
-
-        if (!timeRetiroInput || !timeRetiroInput.value) {
-            showError(timeRetiroInput);
-            valid = false;
-        } else {
-            clearError(timeRetiroInput);
-        }
-
-        if (!timeEntregaInput || !timeEntregaInput.value) {
-            showError(timeEntregaInput);
-            valid = false;
-        } else {
-            clearError(timeEntregaInput);
-        }
-
-        if (valid) {
-            const generatedURL = generarURLAutos();
-            if (generatedURL) {
-                window.location.href = generatedURL;
-                if (destinoInput) destinoInput.value = "";
-                if (fechaRangoInput) fechaRangoInput.value = "";
-            } else {
-                alert("Por favor completa todos los campos obligatorios.");
-            }
-        }
-    });
-
-    // Limpiar errores al editar
-    const destinoInput = document.querySelector("#destino");
-    if (destinoInput) {
-        destinoInput.addEventListener("input", function () {
-            this.classList.remove("input-error");
-        });
-    }
-
-    const fechaRangoInput = document.querySelector("#fecha-rango");
-    if (fechaRangoInput) {
-        fechaRangoInput.addEventListener('change', function () {
-            this.classList.remove("input-error");
-        });
-    }
-
-    const timeRetiroInput = document.querySelector("#time-retiro");
-    if (timeRetiroInput) {
-        timeRetiroInput.addEventListener("change", function () {
-            this.classList.remove("input-error");
-        });
-    }
-
-    const timeEntregaInput = document.querySelector("#time-entrega");
-    if (timeEntregaInput) {
-        timeEntregaInput.addEventListener("change", function () {
-            this.classList.remove("input-error");
-        });
-    }
-}

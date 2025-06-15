@@ -1543,6 +1543,11 @@
     margin-top: -10px;
     margin-bottom: -10px;
   }
+
+  #input-otro-destino {
+    border-top: 1px solid #ddd;
+    margin-top: 10px !important;
+  }
 }
 
 /* Modal Error Pasajeros */
