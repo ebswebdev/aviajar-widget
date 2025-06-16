@@ -2878,7 +2878,7 @@ function generarURLAutos() {
 
     // Obtener valores del formulario
     const destino = document.querySelector("#destino-id")?.value || "";
-    const destinoOtro = document.querySelector("#destino-otro-id")?.value || destino; // Si no hay otro destino, usa el mismo
+    const destinoOtro = document.querySelector("#destino-otro-id")?.value || destino;
 
     let dateRangeRaw = document.querySelector("#fecha-rango")?.value || "";
     let dateFrom = "", dateTo = "";
@@ -2898,9 +2898,16 @@ function generarURLAutos() {
         return null;
     }
 
+    // Determinar tipo según si es texto o número
+    function getTipo(id) {
+        return isNaN(Number(id)) ? "City" : "Neighborhood";
+    }
+
+    const tipoDestino = getTipo(destino);
+    const tipoDestinoOtro = getTipo(destinoOtro);
+
     // Construir la URL final
-    // Si hay destinoOtro, lo usa, si no, usa destino para ambos
-    const url = `${host}${culture}/${productType}/City/${destino}/${dateFrom}/${timeRetiro}/City/${destinoOtro}/${dateTo}/${timeEntrega}/NA/NA/NA/${userService}-show-${branchCode}---------`;
+    const url = `${host}${culture}/${productType}/${tipoDestino}/${destino}/${dateFrom}/${timeRetiro}/${tipoDestinoOtro}/${destinoOtro}/${dateTo}/${timeEntrega}/NA/NA/NA/${userService}-show-${branchCode}---------`;
     console.log("Generated URL Autos:", url);
     return url;
 }
