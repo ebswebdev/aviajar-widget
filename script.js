@@ -2700,6 +2700,7 @@ function crearPopupHoteles() {
 //  -------------- FUNCIONES CARS ---------------
 
 function autocompleteSearchAutosV2(inputId, autocompleteListId, dataCiudadesAeropuertos, dataBarrios, hiddenSelectId) {
+
     const input = document.querySelector(inputId);
     const autocompleteList = document.querySelector(autocompleteListId);
     const hiddenSelect = hiddenSelectId
@@ -2792,8 +2793,8 @@ function autocompleteSearchAutosV2(inputId, autocompleteListId, dataCiudadesAero
                 input.value = displayText;
                 autocompleteList.innerHTML = "";
 
-                // El ID será el código de ciudad del barrio
-                let id = barrio.City;
+                // El ID será el código de zona del barrio
+                let id = barrio.Code;
 
                 if (hiddenSelect) {
                     hiddenSelect.innerHTML = "";
@@ -2802,6 +2803,10 @@ function autocompleteSearchAutosV2(inputId, autocompleteListId, dataCiudadesAero
                     option.selected = true;
                     hiddenSelect.appendChild(option);
                 }
+
+                // Imprime el número de zona en consola
+                console.log("Zona seleccionada:", id);
+
                 input.focus();
                 input.blur();
             });
