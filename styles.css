@@ -1549,10 +1549,10 @@
   .lugar-retiro {
     display: flex;
   }
-  /* #input-otro-destino {
-    border-top: 1px solid #ddd;
-    margin-top: 10px !important;
-  } */
+
+  .input-tramo {
+    height: 70px !important;
+  }
 }
 
 /* Modal Error Pasajeros */
