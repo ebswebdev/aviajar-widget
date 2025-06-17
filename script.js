@@ -1246,6 +1246,7 @@ let translations = {};
 
 async function loadTranslations(lang = "es") {
     try {
+        // const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
         const res = await fetch("data.json");
         translations = await res.json();
         setLanguage(lang);

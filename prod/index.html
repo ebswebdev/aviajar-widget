@@ -5,30 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo widget prod</title>
-    
+
 </head>
 
 <body>
-    <!-- Css -->
-    <link rel="stylesheet" href="styles.min.css">
+    <!-- CSS (se mantiene igual, ya que el CSS no bloquea el renderizado si está en <head>) -->
+    <link rel="stylesheet" href="https://aviajarcolombia.com/widget3.0/styles.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <div id="widget-net" products="[AirHotel]" userService="aviajar" branchCode="003" destination="MIA"></div>
-    <script src="script.js"></script>
+    <!-- Widget container -->
+    <div id="widget-net" culture="en-US" products="[AirHotel, Air, Hotel, Autos, Extras]" userService="aviajar"
+        branchCode="051"></div>
 
+    <!-- JS optimizado -->
+    <script src="https://aviajarcolombia.com/widget3.0/script.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
 
-    <script src="script.min.js"></script>
- 
-    <!-- Script -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/cities-es.js"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airlines-es.js"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airportscities-es.js"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/buscompanies-es.js"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/neighborhood-es.js"></script>
-    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airports-es.js"></script>
+    <!-- Autocomplete scripts optimizados -->
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/cities-es.js" defer></script>
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airlines-es.js" defer></script>
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airportscities-es.js" defer></script>
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/buscompanies-es.js" defer></script>
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/neighborhood-es.js" defer></script>
+    <script src="https://d14xsmsn4vzz2n.cloudfront.net/autocompletes/aviajar/airports-es.js" defer></script>
 </body>
 
 </html>
