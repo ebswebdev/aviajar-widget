@@ -1051,6 +1051,8 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
   }
 
   .checkbox label {
