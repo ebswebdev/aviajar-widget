@@ -111,9 +111,16 @@
     .tabs {
       gap: 10px;
     }
-    .widget input[type="text"] {
-      padding-right: 50px !important; /* Aumenta el padding derecho para el ícono */
-    }
+  }
+
+  .widget input[type="text"] {
+    padding-right: 50px !important;
+    height: 70px !important;
+  }
+
+  #num-per,
+  #num-pasajeros {
+    height: 70px !important;
   }
 
   /* Fechas */
@@ -846,7 +853,11 @@
   /* Checkboxs */
   .checkbox-group {
     align-items: center;
-    /* padding: 10px; */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
   .checkbox {
@@ -863,9 +874,10 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    top: -3px;
+    /* top: -3px; */
     position: relative;
     text-align: left;
+    padding-left: 0px !important;
   }
 
   input[type="checkbox"] {
