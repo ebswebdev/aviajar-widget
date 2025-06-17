@@ -201,6 +201,11 @@
     margin: 0;
   }
 
+  input[type="radio"] {
+    position: relative !important;
+    margin-left: 0px !important;
+  }
+
   /* Deshabilitar las flechas en Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
@@ -370,10 +375,8 @@
 
   /* Checkboxes */
   .widget input[type="checkbox"] {
-    display: flex;
-    align-items: center;
     width: auto;
-    margin-right: 10px;
+    margin-right: 0px !important;
     cursor: pointer;
     transition: transform 0.2s ease;
   }
@@ -948,6 +951,12 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
+  input[type="radio"]:checked:before {
+    content: none !important;
   }
 
   .radio label {
@@ -958,49 +967,12 @@
     position: relative;
     text-align: left;
     left: 0px;
+    padding-left: 0px !important;
+    margin-bottom: 4px !important;
   }
 
-  #radio-soloida {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
-
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
-  }
-
-  #radio-idayregreso {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 0px;
-
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
-
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
-  }
-
+  #radio-soloida,
+  #radio-idayregreso,
   #radio-multidestino {
     appearance: none;
     width: 20px;
@@ -1010,15 +982,32 @@
     background-color: transparent;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
 
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
+  #radio-soloida:checked,
+  #radio-idayregreso:checked,
+  #radio-multidestino:checked {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+  }
 
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
+  #radio-soloida:hover,
+  #radio-idayregreso:hover,
+  #radio-multidestino:hover {
+    box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+  }
+
+  /* Opcional: círculo interior para el radio seleccionado */
+  #radio-soloida:checked::after,
+  #radio-idayregreso:checked::after,
+  #radio-multidestino:checked::after {
+    display: block;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
   }
 
   /* Fechas */
@@ -1046,6 +1035,11 @@
     gap: 10px;
   }
 
+  label {
+    font-weight: 400 !important;
+    margin-bottom: 0 !important;
+  }
+
   .checkbox {
     display: flex;
     align-items: center;
@@ -1060,16 +1054,34 @@
     align-items: center;
     cursor: pointer;
     top: -5px;
-    position: relative;
+    position: relative !important;
     text-align: left;
     font-size: 14px;
     left: -10px;
-    top: 5px;
+    top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+
+  input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    position: relative !important;
+    transition: border-color 0.2s;
+    margin-left: 0px !important;
+  }
+
+  input[type="checkbox"]:checked {
+    background: var(--primary-color, #fdbe15);
+    border-color: var(--primary-color, #fdbe15);
   }
 
   input[type="checkbox"] {
     position: relative !important;
-    top: 5px;
     width: 20px;
     height: 20px;
     appearance: none;
@@ -1086,31 +1098,19 @@
   }
 
   input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 6px;
+    content: "✔" !important;
+    color: white !important;
     width: 5px;
     height: 10px;
     border: 4px solid transparent;
     border-left: none;
     border-top: none;
-    transform: rotate(45deg) scale(1);
+    position: absolute;
+    left: 1px !important;
   }
 
   input[type="checkbox"]:checked:before {
-    border-color: #fff;
     animation: checkmark 0.2s ease;
-  }
-
-  @keyframes checkmark {
-    0% {
-      transform: rotate(45deg) scale(0);
-    }
-
-    100% {
-      transform: rotate(45deg) scale(1);
-    }
   }
 
   /* Botón buscar */

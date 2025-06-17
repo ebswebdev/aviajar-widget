@@ -770,6 +770,12 @@
     justify-content: left;
     align-items: center;
     gap: 20px;
+    margin-left: 20px !important;
+  }
+
+  label {
+    font-weight: 400 !important;
+    margin-bottom: 0 !important;
   }
 
   .radio {
@@ -777,7 +783,8 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px !important;
+    margin-top: 0px !important;
   }
 
   .radio label {
@@ -788,48 +795,11 @@
     position: relative;
     text-align: left;
     left: 0px;
+    padding-left: 0px !important;
   }
 
-  #radio-soloida {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
-
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
-  }
-
-  #radio-idayregreso {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    background-color: transparent;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
-
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
-  }
-
+  #radio-soloida,
+  #radio-idayregreso,
   #radio-multidestino {
     appearance: none;
     width: 20px;
@@ -839,15 +809,32 @@
     background-color: transparent;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
 
-    &:checked {
-      background-color: var(--primary-color);
-      box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
-    }
+  #radio-soloida:checked,
+  #radio-idayregreso:checked,
+  #radio-multidestino:checked {
+    background-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+  }
 
-    &:hover {
-      box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
-    }
+  #radio-soloida:hover,
+  #radio-idayregreso:hover,
+  #radio-multidestino:hover {
+    box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
+  }
+
+  /* Opcional: círculo interior para el radio seleccionado */
+  #radio-soloida:checked::after,
+  #radio-idayregreso:checked::after,
+  #radio-multidestino:checked::after {
+    display: block;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
   }
 
   /* Checkboxs */
@@ -898,30 +885,22 @@
   }
 
   input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 6px;
-    width: 5px;
+    content: "✔" !important;
+    color: white !important;
     height: 10px;
     border: 4px solid transparent;
     border-left: none;
     border-top: none;
-    transform: rotate(45deg) scale(1);
+    position: absolute;
+    left: 1px;
   }
 
   input[type="checkbox"]:checked:before {
-    border-color: #fff;
     animation: checkmark 0.2s ease;
   }
 
-  @keyframes checkmark {
-    0% {
-      transform: rotate(45deg) scale(0);
-    }
-    100% {
-      transform: rotate(45deg) scale(1);
-    }
+  input[type="radio"]:checked:before {
+    content: none !important;
   }
 
   /* Botón buscar */
