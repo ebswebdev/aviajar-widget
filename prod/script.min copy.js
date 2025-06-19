@@ -1,0 +1,587 @@
+function inicializarDescuento() { var e = document.querySelector("#mostrar-descuento"); const t = document.querySelector(".descuento"); e && t && e.addEventListener("click", function (e) { e.preventDefault(), "none" === t.style.display || "" === t.style.display ? t.style.display = "block" : t.style.display = "none" }) } function cargarEstilosSegunContenedor() { var t = document.querySelector("#widget-net"); if (t) { let e = t; for (; e.parentElement && e.parentElement !== document.body && e.parentElement.offsetWidth >= window.innerWidth - 1;)e = e.parentElement; var t = e.offsetWidth, n = (console.log("Contenedor usado:", e), console.log(`Ancho del contenedor: ${t}px`), document.querySelector("#dynamic-styles")), t = t < 1165 ? "styles-mobile.css" : "styles.css"; n && n.getAttribute("href") === t || (n && n.remove(), (n = document.createElement("link")).id = "dynamic-styles", n.rel = "stylesheet", n.href = t, document.head.appendChild(n), console.log("Cargado: " + t)) } else console.error("No se encontró el widget.") } !function () {
+    function m(t) { var e, n, a = document.querySelector("#destino"), i = document.querySelector("#destino-id"); a && i && "undefined" != typeof external_file_AirportsCities ? (n = external_file_AirportsCities.find(e => e.includes(`(${t})`))) ? (e = 1 < (e = n.split(" | ")).length ? e[1] : n, a.value = e, a.disabled = !0, i.innerHTML = "", (n = document.createElement("option")).value = t, n.selected = !0, i.appendChild(n)) : console.warn("No se encontró un destino con el ID: " + t) : console.error("No se pudo configurar el destino. Verifica los elementos y datos.") } document.addEventListener("DOMContentLoaded", function () {
+        const u = document.getElementById("widget-net"); if (u) {
+            var e = u.getAttribute("products")?.replace(/[\[\]\s]/g, "").split(",") || []; console.log(e); const n = { AirHotel: { id: "paquetes", icon: "fa-suitcase", text: "Paquetes" }, Air: { id: "vuelos", icon: "fa-plane", text: "Vuelos" }, Hotel: { id: "hoteles", icon: "fa-h-square", text: "Hoteles" }, Autos: { id: "autos", icon: "fa-car", text: "Autos" }, Extras: { id: "tours", icon: "fa-ticket-alt", text: "Tours" } }; var t = document.createElement("div"); t.className = "tabs", t.innerHTML = e.filter(e => n[e]).map(e => {
+                e = n[e] || {}; return `
+                    <div class="tab" id="tab-${e.id}">
+                        <i class="fa ${e.icon}" aria-hidden="true"></i>
+                        <span class="tab-text"> ${e.text}</span>
+                    </div>
+                `}).join(""), 1 == e.length ? t.style.display = "none" : t.style.display = "flex", u.appendChild(t); const p = document.querySelectorAll(".tab"); p.forEach(e => {
+                    e.addEventListener("click", function () {
+                        p.forEach(e => e.classList.remove("active")), this.classList.add("active"); var t = this.id.replace("tab-", ""), n = (u.setAttribute("selected-tab", t), this.style.backgroundColor = "#fff", this.style.color = "#000", p.forEach(e => { e !== this && (e.style.backgroundColor = "", e.style.color = "") }), document.querySelector("#widget-container")); n && n.remove(); {
+                            n = t; const r = document.getElementById("widget-net"); if (r) {
+                                Array.from(r.children).forEach(e => { e.classList.contains("tabs") || r.removeChild(e) }); let e = ""; switch (n) {
+                                    case "paquetes": e = `
+                    <div class="contenedor-widget">
+                    <div class="widget widget-package" id="widget-container">
+                        <div class="widget-container package-container">
+
+                            <div class="origen-destino">
+                                <div class="origen">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.origen"></span>
+                                        <input id="origen" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.origenPlaceholder" value=""
+                                            onclick="this.select()">
+                                        <div id="autocomplete-list-origen" class="autocomplete-list"></div>
+                                        <select id="origen-id" style="display: none;"></select>
+                                        <span class="icon"><i class="fas fa-plane-departure"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="destino">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.destino"></span>
+                                        <input id="destino" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.destinoPlaceholder" value=""
+                                            onclick="this.select()">
+                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select>
+                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fechas">
+                                <div class="input-group">
+                                    <span class="label-input" data-i18n="formulario.fechas"></span>
+                                    <input id="fecha-rango" type="text" data-i18n-placeholder="formulario.fechasPlaceholder">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="habitaciones-pasajeros">
+                                <div class="habitaciones">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.habitaciones"></span>
+                                        <input id="num-hab" type="number" min="1" value="1" readonly>
+                                        <span class="icon"><i class="fas fa-bed"></i></span>
+                                    </div>
+                                </div>
+                                <div class="pasajeros">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.personas"></span>
+                                        <input id="num-per" type="number" min="2" value="2" readonly>
+                                        <span class="icon"><i class="fas fa-users"></i></span>
+                                    </div>
+                                </div>
+                                <div id="modal-error" class="modal" style="display: none;">
+                                    <div class="modal-content">
+                                        <p data-i18n="formulario.modalMaxPasajeros"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="hab-popup" class="popup">
+                                <div class="popup-content">
+                                    <div id="hab-container"></div>
+                                    <div class="popup-header">
+                                        <label for="popup-num-hab" data-i18n="formulario.cuantasHabitaciones"></label>
+                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                    </div>
+                                    <div class="button-accept">
+                                        <button id="accept-popup" data-i18n="formulario.aceptar"></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="boton-buscar">
+                                <div class="input-group">
+                                    <button id="buscar-btn-paquetes" data-i18n="formulario.buscar"></button>
+                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+                            <div class="options-paq">
+                                
+                            <div class="checkbox-group">
+                                <div class="checkbox">
+                                    <input id="checkbox-vequipaje" type="checkbox">
+                                    <label for="checkbox-vequipaje" data-i18n="formulario.soloVuelosEquipaje"></label>
+                                </div>
+                                <div class="checkbox">
+                                    <input id="checkbox-vdirecto" type="checkbox">
+                                    <label for="checkbox-vdirecto" data-i18n="formulario.soloVuelosDirecto"></label>
+                                </div>
+                            </div>
+
+                            <div class="descuento-container">
+                                <div class="descuento-toggle">
+                                    <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="descuento" style="display: none;">
+                                    <div class="codigo-descuento">
+                                        <div class="input-group" id="input-descuento">
+                                            <span id="texto-descuento" class="label-input" data-i18n="formulario.codigoDescuento"></span>
+                                            <input id="codigo-descuento" type="text" data-i18n-placeholder="formulario.codigoDescuentoPlaceholder">
+                                            <span class="icon"><i class="fas fa-tag"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+                        
+                    </div>
+                    </div>
+                        `, crearPopupPaquetes(), botonBusquedaPaquetes(); break; case "vuelos": e = `
+                    <div class="widget" id="widget-container">
+                        <div class="widget-container vuelos-container">
+                            <div class="radio-group">
+                                <div class="radio">
+                                    <input id="radio-idayregreso" type="radio" name="trip-type" value="idayregreso" checked>
+                                    <label for="radio-idayregreso" data-i18n="vuelos.idaYRegreso"></label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-soloida" type="radio" name="trip-type" value="soloida">
+                                    <label for="radio-soloida" data-i18n="vuelos.soloIda"></label>
+                                </div>
+                                <div class="radio">
+                                    <input id="radio-multidestino" type="radio" name="trip-type" value="multidestino">
+                                    <label for="radio-multidestino" data-i18n="vuelos.multiDestino"></label>
+                                </div>
+                            </div>
+
+                            <div class="origen-destino">
+                                <div class="origen">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.origen"></span>
+                                        <input id="origen" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.origenPlaceholder" value="" onclick="this.select()">
+                                        <div id="autocomplete-list-origen" class="autocomplete-list"></div>
+                                        <select id="origen-id" style="display: none;"></select>
+                                        <span class="icon"><i class="fas fa-plane-departure"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="destino">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="formulario.destino"></span>
+                                        <input id="destino" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.destinoPlaceholder" value="" onclick="this.select()">
+                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select>
+                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="multidestino-placeholder" style="display:none;">
+                                <button id="btn-agregar-tramo" style="display:none; margin:10px 0;" data-i18n="vuelos.agregarTramo"></button>
+                            </div>
+                            <div id="multidestino-tramos"></div>
+
+                            <div class="fechas">
+                                <div class="input-group">
+                                    <span class="label-input" data-i18n="formulario.fechas"></span>
+                                    <input id="fecha-rango" type="text" data-i18n-placeholder="formulario.fechasPlaceholder">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="habitaciones-pasajeros">
+                                <div class="pasajeros">
+                                    <div class="input-group">
+                                        <span class="label-input" data-i18n="vuelos.pasajerosYClase"></span>
+                                        <input id="num-pasajeros" type="number" min="1" value="1" readonly tabindex="-1" inputmode="none">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="pasajeros-popup" class="popup">
+                                <div class="popup-content">
+                                    <span class="close-popup">&times;</span>
+                                    <div class="popup-header">
+                                        <label id="title-pasajeros" for="popup-num-pasajeros" data-i18n="vuelos.numeroPasajeros"></label>
+                                    </div>
+                                    <div id="pasajeros-container"></div>
+                                    <div class="button-accept">
+                                        <button id="accept-popup" data-i18n="formulario.aceptar"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="options-air">            
+                                <div class="checkbox-group">
+                                    <div class="checkbox">
+                                        <input id="checkbox-vequipaje" type="checkbox">
+                                        <label for="checkbox-vequipaje" data-i18n="formulario.soloVuelosEquipaje"></label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="checkbox-vdirecto" type="checkbox">
+                                        <label for="checkbox-vdirecto" data-i18n="formulario.soloVuelosDirecto"></label>
+                                    </div>
+                                </div>
+                                <div class="descuento-container">
+                                    <div class="descuento-toggle">
+                                        <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input" data-i18n="formulario.codigoDescuento"></span>
+                                                <input id="codigo-descuento" type="text" data-i18n-placeholder="formulario.codigoDescuentoPlaceholder">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="boton-buscar">
+                                <div class="input-group">
+                                    <button id="buscar-btn-vuelos" data-i18n="formulario.buscar"></button>
+                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `; break; case "hoteles": e = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container hoteles-container">
+                            <div class="origen-destino">
+                                <div class="destino destino-hotel">
+                                    <div class="input-group">
+                                        <span class="label-input">DESTINO</span>
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Hacia dónde viajas" value="">
+                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
+                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fechas">
+                                <div class="input-group">
+                                    <span class="label-input">FECHAS</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de estadía">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="habitaciones-pasajeros">
+                                <div class="habitaciones">
+                                    <div class="input-group">
+                                        <span class="label-input">HABITACIONES</span>
+                                        <input id="num-hab" type="number" min="1" value="1" readonly>
+                                        <span class="icon"><i class="fas fa-bed"></i></span>
+                                    </div>
+                                </div>
+                                <div class="pasajeros">
+                                    <div class="input-group">
+                                        <span class="label-input">PERSONAS</span>
+                                        <input id="num-per" type="number" min="2" value="2" readonly>
+                                        <span class="icon"><i class="fas fa-users"></i></span>
+                                    </div>
+                                </div>
+                                <div id="modal-error" class="modal" style="display: none;">
+                                    <div class="modal-content">
+                                        <p>El número máximo de pasajeros permitidos es 7.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="hab-popup" class="popup">
+                                <div class="popup-content">
+                                    <div id="hab-container"></div>
+                                    <div class="popup-header">
+                                        <label for="popup-num-hab">¿Cuántas habitaciones?</label>
+                                        <input id="popup-num-hab" type="number" min="1" max="20" value="1">
+                                    </div>
+                                    <div class="button-accept">
+                                        <button id="accept-popup">Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="options-hotel">
+                                <div class="descuento-container">
+                                    <div class="descuento-toggle">
+                                        <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="boton-buscar">
+                                <div class="input-group">
+                                    <button id="buscar-btn-hoteles">Buscar</button>
+                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `; break; case "autos": e = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container autos-container">
+                            <div class="lugar-retiro">
+                                <div class="retiro">
+                                    <div class="input-group">
+                                        <span class="label-input">LUGAR DE RETIRO</span>
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona" value="">
+                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
+                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fechas fechas-cars">
+                                <div class="input-group">
+                                    <span class="label-input">FECHAS</span>
+                                    <input id="fecha-rango" type="text" placeholder="Selecciona las fechas de retiro y entrega">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+                            
+                            <div class="time-cars">
+                                <div class="input-group">
+                                    <span class="label-input">RETIRO</span>
+                                    <input id="time-retiro" type="text" placeholder="10:00" readonly>
+                                    <span class="icon icon-time"><i class="fas fa-clock"></i></span>
+                                </div>
+                            </div>
+                            <div class="time-cars">
+                                <div class="input-group">
+                                    <span class="label-input">ENTREGA</span>
+                                    <input id="time-entrega" type="text" placeholder="10:00" readonly>
+                                    <span class="icon icon-time"><i class="fas fa-clock"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="checkbox-tours" style="display: flex;">
+                                <div class="input-group">
+                                    <input type="checkbox" id="devolver-otro-destino" style="margin-top: 10px;" />
+                                    <label for="devolver-otro-destino" style="display: inline; margin-left: 6px;">
+                                        Devolver en otro destino
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="options-cars">
+                                <div class="descuento-container">
+                                    <div class="descuento-toggle">
+                                        <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="boton-buscar">
+                                <div class="input-group">
+                                    <button id="buscar-btn-cars">Buscar</button>
+                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `; break; case "tours": e = `
+                <div class="widget" id="widget-container">
+                        <div class="widget-container tours-container">
+                            <div class="destino-extras">
+                                <div class="destino-tours">
+                                    <div class="input-group">
+                                        <span class="label-input">DESTINO</span>
+                                        <input id="destino" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad" value="">
+                                        <div id="autocomplete-list-destino" class="autocomplete-list"></div>
+                                        <select id="destino-id" style="display: none;"></select> <!-- Select oculto para guardar el ID -->
+                                        <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fechas fechas-tours">
+                                <div class="input-group">
+                                    <span class="label-input" data-i18n="formulario.fechas"></span>
+                                    <input id="fecha-rango" type="text" data-i18n-placeholder="formulario.fechasPlaceholder">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="options-tours">
+                                <div class="descuento-container">
+                                    <div class="descuento-toggle">
+                                        <a id="mostrar-descuento" href="#" style="cursor: pointer;" data-i18n="formulario.codigoDescuento"></a>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="descuento" style="display: none;">
+                                        <div class="codigo-descuento">
+                                            <div class="input-group" id="input-descuento">
+                                                <span id="texto-descuento" class="label-input">CÓDIGO DE DESCUENTO</span>
+                                                <input id="codigo-descuento" type="text" placeholder="Ingresa tu código de descuento">
+                                                <span class="icon"><i class="fas fa-tag"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="boton-buscar">
+                                <div class="input-group">
+                                    <button id="buscar-btn-tours">Buscar</button>
+                                    <span class="icon"><i id="lupa-icon" class="fas fa-search"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `; break; default: e = "<p>Widget no disponible</p>"
+                                }r.insertAdjacentHTML("beforeend", e); applyTranslations(document.getElementById("widget-net")?.getAttribute("language")?.substring(0, 2) || "es"), inicializarFlatpickr(), inicializarDescuento(), ajustarWidget(); t = r.getAttribute("destination"); if (t && m(t), "paquetes" === n ? (crearPopupPaquetes(), botonBusquedaPaquetes(), cargarAutocompletes()) : "vuelos" === n ? (crearPopupVuelos(), botonBusquedaVuelos(), inicializarFlatpickrVuelos(), cargarAutocompletes()) : "hoteles" === n ? (t = document.getElementById("widget-net"), a = t.getAttribute("autocomplete-api") || "https://reservas.aviajarcolombia.com/NetCoreapi/AutocompleteDestinationStaticContent", o = t.getAttribute("userService") || "aviajar", t = t.getAttribute("culture") || "es", crearPopupHoteles(), botonBusquedaHoteles(), autocompleteHotelesCiudadesAPI("#destino", "#autocomplete-list-destino", "#destino-id", a, o, t)) : "autos" === n ? (function () { if ("undefined" != typeof flatpickr) { const t = document.getElementById("time-retiro"), n = document.getElementById("time-entrega"); t && t._flatpickr && (t._flatpickr.destroy(), t.type = "text"), n && n._flatpickr && (n._flatpickr.destroy(), n.type = "text"), flatpickr("#time-retiro", { enableTime: !0, noCalendar: !0, dateFormat: "H:i", time_24hr: !0, defaultDate: "10:00", disableMobile: !0, allowInput: !1 }), flatpickr("#time-entrega", { enableTime: !0, noCalendar: !0, dateFormat: "H:i", time_24hr: !0, defaultDate: "10:00", disableMobile: !0, allowInput: !1 }), document.addEventListener("mousedown", function (e) { t && t._flatpickr && !t.contains(e.target) && !document.querySelector(".flatpickr-calendar")?.contains(e.target) && t._flatpickr.close(), n && n._flatpickr && !n.contains(e.target) && !document.querySelector(".flatpickr-calendar")?.contains(e.target) && n._flatpickr.close() }) } }(), botonBusquedaAutos(), generarURLAutos(), inicializarCheckboxOtroDestino(), autocompleteSearchAutosV2("#destino", "#autocomplete-list-destino", window.external_file_AirportsCities, window.external_file_Neighborhood, "#destino-id")) : "tours" === n && (cargarAutocompletes(), botonBusquedaTours(), generarURLTours(), autocompleteSearchCiudadesTours()), document.addEventListener("DOMContentLoaded", function () { window.addEventListener("resize", function () { inicializarFlatpickr() }) }), "vuelos" === n) {
+                                    const s = document.getElementById("radio-multidestino"), l = document.getElementById("btn-agregar-tramo"), c = document.getElementById("multidestino-tramos"); var a = document.querySelectorAll('input[name="trip-type"]'); const d = document.querySelector(".boton-buscar"); function i(e) {
+                                        const t = document.createElement("div"); t.className = "tramo", t.style.marginBottom = "10px", t.innerHTML = `
+                    <div class="tramo-content">
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">ORIGEN</span>
+                            <input type="text" class="input-tramo-origen" placeholder="Desde dónde viajas" id="input-tramo-origen-${e}">
+                            <div class="autocomplete-list" id="autocomplete-list-tramo-origen-${e}"></div>
+                            <select class="input-tramo-origen-id" style="display:none"></select>
+                            <span class="icon"><i class="fas fa-plane-departure"></i></span>
+                        </div>
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">DESTINO</span>
+                            <input type="text" class="input-tramo-destino" placeholder="Hacia dónde viajas" id="input-tramo-destino-${e}">
+                            <div class="autocomplete-list" id="autocomplete-list-tramo-destino-${e}"></div>
+                            <select class="input-tramo-destino-id" style="display:none"></select>
+                            <span class="icon"><i class="fas fa-plane-arrival"></i></span>
+                        </div>
+                        <div class="input-tramo input-group">
+                            <span class="label-input-tramo">FECHA</span>
+                            <input type="text" class="input-tramo-fecha flatpickr-input" placeholder="Selecciona la fecha de viaje" id="input-tramo-fecha-${e}" readonly="readonly">
+                            <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <button type="button" class="btn-quitar-tramo" title="Quitar tramo" style="color:red;">×</button>
+                    </div>
+                `, t.querySelector(".btn-quitar-tramo").onclick = () => t.remove(), c.appendChild(t); var n = t.querySelector(".input-tramo-origen"); const i = t.querySelector(".input-tramo-destino"); var a = t.querySelector(".input-tramo-fecha"); n.id = "input-tramo-origen-" + e, i.id = "input-tramo-destino-" + e, a.id = "input-tramo-fecha-" + e, "undefined" != typeof external_file_AirportsCities && (autocompleteSearch("#" + n.id, "#autocomplete-list-tramo-origen-" + e, external_file_AirportsCities, "select.input-tramo-origen-id"), autocompleteSearch("#" + i.id, "#autocomplete-list-tramo-destino-" + e, external_file_AirportsCities, "select.input-tramo-destino-id")); const o = t.querySelector(".input-tramo-fecha"); o.id = "input-tramo-fecha-" + e; if (1 < e && (a = document.querySelector("#input-tramo-fecha-" + (e - 1))) && a.value && a.value, "undefined" != typeof flatpickr && (n = window.innerWidth <= 768, flatpickr(o, { dateFormat: "Y-m-d", minDate: "today", disableMobile: !0, showMonths: n ? 1 : 2, locale: { firstDayOfWeek: 1, weekdays: { shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"], longhand: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"] }, months: { shorthand: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], longhand: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] } } })), 1 < e) { const s = document.querySelector("#input-tramo-fecha-" + (e - 1)); s && s.addEventListener("change", function () { var e = window.innerWidth <= 768; o._flatpickr && o._flatpickr.destroy(), flatpickr(o, { dateFormat: "Y-m-d", minDate: s.value || "today", disableMobile: !0, showMonths: e ? 1 : 2, locale: { firstDayOfWeek: 1, weekdays: { shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"], longhand: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"] }, months: { shorthand: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], longhand: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] } } }) }) } const r = t.querySelector(".input-tramo-destino-id"); i.addEventListener("blur", function () { var n = c.children[e]; if (n) { var a = n.querySelector(".input-tramo-origen"), a = (a && (a.value = i.value), n.querySelector(".input-tramo-origen-id")); if (a) { let e = a.innerHTML = "", t = r.querySelector("option[selected]"); (t = t || r.querySelector("option")) && t.value ? e = t.value : "undefined" != typeof external_file_AirportsCities && (n = external_file_AirportsCities.find(e => { var t = e.split(" | "); return (1 < t.length ? t[1] : e).trim().toLowerCase() === i.value.trim().toLowerCase() })) && (n = n.match(/\(([^)]+)\)$/)) && (e = n[1]), e && ((n = document.createElement("option")).value = e, n.selected = !0, a.appendChild(n), a.dispatchEvent(new Event("change"))) } } })
+                                    } l.style.display = s && s.checked ? "inline-block" : "none", a.forEach(e => { e.addEventListener("change", function () { var e = document.getElementById("multidestino-placeholder"); s.checked ? (l.style.display = "inline-block", c.style.display = "block", e.style.display = "flex", e && !e.contains(c) && e.appendChild(c), document.querySelector("#origen").disabled = !0, document.querySelector("#destino").disabled = !0, document.querySelector("#origen-id").disabled = !0, document.querySelector("#destino-id").disabled = !0, document.querySelector("#fecha-rango").disabled = !0, document.querySelector(".origen-destino").style.display = "none", document.querySelector(".fechas").style.display = "none", document.querySelector("#origen").classList.remove("input-error"), document.querySelector("#destino").classList.remove("input-error"), document.querySelector("#fecha-rango").classList.remove("input-error"), c.children.length < 2 && (c.innerHTML = "", i(1), i(2))) : (l.style.display = "none", c.style.display = "none", c.innerHTML = "", e.style.display = "none", document.querySelector("#origen").disabled = !1, document.querySelector("#destino").disabled = !1, document.querySelector("#origen-id").disabled = !1, document.querySelector("#destino-id").disabled = !1, document.querySelector("#fecha-rango").disabled = !1, document.querySelector(".origen-destino").style.display = "", document.querySelector(".fechas").style.display = "", document.getElementById("widget-container").appendChild(c)) }), d && (s && s.checked ? d.classList.add("full-width") : d.classList.remove("full-width")) }), l.addEventListener("click", function () { if (!(6 <= c.children.length)) { i(c.children.length + 1); var e, t = Array.from(document.querySelectorAll(".tramo")); for (let e = 1; e < t.length; e++) { var n = t[e - 1].querySelector(".input-tramo-fecha"), a = t[e].querySelector(".input-tramo-fecha"); if (a && a._flatpickr) { let e = "today"; n && n.value && (e = n.value), a._flatpickr.set("minDate", e) } } 1 < c.children.length && (e = c.children[c.children.length - 2]) && (e = e.querySelector(".input-tramo-destino")) && (e.focus(), e.blur()) } })
+                                } var o = document.querySelector(".origen-destino"); o && ("hoteles" === n ? o.classList.add("sin-raya") : o.classList.remove("sin-raya"))
+                            }
+                        }
+                    })
+                }), 0 < e.length && p[0].click(); t = u.getAttribute("destination"); t && m(t)
+        }
+    })
+}(), window.addEventListener("DOMContentLoaded", cargarEstilosSegunContenedor), window.addEventListener("resize", cargarEstilosSegunContenedor), window.addEventListener("DOMContentLoaded", cargarEstilosSegunContenedor), window.addEventListener("resize", cargarEstilosSegunContenedor); let airports = []; function autocompleteSearch(e, t, n, a, i = !1) { const o = document.querySelector(e), r = document.querySelector(t), s = a ? o.parentElement.querySelector(a) : "#origen" === e ? document.querySelector("#origen-id") : document.querySelector("#destino-id"); function l(e) { return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() } o.addEventListener("input", function () { const t = l(o.value.trim()); if (r.innerHTML = "", t.length < 3) s && (s.innerHTML = ""); else if (t) { let e = n.filter(e => !e.toLowerCase().includes("punto de partida")).filter(e => l(e).includes(t)); (e = i ? e.filter(e => !e.includes("-")) : e).forEach(n => { var e = n.split(" | "); const a = 1 < e.length ? e[1] : n; var e = !n.includes("-") ? "fas fa-map-marker-alt" : "fas fa-plane", t = document.createElement("i"), e = (t.className = e, t.style.padding = "5px", document.createElement("div")), i = (e.className = "autocomplete-item", (e.textContent = a).match(/\(([^)]+)\)$/)); i && 1 < (i = i[1].split("-")).length && (e.textContent = `${a.replace(/\(.*?\)/, "").trim()} (${i[1].trim()})`), e.appendChild(t), r.appendChild(e), e.addEventListener("click", function () { o.value = a, r.innerHTML = ""; var e = n.match(/\(([^)]+)\)$/); let t = e ? e[1] : ""; t.includes("-") && (t = t.split("-")[1].trim()), s && (s.innerHTML = "", (e = document.createElement("option")).value = t, e.selected = !0, s.appendChild(e)), console.log("id", t), o.focus(), o.blur() }) }) } else s && (s.innerHTML = "") }), document.addEventListener("click", function (e) { r.contains(e.target) || e.target === o || (r.innerHTML = "") }) } function inicializarFlatpickr() { document.querySelectorAll(".flatpickr-calendar").forEach(e => e.remove()), document.querySelector("#fecha-rango") && "undefined" != typeof flatpickr ? flatpickr("#fecha-rango", { mode: "range", dateFormat: "Y-m-d", showMonths: window.innerWidth <= 768 ? 1 : 2, minDate: "today", locale: { firstDayOfWeek: 1, weekdays: { shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"], longhand: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"] }, months: { shorthand: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Оct", "Nov", "Dic"], longhand: ["Enero", "Febreo", "Мarzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] } }, onClose: function (e) { var t; 2 === e.length && (t = e[0].toISOString().split("T")[0], e = e[1].toISOString().split("T")[0], console.log("Fecha de inicio:", t), console.log("Fecha de fin:", e)) } }) : console.error("El input #fecha-rango no existe o Flatpickr no está cargado.") } function cargarAutocompletes() { "undefined" != typeof external_file_AirportsCities ? (document.querySelector("#origen") && autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities), document.querySelector("#destino") && autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities)) : console.error("external_file_AirportsCities no está definido.") } let translations = {}; async function loadTranslations(e = "es") { try { var t = await fetch("https://aviajarcolombia.com/widget3.0/data.json"); translations = await t.json(), setLanguage(e) } catch (e) { console.error("No se pudo cargar data.json", e) } } function applyTranslations(e = "es") { const n = translations[e] || translations.es; document.querySelectorAll("[data-i18n]").forEach(e => { var t = e.getAttribute("data-i18n").split(".").reduce((e, t) => e?.[t], n); t && (e.textContent = t) }), document.querySelectorAll("[data-i18n-placeholder]").forEach(e => { var t = e.getAttribute("data-i18n-placeholder").split(".").reduce((e, t) => e?.[t], n); t && e.setAttribute("placeholder", t) }) } function setLanguage(e = "es") { applyTranslations(e); e = translations[e] || translations.es; e.productos && (document.querySelector("#tab-vuelos .tab-text") && (document.querySelector("#tab-vuelos .tab-text").textContent = e.productos.vuelos), document.querySelector("#tab-hoteles .tab-text") && (document.querySelector("#tab-hoteles .tab-text").textContent = e.productos.hoteles), document.querySelector("#tab-paquetes .tab-text")) && (document.querySelector("#tab-paquetes .tab-text").textContent = e.productos.paquetes) } function crearPopupPaquetes() {
+    if (document.getElementById("widget-container")) {
+        const o = document.querySelector("#num-hab"); var e = document.querySelector("#popup-num-hab"); const r = document.querySelector("#hab-popup"), m = document.querySelector("#hab-container"); if (o && e && r && m) {
+            o.parentElement.style.position = "relative", o.addEventListener("click", function () { r.style.display = "flex", r.classList.toggle("active") }), document.querySelector("#accept-popup")?.addEventListener("click", function () { let n = 0, a = 0; document.querySelectorAll("#hab-container > div").forEach(e => { var t = parseInt(e.querySelector(".input-adultos input")?.value) || 0, e = parseInt(e.querySelector(".input-ninos input")?.value) || 0; n += t, a += e }), document.querySelector("#num-per").value = n + a, r.classList.remove("active"), r.style.display = "none" }); document.querySelector("#num-per")?.addEventListener("click", function () { r.style.display = "flex" }), i(1), o.addEventListener("input", function () { i(parseInt(o.value) || 1) }); var t = document.createElement("div"), n = (t.className = "numeric-input", document.createElement("button")); n.className = "decrement", n.textContent = "-"; const s = document.createElement("input"); s.type = "number", s.id = "numeric-value", s.value = "1", s.min = "1", s.max = "4", s.readOnly = !0; var a = document.createElement("button"); function i(t) {
+                m.innerHTML = ""; const o = document.getElementById("widget-net")?.getAttribute("language")?.substring(0, 2) || "es"; for (let e = 1; e <= t; e++) {
+                    var n = document.createElement("div"), a = (n.innerHTML = `
+            <div class="habitacion-header">
+                <h4><span data-i18n="formulario.habitacion"></span> ${e}</h4>
+                <span class="icon"><i class="fas fa-bed"></i></span>
+            </div>
+            <div class="habitacion">
+                <div class="adultos">
+                    <div class="label-adultos">
+                        <label for="num-adultos"><span data-i18n="formulario.adultos"></span>:</label>
+                    </div>
+                    <div class="input-adultos"></div>
+                </div>
+                <div class="ninos">
+                    <div class="label-ninos">
+                        <label for="num-ninos"><span data-i18n="formulario.ninos"></span>:</label>
+                    </div>
+                    <div class="input-ninos"></div>
+                </div>
+                <div id="edades-ninos"></div>
+            </div>
+        `, m.appendChild(n), applyTranslations(o), n.querySelector(".input-adultos")), i = (a.innerHTML = "", n.querySelector(".input-ninos")), r = (i.innerHTML = "", document.createElement("div")), s = (r.className = "numeric-input", document.createElement("button")); s.className = "decrement", s.textContent = "-"; const d = document.createElement("input"); d.type = "number", d.id = "numeric-value-adultos", d.value = "2", d.min = "1", d.max = "7", d.readOnly = !0; var l = document.createElement("button"), a = (l.className = "increment", l.textContent = "+", r.appendChild(s), r.appendChild(d), r.appendChild(l), a.appendChild(r), document.querySelector("#numeric-value-adultos").addEventListener("input", function () { var e = parseInt(this.value) || 1; 7 < e && (this.value = 7), e < parseInt(this.min) && (this.value = this.min) }), document.createElement("div")), r = (a.className = "numeric-input", document.createElement("button")); r.className = "decrement", r.textContent = "-"; const u = document.createElement("input"); u.type = "number", u.id = "numeric-value-ninos", u.value = "0", u.min = "0", u.max = "4", u.readOnly = !0, u.addEventListener("input", function () { var e = parseInt(this.value) || 0; 4 < e && (this.value = 4), e < parseInt(this.min) && (this.value = this.min) }); var c = document.createElement("button"); c.className = "increment", c.textContent = "+", a.appendChild(r), a.appendChild(u), a.appendChild(c), i.appendChild(a), document.querySelector("#numeric-value-ninos").addEventListener("input", function () { var e = parseInt(this.value) || 1; 4 < e && (this.value = 4), e < parseInt(this.min) && (this.value = this.min) }); const p = n.querySelector("#edades-ninos"); u.addEventListener("input", function () { var t = parseInt(u.value) || 0; p.innerHTML = ""; for (let e = 1; e <= t; e++) { var n = document.createElement("label"), a = (n.innerHTML = `<span data-i18n="formulario.edadNino"></span> ${e}:`, p.appendChild(n), applyTranslations(o), document.createElement("select")); a.className = "edad-nino", a.name = "edad-nino-" + e; for (let e = 1; e <= 12; e++) { var i = document.createElement("option"); i.value = e, i.textContent = e, a.appendChild(i) } p.appendChild(a) } }), s.addEventListener("click", function () { var e = parseInt(d.value) || 1; e > parseInt(d.min) && (d.value = e - 1) }), l.addEventListener("click", function () { var e = parseInt(d.value) || 1; e < parseInt(d.max) && (d.value = e + 1) }), r.addEventListener("click", function () { var e = parseInt(u.value) || 0; e > parseInt(u.min) && (u.value = e - 1, u.dispatchEvent(new Event("input"))) }), c.addEventListener("click", function () { var e = parseInt(u.value) || 0; e < parseInt(u.max) && (u.value = e + 1, u.dispatchEvent(new Event("input"))) })
+                }
+            } a.className = "increment", a.textContent = "+", t.appendChild(n), t.appendChild(s), t.appendChild(a), e.replaceWith(t), document.querySelector("#numeric-value").addEventListener("input", function () { var e = parseInt(this.value) || 1; 4 < e && (this.value = 4), e <= parseInt(this.min) && (this.value = this.min) }), n.addEventListener("click", function () { var e = parseInt(s.value) || 1; e > parseInt(s.min) && (s.value = e - 1, document.querySelector("#num-hab").value = s.value, i(s.value)) }), a.addEventListener("click", function () { var e = parseInt(s.value) || 1; e < parseInt(s.max) && (s.value = e + 1, document.querySelector("#num-hab").value = s.value, i(s.value)) }), s.addEventListener("input", function () { var e = parseInt(s.value) || 1; e < parseInt(s.min) ? s.value = s.min : e > parseInt(s.max) && (s.value = s.max), document.querySelector("#num-hab").value = s.value, i(s.value) })
+        }
+    }
+} function generateURLPaquetes() { var e = document.getElementById("widget-container"), t = document.getElementById("widget-net"); if (e) { var e = t.getAttribute("culture") || "es-CO", n = t.getAttribute("host") || "https://reservas.aviajarcolombia.com/", r = t.getAttribute("productType") || "Package", s = t.getAttribute("userService") || "aviajar", t = t.getAttribute("branchCode") || "003", l = document.querySelector("#origen-id")?.value || "", c = document.querySelector("#destino-id")?.value || "", d = document.querySelector("#fecha-rango")?.value.split(" al ") || [], u = d[0] || "", d = d[1] || u, p = document.querySelector("#num-hab")?.value || "1", m = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false", v = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false", f = document.querySelector("#codigo-descuento")?.value || ""; let a = [], i = 0, o = 0; document.querySelectorAll("#hab-container > div").forEach(e => { var t = parseInt(e.querySelector("#numeric-value-adultos")?.value || "1"), n = parseInt(e.querySelector("#numeric-value-ninos")?.value || "0"), e = Array.from(e.querySelectorAll(".edad-nino")).map(e => e.value || "0").join("-"); i += t, o += n, 0 < n ? a.push(t + "-" + e) : a.push("" + t) }); var y = a.join("!"); return l && c && u && d ? (n = "" + n + e + `/${r}/${l}/${c}/${u}/${d}/${i}/${p}/0/${u}/${d}/${y}/${m}/${v}/NA/Economy/NA/${s}-show-${t}---------` + f, console.log("Generated URL:", n), n) : (console.error("Faltan parámetros obligatorios para generar la URL."), null) } } function botonBusquedaPaquetes() { document.getElementById("widget-container") && (document.querySelector("#buscar-btn-paquetes").addEventListener("click", function (e) { e.preventDefault(); let t = !0; var e = document.querySelector("#origen"), n = document.querySelector("#destino"), a = document.querySelector("#fecha-rango"), i = document.querySelector("#origen-id"), o = document.querySelector("#destino-id"); if (7 < (parseInt(document.querySelector("#num-per")?.value) || 0)) { const l = document.querySelector("#modal-error"); l.style.display = "block", setTimeout(() => { document.addEventListener("click", function e(t) { document.querySelector(".modal-content").contains(t.target) || (l.style.display = "none", document.removeEventListener("click", e)) }) }, 100) } function r(e) { e.classList.add("input-error") } function s(e) { e.classList.remove("input-error") } i && i.value ? s(e) : (r(e), t = !1), o && o.value ? s(n) : (r(n), t = !1), a.value ? s(a) : (r(a), t = !1), t && t && (i = generateURLPaquetes(), window.location.href = i) }), document.querySelector("#origen").addEventListener("input", function () { this.classList.remove("input-error") }), document.querySelector("#destino").addEventListener("input", function () { this.classList.remove("input-error") }), document.querySelector("#fecha-rango").addEventListener("change", function () { this.classList.remove("input-error") }), document.querySelector("#fecha-rango").addEventListener("change", function () { document.querySelector("#fecha-rango").value.includes("to") && (document.querySelector("#fecha-rango").value = document.querySelector("#fecha-rango").value.replace("to", "al")) })) } function crearPopupVuelos() {
+    if (document.getElementById("widget-container")) {
+        const i = document.querySelector("#num-pasajeros"), o = (i && (i.setAttribute("readonly", "readonly"), i.setAttribute("tabindex", "-1"), i.setAttribute("inputmode", "none"), i.style.caretColor = "transparent"), document.querySelector("#pasajeros-popup")); var e, t, n = document.querySelector(".close-popup"), a = document.querySelector("#pasajeros-container"); i && ["keydown", "wheel", "paste", "drop"].forEach(e => i.addEventListener(e, e => e.preventDefault())), i && o && n && a && (i.addEventListener("click", function () { o.style.display = "flex" }), n.addEventListener("click", function () { o.style.display = "none" }), o.addEventListener("click", function (e) { e.target === o && (o.style.display = "none") }), document.querySelector("#accept-popup")?.addEventListener("click", function () { var e = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 0, t = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0, n = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0; i.value = Math.max(1, e + t + n), o.style.display = "none" }), (n = document.createElement("div")).className = "numeric-input-group", n.innerHTML = `
+        <label data-i18n="formulario.adultos"></label>
+        <span class="info-text" data-i18n="formulario.infoAdultos"></span>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-adultos">-</button>
+            <input type="number" id="numeric-value-adultos" value="1" min="1" max="10">
+            <button class="increment" id="increment-adultos">+</button>
+        </div>
+    `, (e = document.createElement("div")).className = "numeric-input-group", e.innerHTML = `
+        <label data-i18n="formulario.ninos"></label>
+        <span class="info-text" data-i18n="formulario.infoNinos"></span>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-ninos">-</button>
+            <input type="number" id="numeric-value-ninos" value="0" min="0" max="5">
+            <button class="increment" id="increment-ninos">+</button>
+        </div>
+    `, (t = document.createElement("div")).className = "numeric-input-group", t.innerHTML = `
+        <label data-i18n="formulario.infantes"></label>
+        <span class="info-text" data-i18n="formulario.infoInfantes"></span>
+        <div class="numeric-input">
+            <button class="decrement" id="decrement-infantes">-</button>
+            <input type="number" id="numeric-value-infantes" value="0" min="0" max="2">
+            <button class="increment" id="increment-infantes">+</button>
+        </div>
+    `, a.innerHTML = "", a.appendChild(n), a.appendChild(e), a.appendChild(t), applyTranslations(document.getElementById("widget-net")?.getAttribute("language")?.substring(0, 2) || "es"), ["#numeric-value-adultos", "#numeric-value-ninos", "#numeric-value-infantes"].forEach(e => { const a = document.querySelector(e); a && (a.setAttribute("readonly", "readonly"), a.setAttribute("tabindex", "-1"), a.setAttribute("inputmode", "none"), ["keydown", "wheel", "paste", "drop"].forEach(e => a.addEventListener(e, e => e.preventDefault())), a.addEventListener("input", function () { var e = parseInt(a.min) || 0, t = parseInt(a.max) || 99, n = parseInt(a.value) || e; n < e && (a.value = e), t < n && (a.value = t) })) }), document.querySelector("#decrement-adultos").addEventListener("click", function () { var e = document.querySelector("#numeric-value-adultos"), t = parseInt(e.value) || 1; t > parseInt(e.min) && (e.value = t - 1) }), document.querySelector("#increment-adultos").addEventListener("click", function () { var e = document.querySelector("#numeric-value-adultos"), t = parseInt(e.value) || 1; t < parseInt(e.max) && (e.value = t + 1) }), document.querySelector("#decrement-ninos").addEventListener("click", function () { var e = document.querySelector("#numeric-value-ninos"), t = parseInt(e.value) || 0; t > parseInt(e.min) && (e.value = t - 1) }), document.querySelector("#increment-ninos").addEventListener("click", function () { var e = document.querySelector("#numeric-value-ninos"), t = parseInt(e.value) || 0; t < parseInt(e.max) && (e.value = t + 1) }), document.querySelector("#decrement-infantes").addEventListener("click", function () { var e = document.querySelector("#numeric-value-infantes"), t = parseInt(e.value) || 0; t > parseInt(e.min) && (e.value = t - 1) }), document.querySelector("#increment-infantes").addEventListener("click", function () { var e = document.querySelector("#numeric-value-infantes"), t = parseInt(e.value) || 0; t < parseInt(e.max) && (e.value = t + 1) }))
+    }
+} function generateURLVuelos() { var e = document.getElementById("widget-net"), t = e.getAttribute("culture") || "es-CO", n = e.getAttribute("host") || "https://reservas.aviajarcolombia.com/", a = e.getAttribute("productType") || "Air", i = e.getAttribute("userService") || "aviajar", e = e.getAttribute("branchCode") || "003", o = document.querySelector("#radio-multidestino")?.checked, r = parseInt(document.querySelector("#numeric-value-adultos")?.value) || 1, s = parseInt(document.querySelector("#numeric-value-ninos")?.value) || 0, l = parseInt(document.querySelector("#numeric-value-infantes")?.value) || 0, c = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false", d = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false", u = document.querySelector("#codigo-descuento")?.value || ""; if (o) { o = Array.from(document.querySelectorAll(".tramo")); if (o.length < 2) return alert("Debes agregar al menos dos tramos para multidestino."), null; var p = [], m = [], v = []; for (const L of o) { var f = L.querySelector("select.input-tramo-origen-id"), y = L.querySelector("select.input-tramo-destino-id"), h = L.querySelector(".input-tramo-fecha"), f = f?.value || "", y = y?.value || "", h = h?.value.trim(); if (!f || !y || !h) return alert("Completa todos los campos de cada tramo."), null; p.push(f), m.push(y), v.push(h) } const q = "" + n + t + `/${a}/MD/${p.join(",")}/${m.join(",")}/${v.join(",")}/${r}/${s}/${l}/${c}/${d}/NA/NA/NA/${i}-show-${e}---------${u}#air`; return console.log("Generated URL (MD):", q), q } var o = document.querySelector("#radio-soloida")?.checked ? "OW" : "RT", g = document.querySelector("#origen-id")?.value || "", b = document.querySelector("#destino-id")?.value || "", S = document.querySelector("#fecha-rango")?.value.split(" to ") || [], E = S[0] || "", S = "RT" == o && S[1] || ""; if (console.log("cityFrom:", g), console.log("cityTo:", b), console.log("dateFrom:", E), console.log("dateTo:", S), !g || !b || !E || "RT" == o && !S) return console.error("Faltan parámetros obligatorios para generar la URL."), null; const q = "" + n + t + `/${a}/${o}/${g}/${b}/${E}/${S}/${r}/${s}/${l}/NA/NA/NA/NA/NA/${c}/${d}/${i}-show-${e}---------${u}#air`; return console.log("Generated URL:", q), q } function botonBusquedaVuelos() { var e; document.getElementById("widget-container") && (document.querySelector("#buscar-btn-vuelos").addEventListener("click", function (e) { e.preventDefault(); let t = !0; var e = document.querySelector("#origen"), n = document.querySelector("#destino"), a = document.querySelector("#fecha-rango"), i = document.querySelector("#origen-id"), o = document.querySelector("#destino-id"); function r(e) { e && e.classList.add("input-error") } function s(e) { e && e.classList.remove("input-error") } document.querySelector("#radio-multidestino")?.checked || (i && i.value ? s(e) : (r(e), t = !1), o && o.value ? s(n) : (r(n), t = !1), a && a.value ? s(a) : (r(a), t = !1)), t && ((i = generateURLVuelos()) ? (console.log(i), window.location.href = i, document.querySelectorAll("#origen-id, #destino-id").forEach(e => { e.querySelector("option[selected]") || (e.innerHTML = "") }), e && (e.value = ""), n && (n.value = ""), a && (a.value = "")) : alert("Por favor completa todos los campos obligatorios.")) }), (e = document.querySelector("#origen")) && e.addEventListener("input", function () { this.classList.remove("input-error") }), (e = document.querySelector("#destino")) && e.addEventListener("input", function () { this.classList.remove("input-error") }), (e = document.querySelector("#fecha-rango")) && e.addEventListener("change", function () { this.classList.remove("input-error") }), setupFlatpickrEvents(), inicializarFlatpickrVuelos()) } function ajustarWidget() { var e, t, n = document.querySelector(".contenedor-widget"); n && (e = 1024 <= window.innerWidth, t = n.offsetWidth < 1e3, n.classList.toggle("widget-ajustado", e && t)) } function inicializarFlatpickrVuelos() { const n = document.querySelector("#fecha-rango"); if (n && "undefined" != typeof flatpickr) { n._flatpickr && n._flatpickr.destroy(); var e = document.getElementById("widget-net")?.getAttribute("language")?.substring(0, 2) || "es", e = (translations[e] || translations.es).flatpickr || {}; const a = document.querySelector("#radio-soloida")?.checked; var t = window.innerWidth <= 768; flatpickr("#fecha-rango", { mode: a ? "single" : "range", dateFormat: "Y-m-d", minDate: "today", showMonths: t ? 1 : 2, disableMobile: !0, locale: { firstDayOfWeek: 1, weekdays: { shorthand: e.weekdays?.shorthand || ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"], longhand: e.weekdays?.longhand || ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"] }, months: { shorthand: e.months?.shorthand || ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"], longhand: e.months?.longhand || ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"] } }, onClose: function (e) { var t; 0 < e.length && (t = e[0].toISOString().split("T")[0], a ? n.value = t : 2 === e.length && (e = e[1].toISOString().split("T")[0], n.value = t + " to " + e)) } }), n.setAttribute("type", "text"), n.setAttribute("placeholder", a ? e.placeholderIda || "Selecciona la fecha de ida" : e.placeholderRango || "Selecciona un rango de fechas") } } function setupFlatpickrEvents() { var e = document.querySelector("#radio-soloida"), t = document.querySelector("#radio-idayregreso"); e && e.addEventListener("change", inicializarFlatpickrVuelos), t && t.addEventListener("change", inicializarFlatpickrVuelos) } function autocompleteHotelesCiudadesAPI(e, t, n, a, i, o) {
+    const r = document.querySelector(e), s = document.querySelector(t), l = document.querySelector(n); r.addEventListener("input", function () {
+        var e = r.value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); s.innerHTML = "", e.length < 3 ? l && (l.innerHTML = "") : (e = a + "?searchCriteria=" + encodeURIComponent(e) + "&userServices=" + i + "&lang=" + o, fetch(e).then(e => e.json()).then(e => {
+            var t = (e.Hotels || e.hotels || []).map(e => ({ name: e.hotel_name, subtitle: e.address || "", type: "hotel", id: e.Id })); (e.Locations || e.locations || []).map(e => ({ name: e.Name, subtitle: e.NameFull || "", type: "ciudad", id: e.Id })).concat(t).forEach(n => {
+                var e = document.createElement("div"); e.className = "autocomplete-item-hoteles", e.innerHTML = `
+                        <div class="title-autocomplete-item">${n.name}</div>
+                        ${n.subtitle ? `<div class="subtitle-autocomplete-item">${n.subtitle}</div>` : ""}
+                    `, e.addEventListener("click", function () { r.value = n.name + (n.subtitle ? ", " + n.subtitle : ""), s.innerHTML = ""; var e, t = ("hotel" === n.type ? "h" : "l") + n.id; l && (l.innerHTML = "", (e = document.createElement("option")).value = t, e.selected = !0, l.appendChild(e), l.setAttribute("data-tipo", n.type)), console.log("Seleccionado:", r.value, "Código:", t, "Tipo:", n.type), console.log(n.name + (n.subtitle ? ", " + n.subtitle : ""), "ID:", n.id) }), s.appendChild(e)
+            })
+        }).catch(e => { console.error("Error en el autocomplete de hoteles/ciudades:", e) }))
+    }), document.addEventListener("click", function (e) { s && !s.contains(e.target) && e.target !== r && (s.innerHTML = "") })
+} function generateURLHoteles() { var e = document.getElementById("widget-net"), t = e.getAttribute("culture") || "es-CO", n = e.getAttribute("host") || "https://reservas.aviajarcolombia.com/", a = e.getAttribute("productType") || "netsuite-hotels", i = e.getAttribute("userService") || "aviajar", e = e.getAttribute("branchCode") || "003", o = document.querySelector("#destino-id")?.value || "", r = document.querySelector("#fecha-rango")?.value || ""; let s = "", l = ""; r.includes(" to ") ? [s, l] = r.split(" to ").map(e => e.trim()) : r.includes(" al ") ? [s, l] = r.split(" al ").map(e => e.trim()) : r && (s = r.trim(), l = r.trim()); var r = document.querySelector("#codigo-descuento")?.value || "", c = document.querySelectorAll("#hab-container > div"); let d = []; c.forEach(e => { let t = "" + (parseInt(e.querySelector(".input-adultos input")?.value) || 0); 0 < (parseInt(e.querySelector(".input-ninos input")?.value) || 0) && (e = Array.from(e.querySelectorAll(".edad-nino")).map(e => e.value).join("-"), t += "-" + e), d.push(t) }); c = d.join("!"); return o && s && l && c ? "" + n + a + `/results/${t}/${i}/${o}/${s}/${l}/${c}?branchCode=` + e + (r ? "&promoCode=" + r : "") : (console.error("Faltan parámetros obligatorios para generar la URL de hoteles."), null) } function botonBusquedaHoteles() { var e; document.getElementById("widget-container") && (e = document.getElementById("buscar-btn-hoteles")) && (e.addEventListener("click", function (e) { e.preventDefault(); let t = !0; var e = document.querySelector("#destino"), n = document.querySelector("#fecha-rango"), a = document.querySelector("#destino-id"), i = document.querySelector("#num-hab"), o = document.querySelector("#num-per"); function r(e) { e && e.classList.add("input-error") } function s(e) { e && e.classList.remove("input-error") } a && a.value ? s(e) : (r(e), t = !1), n && n.value ? s(n) : (r(n), t = !1); var l = parseInt(i?.value) || 1, c = parseInt(o?.value) || 2; if (l < 1 || c < 1 || 7 < c) { r(i), r(o), t = !1; const d = document.querySelector("#modal-error"); d && (d.style.display = "block", setTimeout(() => { document.addEventListener("click", function e(t) { document.querySelector(".modal-content").contains(t.target) || (d.style.display = "none", document.removeEventListener("click", e)) }) }, 100)) } else s(i), s(o); t && ((l = generateURLHoteles()) ? (window.location.href = l, console.log(l), a && !a.querySelector("option[selected]") && (a.innerHTML = ""), e && (e.value = ""), n && (n.value = "")) : alert("Por favor completa todos los campos obligatorios.")) }), (e = document.querySelector("#destino")) && e.addEventListener("input", function () { this.classList.remove("input-error") }), (e = document.querySelector("#fecha-rango")) && e.addEventListener("change", function () { this.classList.remove("input-error") }), (e = document.querySelector("#num-hab")) && e.addEventListener("change", function () { this.classList.remove("input-error") }), e = document.querySelector("#num-per")) && e.addEventListener("change", function () { this.classList.remove("input-error") }) } function crearPopupHoteles() {
+    if (document.getElementById("widget-container")) {
+        const o = document.querySelector("#num-hab"); var e = document.querySelector("#popup-num-hab"); const r = document.querySelector("#hab-popup"), p = document.querySelector("#hab-container"); if (o && e && r && p) {
+            o.parentElement.style.position = "relative", o.addEventListener("click", function () { r.style.display = "flex", r.classList.toggle("active") }), document.querySelector("#accept-popup")?.addEventListener("click", function () { let n = 0, a = 0; document.querySelectorAll("#hab-container > div").forEach(e => { var t = parseInt(e.querySelector(".input-adultos input")?.value) || 0, e = parseInt(e.querySelector(".input-ninos input")?.value) || 0; n += t, a += e }), document.querySelector("#num-per").value = n + a, r.classList.remove("active"), r.style.display = "none" }); document.querySelector("#num-per")?.addEventListener("click", function () { r.style.display = "flex" }), i(1), o.addEventListener("input", function () { i(parseInt(o.value) || 1) }); var t = document.createElement("div"), n = (t.className = "numeric-input", document.createElement("button")); n.className = "decrement", n.textContent = "-"; const s = document.createElement("input"); s.type = "number", s.id = "numeric-value", s.value = "1", s.min = "1", s.max = "4", s.readOnly = !0; var a = document.createElement("button"); function i(t) {
+                p.innerHTML = ""; for (let e = 1; e <= t; e++) {
+                    var n = document.createElement("div"), a = (n.innerHTML = `
+                <div class="habitacion-header">
+                    <h4>Habitación ${e}</h4>
+                    <span class="icon"><i class="fas fa-bed"></i></span>
+                </div>
+                <div class="habitacion">
+                    <div class="adultos">
+                        <div class="label-adultos">
+                            <label for="num-adultos">Adultos:</label>
+                        </div>
+                        <div class="input-adultos"></div>
+                    </div>
+                    <div class="ninos">
+                        <div class="label-ninos">
+                            <label for="num-ninos">Niños:</label>
+                        </div>
+                        <div class="input-ninos"></div>
+                    </div>
+                    <div id="edades-ninos"></div>
+                </div>
+            `, p.appendChild(n), n.querySelector(".input-adultos")), i = (a.innerHTML = "", n.querySelector(".input-ninos")), o = (i.innerHTML = "", document.createElement("div")), r = (o.className = "numeric-input", document.createElement("button")); r.className = "decrement", r.textContent = "-"; const c = document.createElement("input"); c.type = "number", c.value = "2", c.min = "1", c.max = "7", c.readOnly = !0; var s = document.createElement("button"), a = (s.className = "increment", s.textContent = "+", o.appendChild(r), o.appendChild(c), o.appendChild(s), a.appendChild(o), document.createElement("div")), o = (a.className = "numeric-input", document.createElement("button")); o.className = "decrement", o.textContent = "-"; const d = document.createElement("input"); d.type = "number", d.value = "0", d.min = "0", d.max = "4", d.readOnly = !0; var l = document.createElement("button"); l.className = "increment", l.textContent = "+", a.appendChild(o), a.appendChild(d), a.appendChild(l), i.appendChild(a); const u = n.querySelector("#edades-ninos"); d.addEventListener("input", function () { var t = parseInt(d.value) || 0; u.innerHTML = ""; for (let e = 1; e <= t; e++) { var n = document.createElement("label"), a = (n.textContent = `Edad del niño ${e}:`, document.createElement("select")); a.className = "edad-nino", a.name = "edad-nino-" + e; for (let e = 1; e <= 12; e++) { var i = document.createElement("option"); i.value = e, i.textContent = e, a.appendChild(i) } u.appendChild(n), u.appendChild(a) } }), r.addEventListener("click", function () { var e = parseInt(c.value) || 1; e > parseInt(c.min) && (c.value = e - 1) }), s.addEventListener("click", function () { var e = parseInt(c.value) || 1; e < parseInt(c.max) && (c.value = e + 1) }), o.addEventListener("click", function () { var e = parseInt(d.value) || 0; e > parseInt(d.min) && (d.value = e - 1, d.dispatchEvent(new Event("input"))) }), l.addEventListener("click", function () { var e = parseInt(d.value) || 0; e < parseInt(d.max) && (d.value = e + 1, d.dispatchEvent(new Event("input"))) })
+                }
+            } a.className = "increment", a.textContent = "+", t.appendChild(n), t.appendChild(s), t.appendChild(a), e.replaceWith(t), s.addEventListener("input", function () { var e = parseInt(s.value) || 1; e < parseInt(s.min) ? s.value = s.min : e > parseInt(s.max) && (s.value = s.max), document.querySelector("#num-hab").value = s.value, i(s.value) }), n.addEventListener("click", function () { var e = parseInt(s.value) || 1; e > parseInt(s.min) && (s.value = e - 1, document.querySelector("#num-hab").value = s.value, i(s.value)) }), a.addEventListener("click", function () { var e = parseInt(s.value) || 1; e < parseInt(s.max) && (s.value = e + 1, document.querySelector("#num-hab").value = s.value, i(s.value)) })
+        }
+    }
+} function autocompleteSearchAutosV2(e, t, a, i, n) { const o = document.querySelector(e), r = document.querySelector(t), s = n ? o.parentElement.querySelector(n) : document.querySelector("#destino-id"); function l(e) { return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() } o.addEventListener("input", function () { const t = l(o.value.trim()); var e, n; r.innerHTML = "", t.length < 3 ? s && (s.innerHTML = "") : (e = a.filter(e => !e.toLowerCase().includes("punto de partida")).filter(e => l(e).includes(t)), n = (i || []).filter(e => l(e.Desc).includes(t)), e.forEach(n => { var e = n.split(" | "); const a = 1 < e.length ? e[1] : n; var e = !n.includes("-") ? "fas fa-map-marker-alt" : "fas fa-plane", t = document.createElement("i"), e = (t.className = e, t.style.padding = "5px", document.createElement("div")); e.className = "autocomplete-item", e.textContent = a, e.appendChild(t), e.addEventListener("click", function () { o.value = a, r.innerHTML = ""; var e = n.match(/\(([^)]+)\)$/); let t = e ? e[1] : ""; t.includes("-") && (t = t.split("-")[1].trim()), s && (s.innerHTML = "", (e = document.createElement("option")).value = t, e.selected = !0, s.appendChild(e)), o.focus(), o.blur() }), r.appendChild(e) }), n.forEach(n => { const a = n.Desc + ` (${n.City})`; var e = document.createElement("i"), t = (e.className = "fas fa-map-pin", e.style.padding = "5px", document.createElement("div")); t.className = "autocomplete-item", t.textContent = a, t.appendChild(e), t.addEventListener("click", function () { o.value = a, r.innerHTML = ""; var e, t = n.Code; s && (s.innerHTML = "", (e = document.createElement("option")).value = t, e.selected = !0, s.appendChild(e)), console.log("Zona seleccionada:", t), o.focus(), o.blur() }), r.appendChild(t) })) }), document.addEventListener("click", function (e) { r.contains(e.target) || e.target === o || (r.innerHTML = "") }) } function inicializarCheckboxOtroDestino() {
+    const t = document.getElementById("devolver-otro-destino"), n = document.querySelector(".lugar-retiro .retiro"); t && n && t.addEventListener("change", function () {
+        var e; t.checked ? document.getElementById("input-otro-destino") || ((e = document.createElement("div")).className = "input-group", e.id = "input-otro-destino", e.style.marginTop = "10px", e.innerHTML = `
+                <span class="label-input">LUGAR DE DEVOLUCIÓN</span>
+                <input id="destino-otro" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona" value="">
+                <div id="autocomplete-list-destino-otro" class="autocomplete-list"></div>
+                <select id="destino-otro-id" style="display: none;"></select>
+                <span class="icon"><i class="fas fa-plane-departure"></i></span>
+            `, n.appendChild(e), autocompleteSearchAutosV2("#destino-otro", "#autocomplete-list-destino-otro", window.external_file_AirportsCities, window.external_file_Neighborhood, "#destino-otro-id")) : (e = document.getElementById("input-otro-destino")) && e.remove()
+    })
+} function generarURLAutos() { var e = document.getElementById("widget-net"), t = e.getAttribute("culture") || "es-CO", n = e.getAttribute("host") || "https://reservas.aviajarcolombia.com/", a = e.getAttribute("userService") || "aviajar", e = e.getAttribute("branchCode") || "003", i = document.querySelector("#destino-id")?.value || "", o = document.querySelector("#destino-otro-id")?.value || i, r = document.querySelector("#fecha-rango")?.value || ""; let s = "", l = ""; r.includes(" to ") ? [s, l] = r.split(" to ").map(e => e.trim()) : r.includes(" al ") ? [s, l] = r.split(" al ").map(e => e.trim()) : r && (s = r.trim(), l = r.trim()); var c, d, r = document.querySelector("#time-retiro")?.value.replace(":", "") || "1000", u = document.querySelector("#time-entrega")?.value.replace(":", "") || "1000"; return i && s && l && r && u ? (c = p(i), d = p(o), n = "" + n + t + `/Car/${c}/${i}/${s}/${r}/${d}/${o}/${l}/${u}/NA/NA/NA/${a}-show-${e}---------`, console.log("Generated URL Autos:", n), n) : null; function p(e) { return isNaN(Number(e)) ? "City" : "Neighborhood" } } function botonBusquedaAutos() { var e; document.getElementById("widget-container") && (e = document.getElementById("buscar-btn-cars")) && (e.addEventListener("click", function (e) { e.preventDefault(); let t = !0; var e = document.querySelector("#destino"), n = document.querySelector("#fecha-rango"), a = document.querySelector("#destino-id"), i = document.querySelector("#time-retiro"), o = document.querySelector("#time-entrega"); function r(e) { e && e.classList.add("input-error") } function s(e) { e && e.classList.remove("input-error") } a && a.value ? s(e) : (r(e), t = !1), n && n.value ? s(n) : (r(n), t = !1), i && i.value ? s(i) : (r(i), t = !1), o && o.value ? s(o) : (r(o), t = !1), t && ((a = generarURLAutos()) ? (window.location.href = a, e && (e.value = ""), n && (n.value = "")) : alert("Por favor completa todos los campos obligatorios.")) }), (e = document.querySelector("#destino")) && e.addEventListener("input", function () { this.classList.remove("input-error") }), (e = document.querySelector("#fecha-rango")) && e.addEventListener("change", function () { this.classList.remove("input-error") }), (e = document.querySelector("#time-retiro")) && e.addEventListener("change", function () { this.classList.remove("input-error") }), e = document.querySelector("#time-entrega")) && e.addEventListener("change", function () { this.classList.remove("input-error") }) } function generarURLTours() { var e = document.getElementById("widget-net"), t = e.getAttribute("culture") || "es-CO", n = e.getAttribute("host") || "https://reservas.aviajarcolombia.com/", a = e.getAttribute("userService") || "aviajar", e = e.getAttribute("branchCode") || "003", i = document.querySelector("#destino-id")?.value || "", o = document.querySelector("#fecha-rango")?.value || ""; let r = "", s = ""; o.includes(" to ") ? [r, s] = o.split(" to ").map(e => e.trim()) : o.includes(" al ") ? [r, s] = o.split(" al ").map(e => e.trim()) : o && (r = o.trim(), s = o.trim()); o = document.querySelector("#codigo-descuento")?.value || ""; return i && r && s ? (n = "" + n + t + `/Extras/${i}/NA/${r}/${s}/${a}-show-${e}---------` + o, console.log("Generated URL Tours:", n), n) : null } function botonBusquedaTours() { var e; document.getElementById("widget-container") && (e = document.getElementById("buscar-btn-tours")) && (e.addEventListener("click", function (e) { e.preventDefault(); let t = !0; var e = document.querySelector("#destino"), n = document.querySelector("#fecha-rango"), a = document.querySelector("#destino-id"); function i(e) { e && e.classList.add("input-error") } function o(e) { e && e.classList.remove("input-error") } a && a.value ? o(e) : (i(e), t = !1), n && n.value ? o(n) : (i(n), t = !1), t && ((a = generarURLTours()) ? (window.location.href = a, e && (e.value = ""), n && (n.value = "")) : alert("Por favor completa todos los campos obligatorios.")) }), (e = document.querySelector("#destino")) && e.addEventListener("input", function () { this.classList.remove("input-error") }), e = document.querySelector("#fecha-rango")) && e.addEventListener("change", function () { this.classList.remove("input-error") }) } function autocompleteSearchCiudadesTours() { autocompleteSearch("#destino", "#autocomplete-list-destino", external_file_AirportsCities, "#destino-id", !0) } document.addEventListener("DOMContentLoaded", function () { loadTranslations(document.getElementById("widget-net")?.getAttribute("language")?.substring(0, 2) || "es") });
