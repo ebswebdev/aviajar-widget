@@ -31,7 +31,14 @@
       "edadNino": "Edad del niño",
       "infoAdultos": "12 o más años",
       "infoNinos": "2 a 11 años",
-      "infoInfantes": "0 a 23 meses"
+      "infoInfantes": "0 a 23 meses",
+      "lugarRetiro": "Lugar de retiro",
+      "lugarRetiroPlaceholder": "(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona",
+      "lugarDevolucion": "Lugar de devolución",
+      "lugarDevolucionPlaceholder": "(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona",
+      "retiro": "Retiro",
+      "entrega": "Entrega",
+      "devolverOtroDestino": "Devolver en otro destino"
     },
     "vuelos": {
       "idaYRegreso": "Ida y regreso",
@@ -41,7 +48,7 @@
       "pasajerosYClase": "Pasajeros y clase",
       "numeroPasajeros": "Número de Pasajeros"
     },
-        "flatpickr": {
+    "flatpickr": {
       "placeholderIda": "Selecciona la fecha de ida",
       "placeholderRango": "Selecciona un rango de fechas",
       "weekdays": {
@@ -86,7 +93,14 @@
       "edadNino": "Child's age",
       "infoAdultos": "12 years or older",
       "infoNinos": "2 to 11 years",
-      "infoInfantes": "0 to 23 months"
+      "infoInfantes": "0 to 23 months",
+      "lugarRetiro": "Pick-up location",
+      "lugarRetiroPlaceholder": "(min. 3 letters) Enter a city, airport or area",
+      "lugarDevolucion": "Drop-off location",
+      "lugarDevolucionPlaceholder": "(min. 3 letters) Enter a city, airport or area",
+      "retiro": "Pick-up",
+      "entrega": "Drop-off",
+      "devolverOtroDestino": "Return in another destination"
     },
     "vuelos": {
       "idaYRegreso": "Round trip",
@@ -96,7 +110,7 @@
       "pasajerosYClase": "Passengers and class",
       "numeroPasajeros": "Number of Passengers"
     },
-        "flatpickr": {
+    "flatpickr": {
       "placeholderIda": "Select departure date",
       "placeholderRango": "Select a date range",
       "weekdays": {
@@ -106,6 +120,68 @@
       "months": {
         "shorthand": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         "longhand": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      }
+    }
+  },
+  "pt": {
+    "productos": {
+      "vuelos": "Voos",
+      "hoteles": "Hotéis",
+      "paquetes": "Pacotes",
+      "autos": "Carros",
+      "tours": "Passeios"
+    },
+    "formulario": {
+      "origen": "Origem",
+      "origenPlaceholder": "(mín. 3 letras) De onde você viaja",
+      "destino": "Destino",
+      "destinoPlaceholder": "(mín. 3 letras) Para onde você viaja",
+      "fechas": "Datas",
+      "fechasPlaceholder": "Selecione as datas da viagem",
+      "habitaciones": "Quartos",
+      "personas": "Pessoas",
+      "modalMaxPasajeros": "O número máximo de passageiros permitidos é 7.",
+      "cuantasHabitaciones": "Quantos quartos?",
+      "aceptar": "Aceitar",
+      "buscar": "Buscar",
+      "soloVuelosEquipaje": "Apenas voos com bagagem",
+      "soloVuelosDirecto": "Apenas voos diretos",
+      "codigoDescuento": "Código de desconto",
+      "codigoDescuentoPlaceholder": "Digite seu código de desconto",
+      "adultos": "Adultos",
+      "ninos": "Crianças",
+      "infantes": "Bebês",
+      "habitacion": "Quarto",
+      "edadNino": "Idade da criança",
+      "infoAdultos": "12 anos ou mais",
+      "infoNinos": "2 a 11 anos",
+      "infoInfantes": "0 a 23 meses",
+      "lugarRetiro": "Local de retirada",
+      "lugarRetiroPlaceholder": "(mín. 3 letras) Insira uma cidade, aeroporto ou zona",
+      "lugarDevolucion": "Local de devolução",
+      "lugarDevolucionPlaceholder": "(mín. 3 letras) Insira uma cidade, aeroporto ou zona",
+      "retiro": "Retirada",
+      "entrega": "Devolução",
+      "devolverOtroDestino": "Devolver em outro destino"
+    },
+    "vuelos": {
+      "idaYRegreso": "Ida e volta",
+      "soloIda": "Só ida",
+      "multiDestino": "Multi destino",
+      "agregarTramo": "Adicionar trecho",
+      "pasajerosYClase": "Passageiros e classe",
+      "numeroPasajeros": "Número de passageiros"
+    },
+    "flatpickr": {
+      "placeholderIda": "Selecione a data de ida",
+      "placeholderRango": "Selecione um intervalo de datas",
+      "weekdays": {
+        "shorthand": ["Do", "Se", "Te", "Qa", "Qi", "Se", "Sa"],
+        "longhand": ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+      },
+      "months": {
+        "shorthand": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+        "longhand": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
       }
     }
   }
