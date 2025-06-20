@@ -456,8 +456,8 @@
                     <div class="lugar-retiro">
                         <div class="retiro">
                             <div class="input-group">
-                                <span class="label-input" data-i18n="formulario.destino"></span>
-                                <input id="destino" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.destinoPlaceholder" value="">
+                                <span class="label-input" data-i18n="formulario.lugarRetiro"></span>
+                                <input id="destino" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.lugarRetiroPlaceholder" value="">
                                 <div id="autocomplete-list-destino" class="autocomplete-list"></div>
                                 <select id="destino-id" style="display: none;"></select>
                                 <span class="icon"><i class="fas fa-plane-arrival"></i></span>
@@ -475,14 +475,14 @@
                     
                     <div class="time-cars">
                         <div class="input-group">
-                            <span class="label-input" data-i18n="formulario.origen"></span>
+                            <span class="label-input" data-i18n="formulario.retiro"></span>
                             <input id="time-retiro" type="text" placeholder="10:00" readonly>
                             <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                         </div>
                     </div>
                     <div class="time-cars">
                         <div class="input-group">
-                            <span class="label-input" data-i18n="formulario.destino"></span>
+                            <span class="label-input" data-i18n="formulario.entrega"></span>
                             <input id="time-entrega" type="text" placeholder="10:00" readonly>
                             <span class="icon icon-time"><i class="fas fa-clock"></i></span>
                         </div>
@@ -491,7 +491,7 @@
                     <div class="checkbox-tours" style="display: flex;">
                         <div class="input-group">
                             <input type="checkbox" id="devolver-otro-destino" style="margin-top: 10px;" />
-                            <label for="devolver-otro-destino" style="display: inline; margin-left: 6px;" data-i18n="formulario.soloVuelosDirecto">
+                            <label for="devolver-otro-destino" style="display: inline; margin-left: 6px;" data-i18n="formulario.devolverOtroDestino">
                                 Devolver en otro destino
                             </label>
                         </div>
@@ -1247,8 +1247,8 @@ let translations = {};
 
 async function loadTranslations(lang = "es") {
     try {
-        const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
-        // const res = await fetch("data.json");
+        // const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
+        const res = await fetch("data.json");
         translations = await res.json();
         setLanguage(lang);
     } catch (e) {
@@ -2855,8 +2855,8 @@ function inicializarCheckboxOtroDestino() {
             inputGroup.style.marginTop = '10px';
 
             inputGroup.innerHTML = `
-                <span class="label-input">LUGAR DE DEVOLUCIÓN</span>
-                <input id="destino-otro" type="text" class="autocomplete-input" placeholder="(mín. 3 letras) Ingresa una ciudad, aeropuerto o zona" value="">
+                <span class="label-input" data-i18n="formulario.lugarDevolucion"></span>
+                <input id="destino-otro" type="text" class="autocomplete-input" data-i18n-placeholder="formulario.lugarDevolucionPlaceholder" value="">
                 <div id="autocomplete-list-destino-otro" class="autocomplete-list"></div>
                 <select id="destino-otro-id" style="display: none;"></select>
                 <span class="icon"><i class="fas fa-plane-departure"></i></span>
@@ -2864,6 +2864,11 @@ function inicializarCheckboxOtroDestino() {
 
             // Inserta después del input original
             lugarRetiroDiv.appendChild(inputGroup);
+
+            // Aplica traducción al nuevo input-group
+            const cultureAttr = document.getElementById('widget-net')?.getAttribute('culture') || "es-CO";
+            const lang = cultureAttr.split('-')[0];
+            applyTranslations(lang);
 
             // Inicializa el autocomplete para el nuevo input
             autocompleteSearchAutosV2(
@@ -2879,7 +2884,7 @@ function inicializarCheckboxOtroDestino() {
             if (inputGroup) inputGroup.remove();
         }
     });
-}
+}  // Si se desmarca, elimina
 
 function generarURLAutos() {
     const widgetAviajar = document.getElementById('widget-net');
