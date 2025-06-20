@@ -13,11 +13,11 @@
         console.log(products);
 
         const tabsConfig = {
-            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/5.png', text: 'Paquetes' },
-            Air: { id: 'vuelos', icon: 'fa-plane', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/1.png', text: 'Vuelos' },
-            Hotel: { id: 'hoteles', icon: 'fa-h-square', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/2-1.png', text: 'Hoteles' },
-            Autos: { id: 'autos', icon: 'fa-car', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/3.png', text: 'Autos' },
-            Extras: { id: 'tours', icon: 'fa-ticket-alt', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/4.png', text: 'Tours' }
+            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/HOTEL.png', text: 'Paquetes' },
+            Air: { id: 'vuelos', icon: 'fa-plane', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/VUELOS.png', text: 'Vuelos' },
+            Hotel: { id: 'hoteles', icon: 'fa-h-square', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/HOTEL-1.png', text: 'Hoteles' },
+            Autos: { id: 'autos', icon: 'fa-car', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/AUTOS.png', text: 'Autos' },
+            Extras: { id: 'tours', icon: 'fa-ticket-alt', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/EXTRAS.png', text: 'Tours' }
         };
 
         // Crear las tabs dinámicamente según el atributo "products"
