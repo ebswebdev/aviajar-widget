@@ -13,14 +13,12 @@
         console.log(products);
 
         const tabsConfig = {
-            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', text: 'Paquetes' },
-            Air: { id: 'vuelos', icon: 'fa-plane', text: 'Vuelos' },
-            Hotel: { id: 'hoteles', icon: 'fa-h-square', text: 'Hoteles' },
-            Autos: { id: 'autos', icon: 'fa-car', text: 'Autos' },
-            Extras: { id: 'tours', icon: 'fa-ticket-alt', text: 'Tours' }
+            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/5.png', text: 'Paquetes' },
+            Air: { id: 'vuelos', icon: 'fa-plane', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/1.png', text: 'Vuelos' },
+            Hotel: { id: 'hoteles', icon: 'fa-h-square', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/2-1.png', text: 'Hoteles' },
+            Autos: { id: 'autos', icon: 'fa-car', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/3.png', text: 'Autos' },
+            Extras: { id: 'tours', icon: 'fa-ticket-alt', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/04/4.png', text: 'Tours' }
         };
-
-
 
         // Crear las tabs dinámicamente según el atributo "products"
         const tabs = document.createElement('div');
@@ -30,11 +28,11 @@
             .map(product => {
                 const config = tabsConfig[product] || {};
                 return `
-                    <div class="tab" id="tab-${config.id}">
-                        <i class="fa ${config.icon}" aria-hidden="true"></i>
-                        <span class="tab-text"> ${config.text}</span>
-                    </div>
-                `;
+            <div class="tab" id="tab-${config.id}">
+                <img src="${config.img}" alt="${config.text}" class="tab-icon" style="width:24px;height:24px;vertical-align:middle;">
+                <span class="tab-text"> ${config.text}</span>
+            </div>
+        `;
             })
             .join('');
         if (products.length == 1) {

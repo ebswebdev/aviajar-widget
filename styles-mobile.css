@@ -1194,6 +1194,10 @@
     background: #fff;
     box-sizing: border-box;
   }
+
+  .tabs .tab-icon {
+    filter: brightness(0);
+  }
 }
 
 @media (max-width: 570px) {
