@@ -1,33 +1,33 @@
 /* MOBILE */
 @media (max-width: 1164px) {
   :root {
-    --primary-color: #fdbe15; /* Color amarillo característico */
-    --secondary-color: #004481; /* Azul oscuro para contrastes */
-    --background-color: #f4f4f4; /* Fondo claro */
-    --text-color: #333; /* Texto principal */
-    --button-hover: #e0a800; /* Color de hover para botones */
-    --font-primary: "Poppins", sans-serif; /* Fuente principal */
+    --primary-color: #fdbe15;
+    --secondary-color: #004481;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --button-hover: #e0a800;
+    --font-primary: "Poppins", sans-serif;
   }
 
-  body {
+  #widget-net body {
     font-family: var(--font-primary);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  #widget-net h1,
+  #widget-net h2,
+  #widget-net h3,
+  #widget-net h4,
+  #widget-net h5,
+  #widget-net h6 {
     font-family: var(--font-primary);
-    font-weight: 600; /* Negrita */
+    font-weight: 600;
   }
 
-  p,
-  label,
-  input,
-  button,
-  span {
+  #widget-net p,
+  #widget-net label,
+  #widget-net input,
+  #widget-net button,
+  #widget-net span {
     font-family: var(--font-primary);
   }
 
@@ -35,38 +35,37 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 1200px; /* Ancho máximo del widget */
+    max-width: 1200px;
     border-radius: 10px;
     font-family: var(--font-primary) !important;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
-    margin: 0 auto; /* Centrar el widget horizontalmente */
-    padding: 20px; /* Espacio interno */
+    margin: 0 auto;
+    padding: 20px;
   }
 
-  .tab,
-  .flatpickr-calendar,
-  .widget,
-  .autocomplete-item {
+  #widget-net .tab,
+  #widget-net .flatpickr-calendar,
+  #widget-net .widget,
+  #widget-net .autocomplete-item {
     font-family: var(--font-primary) !important;
   }
 
-  .tabs {
+  #widget-net .tabs {
     display: flex;
     align-items: center;
     justify-content: left;
     height: 100%;
     padding-bottom: 5px;
     position: relative;
-    max-width: 100%; /* Evita que exceda el ancho del contenedor padre */
-    box-sizing: border-box; /* Incluye padding y borde en el ancho */
-    overflow-x: auto; /* Permite scroll horizontal si el contenido interno es más grande */
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
     word-wrap: break-word;
-    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+    scrollbar-width: none;
   }
 
-  .tab {
-    /* Estilos para un tab */
+  #widget-net .tab {
     background-color: var(--primary-color);
     border-radius: 10px;
     padding: 20px;
@@ -76,94 +75,86 @@
     height: 20px;
   }
 
-  .tab::-webkit-scrollbar {
-    display: none; /* Oculta la barra de desplazamiento en navegadores Webkit */
+  #widget-net .tab::-webkit-scrollbar {
+    display: none;
   }
 
-  .tab:hover {
+  #widget-net .tab:hover {
     background-color: #000;
     transform: scale(1.05);
-    color: #fff; /* Cambia el color del texto al pasar el mouse */
+    color: #fff;
   }
-  .tab:active {
+  #widget-net .tab:active {
     transform: scale(1);
   }
 
-  .tab-text {
+  #widget-net .tab-text {
     font-size: 14px;
-    text-align: center; /* Centra el texto dentro del tab */
+    text-align: center;
   }
 
   @media (max-width: 562px) {
-    .tab-text {
-      display: none !important; /* Oculta el texto en pantallas muy pequeñas */
+    #widget-net .tab-text {
+      display: none !important;
     }
-    .fa,
-    .fas {
+    #widget-net .fa,
+    #widget-net .fas {
       font-weight: 900;
       font-size: 15px;
     }
-    .tabs {
+    #widget-net .tabs {
       gap: 10px;
     }
-    .widget input[type="text"] {
-      padding-right: 50px !important; /* Aumenta el padding derecho para el ícono */
+    #widget-net .widget input[type="text"] {
+      padding-right: 50px !important;
     }
   }
 
-  /* Fechas */
-  /* Cambiar el color de fondo del calendario */
-  .flatpickr-calendar {
+  #widget-net .flatpickr-calendar {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
   }
 
-  /* Cambiar el color de los días seleccionados */
-  .flatpickr-day.selected {
+  #widget-net .flatpickr-innerContainer {
+    width: 100%;
+  }
+
+  #widget-net .flatpickr-day.selected {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  /* Cambiar el color de los días al pasar el mouse */
-  .flatpickr-day:hover {
+  #widget-net .flatpickr-day:hover {
     background-color: var(--background-color) !important;
     color: #fff;
   }
 
-  /* Ajustar el tamaño del calendario en dispositivos móviles */
-  .flatpickr-calendar {
-    width: 100%;
-    font-size: 14px;
-  }
-
-  .flatpickr-innerContainer {
-    width: 100%;
-  }
-
-  .flatpickr-day.selected,
-  .flatpickr-day.startRange,
-  .flatpickr-day.endRange,
-  .flatpickr-day.selected.inRange,
-  .flatpickr-day.startRange.inRange,
-  .flatpickr-day.endRange.inRange,
-  .flatpickr-day.selected:focus,
-  .flatpickr-day.startRange:focus,
-  .flatpickr-day.endRange:focus,
-  .flatpickr-day.selected:hover,
-  .flatpickr-day.startRange:hover,
-  .flatpickr-day.endRange:hover,
-  .flatpickr-day.selected.prevMonthDay,
-  .flatpickr-day.startRange.prevMonthDay,
-  .flatpickr-day.endRange.prevMonthDay,
-  .flatpickr-day.selected.nextMonthDay,
-  .flatpickr-day.startRange.nextMonthDay,
-  .flatpickr-day.endRange.nextMonthDay {
+  #widget-net .flatpickr-day.selected,
+  #widget-net .flatpickr-day.startRange,
+  #widget-net .flatpickr-day.endRange,
+  #widget-net .flatpickr-day.selected.inRange,
+  #widget-net .flatpickr-day.startRange.inRange,
+  #widget-net .flatpickr-day.endRange.inRange,
+  #widget-net .flatpickr-day.selected:focus,
+  #widget-net .flatpickr-day.startRange:focus,
+  #widget-net .flatpickr-day.endRange:focus,
+  #widget-net .flatpickr-day.selected:hover,
+  #widget-net .flatpickr-day.startRange:hover,
+  #widget-net .flatpickr-day.endRange:hover,
+  #widget-net .flatpickr-day.selected.prevMonthDay,
+  #widget-net .flatpickr-day.startRange.prevMonthDay,
+  #widget-net .flatpickr-day.endRange.prevMonthDay,
+  #widget-net .flatpickr-day.selected.nextMonthDay,
+  #widget-net .flatpickr-day.startRange.nextMonthDay,
+  #widget-net .flatpickr-day.endRange.nextMonthDay {
     border-color: var(--primary-color) !important;
     background-color: var(--primary-color) !important;
   }
 
-  #widget-package {
+  #widget-net #widget-package {
     display: flex;
     width: 100%;
     font-family: "Arial", sans-serif;
@@ -171,35 +162,31 @@
     animation: fadeIn 0.5s ease-in-out;
   }
 
-  /* Iconos */
-  .fas {
+  #widget-net .fas {
     color: var(--primary-color);
   }
 
-  #lupa-icon {
+  #widget-net #lupa-icon {
     color: #fff;
   }
 
-  h4 {
+  #widget-net h4 {
     color: var(--text-color);
     font-weight: normal;
     font-size: 18px;
   }
 
-  /* Deshabilitar las flechas de incremento y decremento en navegadores basados en WebKit (Chrome, Safari, Edge) */
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  #widget-net input[type="number"]::-webkit-inner-spin-button,
+  #widget-net input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  /* Deshabilitar las flechas en Firefox */
-  input[type="number"] {
+  #widget-net input[type="number"] {
     -moz-appearance: textfield;
   }
 
-  /* Contenedor principal del widget */
-  .widget {
+  #widget-net .widget {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -209,20 +196,7 @@
     animation: fadeIn 0.5s ease-in-out;
   }
 
-  /* Animación de entrada */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Encabezado */
-  .widget .header h3 {
+  #widget-net .widget .header h3 {
     font-size: 20px;
     font-weight: bold;
     color: var(--text-color);
@@ -233,18 +207,16 @@
     border-radius: 5px;
   }
 
-  /* Etiquetas */
-  .widget label {
+  #widget-net .widget label {
     display: block;
     font-size: 14px;
     color: var(--text-color);
     position: relative;
   }
 
-  /* Campos de entrada */
-  .widget input[type="text"],
-  .widget input[type="number"],
-  .widget input[type="checkbox"] {
+  #widget-net .widget input[type="text"],
+  #widget-net .widget input[type="number"],
+  #widget-net .widget input[type="checkbox"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -252,34 +224,32 @@
     border-radius: 10px;
     transition: border-color 0.3s ease;
   }
-  .widget input[type="text"] {
+  #widget-net .widget input[type="text"] {
     padding-right: 26px;
   }
 
-  .widget input[type="checkbox"] {
+  #widget-net .widget input[type="checkbox"] {
     border-radius: 5px !important;
   }
 
-  .widget input[type="text"]:focus,
-  .widget input[type="number"]:focus {
+  #widget-net .widget input[type="text"]:focus,
+  #widget-net .widget input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  /* Label-Input */
-  .label-input {
+  #widget-net .label-input {
     position: absolute;
-    top: 10px; /* Ajustado para estar más abajo del input */
+    top: 10px;
     left: 10px;
     font-size: 10px;
-    color: var(--text-color); /* Usando el color de texto definido */
+    color: var(--text-color);
     pointer-events: none;
     transition: all 0.3s ease;
   }
 
-  /* Checkboxes */
-  .widget input[type="checkbox"] {
+  #widget-net .widget input[type="checkbox"] {
     display: flex;
     align-items: center;
     width: auto;
@@ -288,8 +258,7 @@
     transition: transform 0.2s ease;
   }
 
-  /* Botón de búsqueda */
-  .widget button {
+  #widget-net .widget button {
     width: 100%;
     padding: 12px;
     background-color: var(--primary-color);
@@ -302,36 +271,34 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  .widget button:hover {
+  #widget-net .widget button:hover {
     background-color: var(--button-hover);
     transform: scale(1.05);
   }
 
-  .widget button:active {
+  #widget-net .widget button:active {
     transform: scale(1);
   }
 
-  .widget-package {
+  #widget-net .widget-package {
     width: 100% !important;
   }
 
-  .widget-container {
+  #widget-net .widget-container {
     padding: 20px;
     display: flex;
     flex-direction: column;
   }
 
-  .boton-buscar {
+  #widget-net .boton-buscar {
     order: 12;
   }
 
-  .descuento-container {
+  #widget-net .descuento-container {
     margin-bottom: 20px;
   }
 
-  /* Contenedor de habitaciones (Popup) */
-  #hab-container {
-    /* background-color: var(--background-color); */
+  #widget-net #hab-container {
     padding: 15px;
     height: 200px;
     max-height: 200px;
@@ -342,19 +309,19 @@
     padding-top: 0;
   }
 
-  #hab-container input[type="number"]:focus {
+  #widget-net #hab-container input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  .habitacion label {
+  #widget-net .habitacion label {
     display: block;
     color: var(--text-color);
     margin-bottom: 10px;
   }
 
-  .habitacion input[type="number"] {
+  #widget-net .habitacion input[type="number"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -364,20 +331,20 @@
     transition: border-color 0.3s ease;
   }
 
-  .habitacion input[type="number"]:focus {
+  #widget-net .habitacion input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  .habitacion-header {
+  #widget-net .habitacion-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 31px;
   }
 
-  .habitacion-header .icon {
+  #widget-net .habitacion-header .icon {
     align-items: center;
     right: 10px;
     position: relative;
@@ -385,8 +352,7 @@
     pointer-events: none;
   }
 
-  /* Adultos */
-  .adultos {
+  #widget-net .adultos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -394,7 +360,7 @@
     border-radius: 5px;
   }
 
-  .label-adultos {
+  #widget-net .label-adultos {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -404,11 +370,11 @@
     padding: 10px;
   }
 
-  .label-adultos label {
+  #widget-net .label-adultos label {
     left: -5px;
   }
 
-  .input-adultos {
+  #widget-net .input-adultos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -416,7 +382,7 @@
     position: relative;
   }
 
-  .input-adultos #num-adultos {
+  #widget-net .input-adultos #num-adultos {
     width: 100%;
     display: flex;
     align-items: center;
@@ -424,16 +390,15 @@
     transition: border-color 0.3s ease;
   }
 
-  .input-adultos .icon {
+  #widget-net .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    right: 10px;
+    color: var(--secondary-color);
+    pointer-events: none;
     top: 15px;
   }
 
-  /* Niños */
-  .ninos {
+  #widget-net .ninos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -442,7 +407,7 @@
     position: relative;
   }
 
-  .label-ninos {
+  #widget-net .label-ninos {
     display: flex;
     align-items: center;
     font-size: 15px;
@@ -451,11 +416,11 @@
     padding: 10px;
   }
 
-  .label-ninos label {
+  #widget-net .label-ninos label {
     left: -5px;
   }
 
-  .input-ninos {
+  #widget-net .input-ninos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -463,7 +428,7 @@
     position: relative;
   }
 
-  .input-ninos #num-ninos {
+  #widget-net .input-ninos #num-ninos {
     width: 100%;
     display: flex;
     align-items: center;
@@ -471,16 +436,15 @@
     transition: border-color 0.3s ease;
   }
 
-  .input-ninos .icon {
+  #widget-net .input-ninos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    right: 10px;
+    color: var(--secondary-color);
+    pointer-events: none;
     top: 15px;
   }
 
-  /* Habitaciones Widget */
-  .habitaciones-pasajeros {
+  #widget-net .habitaciones-pasajeros {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -490,7 +454,7 @@
     gap: 10px;
   }
 
-  .habitaciones {
+  #widget-net .habitaciones {
     display: none;
     width: 100%;
     border-radius: 5px;
@@ -498,7 +462,7 @@
     cursor: pointer;
   }
 
-  .habitaciones .input {
+  #widget-net .habitaciones .input {
     width: 100%;
     display: flex;
     align-items: center;
@@ -506,7 +470,7 @@
     transition: border-color 0.3s ease;
   }
 
-  .habitaciones .icon {
+  #widget-net .habitaciones .icon {
     display: flex;
     align-items: center;
     right: 10px;
@@ -516,15 +480,14 @@
     top: 25px;
   }
 
-  /* Pasajeros */
-  .pasajeros {
+  #widget-net .pasajeros {
     width: 100%;
     border-radius: 5px;
     position: relative;
     cursor: pointer;
   }
 
-  .pasajeros .input {
+  #widget-net .pasajeros .input {
     width: 100%;
     display: flex;
     align-items: center;
@@ -532,7 +495,7 @@
     transition: border-color 0.3s ease;
   }
 
-  .pasajeros .icon {
+  #widget-net .pasajeros .icon {
     display: flex;
     align-items: center;
     right: 10px;
@@ -542,22 +505,20 @@
     top: 25px;
   }
 
-  /* Scroll personalizado para navegadores Webkit */
-  #hab-container::-webkit-scrollbar {
+  #widget-net #hab-container::-webkit-scrollbar {
     width: 8px;
   }
 
-  #hab-container::-webkit-scrollbar-thumb {
+  #widget-net #hab-container::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);
     border-radius: 10px;
   }
 
-  #hab-container::-webkit-scrollbar-track {
+  #widget-net #hab-container::-webkit-scrollbar-track {
     background-color: var(--background-color);
   }
 
-  /* Habitaciones individuales */
-  #hab-container > div {
+  #widget-net #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
     padding-right: 20px;
@@ -566,9 +527,7 @@
     border-radius: 16px;
   }
 
-  /* Edades niños */
-
-  #edades-ninos {
+  #widget-net #edades-ninos {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -577,95 +536,83 @@
     margin-top: 10px;
   }
 
-  /* Estilo base para el select */
-  .edad-nino,
-  .num-ninos-select,
-  .num-adultos-select,
-  .popup-num-hab-select {
+  #widget-net .edad-nino,
+  #widget-net .num-ninos-select,
+  #widget-net .num-adultos-select,
+  #widget-net .popup-num-hab-select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
     background-color: rgba(255, 255, 255, 0.8);
-    color: var(--text-color); /* Color del texto */
+    color: var(--text-color);
     transition: all 0.3s ease;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
   }
 
-  /* Cambiar el borde y el fondo al enfocar */
-  .edad-nino:focus,
-  .num-ninos-select:focus,
-  .num-adultos-select:focus,
-  .popup-num-hab-select:focus {
-    border-color: var(--primary-color); /* Amarillo */
-    background-color: rgba(
-      253,
-      190,
-      21,
-      0.2
-    ); /* Fondo amarillo semitransparente */
-    outline: none; /* Elimina el borde azul predeterminado */
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
+  #widget-net .edad-nino:focus,
+  #widget-net .num-ninos-select:focus,
+  #widget-net .num-adultos-select:focus,
+  #widget-net .popup-num-hab-select:focus {
+    border-color: var(--primary-color);
+    background-color: rgba(253, 190, 21, 0.2);
+    outline: none;
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
   }
 
-  /* Cambiar el color del texto al seleccionar */
-  .edad-nino option,
-  .num-ninos-select option,
-  .num-adultos-select option,
-  .popup-num-hab-select option {
-    background-color: #fff; /* Fondo blanco para las opciones */
-    color: var(--text-color); /* Color del texto */
+  #widget-net .edad-nino option,
+  #widget-net .num-ninos-select option,
+  #widget-net .num-adultos-select option,
+  #widget-net .popup-num-hab-select option {
+    background-color: #fff;
+    color: var(--text-color);
   }
 
-  .input-ninos .icon,
-  .input-adultos .icon {
+  #widget-net .input-ninos .icon,
+  #widget-net .input-adultos .icon {
     position: absolute;
-    right: 10px; /* Alinea el ícono a la derecha */
+    right: 10px;
     font-size: 16px;
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el select */
+    color: var(--secondary-color);
+    pointer-events: none;
   }
 
-  /* Estilo del fondo del popup */
-  .popup {
-    display: none; /* Oculto por defecto */
+  #widget-net .popup {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
   }
 
-  /* Contenido del popup */
-  .popup-content {
-    /* background-color: var(--background-color); */
+  #widget-net .popup-content {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
-    width: 100%; /* Ocupa el 100% del ancho disponible */
-    max-width: 400px; /* Igual al max-width de .widget */
+    width: 100%;
+    max-width: 400px;
     max-height: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
   }
 
-  /* Popup header */
-  .popup-header {
+  #widget-net .popup-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
   }
 
-  .popup-header label {
+  #widget-net .popup-header label {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -674,7 +621,7 @@
     font-size: 15px !important;
   }
 
-  .popup-header input {
+  #widget-net .popup-header input {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -684,8 +631,7 @@
     color: var(--text-color);
   }
 
-  /* Botón de cierre */
-  .close-popup {
+  #widget-net .close-popup {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -696,11 +642,10 @@
     transition: color 0.3s ease;
   }
 
-  .close-popup:hover {
+  #widget-net .close-popup:hover {
     color: var(--primary-color);
   }
 
-  /* Animación de entrada */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -712,22 +657,18 @@
     }
   }
 
-  /* Inputs */
-
-  .input-error {
-    background-color: #ffe6e6; /* Fondo rojo claro */
-    border: 1px solid red; /* Borde rojo */
+  #widget-net .input-error {
+    background-color: #ffe6e6;
+    border: 1px solid red;
   }
 
-  /* Contenedor de cada grupo de inputs */
-  .input-group {
+  #widget-net .input-group {
     position: relative;
     align-items: center;
     display: flex;
   }
 
-  /* Estilo del input */
-  .input-group input {
+  #widget-net .input-group input {
     width: 100%;
     height: 50px;
     padding: 10px;
@@ -737,30 +678,27 @@
     transition: border-color 0.3s ease;
   }
 
-  /* Estilo del ícono */
-  .input-group .icon {
+  #widget-net .input-group .icon {
     position: absolute;
-    right: 9px; /* Alinea el ícono a la derecha */
-    color: var(--secondary-color); /* Usa el color azul oscuro */
-    pointer-events: none; /* Evita que el ícono interfiera con el clic en el input */
+    right: 9px;
+    color: var(--secondary-color);
+    pointer-events: none;
     top: 29%;
   }
 
-  /* Inputs en foco */
-  .input-group input:focus {
+  #widget-net .input-group input:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  /* Radios */
-  .radio-group {
+  #widget-net .radio-group {
     display: flex;
     justify-content: left;
     align-items: center;
     gap: 20px;
   }
 
-  .radio {
+  #widget-net .radio {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -768,7 +706,7 @@
     padding: 5px;
   }
 
-  .radio label {
+  #widget-net .radio label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -778,7 +716,7 @@
     left: 0px;
   }
 
-  #radio-soloida {
+  #widget-net #radio-soloida {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -798,7 +736,7 @@
     }
   }
 
-  #radio-idayregreso {
+  #widget-net #radio-idayregreso {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -818,7 +756,7 @@
     }
   }
 
-  #radio-multidestino {
+  #widget-net #radio-multidestino {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -838,13 +776,11 @@
     }
   }
 
-  /* Checkboxs */
-  .checkbox-group {
+  #widget-net .checkbox-group {
     align-items: center;
-    /* padding: 10px; */
   }
 
-  .checkbox {
+  #widget-net .checkbox {
     display: grid;
     align-items: center;
     gap: 20px;
@@ -854,7 +790,7 @@
     margin: 0;
   }
 
-  .checkbox label {
+  #widget-net .checkbox label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -863,7 +799,7 @@
     text-align: left;
   }
 
-  input[type="checkbox"] {
+  #widget-net input[type="checkbox"] {
     position: relative !important;
     top: 5px;
     width: 20px;
@@ -877,11 +813,11 @@
     margin: auto !important;
   }
 
-  input[type="checkbox"]:checked {
+  #widget-net input[type="checkbox"]:checked {
     background-color: var(--primary-color);
   }
 
-  input[type="checkbox"]::before {
+  #widget-net input[type="checkbox"]::before {
     content: "";
     position: absolute;
     top: 2px;
@@ -894,7 +830,7 @@
     transform: rotate(45deg) scale(1);
   }
 
-  input[type="checkbox"]:checked:before {
+  #widget-net input[type="checkbox"]:checked:before {
     border-color: #fff;
     animation: checkmark 0.2s ease;
   }
@@ -908,15 +844,14 @@
     }
   }
 
-  /* Botón buscar */
-  .boton-buscar .icon {
+  #widget-net .boton-buscar .icon {
     position: absolute;
     left: 20px;
     color: var(--background-color);
     pointer-events: none;
   }
 
-  .boton-buscar button {
+  #widget-net .boton-buscar button {
     width: 100%;
     padding: 12px;
     height: 50px;
@@ -927,20 +862,19 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  .boton-buscar button:hover {
+  #widget-net .boton-buscar button:hover {
     background-color: var(--primary-color);
     color: #fff;
     transform: scale(1.05);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   }
 
-  /* Autocomplete */
-  .autocomplete-container {
+  #widget-net .autocomplete-container {
     position: relative;
     width: 100%;
   }
 
-  .autocomplete-input {
+  #widget-net .autocomplete-input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -949,13 +883,13 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
-  .autocomplete-input:focus {
-    border-color: #fdbe15; /* Amarillo */
-    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5); /* Sombra amarilla */
+  #widget-net .autocomplete-input:focus {
+    border-color: #fdbe15;
+    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
     outline: none;
   }
 
-  .autocomplete-list {
+  #widget-net .autocomplete-list {
     position: absolute;
     top: 90%;
     left: 0;
@@ -966,11 +900,11 @@
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para la lista */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     animation: fadeIn 0.3s ease-in-out;
   }
 
-  .autocomplete-item {
+  #widget-net .autocomplete-item {
     padding: 12px;
     font-size: 14px;
     color: #333;
@@ -983,13 +917,13 @@
     gap: 12px;
   }
 
-  .autocomplete-item:hover {
-    background-color: #fdbe15; /* Amarillo */
-    color: #fff; /* Texto blanco */
+  #widget-net .autocomplete-item:hover {
+    background-color: #fdbe15;
+    color: #fff;
   }
 
-  .autocomplete-item:active {
-    background-color: #e0a800; /* Amarillo más oscuro */
+  #widget-net .autocomplete-item:active {
+    background-color: #e0a800;
   }
 
   @keyframes fadeIn {
@@ -1003,22 +937,20 @@
     }
   }
 
-  /* Mensajes de error */
-  .error-message {
+  #widget-net .error-message {
     color: red;
     font-size: 12px;
     margin-top: 4px;
     display: block;
   }
 
-  /* Botones numericos */
-  .numeric-input {
+  #widget-net .numeric-input {
     display: flex;
     align-items: center;
     gap: 5px;
   }
 
-  .numeric-input button {
+  #widget-net .numeric-input button {
     width: 30px;
     height: 30px;
     background-color: var(--primary-color);
@@ -1034,11 +966,11 @@
     align-items: center;
   }
 
-  .numeric-input button:hover {
+  #widget-net .numeric-input button:hover {
     background-color: var(--button-hover);
   }
 
-  .numeric-input input[type="number"] {
+  #widget-net .numeric-input input[type="number"] {
     width: 60px;
     text-align: center;
     border: 1px solid #ddd;
@@ -1046,26 +978,15 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s ease;
-  }
-
-  .numeric-input input[type="number"]:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
-
-  .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
   }
 
-  #numeric-value {
+  #widget-net #numeric-value {
     width: 100%;
     padding: 10px;
   }
 
-  /* VUELOS */
-
-  /* Contenedor de habitaciones (Popup) */
-  #pasajeros-container {
+  #widget-net #pasajeros-container {
     padding: 15px;
     overflow-y: auto;
     margin-bottom: 15px;
@@ -1073,35 +994,35 @@
     scrollbar-color: var(--primary-color) var(--background-color);
   }
 
-  .numeric-input-group {
+  #widget-net .numeric-input-group {
     display: flex;
     justify-content: space-between;
     padding-bottom: 10px;
   }
 
-  #title-pasajeros {
+  #widget-net #title-pasajeros {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 10px;
-    text-align: center; /* Centrado */
-    letter-spacing: 1px; /* Espaciado entre letras */
+    text-align: center;
+    letter-spacing: 1px;
   }
 
-  .close-popup {
-    display: none !important; /* Oculta el botón de cerrar */
+  #widget-net .close-popup {
+    display: none !important;
   }
 
-  .info-text {
+  #widget-net .info-text {
     font-size: 12px;
     color: #666;
     position: absolute;
     left: 35px;
     margin-top: 20px;
-    text-align: left; /* Centrar el texto */
+    text-align: left;
   }
 
-  #mostrar-descuento {
+  #widget-net #mostrar-descuento {
     text-decoration: none;
     color: var(--text-color);
     cursor: pointer;
@@ -1109,12 +1030,11 @@
     font-size: 14px;
   }
 
-  .codigo-descuento {
+  #widget-net .codigo-descuento {
     padding-top: 10px;
   }
 
-  /* Autocomplete hoteles */
-  .autocomplete-item-hoteles {
+  #widget-net .autocomplete-item-hoteles {
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -1123,39 +1043,39 @@
     gap: 12px;
   }
 
-  .autocomplete-item-hoteles:hover {
+  #widget-net .autocomplete-item-hoteles:hover {
     background-color: var(--primary-color);
     color: #fff;
   }
 
-  .autocomplete-item-hoteles:hover .title-autocomplete-item,
-  .autocomplete-item-hoteles:hover .subtitle-autocomplete-item {
+  #widget-net .autocomplete-item-hoteles:hover .title-autocomplete-item,
+  #widget-net .autocomplete-item-hoteles:hover .subtitle-autocomplete-item {
     color: #fff !important;
   }
 
-  .title-autocomplete-item {
+  #widget-net .title-autocomplete-item {
     color: var(--text-color);
     font-size: 14px;
     padding: 10px 20px;
   }
 
-  .subtitle-autocomplete-item {
+  #widget-net .subtitle-autocomplete-item {
     font-size: 12px;
     color: #666;
     padding: 10px 20px;
     margin-top: -20px;
   }
 
-  #btn-agregar-tramo {
+  #widget-net #btn-agregar-tramo {
     display: inline-block;
     margin: 10px 0px;
     right: 20px;
     width: 150px;
   }
 
-  .input-tramo-origen,
-  .input-tramo-destino,
-  .input-tramo-fecha {
+  #widget-net .input-tramo-origen,
+  #widget-net .input-tramo-destino,
+  #widget-net .input-tramo-fecha {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -1169,14 +1089,14 @@
     -moz-appearance: none;
   }
 
-  .btn-quitar-tramo {
+  #widget-net .btn-quitar-tramo {
     background-color: transparent !important;
     width: 30px !important;
     padding: 0 !important;
     margin-bottom: 15px !important;
   }
 
-  .label-input-tramo {
+  #widget-net .label-input-tramo {
     position: absolute;
     top: 10px;
     left: 15px;
@@ -1186,7 +1106,7 @@
     transition: all 0.3s ease;
   }
 
-  #multidestino-placeholder {
+  #widget-net #multidestino-placeholder {
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
@@ -1195,25 +1115,25 @@
     box-sizing: border-box;
   }
 
-  .tabs .tab-icon {
+  #widget-net .tabs .tab-icon {
     filter: brightness(0);
   }
 }
 
 @media (max-width: 570px) {
-  .tramo > div {
+  #widget-net .tramo > div {
     flex-direction: column !important;
     gap: 8px !important;
     align-items: stretch !important;
   }
-  .tramo > div input {
+  #widget-net .tramo > div input {
     width: 50% !important;
     min-width: 0 !important;
   }
 
-  .tramo > div .input-tramo-fecha,
-  .tramo > div .input-tramo-origen,
-  .tramo > div .input-tramo-destino {
+  #widget-net .tramo > div .input-tramo-fecha,
+  #widget-net .tramo > div .input-tramo-origen,
+  #widget-net .tramo > div .input-tramo-destino {
     width: 100% !important;
   }
 }
