@@ -2,32 +2,39 @@
 @media (min-width: 1165px) {
   :root {
     --primary-color: #fdbe15;
+    /* Color amarillo característico */
     --secondary-color: #004481;
+    /* Azul oscuro para contrastes */
     --background-color: #f4f4f4;
+    /* Fondo claro */
     --text-color: #333;
+    /* Texto principal */
     --button-hover: #e0a800;
+    /* Color de hover para botones */
     --font-primary: "Poppins", sans-serif;
+    /* Fuente principal */
   }
 
-  #widget-net body {
+  body {
     font-family: var(--font-primary);
   }
 
-  #widget-net h1,
-  #widget-net h2,
-  #widget-net h3,
-  #widget-net h4,
-  #widget-net h5,
-  #widget-net h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-primary);
     font-weight: 600;
+    /* Negrita */
   }
 
-  #widget-net p,
-  #widget-net label,
-  #widget-net input,
-  #widget-net button,
-  #widget-net span {
+  p,
+  label,
+  input,
+  button,
+  span {
     font-family: var(--font-primary);
   }
 
@@ -37,20 +44,23 @@
     flex-direction: column;
     width: 100%;
     max-width: 1200px;
+    /* Ancho máximo del widget */
     border-radius: 10px;
     color: var(--text-color);
     margin: 0 auto;
+    /* Centrar el widget horizontalmente */
     padding: 20px;
+    /* Espacio interno */
   }
 
-  #widget-net .tab,
-  #widget-net .flatpickr-calendar,
-  #widget-net .widget,
-  #widget-net .autocomplete-item {
+  .tab,
+  .flatpickr-calendar,
+  .widget,
+  .autocomplete-item {
     font-family: var(--font-primary) !important;
   }
 
-  #widget-net .tabs {
+  .tabs {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -61,7 +71,8 @@
     border-radius: 10px;
   }
 
-  #widget-net .tab {
+  .tab {
+    /* Estilos para un tab */
     background-color: var(--primary-color);
     border-radius: 10px;
     padding: 20px;
@@ -70,48 +81,54 @@
     cursor: pointer;
   }
 
-  #widget-net .tab:hover {
+  .tab:hover {
     background-color: #fff;
     transform: scale(1.05);
     color: #000;
+    /* Cambia el color del texto al pasar el mouse */
   }
 
-  #widget-net .tab:active {
+  .tab:active {
     transform: scale(1);
   }
 
-  #widget-net .tab-text {
+  .tab-text {
     font-size: 14px;
     text-align: center;
+    /* Centra el texto dentro del tab */
   }
 
-  #widget-net .flatpickr-calendar {
+  /* Fechas */
+  /* Cambiar el color de fondo del calendario */
+  .flatpickr-calendar {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
   }
 
-  #widget-net .flatpickr-day.selected {
+  /* Cambiar el color de los días seleccionados */
+  .flatpickr-day.selected {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  #widget-net .flatpickr-day:hover {
+  /* Cambiar el color de los días al pasar el mouse */
+  .flatpickr-day:hover {
     background-color: var(--primary-color) !important;
     color: #fff;
   }
 
-  #widget-net .flatpickr-calendar {
+  /* Ajustar el tamaño del calendario en dispositivos móviles */
+  .flatpickr-calendar {
     width: 100%;
     font-size: 14px;
   }
 
-  #widget-net .flatpickr-innerContainer {
+  .flatpickr-innerContainer {
     width: 100%;
   }
 
-  #widget-net
-    body
+  body
     > div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft
     > div.flatpickr-innerContainer
     > div
@@ -122,41 +139,35 @@
     color: #fff;
   }
 
-  #widget-net .flatpickr-day.selected,
-  #widget-net .flatpickr-day.startRange,
-  #widget-net .flatpickr-day.endRange,
-  #widget-net .flatpickr-day.selected.inRange,
-  #widget-net .flatpickr-day.startRange.inRange,
-  #widget-net .flatpickr-day.endRange.inRange,
-  #widget-net .flatpickr-day.selected:focus,
-  #widget-net .flatpickr-day.startRange:focus,
-  #widget-net .flatpickr-day.endRange:focus,
-  #widget-net .flatpickr-day.selected:hover,
-  #widget-net .flatpickr-day.startRange:hover,
-  #widget-net .flatpickr-day.endRange:hover,
-  #widget-net .flatpickr-day.selected.prevMonthDay,
-  #widget-net .flatpickr-day.startRange.prevMonthDay,
-  #widget-net .flatpickr-day.endRange.prevMonthDay,
-  #widget-net .flatpickr-day.selected.nextMonthDay,
-  #widget-net .flatpickr-day.startRange.nextMonthDay,
-  #widget-net .flatpickr-day.endRange.nextMonthDay {
+  .flatpickr-day.selected,
+  .flatpickr-day.startRange,
+  .flatpickr-day.endRange,
+  .flatpickr-day.selected.inRange,
+  .flatpickr-day.startRange.inRange,
+  .flatpickr-day.endRange.inRange,
+  .flatpickr-day.selected:focus,
+  .flatpickr-day.startRange:focus,
+  .flatpickr-day.endRange:focus,
+  .flatpickr-day.selected:hover,
+  .flatpickr-day.startRange:hover,
+  .flatpickr-day.endRange:hover,
+  .flatpickr-day.selected.prevMonthDay,
+  .flatpickr-day.startRange.prevMonthDay,
+  .flatpickr-day.endRange.prevMonthDay,
+  .flatpickr-day.selected.nextMonthDay,
+  .flatpickr-day.startRange.nextMonthDay,
+  .flatpickr-day.endRange.nextMonthDay {
     border-color: var(--primary-color) !important;
     background-color: var(--primary-color) !important;
   }
 
-  #widget-net
-    .flatpickr-day.selected.startRange
-    + .endRange:not(:nth-child(7n + 1)),
-  #widget-net
-    .flatpickr-day.startRange.startRange
-    + .endRange:not(:nth-child(7n + 1)),
-  #widget-net
-    .flatpickr-day.endRange.startRange
-    + .endRange:not(:nth-child(7n + 1)) {
+  .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+  .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+  .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
     box-shadow: -10px 0 0 var(--primary-color) !important;
   }
 
-  #widget-net #widget-package {
+  #widget-package {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -164,36 +175,39 @@
     color: var(--text-color);
   }
 
-  #widget-net .fas {
+  /* Iconos */
+  .fas {
     color: var(--primary-color) !important;
   }
 
-  #widget-net #lupa-icon {
+  #lupa-icon {
     color: #fff !important;
   }
 
-  #widget-net h4 {
+  h4 {
     color: var(--text-color);
     font-weight: normal;
     font-size: 18px;
   }
 
-  #widget-net input[type="number"]::-webkit-inner-spin-button,
-  #widget-net input[type="number"]::-webkit-outer-spin-button {
+  /* Deshabilitar las flechas de incremento y decremento en navegadores basados en WebKit (Chrome, Safari, Edge) */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  #widget-net input[type="radio"] {
+  input[type="radio"] {
     position: relative !important;
     margin-left: 0px !important;
   }
 
-  #widget-net input[type="number"] {
+  /* Deshabilitar las flechas en Firefox */
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 
-  #widget-net .widget-container {
+  .widget-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -202,81 +216,90 @@
     row-gap: 15px;
   }
 
-  #widget-net .widget {
+  /* Contenedor principal del widget */
+  .widget {
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     position: relative;
+    margin-top: 10px;
+    background-color: #fff;
   }
 
-  #widget-net .package-container,
-  #widget-net .vuelos-container,
-  #widget-net .autos-container,
-  #widget-net .hoteles-container,
-  #widget-net .tours-container {
+  .package-container,
+  .vuelos-container,
+  .autos-container,
+  .hoteles-container,
+  .tours-container {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
   }
 
-  #widget-net .origen-destino {
+  .origen-destino {
     order: 1;
+    /* width: 400px; */
   }
-  #widget-net .fechas {
+  .fechas {
     order: 2;
   }
-  #widget-net .habitaciones-pasajeros {
+  .habitaciones-pasajeros {
     order: 3;
   }
-  #widget-net .boton-buscar {
+  .boton-buscar {
     order: 4;
   }
-  #widget-net #hab-popup {
+  #hab-popup {
     order: 5;
   }
-  #widget-net .checkbox-group {
+  .checkbox-group {
     order: 6;
+    /* flex: 1 1 100%; */
   }
-  #widget-net #mostrar-descuento {
+  #mostrar-descuento {
     order: 7;
   }
-  #widget-net .descuento {
+  .descuento {
     order: 8;
     flex: 1 1 100%;
   }
-  #widget-net .options-paq {
+  .options-paq {
     order: 8;
   }
-  #widget-net .options-air {
+  .options-air {
     order: 8;
   }
-  #widget-net .options-hotel {
+  .options-hotel {
     order: 8;
   }
-  #widget-net .time-cars {
+  .time-cars {
     order: 2;
+    /* flex: 1 1 100%; */
   }
+  /* #multidestino-tramos {
+    order: 3 !important;
+  } */
 
-  #widget-net .options-air {
+  .options-air {
     width: 100% !important;
     gap: 10px;
     box-sizing: border-box;
     order: 8;
   }
 
-  #widget-net .descuento-container {
+  .descuento-container {
     width: 100%;
     display: flex;
     flex-direction: column;
   }
 
-  #widget-net .descuento {
+  .descuento {
     width: 100%;
   }
 
-  #widget-net .descuento-toggle {
+  .descuento-toggle {
     display: flex;
     gap: 10px;
     flex-direction: row-reverse;
@@ -284,33 +307,34 @@
     justify-content: flex-end;
   }
 
-  #widget-net .codigo-descuento {
+  .codigo-descuento {
     width: 100%;
   }
-  #widget-net #input-descuento {
+  #input-descuento {
     width: 100%;
   }
 
-  #widget-net #mostrar-descuento {
-    order: 7;
-    align-self: flex-start;
+  #mostrar-descuento {
+    order: 7; /* justo antes del .descuento */
+    align-self: flex-start; /* se alinea como inline, sin ocupar toda la fila */
     margin-top: 0.5rem;
   }
 
   /* Animación de entrada */
-  /* Mantener @keyframes fuera del scope */
   @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(-10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
-  #widget-net .widget .header h3 {
+  /* Encabezado */
+  .widget .header h3 {
     font-size: 20px;
     font-weight: bold;
     color: var(--text-color);
@@ -321,35 +345,42 @@
     border-radius: 5px;
   }
 
-  #widget-net .widget label {
+  /* Etiquetas */
+  .widget label {
     display: block;
     font-size: 15px;
     color: var(--text-color);
+    /* top: 10px;
+    left: 10px;
+    position: relative; */
   }
 
-  #widget-net .widget input[type="text"],
-  #widget-net .widget input[type="number"],
-  #widget-net .widget input[type="checkbox"] {
+  /* Campos de entrada */
+  .widget input[type="text"],
+  .widget input[type="number"],
+  .widget input[type="checkbox"] {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .widget input[type="text"]:focus,
-  #widget-net .widget input[type="number"]:focus {
+  .widget input[type="text"]:focus,
+  .widget input[type="number"]:focus {
     border: none;
     outline: none;
   }
 
-  #widget-net .widget input[type="checkbox"] {
+  /* Checkboxes */
+  .widget input[type="checkbox"] {
     width: auto;
     margin-right: 0px !important;
     cursor: pointer;
     transition: transform 0.2s ease;
   }
 
-  #widget-net .widget button {
+  /* Botón de búsqueda */
+  .widget button {
     width: 100px;
     padding: 12px;
     background-color: var(--primary-color);
@@ -362,26 +393,29 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  #widget-net .widget button:hover {
+  .widget button:hover {
     background-color: var(--button-hover);
     transform: scale(1.05);
   }
 
-  #widget-net .widget button:active {
+  .widget button:active {
     transform: scale(1);
   }
 
-  #widget-net .label-input {
+  /* Label-Input */
+  .label-input {
     position: absolute;
     top: 1px;
+    /* Ajustado para estar más abajo del input */
     left: 10px;
     font-size: 10px;
     color: var(--text-color);
+    /* Usando el color de texto definido */
     pointer-events: none;
     transition: all 0.3s ease;
   }
 
-  #widget-net .label-input-tramo {
+  .label-input-tramo {
     position: absolute;
     top: 10px;
     left: 15px;
@@ -391,11 +425,12 @@
     transition: all 0.3s ease;
   }
 
-  #widget-net .origen-destino,
-  #widget-net .habitaciones-pasajeros,
-  #widget-net .lugar-retiro,
-  #widget-net .time-cars,
-  #widget-net .destino-extras {
+  /* Origen-destino */
+  .origen-destino,
+  .habitaciones-pasajeros,
+  .lugar-retiro,
+  .time-cars,
+  .destino-extras {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -405,7 +440,7 @@
     padding: 10px;
   }
 
-  #widget-net .origen-destino::after {
+  .origen-destino::after {
     content: "";
     position: absolute;
     top: 0%;
@@ -416,16 +451,18 @@
     transform: translateX(-50%);
   }
 
-  #widget-net .origen-destino.sin-raya::after {
+  /* Quitar la raya de en medio en hoteles */
+  .origen-destino.sin-raya::after {
     display: none !important;
     content: none !important;
   }
 
-  #widget-net .destino-hotel {
+  .destino-hotel {
     width: 100% !important;
   }
 
-  #widget-net #hab-container {
+  /* Contenedor de habitaciones (Popup) */
+  #hab-container {
     padding: 10px;
     height: 180px;
     overflow-y: auto;
@@ -434,14 +471,20 @@
     scrollbar-color: var(--primary-color) var(--background-color);
   }
 
-  #widget-net .habitacion label {
+  /* #hab-container input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
+  } */
+
+  .habitacion label {
     display: block;
     font-size: 15px;
     color: var(--text-color);
     margin-bottom: 10px;
   }
 
-  #widget-net .habitacion input[type="number"] {
+  .habitacion input[type="number"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -451,20 +494,20 @@
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .habitacion input[type="number"]:focus {
+  .habitacion input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  #widget-net .habitacion-header {
+  .habitacion-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 30px;
   }
 
-  #widget-net .habitacion-header .icon {
+  .habitacion-header .icon {
     align-items: center;
     right: 10px;
     position: relative;
@@ -472,7 +515,8 @@
     pointer-events: none;
   }
 
-  #widget-net .adultos {
+  /* Adultos */
+  .adultos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -480,7 +524,7 @@
     border-radius: 5px;
   }
 
-  #widget-net .label-adultos {
+  .label-adultos {
     display: flex;
     align-items: center;
     justify-content: left;
@@ -490,11 +534,11 @@
     padding: 10px;
   }
 
-  #widget-net .label-adultos label {
+  .label-adultos label {
     left: -5px;
   }
 
-  #widget-net .input-adultos {
+  .input-adultos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -502,7 +546,7 @@
     position: relative;
   }
 
-  #widget-net .input-adultos #num-adultos {
+  .input-adultos #num-adultos {
     width: 100%;
     display: flex;
     align-items: center;
@@ -510,15 +554,20 @@
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .input-adultos .icon {
+  .input-adultos .icon {
     position: absolute;
     right: 10px;
+    /* Alinea el ícono a la derecha */
     color: var(--secondary-color);
+    /* Usa el color azul oscuro */
     pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el input */
     top: 15px;
   }
 
-  #widget-net .ninos {
+  /* Niños */
+
+  .ninos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -527,7 +576,7 @@
     position: relative;
   }
 
-  #widget-net .label-ninos {
+  .label-ninos {
     display: flex;
     align-items: center;
     font-size: 15px;
@@ -536,11 +585,11 @@
     padding: 10px;
   }
 
-  #widget-net .label-ninos label {
+  .label-ninos label {
     left: -5px;
   }
 
-  #widget-net .input-ninos {
+  .input-ninos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -548,7 +597,7 @@
     position: relative;
   }
 
-  #widget-net .input-ninos #num-ninos {
+  .input-ninos #num-ninos {
     width: 100%;
     display: flex;
     align-items: center;
@@ -556,23 +605,29 @@
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .input-ninos .icon {
+  .input-ninos .icon {
     position: absolute;
     right: 10px;
+    /* Alinea el ícono a la derecha */
     color: var(--secondary-color);
+    /* Usa el color azul oscuro */
     pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el input */
     top: 15px;
   }
 
-  #widget-net .habitaciones-pasajeros {
+  /* Habitaciones Widget */
+  .habitaciones-pasajeros {
     display: flex;
     align-items: center;
     position: relative;
     width: 140px;
+    /* Espacio para el ícono */
   }
 
-  #widget-net .habitaciones {
+  .habitaciones {
     display: none;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -581,14 +636,14 @@
     cursor: pointer;
   }
 
-  #widget-net .habitaciones .input {
+  .habitaciones .input {
     display: flex;
     align-items: center;
     padding: 10px;
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .habitaciones .icon {
+  .habitaciones .icon {
     display: flex;
     align-items: center;
     right: 10px;
@@ -597,7 +652,8 @@
     pointer-events: none;
   }
 
-  #widget-net .pasajeros {
+  /* Pasajeros */
+  .pasajeros {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -607,7 +663,7 @@
     cursor: pointer;
   }
 
-  #widget-net .pasajeros .input {
+  .pasajeros .input {
     width: 100%;
     display: flex;
     align-items: center;
@@ -615,7 +671,7 @@
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .pasajeros .icon {
+  .pasajeros .icon {
     display: flex;
     align-items: center;
     right: 10px;
@@ -624,42 +680,51 @@
     pointer-events: none;
   }
 
-  #widget-net #hab-container::-webkit-scrollbar {
+  /* Scroll personalizado para navegadores Webkit */
+  #hab-container::-webkit-scrollbar {
     width: 8px;
   }
 
-  #widget-net #hab-container::-webkit-scrollbar-thumb {
+  #hab-container::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);
     border-radius: 10px;
   }
 
-  #widget-net #hab-container::-webkit-scrollbar-track {
+  #hab-container::-webkit-scrollbar-track {
     background-color: var(--background-color);
   }
 
-  #widget-net #hab-container > div {
+  /* Habitaciones individuales */
+  #hab-container > div {
     background-color: #ffffff;
     padding: 10px;
     padding-right: 20px;
     margin-bottom: 28px;
+
+    /* border: 1px solid #ededed; */
+    /* border-radius: 16px; */
   }
 
-  #widget-net #hab-container > div:hover {
+  #hab-container > div:hover {
+    /* transform: translateY(-5px); */
     transform: scale(1.02);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-  #widget-net #edades-ninos {
+  /* Edades niños */
+
+  #edades-ninos {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
   }
 
-  #widget-net .edad-nino,
-  #widget-net .num-ninos-select,
-  #widget-net .num-adultos-select,
-  #widget-net .popup-num-hab-select {
+  /* Estilo base para el select */
+  .edad-nino,
+  .num-ninos-select,
+  .num-adultos-select,
+  .popup-num-hab-select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -667,52 +732,68 @@
     font-size: 14px;
     background-color: rgba(255, 255, 255, 0.8);
     color: var(--text-color);
+    /* Color del texto */
     transition: all 0.3s ease;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
   }
 
-  #widget-net .edad-nino:focus,
-  #widget-net .num-ninos-select:focus,
-  #widget-net .num-adultos-select:focus,
-  #widget-net .popup-num-hab-select:focus {
+  /* Cambiar el borde y el fondo al enfocar */
+  .edad-nino:focus,
+  .num-ninos-select:focus,
+  .num-adultos-select:focus,
+  .popup-num-hab-select:focus {
     border-color: var(--primary-color);
+    /* Amarillo */
     background-color: rgba(253, 190, 21, 0.2);
+    /* Fondo amarillo semitransparente */
     outline: none;
+    /* Elimina el borde azul predeterminado */
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
+    /* Sombra amarilla */
   }
 
-  #widget-net .edad-nino option,
-  #widget-net .num-ninos-select option,
-  #widget-net .num-adultos-select option,
-  #widget-net .popup-num-hab-select option {
+  /* Cambiar el color del texto al seleccionar */
+  .edad-nino option,
+  .num-ninos-select option,
+  .num-adultos-select option,
+  .popup-num-hab-select option {
     background-color: #fff;
+    /* Fondo blanco para las opciones */
     color: var(--text-color);
+    /* Color del texto */
   }
 
-  #widget-net .input-ninos .icon,
-  #widget-net .input-adultos .icon {
+  .input-ninos .icon,
+  .input-adultos .icon {
     position: absolute;
     right: 10px;
+    /* Alinea el ícono a la derecha */
     font-size: 16px;
     color: var(--secondary-color);
+    /* Usa el color azul oscuro */
     pointer-events: none;
+    /* Evita que el ícono interfiera con el clic en el select */
   }
 
-  #widget-net .popup-content {
+  /* Contenido del popup */
+  .popup-content {
+    /* background-color: var(--background-color); */
     border-radius: 10px;
     padding: 20px;
     width: 100%;
+    /* Ocupa el 100% del ancho disponible */
     position: relative;
     animation: fadeIn 0.3s ease-in-out;
   }
 
-  #widget-net .close-popup {
+  .close-popup {
     display: none;
   }
 
-  #widget-net .popup-header {
+  /* Popup header */
+  .popup-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -720,7 +801,7 @@
     padding-left: 10px;
   }
 
-  #widget-net .popup-header label {
+  .popup-header label {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -728,7 +809,7 @@
     top: 0px;
   }
 
-  #widget-net .popup-header input {
+  .popup-header input {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -744,59 +825,77 @@
       opacity: 0;
       transform: scale(0.9);
     }
+
     to {
       opacity: 1;
       transform: scale(1);
     }
   }
 
-  #widget-net #hab-popup {
+  /*  */
+
+  #hab-popup {
     display: none;
+    /* Oculto por defecto */
     background-color: var(--background-color);
     position: absolute;
+    /* Posicionarlo relativo al contenedor */
     top: 120px;
+    /* Justo debajo del elemento invocador */
     left: 60%;
     width: 350px;
+    /* Ocupa el ancho del contenedor */
     height: 400px;
+    /* Altura del popup */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
   }
 
-  #widget-net #hab-popup.active {
+  #hab-popup.active {
     display: block;
+    /* Mostrar el modal cuando esté activo */
   }
 
-  #widget-net .button-accept {
+  .button-accept {
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    /* width: 50%; */
     margin-top: 20px;
     position: absolute;
     bottom: 20px;
   }
 
-  #widget-net .input-error {
+  /* Inputs */
+
+  /* Input cuando hay error */
+  .input-error {
     background-color: #ffe6e6;
+    /* Fondo rojo claro */
     border: 1px solid red;
+    /* Borde rojo */
   }
 
-  #widget-net .input-group {
+  /* Contenedor de cada grupo de inputs */
+  .input-group {
     position: relative;
     align-items: center;
     display: flex;
     height: 50px;
   }
 
-  #widget-net .boton-buscar .input-group {
+  .boton-buscar .input-group {
     width: 100%;
   }
 
-  #widget-net .input-group input {
+  /* Estilo del input */
+  .input-group input {
     width: 100%;
     padding: 10px;
     border: none;
@@ -804,33 +903,39 @@
     font-size: 14px;
     transition: border-color 0.3s ease;
     white-space: nowrap;
+    /* Prevent text wrapping */
     overflow: hidden;
+    /* Hide overflowing text */
     text-overflow: ellipsis;
+    /* Add ellipsis for overflowing text */
   }
 
-  #widget-net .pasajeros .input-group input {
+  .pasajeros .input-group input {
     border-left: none;
     border-radius: 0 5px 5px 0;
   }
-  #widget-net .habitaciones .input-group input {
+  .habitaciones .input-group input {
     border-right: none;
     border-radius: 5px 0 0 5px;
   }
 
-  #widget-net #fecha-rango,
-  #widget-net #origen,
-  #widget-net #destino {
+  #fecha-rango,
+  #origen,
+  #destino {
     padding-right: 40px;
   }
 
-  #widget-net .input-group .icon {
+  .input-group .icon {
     position: absolute;
     right: 15px;
+    /* Position the icon to the right */
     color: var(--secondary-color);
+    /* Use the secondary color */
     pointer-events: none;
+    /* Prevent the icon from interfering with input clicks */
   }
 
-  #widget-net .radio-group {
+  .radio-group {
     display: flex;
     width: 100%;
     justify-content: flex-start;
@@ -839,7 +944,7 @@
     gap: 10px;
   }
 
-  #widget-net .radio {
+  .radio {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -848,11 +953,11 @@
     margin-bottom: 0px !important;
   }
 
-  #widget-net input[type="radio"]:checked:before {
+  input[type="radio"]:checked:before {
     content: none !important;
   }
 
-  #widget-net .radio label {
+  .radio label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -864,9 +969,9 @@
     margin-bottom: 4px !important;
   }
 
-  #widget-net #radio-soloida,
-  #widget-net #radio-idayregreso,
-  #widget-net #radio-multidestino {
+  #radio-soloida,
+  #radio-idayregreso,
+  #radio-multidestino {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -878,22 +983,23 @@
     position: relative;
   }
 
-  #widget-net #radio-soloida:checked,
-  #widget-net #radio-idayregreso:checked,
-  #widget-net #radio-multidestino:checked {
+  #radio-soloida:checked,
+  #radio-idayregreso:checked,
+  #radio-multidestino:checked {
     background-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.5);
   }
 
-  #widget-net #radio-soloida:hover,
-  #widget-net #radio-idayregreso:hover,
-  #widget-net #radio-multidestino:hover {
+  #radio-soloida:hover,
+  #radio-idayregreso:hover,
+  #radio-multidestino:hover {
     box-shadow: 0 0 8px rgba(253, 190, 21, 0.7);
   }
 
-  #widget-net #radio-soloida:checked::after,
-  #widget-net #radio-idayregreso:checked::after,
-  #widget-net #radio-multidestino:checked::after {
+  /* Opcional: círculo interior para el radio seleccionado */
+  #radio-soloida:checked::after,
+  #radio-idayregreso:checked::after,
+  #radio-multidestino:checked::after {
     display: block;
     background: #fff;
     border-radius: 50%;
@@ -902,32 +1008,37 @@
     left: 4px;
   }
 
-  #widget-net .fechas {
+  /* Fechas */
+  .fechas {
     border-radius: 10px;
     border: 1px solid #ddd;
     position: relative;
     padding: 10px;
   }
 
-  #widget-net .fechas-tours {
+  .fechas-tours {
     width: 40% !important;
   }
 
-  #widget-net .checkbox-group {
+  /* Checkboxs */
+  .checkbox-group {
     display: flex;
     justify-content: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
     align-items: flex-start;
+    /* Opcional: Alinea los elementos al inicio */
     margin-bottom: 20px;
+    /* position: absolute; */
     top: 120px;
     gap: 10px;
   }
 
-  #widget-net label {
+  label {
     font-weight: 400 !important;
     margin-bottom: 0 !important;
   }
 
-  #widget-net .checkbox {
+  .checkbox {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -936,7 +1047,7 @@
     margin-bottom: 0px !important;
   }
 
-  #widget-net .checkbox label {
+  .checkbox label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -949,7 +1060,7 @@
     margin-bottom: 0px !important;
   }
 
-  #widget-net input[type="checkbox"] {
+  input[type="checkbox"] {
     appearance: none;
     width: 20px;
     height: 20px;
@@ -962,12 +1073,12 @@
     margin-left: 0px !important;
   }
 
-  #widget-net input[type="checkbox"]:checked {
+  input[type="checkbox"]:checked {
     background: var(--primary-color, #fdbe15);
     border-color: var(--primary-color, #fdbe15);
   }
 
-  #widget-net input[type="checkbox"] {
+  input[type="checkbox"] {
     position: relative !important;
     width: 20px;
     height: 20px;
@@ -980,11 +1091,11 @@
     margin: auto !important;
   }
 
-  #widget-net input[type="checkbox"]:checked {
+  input[type="checkbox"]:checked {
     background-color: var(--primary-color);
   }
 
-  #widget-net input[type="checkbox"]::before {
+  input[type="checkbox"]::before {
     content: "✔" !important;
     color: white !important;
     width: 5px;
@@ -996,11 +1107,12 @@
     left: 1px !important;
   }
 
-  #widget-net input[type="checkbox"]:checked:before {
+  input[type="checkbox"]:checked:before {
     animation: checkmark 0.2s ease;
   }
 
-  #widget-net .boton-buscar {
+  /* Botón buscar */
+  .boton-buscar {
     display: flex;
     height: 100%;
     justify-content: center;
@@ -1008,7 +1120,7 @@
     position: relative;
   }
 
-  #widget-net .boton-buscar .icon {
+  .boton-buscar .icon {
     position: absolute;
     margin-top: 20px;
     left: 20px;
@@ -1019,7 +1131,7 @@
     width: fit-content;
   }
 
-  #widget-net .boton-buscar button {
+  .boton-buscar button {
     width: 150px;
     height: 70px;
     border-radius: 10px;
@@ -1030,7 +1142,7 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
 
-  #widget-net .boton-buscar button:hover {
+  .boton-buscar button:hover {
     background-color: var(--primary-color);
     color: #fff;
     transform: scale(1.05);
@@ -1038,29 +1150,34 @@
     transform: scale(1.05);
   }
 
-  #widget-net .boton-buscar button:active {
+  .boton-buscar button:active {
     transform: scale(1);
   }
 
-  #widget-net .autocomplete-list::-webkit-scrollbar {
+  .autocomplete-list::-webkit-scrollbar {
     width: 6px;
+    /* Hacer la barra de desplazamiento más delgada */
   }
 
-  #widget-net .autocomplete-list::-webkit-scrollbar-thumb {
+  .autocomplete-list::-webkit-scrollbar-thumb {
     background-color: #000;
+    /* Amarillo */
     border-radius: 10px;
+    /* Bordes redondeados */
   }
 
-  #widget-net .autocomplete-list::-webkit-scrollbar-track {
+  .autocomplete-list::-webkit-scrollbar-track {
     background-color: #f4f4f4;
+    /* Fondo claro */
   }
 
-  #widget-net .autocomplete-container {
+  /* Autocomplete */
+  .autocomplete-container {
     position: relative;
     width: 100%;
   }
 
-  #widget-net .autocomplete-input {
+  .autocomplete-input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -1069,9 +1186,19 @@
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
-  #widget-net .autocomplete-list {
+  /*
+  .autocomplete-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(253, 190, 21, 0.5);
+    outline: none;
+  }
+    */
+
+  .autocomplete-list {
     position: absolute;
     top: 100%;
+    /* left: -85px;
+    right: 0; */
     background-color: #fff;
     border-radius: 8px;
     max-height: 200px;
@@ -1079,11 +1206,12 @@
     overflow-x: hidden;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra para la lista */
     animation: fadeIn 0.3s ease-in-out;
     width: 270px;
   }
 
-  #widget-net .autocomplete-item {
+  .autocomplete-item {
     padding: 12px;
     font-size: 14px;
     color: #333;
@@ -1096,16 +1224,19 @@
     gap: 12px;
   }
 
-  #widget-net .autocomplete-item:hover {
+  .autocomplete-item:hover {
     background-color: var(--primary-color);
+    /* Amarillo */
     color: #fff;
+    /* Texto blanco */
   }
-  #widget-net .autocomplete-item:hover i {
+  .autocomplete-item:hover i {
     color: #fff !important;
   }
 
-  #widget-net .autocomplete-item:active {
+  .autocomplete-item:active {
     background-color: var(--button-hover);
+    /* Amarillo más oscuro */
   }
 
   @keyframes fadeIn {
@@ -1113,26 +1244,29 @@
       opacity: 0;
       transform: translateY(-5px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
 
-  #widget-net .error-message {
+  /* Mensajes de error */
+  .error-message {
     color: red;
     font-size: 12px;
     margin-top: 4px;
     display: block;
   }
 
-  #widget-net .numeric-input {
+  /* Botones numericos */
+  .numeric-input {
     display: flex;
     align-items: center;
     gap: 5px;
   }
 
-  #widget-net .numeric-input button {
+  .numeric-input button {
     width: 30px;
     height: 30px;
     background-color: var(--primary-color);
@@ -1148,11 +1282,11 @@
     align-items: center;
   }
 
-  #widget-net .numeric-input button:hover {
+  .numeric-input button:hover {
     background-color: var(--button-hover);
   }
 
-  #widget-net .numeric-input input[type="number"] {
+  .numeric-input input[type="number"] {
     width: 60px;
     text-align: center;
     border: 1px solid #ddd;
@@ -1162,18 +1296,26 @@
     transition: border-color 0.3s ease;
   }
 
-  #widget-net .numeric-input input[type="number"] {
+  /* .numeric-input input[type="number"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
+  } */
+
+  .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
     height: 10px;
   }
 
-  #widget-net #numeric-value {
+  #numeric-value {
     width: 100%;
     padding: 10px;
     height: 10px;
   }
 
-  #widget-net #pasajeros-popup {
+  /* VUELOS */
+
+  /* Contenedor de habitaciones (Popup) */
+  #pasajeros-popup {
     display: none;
     background-color: var(--background-color);
     position: absolute;
@@ -1188,7 +1330,7 @@
     z-index: 1000;
   }
 
-  #widget-net #pasajeros-container {
+  #pasajeros-container {
     padding: 10px;
     overflow-y: auto;
     margin-bottom: 15px;
@@ -1196,7 +1338,7 @@
     scrollbar-color: var(--primary-color) var(--background-color);
   }
 
-  #widget-net #hab-container {
+  #hab-container {
     padding: 10px;
     height: 210px;
     overflow-y: auto;
@@ -1206,28 +1348,28 @@
     padding-bottom: 0;
   }
 
-  #widget-net #hab-container input[type="number"]:focus {
+  #hab-container input[type="number"]:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
   }
 
-  #widget-net .numeric-input-group {
+  .numeric-input-group {
     display: flex;
     justify-content: space-between;
     padding-bottom: 20px;
   }
 
-  #widget-net .info-text {
+  .info-text {
     font-size: 12px;
     color: #666;
     position: absolute;
     left: 30px;
     margin-top: 20px;
-    text-align: left;
+    text-align: left; /* Centrar el texto */
   }
 
-  #widget-net #mostrar-descuento {
+  #mostrar-descuento {
     text-decoration: none;
     color: var(--text-color);
     cursor: pointer;
@@ -1236,7 +1378,7 @@
     margin-top: -5px;
   }
 
-  #widget-net .codigo-descuento {
+  .codigo-descuento {
     margin-top: 10px;
     border-radius: 10px;
     border: 1px solid #ddd;
@@ -1245,59 +1387,63 @@
     width: 220px;
   }
 
-  #widget-net #codigo-descuento {
+  #codigo-descuento {
     padding-right: 40px;
   }
 
-  #widget-net .origen-destino,
-  #widget-net .lugar-retiro,
-  #widget-net .destino-extras {
+  .origen-destino,
+  .lugar-retiro,
+  .destino-extras {
     width: 40%;
   }
-  #widget-net .fechas {
+  .fechas {
     width: 25%;
   }
-  #widget-net .habitaciones-pasajeros {
+  .habitaciones-pasajeros {
     width: 12%;
   }
-  #widget-net .boton-buscar {
+  .boton-buscar {
     width: 12%;
     min-width: 140px;
   }
 
-  #widget-net .retiro {
+  .retiro {
     width: 100%;
   }
 
-  #widget-net .destino-tours {
+  .destino-tours {
     width: 100%;
   }
 
-  #widget-net .options-cars,
-  #widget-net .options-tours {
+  .options-cars,
+  .options-tours {
     display: flex;
     width: 100%;
     border-radius: 5px;
     position: relative;
     padding: 10px;
-    order: 6;
+    order: 6; /* Para que aparezca después de los pasajeros */
   }
 
-  #widget-net .widget-ajustado .origen-destino,
-  #widget-net .widget-ajustado .origen,
-  #widget-net .widget-ajustado .destino,
-  #widget-net .widget-ajustado .input-group {
+  .fechas-cars {
+  }
+
+  .widget-ajustado .origen-destino,
+  .widget-ajustado .origen,
+  .widget-ajustado .destino,
+  .widget-ajustado .input-group {
     width: 100%;
   }
-  #widget-net .widget-ajustado .fechas {
+  .widget-ajustado .fechas {
     width: 40%;
   }
-  #widget-net .widget-ajustado .habitaciones-pasajeros {
+  .widget-ajustado .habitaciones-pasajeros {
     margin: 0 10px;
     width: 20%;
   }
 
-  #widget-net .autocomplete-item-hoteles {
+  /* Autocomplete hoteles */
+  .autocomplete-item-hoteles {
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -1306,30 +1452,30 @@
     gap: 12px;
   }
 
-  #widget-net .autocomplete-item-hoteles:hover {
+  .autocomplete-item-hoteles:hover {
     background-color: var(--primary-color);
     color: #fff;
   }
 
-  #widget-net .autocomplete-item-hoteles:hover .title-autocomplete-item,
-  #widget-net .autocomplete-item-hoteles:hover .subtitle-autocomplete-item {
+  .autocomplete-item-hoteles:hover .title-autocomplete-item,
+  .autocomplete-item-hoteles:hover .subtitle-autocomplete-item {
     color: #fff !important;
   }
 
-  #widget-net .title-autocomplete-item {
+  .title-autocomplete-item {
     color: var(--text-color);
     font-size: 14px;
     padding: 10px 20px;
   }
 
-  #widget-net .subtitle-autocomplete-item {
+  .subtitle-autocomplete-item {
     font-size: 12px;
     color: #666;
     padding: 10px 20px;
     margin-top: -20px;
   }
 
-  #widget-net #btn-agregar-tramo {
+  #btn-agregar-tramo {
     display: flex !important;
     justify-content: center;
     display: inline-block;
@@ -1338,9 +1484,9 @@
     width: 150px;
   }
 
-  #widget-net .input-tramo-origen,
-  #widget-net .input-tramo-destino,
-  #widget-net .input-tramo-fecha {
+  .input-tramo-origen,
+  .input-tramo-destino,
+  .input-tramo-fecha {
     width: 100%;
     padding: 10px;
     padding-right: 40px !important;
@@ -1355,12 +1501,12 @@
     -moz-appearance: none;
   }
 
-  #widget-net .btn-quitar-tramo {
+  .btn-quitar-tramo {
     background-color: transparent !important;
     width: 30px !important;
   }
 
-  #widget-net .tramo-content {
+  .tramo-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1369,70 +1515,70 @@
     height: 100%;
   }
 
-  #widget-net .input-tramo,
-  #widget-net .input-tramo-fecha {
+  .input-tramo,
+  .input-tramo-fecha {
     border-radius: 10px;
     border: 1px solid #ddd;
     padding: 5px;
     width: 100%;
   }
 
-  #widget-net #multidestino-placeholder {
+  #multidestino-placeholder {
     display: flex;
     flex-direction: column-reverse;
     background: #fff;
   }
 
-  #widget-net .time-cars {
+  .time-cars {
     width: 80px;
   }
 
-  #widget-net .icon-time {
+  .icon-time {
     position: absolute;
     right: 0px !important;
   }
 
-  #widget-net .checkbox-tours {
+  .checkbox-tours {
     order: 5;
     margin-top: -10px;
     margin-bottom: -10px;
   }
 
-  #widget-net .lugar-retiro {
+  .lugar-retiro {
     display: flex;
   }
 
-  #widget-net .input-tramo {
+  .input-tramo {
     height: 70px !important;
   }
 }
 
 /* Modal Error Pasajeros */
-#widget-net .modal {
-  position: absolute;
-  top: 100%;
+.modal {
+  position: absolute; /* Relativo al contenedor */
+  top: 100%; /* Justo debajo del input */
   left: 0;
-  transform: translateY(10px);
-  background-color: #ffcccc;
-  border: 1px solid #ff0000;
+  transform: translateY(10px); /* Espaciado debajo del input */
+  background-color: #ffcccc; /* Fondo rojo claro */
+  border: 1px solid #ff0000; /* Borde rojo */
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
   z-index: 1000;
-  padding: 10px;
-  text-align: left;
-  width: 250px;
-  font-size: 12px;
+  padding: 10px; /* Espaciado interno */
+  text-align: left; /* Alinear el texto a la izquierda */
+  width: 250px; /* Ancho más pequeño */
+  font-size: 12px; /* Texto más pequeño */
 }
 
-#widget-net .modal-content p {
+.modal-content p {
   margin: 0;
-  color: #ff0000;
+  color: #ff0000; /* Texto rojo */
   font-weight: bold;
 }
 
-#widget-net .modal-content button {
+.modal-content button {
   padding: 5px;
-  background-color: #ff6666;
+  background-color: #ff6666; /* Fondo rojo más oscuro */
   color: white;
   border: none;
   border-radius: 3px;
@@ -1440,11 +1586,12 @@
   cursor: pointer;
 }
 
-#widget-net .modal-content button:hover {
-  background-color: #cc0000;
+.modal-content button:hover {
+  background-color: #cc0000; /* Fondo rojo intenso */
 }
 
-#widget-net .flatpickr-calendar {
+/* Limita el ancho del popup de Flatpickr */
+.flatpickr-calendar {
   min-width: 180px !important;
   width: 90vw;
   border-radius: 10px;
@@ -1452,19 +1599,21 @@
   border: 1px solid #e0e0e0;
 }
 
+/* Ajusta el ancho en pantallas pequeñas */
 @media (max-width: 600px) {
-  #widget-net .flatpickr-calendar {
+  .flatpickr-calendar {
     min-width: 140px !important;
     max-width: 95vw;
     font-size: 15px;
   }
-  #widget-net .flatpickr-time {
+  .flatpickr-time {
     font-size: 15px;
   }
 }
 
-#widget-net .flatpickr-time input,
-#widget-net .flatpickr-time .flatpickr-am-pm {
+/* Ajusta el tamaño del selector de hora */
+.flatpickr-time input,
+.flatpickr-time .flatpickr-am-pm {
   font-size: 16px;
   padding: 4px 8px;
   border-radius: 4px;

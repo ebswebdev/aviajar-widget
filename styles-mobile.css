@@ -1,34 +1,12 @@
 /* MOBILE */
 @media (max-width: 1164px) {
-  :root {
+  #widget-net {
     --primary-color: #fdbe15;
     --secondary-color: #004481;
     --background-color: #f4f4f4;
     --text-color: #333;
     --button-hover: #e0a800;
     --font-primary: "Poppins", sans-serif;
-  }
-
-  #widget-net body {
-    font-family: var(--font-primary);
-  }
-
-  #widget-net h1,
-  #widget-net h2,
-  #widget-net h3,
-  #widget-net h4,
-  #widget-net h5,
-  #widget-net h6 {
-    font-family: var(--font-primary);
-    font-weight: 600;
-  }
-
-  #widget-net p,
-  #widget-net label,
-  #widget-net input,
-  #widget-net button,
-  #widget-net span {
-    font-family: var(--font-primary);
   }
 
   #widget-net {
@@ -97,7 +75,7 @@
     font-size: 14px;
     text-align: center;
   }
-
+  /* 
   @media (max-width: 616px) {
     #widget-net .tab-text {
       display: none !important;
@@ -110,7 +88,7 @@
     #widget-net .tabs {
       gap: 10px;
     }
-  }
+  } */
 
   #widget-net .widget input[type="text"] {
     padding-right: 50px !important;
@@ -126,19 +104,6 @@
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
-
-  #widget-net .flatpickr-day.selected {
-    background-color: var(--primary-color) !important;
-    color: #fff;
-  }
-
-  #widget-net .flatpickr-day:hover {
-    background-color: var(--background-color) !important;
-    color: #fff;
-  }
-
-  #widget-net .flatpickr-calendar {
     width: 100%;
     font-size: 14px;
   }
@@ -167,14 +132,6 @@
   #widget-net .flatpickr-day.endRange.nextMonthDay {
     border-color: var(--primary-color) !important;
     background-color: var(--primary-color) !important;
-  }
-
-  #widget-net #widget-package {
-    display: flex;
-    width: 100%;
-    font-family: "Arial", sans-serif;
-    color: var(--text-color);
-    animation: fadeIn 0.5s ease-in-out;
   }
 
   #widget-net .fas {
@@ -209,9 +166,11 @@
     font-family: "Arial", sans-serif;
     color: var(--text-color);
     animation: fadeIn 0.5s ease-in-out;
+    margin-top: 10px;
+    background-color: #fff;
   }
 
-  #widget-net @keyframes fadeIn {
+  @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(-10px);
@@ -672,7 +631,7 @@
     color: var(--primary-color);
   }
 
-  #widget-net @keyframes fadeIn {
+  @keyframes fadeIn {
     from {
       opacity: 0;
       transform: scale(0.9);
@@ -934,17 +893,6 @@
     background-color: #e0a800;
   }
 
-  #widget-net @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-5px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   #widget-net .error-message {
     color: red;
     font-size: 12px;
@@ -986,14 +934,6 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s ease;
-  }
-
-  #widget-net .numeric-input input[type="number"]:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(253, 190, 21, 0.3);
-  }
-
-  #widget-net .numeric-input input[type="number"] {
     margin-bottom: 0px !important;
   }
 
