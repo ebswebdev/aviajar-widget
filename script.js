@@ -1245,8 +1245,8 @@ let translations = {};
 
 async function loadTranslations(lang = "es") {
     try {
-        // const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
-        const res = await fetch("data.json");
+        const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
+        // const res = await fetch("data.json");
         translations = await res.json();
         setLanguage(lang);
     } catch (e) {
@@ -3132,4 +3132,9 @@ function autocompleteSearchCiudadesTours() {
         "#destino-id",
         true // solo ciudades
     );
+}
+
+// --------------- FUNCIONES SIZE ---------------
+function ajustarWidget() {
+    var e, t, n = document.querySelector(".thim-ekit-single-tour__content"); n && (e = 1024 <= window.innerWidth, t = n.offsetWidth < 1e3, n.classList.toggle("widget-ajustado", e && t))
 }
