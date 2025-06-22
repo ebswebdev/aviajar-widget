@@ -75,20 +75,6 @@
     font-size: 14px;
     text-align: center;
   }
-  /* 
-  @media (max-width: 616px) {
-    #widget-net .tab-text {
-      display: none !important;
-    }
-    #widget-net .fa,
-    #widget-net .fas {
-      font-weight: 900;
-      font-size: 15px;
-    }
-    #widget-net .tabs {
-      gap: 10px;
-    }
-  } */
 
   #widget-net .widget input[type="text"] {
     padding-right: 50px !important;
@@ -1087,5 +1073,17 @@
   #widget-net .tramo > div .input-tramo-origen,
   #widget-net .tramo > div .input-tramo-destino {
     width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  #widget-net .tab-text {
+    display: none !important;
+  }
+}
+
+@media (max-width: 375px) {
+  #widget-net .tabs {
+    gap: 5px !important;
   }
 }
