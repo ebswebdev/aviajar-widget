@@ -1082,11 +1082,11 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 450px) {
   #widget-net .tabs {
     gap: 5px !important;
   }
   #widget-net .tab {
-    padding: 15px !important;
+    padding: 10px !important;
   }
 }
