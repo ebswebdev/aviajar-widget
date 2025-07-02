@@ -817,7 +817,7 @@
                         disableMobile: true,
                         showMonths: isMobile ? 1 : 2, // 1 mes en mobile, 2 en desktop
                         locale: {
-                            firstDayOfWeek: 1,
+                            // firstDayOfWeek: 1,
                             weekdays: {
                                 shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                                 longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -843,7 +843,7 @@
                                 disableMobile: true,
                                 showMonths: isMobile ? 1 : 2,
                                 locale: {
-                                    firstDayOfWeek: 1,
+                                    // firstDayOfWeek: 1,
                                     weekdays: {
                                         shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                                         longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -1046,39 +1046,20 @@ function cargarEstilosSegunContenedor() {
         return;
     }
 
-    // Buscar el primer ancestro cuyo ancho sea menor al viewport
-    let contenedor = widget;
-    while (
-        contenedor.parentElement &&
-        contenedor.parentElement !== document.body &&
-        contenedor.parentElement.offsetWidth >= window.innerWidth - 1 // -1 por posibles decimales
-    ) {
-        contenedor = contenedor.parentElement;
-    }
-
-    // Si no se encontró un contenedor más pequeño, usar el widget
-    const anchoContenedor = contenedor.offsetWidth;
-    console.log(`Contenedor usado:`, contenedor);
-    console.log(`Ancho del contenedor: ${anchoContenedor}px`);
-
     const existingLink = document.querySelector('#dynamic-styles');
-    const nuevoArchivoCSS = anchoContenedor < 1165 ? 'styles-mobile.css' : 'styles.css';
+    if (existingLink && existingLink.getAttribute('href') === 'styles.min.css') return;
 
-    if (existingLink && existingLink.getAttribute('href') === nuevoArchivoCSS) {
-        return;
-    }
-    if (existingLink) {
-        existingLink.remove();
-    }
+    if (existingLink) existingLink.remove();
 
     const link = document.createElement('link');
     link.id = 'dynamic-styles';
     link.rel = 'stylesheet';
-    link.href = nuevoArchivoCSS;
+    link.href = 'https://aviajarcolombia.com/widget3.0/styles.min.css';
     document.head.appendChild(link);
 
-    console.log(`Cargado: ${nuevoArchivoCSS}`);
+    console.log('Cargado: styles.min.css');
 }
+
 
 // Autocomplete para paquetes & vuelo 
 let airports = [];
@@ -1202,22 +1183,30 @@ function inicializarFlatpickr() {
             mode: "range",
             dateFormat: "Y-m-d",
             showMonths: isMobile ? 1 : 2, // Mostrar 1 mes en móvil, 2 meses en escritorio
+            showDaysInNextAndPreviousMonths: true,
+
             minDate: "today", // Deshabilitar fechas anteriores a hoy
             locale: {
-                firstDayOfWeek: 1,
+                // firstDayOfWeek: 1,
                 weekdays: {
                     shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                     longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                 },
                 months: {
                     shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
-                    longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    longhand: ['Enero', 'Febrero', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                 },
             },
             onClose: function (selectedDates) {
                 if (selectedDates.length === 2) {
-                    const fecha1 = selectedDates[0].toISOString().split('T')[0];
-                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                    const d1 = selectedDates[0];
+                    const d2 = selectedDates[1];
+                    const fecha1 = d1.getFullYear() + '-' +
+                        String(d1.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(d1.getDate()).padStart(2, '0');
+                    const fecha2 = d2.getFullYear() + '-' +
+                        String(d2.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(d2.getDate()).padStart(2, '0');
                     console.log("Fecha de inicio:", fecha1);
                     console.log("Fecha de fin:", fecha2);
                 }
@@ -1247,8 +1236,8 @@ let translations = {};
 
 async function loadTranslations(lang = "es") {
     try {
-        // const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
-        const res = await fetch("data.json");
+        const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
+        // const res = await fetch("data.json");
         translations = await res.json();
         setLanguage(lang);
     } catch (e) {
@@ -2169,7 +2158,7 @@ function inicializarFlatpickrVuelos() {
         showMonths: isMobile ? 1 : 2,
         disableMobile: true,
         locale: {
-            firstDayOfWeek: 1,
+            // firstDayOfWeek: 1,
             weekdays: {
                 shorthand: flatpickrT.weekdays?.shorthand || ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
                 longhand: flatpickrT.weekdays?.longhand || ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -2181,11 +2170,17 @@ function inicializarFlatpickrVuelos() {
         },
         onClose: function (selectedDates) {
             if (selectedDates.length > 0) {
-                const fecha1 = selectedDates[0].toISOString().split('T')[0];
+                const d1 = selectedDates[0];
+                const fecha1 = d1.getFullYear() + '-' +
+                    String(d1.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(d1.getDate()).padStart(2, '0');
                 if (soloIda) {
                     fechaRango.value = fecha1;
                 } else if (selectedDates.length === 2) {
-                    const fecha2 = selectedDates[1].toISOString().split('T')[0];
+                    const d2 = selectedDates[1];
+                    const fecha2 = d2.getFullYear() + '-' +
+                        String(d2.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(d2.getDate()).padStart(2, '0');
                     fechaRango.value = `${fecha1} to ${fecha2}`;
                 }
             }

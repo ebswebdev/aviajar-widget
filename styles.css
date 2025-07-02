@@ -98,45 +98,18 @@
     /* Centra el texto dentro del tab */
   }
 
-  /* Fechas */
-  /* Cambiar el color de fondo del calendario */
-  .flatpickr-calendar {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-
-  /* Cambiar el color de los días seleccionados */
-  .flatpickr-day.selected {
-    background-color: var(--primary-color) !important;
-    color: #fff;
-  }
-
-  /* Cambiar el color de los días al pasar el mouse */
-  .flatpickr-day:hover {
-    background-color: var(--primary-color) !important;
-    color: #fff;
-  }
-
-  /* Ajustar el tamaño del calendario en dispositivos móviles */
-  .flatpickr-calendar {
-    width: 100%;
-    font-size: 14px;
+  ..flatpickr-calendar {
+    background-color: #f9f9f9 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 10px !important;
+    min-width: 180px !important;
+    width: 90vw !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12) !important;
+    font-size: 14px !important;
   }
 
   .flatpickr-innerContainer {
-    width: 100%;
-  }
-
-  body
-    > div.flatpickr-calendar.rangeMode.animate.multiMonth.open.arrowTop.arrowLeft
-    > div.flatpickr-innerContainer
-    > div
-    > div.flatpickr-days
-    > div:nth-child(1)
-    > span.flatpickr-day.today:hover {
-    background-color: var(--primary-color) !important;
-    color: #fff;
+    width: 100% !important;
   }
 
   .flatpickr-day.selected,
@@ -159,12 +132,23 @@
   .flatpickr-day.endRange.nextMonthDay {
     border-color: var(--primary-color) !important;
     background-color: var(--primary-color) !important;
+    color: #fff !important;
+  }
+
+  .flatpickr-day:hover {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
   }
 
   .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
   .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
   .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
     box-shadow: -10px 0 0 var(--primary-color) !important;
+  }
+
+  .flatpickr-day.today:hover {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
   }
 
   #widget-package {
@@ -1617,4 +1601,19 @@
   font-size: 16px;
   padding: 4px 8px;
   border-radius: 4px;
+}
+
+.flatpickr-calendar {
+  min-width: 540px; /* Suficiente para mostrar 2 meses correctamente */
+  max-width: 100%;
+}
+
+.flatpickr-months {
+  justify-content: space-between; /* para separar los dos títulos de mes */
+}
+
+.flatpickr-day.hidden {
+  display: inline-block !important; /* ✅ fuerza la visibilidad */
+  visibility: visible !important;
+  opacity: 1 !important;
 }
