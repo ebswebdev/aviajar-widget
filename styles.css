@@ -1617,3 +1617,21 @@
   visibility: visible !important;
   opacity: 1 !important;
 }
+
+.tab-icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

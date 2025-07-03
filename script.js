@@ -13,11 +13,11 @@
         console.log(products);
 
         const tabsConfig = {
-            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', text: 'Paquetes' },
-            Air: { id: 'vuelos', icon: 'fa-plane', text: 'Vuelos' },
-            Hotel: { id: 'hoteles', icon: 'fa-h-square', text: 'Hoteles' },
-            Autos: { id: 'autos', icon: 'fa-car', text: 'Autos' },
-            Extras: { id: 'tours', icon: 'fa-ticket-alt', text: 'Tours' }
+            AirHotel: { id: 'paquetes', icon: 'fa-suitcase', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/HOTEL.png', text: 'Paquetes' },
+            Air: { id: 'vuelos', icon: 'fa-plane', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/VUELOS.png', text: 'Vuelos' },
+            Hotel: { id: 'hoteles', icon: 'fa-h-square', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/HOTEL-1.png', text: 'Hoteles' },
+            Autos: { id: 'autos', icon: 'fa-car', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/AUTOS.png', text: 'Autos' },
+            Extras: { id: 'tours', icon: 'fa-ticket-alt', img: 'https://aviajarcolombia.com/wp-content/uploads/2025/06/EXTRAS.png', text: 'Tours' }
         };
 
 
@@ -31,7 +31,7 @@
                 const config = tabsConfig[product] || {};
                 return `
                     <div class="tab" id="tab-${config.id}">
-                        <i class="fa ${config.icon}" aria-hidden="true"></i>
+                        <img src="${config.img}" alt="${config.text}" class="tab-icon">
                         <span class="tab-text"> ${config.text}</span>
                     </div>
                 `;
