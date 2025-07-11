@@ -623,7 +623,7 @@
             const widgetAviajar = document.getElementById('widget-net');
             let apiUrlBase = widgetAviajar.getAttribute('autocomplete-api') || "https://reservas.aviajarcolombia.com/NetCoreapi/AutocompleteDestinationStaticContent";
             let userServices = widgetAviajar.getAttribute('userService') || "aviajar";
-            let lang = widgetAviajar.getAttribute('culture') || "es";
+            let lang = (widgetAviajar.getAttribute('culture') || "es").substring(0, 2); // Solo usar 'es' en lugar de 'es-CO'
 
             crearPopupHoteles();
             botonBusquedaHoteles();
@@ -2222,7 +2222,7 @@ function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelec
     }
 
     input.addEventListener("input", function () {
-        const query = normalizeString(input.value.trim());
+        const query = input.value.trim(); // NO normalizar - mantener case original como en la API que funciona
         autocompleteList.innerHTML = "";
 
         if (query.length < 3) {
@@ -2232,24 +2232,67 @@ function autocompleteHotelesCiudadesAPI(inputId, autocompleteListId, hiddenSelec
 
         const url = apiUrlBase + "?searchCriteria=" + encodeURIComponent(query) + "&userServices=" + userServices + "&lang=" + lang;
 
+        console.log("URL de la API:", url);
+        console.log("Parámetros:", { query, userServices, lang });
+
         fetch(url)
-            .then(res => res.json())
+            .then(res => {
+                console.log("Status HTTP:", res.status, res.statusText);
+                return res.json();
+            })
             .then(responseData => {
-                const hoteles = (responseData.Hotels || responseData.hotels || []).map(hotel => ({
-                    name: hotel.hotel_name,
-                    subtitle: hotel.address || "",
-                    type: "hotel",
-                    id: hotel.Id
-                }));
+                console.log("Respuesta API hoteles:", responseData);
+                console.log("Tipo de respuesta:", Array.isArray(responseData) ? "Array" : "Objeto");
+                if (Array.isArray(responseData) && responseData.length > 0) {
+                    console.log("Primera entrada del array:", responseData[0]);
+                    console.log("Propiedades disponibles:", Object.keys(responseData[0]));
+                }
 
-                const ciudades = (responseData.Locations || responseData.locations || []).map(city => ({
-                    name: city.Name,
-                    subtitle: city.NameFull || "",
-                    type: "ciudad",
-                    id: city.Id
-                }));
+                let data = [];
 
-                const data = ciudades.concat(hoteles);
+                // Si responseData es un array directamente (formato nuevo)
+                if (Array.isArray(responseData)) {
+                    data = responseData.map(item => {
+                        // Para objetos tipo "point_of_interest" sin Name, usar NearestIataCode o Id
+                        let name = item.Name || item.hotel_name;
+                        if (!name && item.Type === "point_of_interest" && item.NearestIataCode) {
+                            name = item.NearestIataCode;
+                        }
+                        if (!name) {
+                            name = item.Id || "Sin nombre";
+                        }
+
+                        return {
+                            name: name,
+                            subtitle: item.NameFull || item.address || item.NearestIataCode || item.Type || "",
+                            type: item.Type || "location",
+                            id: item.Id
+                        };
+                    });
+                } else {
+                    // Si responseData es un objeto con propiedades Hotels/Locations (formato anterior)
+                    const hoteles = (responseData.Hotels || responseData.hotels || []).map(hotel => ({
+                        name: hotel.hotel_name || hotel.Name || hotel.Id || "Sin nombre",
+                        subtitle: hotel.address || "",
+                        type: "hotel",
+                        id: hotel.Id
+                    }));
+
+                    const ciudades = (responseData.Locations || responseData.locations || []).map(city => ({
+                        name: city.Name || city.Id || "Sin nombre",
+                        subtitle: city.NameFull || "",
+                        type: "ciudad",
+                        id: city.Id
+                    }));
+
+                    data = ciudades.concat(hoteles);
+                }
+
+                // Si no hay datos después del mapeo, mostrar mensaje
+                if (data.length === 0) {
+                    console.log("No se encontraron resultados para:", query);
+                    return;
+                }
 
                 data.forEach(item => {
                     const itemDiv = document.createElement("div");
