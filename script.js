@@ -616,7 +616,9 @@
         } else if (selectedTab === 'vuelos') {
             crearPopupVuelos();
             botonBusquedaVuelos();
-            inicializarFlatpickrVuelos();
+            waitForFlatpickr(() => {
+                inicializarFlatpickrVuelos();
+            });
             cargarAutocompletes();
 
         } else if (selectedTab === 'hoteles') {
@@ -1021,6 +1023,26 @@ window.addEventListener('resize', cargarEstilosSegunContenedor);
 
 
 // ------------ FUNCIONES GENERALES -------------------
+
+// Función para esperar que flatpickr esté disponible
+function waitForFlatpickr(callback, maxAttempts = 50) {
+    let attempts = 0;
+
+    function check() {
+        attempts++;
+        if (typeof flatpickr !== 'undefined') {
+            callback();
+        } else if (attempts < maxAttempts) {
+            setTimeout(check, 50);
+        } else {
+            console.warn('Flatpickr no se cargó después de varios intentos');
+            // Ejecutar callback de todos modos para evitar bloqueo
+            callback();
+        }
+    }
+
+    check();
+}
 
 // Codigo descuento
 function inicializarDescuento() {
@@ -2120,7 +2142,9 @@ function botonBusquedaVuelos() {
     }
 
     setupFlatpickrEvents();
-    inicializarFlatpickrVuelos();
+    waitForFlatpickr(() => {
+        inicializarFlatpickrVuelos();
+    });
 }
 
 function ajustarWidget() {
@@ -2133,8 +2157,18 @@ function ajustarWidget() {
 }
 
 function inicializarFlatpickrVuelos() {
+
     const fechaRango = document.querySelector("#fecha-rango");
-    if (!fechaRango || typeof flatpickr === 'undefined') return;
+    if (!fechaRango) {
+        console.warn('No se encontró el elemento #fecha-rango');
+        return;
+    }
+
+    if (typeof flatpickr === 'undefined') {
+        console.warn('Flatpickr no está disponible');
+        return;
+    }
+
 
     // Destruir instancia previa si existe
     if (fechaRango._flatpickr) {
@@ -2143,8 +2177,19 @@ function inicializarFlatpickrVuelos() {
 
     // Detectar idioma desde el atributo language del widget
     const lang = document.getElementById('widget-net')?.getAttribute('language')?.substring(0, 2) || "es";
-    const t = translations[lang] || translations["es"];
-    const flatpickrT = t.flatpickr || {};
+
+    // Manejo seguro de translations
+    let t = {};
+    let flatpickrT = {};
+
+    try {
+        if (typeof translations !== 'undefined' && translations) {
+            t = translations[lang] || translations["es"] || {};
+            flatpickrT = t.flatpickr || {};
+        }
+    } catch (e) {
+        console.warn('Error al acceder a translations:', e);
+    }
 
     // Detectar si es solo ida
     const soloIda = document.querySelector("#radio-soloida")?.checked;
