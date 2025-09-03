@@ -1397,7 +1397,7 @@ function crearPopupPaquetes() {
             inputAdultos.id = "numeric-value-adultos";
             inputAdultos.value = "2";
             inputAdultos.min = "1";
-            inputAdultos.max = "7";
+            inputAdultos.max = "15";
             inputAdultos.readOnly = true;
 
             const incrementAdultos = document.createElement("button");
@@ -1411,7 +1411,7 @@ function crearPopupPaquetes() {
             inputAdultosContainer.appendChild(numericInputAdultos);
 
             document.querySelector("#numeric-value-adultos").addEventListener("input", function () {
-                const maxAdultos = 7;
+                const maxAdultos = 15;
                 let currentValue = parseInt(this.value) || 1;
                 if (currentValue > maxAdultos) this.value = maxAdultos;
                 if (currentValue < parseInt(this.min)) this.value = this.min;
@@ -1692,7 +1692,7 @@ function botonBusquedaPaquetes() {
 
 
         // Validar que el número total de pasajeros no exceda el límite
-        if (totalPasajeros > 7) {
+        if (totalPasajeros > 15) {
             // Mostrar el modal
             const modal = document.querySelector("#modal-error");
             modal.style.display = "block";
@@ -2394,7 +2394,7 @@ function botonBusquedaHoteles() {
 
         const numHab = parseInt(numHabInput?.value) || 1;
         const numPer = parseInt(numPerInput?.value) || 2;
-        if (numHab < 1 || numPer < 1 || numPer > 7) {
+        if (numHab < 1 || numPer < 1 || numPer > 15) {
             showError(numHabInput);
             showError(numPerInput);
             valid = false;
@@ -2565,7 +2565,7 @@ function crearPopupHoteles() {
             inputAdultos.type = "number";
             inputAdultos.value = "2";
             inputAdultos.min = "1";
-            inputAdultos.max = "7";
+            inputAdultos.max = "15";
             inputAdultos.readOnly = true;
             const incrementAdultos = document.createElement("button");
             incrementAdultos.className = "increment";
