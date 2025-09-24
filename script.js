@@ -1247,15 +1247,23 @@ async function loadTranslations(lang = "es") {
     try {
         const res = await fetch("https://aviajarcolombia.com/widget3.0/data.json");
         // const res = await fetch("data.json");
-        translations = await res.json();
+        if (res.ok) {
+            translations = await res.json();
+        } else {
+            console.warn("Failed to load translations from server, using default empty object");
+            translations = {};
+        }
         setLanguage(lang);
     } catch (e) {
         console.error("No se pudo cargar data.json", e);
+        // Ensure translations is always at least an empty object
+        translations = {};
+        setLanguage(lang);
     }
 }
 
 function applyTranslations(lang = "es") {
-    const t = translations[lang] || translations["es"];
+    const t = translations[lang] || translations["es"] || {};
     // Traduce textos
     document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
@@ -1272,7 +1280,7 @@ function applyTranslations(lang = "es") {
 
 function setLanguage(lang = "es") {
     applyTranslations(lang);
-    const t = translations[lang] || translations["es"];
+    const t = translations[lang] || translations["es"] || {};
     // Traducir tabs
     if (t.productos) {
         if (document.querySelector("#tab-vuelos .tab-text")) document.querySelector("#tab-vuelos .tab-text").textContent = t.productos.vuelos;
@@ -2156,7 +2164,7 @@ function inicializarFlatpickrVuelos() {
     // Detectar idioma desde el atributo language del widget
     const cultureAttr = document.getElementById('widget-net')?.getAttribute('culture') || "es-CO";
     const lang = cultureAttr.split('-')[0]; // 'en', 'es', 'pt', etc.
-    const t = translations[lang] || translations["es"];
+    const t = translations[lang] || translations["es"] || {};
     const flatpickrT = t.flatpickr || {};
 
     // Detectar si es solo ida
