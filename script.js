@@ -602,7 +602,7 @@
         if (selectedTab === 'paquetes') {
             crearPopupPaquetes();
             botonBusquedaPaquetes();
-            cargarAutocompletes();
+            cargarAutocompletePaquetes();
 
         } else if (selectedTab === 'vuelos') {
             crearPopupVuelos();
@@ -1081,6 +1081,36 @@ function cargarEstilosSegunContenedor() {
 // Autocomplete para paquetes & vuelo 
 let airports = [];
 
+// API function para autocompletado
+function GetOptionsFromServer(searchValue, userservices, lang, autoCompleteSCUrl, countryCode, callback) {
+    var url = "";
+
+    if (autoCompleteSCUrl != undefined && autoCompleteSCUrl != null && autoCompleteSCUrl != "") {
+        if (autoCompleteSCUrl[autoCompleteSCUrl.length - 1] != "/")
+            autoCompleteSCUrl += "/"
+
+        if (searchValue != undefined && searchValue != null && searchValue != "")
+            url = autoCompleteSCUrl + "?query=" + searchValue + "&lang=" + lang + "&limit=10&country=" + countryCode.toLowerCase() + "&userservice=" + userservices;
+    }
+    else {
+        url = "https://reservas.aviajarcolombia.com/NetCoreapi/AutocompleteDestinationStaticContent?searchCriteria=" + searchValue + "&userServices=" + userservices + "&lang=" + lang;
+    }
+
+    var settings = {
+        "url": url,
+        "method": "GET",
+    };
+
+    // Usar fetch en lugar de jQuery
+    fetch(url)
+        .then(response => response.json())
+        .then(data => callback(data))
+        .catch(error => {
+            console.error('Error en API autocompletado:', error);
+            callback(null);
+        });
+}
+
 function autocompleteSearch(inputId, autocompleteListId, data, hiddenSelectId, soloCiudades = false) {
     const input = document.querySelector(inputId);
     const autocompleteList = document.querySelector(autocompleteListId);
@@ -1238,6 +1268,124 @@ function cargarAutocompletes() {
     } else {
         console.error("external_file_AirportsCities no está definido.");
     }
+}
+
+// Autocompletado específico para paquetes usando API
+function cargarAutocompletePaquetes() {
+    const widgetAviajar = document.getElementById('widget-net');
+    const userService = widgetAviajar.getAttribute('userService') || 'aviajar';
+    const culture = widgetAviajar.getAttribute('culture') || 'es-CO';
+    const lang = culture.split('-')[0]; // 'es', 'en', 'pt'
+    const countryCode = culture.split('-')[1] || 'CO'; // 'CO', 'US', etc.
+
+    // URL base de la API - puedes configurarla como atributo del widget si es necesario
+    const autoCompleteSCUrl = widgetAviajar.getAttribute('autocomplete-api') || "";
+
+    // Configurar autocompletado para origen
+    if (document.querySelector("#origen")) {
+        setupAPIAutocomplete("#origen", "#autocomplete-list-origen", "#origen-id", userService, lang, autoCompleteSCUrl, countryCode);
+    }
+
+    // Configurar autocompletado para destino  
+    if (document.querySelector("#destino")) {
+        setupAPIAutocomplete("#destino", "#autocomplete-list-destino", "#destino-id", userService, lang, autoCompleteSCUrl, countryCode);
+    }
+}
+
+// Función para configurar autocompletado con API
+function setupAPIAutocomplete(inputSelector, listSelector, hiddenSelectSelector, userService, lang, autoCompleteSCUrl, countryCode) {
+    const input = document.querySelector(inputSelector);
+    const autocompleteList = document.querySelector(listSelector);
+    const hiddenSelect = document.querySelector(hiddenSelectSelector);
+
+    if (!input || !autocompleteList) return;
+
+    let searchTimeout;
+
+    input.addEventListener("input", function () {
+        const searchValue = input.value.trim();
+
+        // Limpiar timeout anterior
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+
+        // Limpiar lista
+        autocompleteList.innerHTML = "";
+
+        // Si hay menos de 3 caracteres, no buscar
+        if (searchValue.length < 3) {
+            if (hiddenSelect) hiddenSelect.innerHTML = "";
+            return;
+        }
+
+        // Debounce: esperar 300ms antes de hacer la búsqueda
+        searchTimeout = setTimeout(() => {
+            GetOptionsFromServer(searchValue, userService, lang, autoCompleteSCUrl, countryCode, function (response) {
+                if (!response) return;
+
+                // Limpiar lista anterior
+                autocompleteList.innerHTML = "";
+
+                // Procesar respuesta de la API
+                const locations = response.Locations || response.locations || [];
+                const hotels = response.Hotels || response.hotels || [];
+
+                // Combinar ciudades y hoteles
+                const allOptions = [...locations, ...hotels];
+
+                allOptions.forEach(item => {
+                    // Determinar si es ciudad o hotel
+                    const isCity = item.Name !== undefined; // Las ciudades tienen "Name", los hoteles "hotel_name"
+                    const displayName = isCity ? item.Name : item.hotel_name;
+                    const subtitle = isCity ? (item.NameFull || "") : (item.address || "");
+                    const itemId = item.Id || item.id;
+                    const iconClass = isCity ? "fas fa-map-marker-alt" : "fas fa-bed";
+
+                    // Crear elemento de la lista
+                    const itemDiv = document.createElement("div");
+                    itemDiv.className = "autocomplete-item";
+
+                    itemDiv.innerHTML = `
+                        <div style="display: flex; align-items: center;">
+                            <i class="${iconClass}" style="padding: 5px; margin-right: 8px;"></i>
+                            <div>
+                                <div style="font-weight: 500;">${displayName}</div>
+                                ${subtitle ? `<div style="font-size: 12px; color: #666;">${subtitle}</div>` : ""}
+                            </div>
+                        </div>
+                    `;
+
+                    // Evento clic
+                    itemDiv.addEventListener("click", function () {
+                        input.value = displayName;
+                        autocompleteList.innerHTML = "";
+
+                        // Actualizar select oculto con el código correcto
+                        if (hiddenSelect) {
+                            hiddenSelect.innerHTML = "";
+                            const option = document.createElement("option");
+                            // Para hoteles usar "h" + ID, para ciudades usar "l" + ID  
+                            option.value = (isCity ? "l" : "h") + itemId;
+                            option.selected = true;
+                            hiddenSelect.appendChild(option);
+                        }
+
+                        console.log("Seleccionado:", displayName, "ID:", (isCity ? "l" : "h") + itemId, "Tipo:", isCity ? "ciudad" : "hotel");
+                    });
+
+                    autocompleteList.appendChild(itemDiv);
+                });
+            });
+        }, 300);
+    });
+
+    // Cerrar lista al hacer clic fuera
+    document.addEventListener("click", function (e) {
+        if (!autocompleteList.contains(e.target) && e.target !== input) {
+            autocompleteList.innerHTML = "";
+        }
+    });
 }
 
 
@@ -1629,16 +1777,35 @@ function generateURLPaquetes() {
     // Obtener valores del formulario
     const cityFrom = document.querySelector("#origen-id")?.value || ""; // Origen
     const cityTo = document.querySelector("#destino-id")?.value || ""; // Destino
-    const dateRange = document.querySelector("#fecha-rango")?.value.split(" al ") || []; // Rango de fechas
-    const dateFrom = dateRange[0] || ""; // Fecha de salida
-    const dateTo = dateRange[1] || dateFrom; // Fecha de llegada (igual a ida si no se selecciona otra)
+    const fechaRangoRaw = document.querySelector("#fecha-rango")?.value || "";
+
+    // Manejar ambos separadores de fecha (" al " y " to ")
+    let dateRange = [];
+    if (fechaRangoRaw.includes(" al ")) {
+        dateRange = fechaRangoRaw.split(" al ");
+    } else if (fechaRangoRaw.includes(" to ")) {
+        dateRange = fechaRangoRaw.split(" to ");
+    } else if (fechaRangoRaw) {
+        dateRange = [fechaRangoRaw, fechaRangoRaw]; // Si solo hay una fecha
+    }
+
+    const dateFrom = dateRange[0]?.trim() || ""; // Fecha de salida
+    const dateTo = dateRange[1]?.trim() || dateFrom; // Fecha de llegada
 
     const passengersRoom = document.querySelector("#num-hab")?.value || "1"; // Número de habitaciones
     const baggageIncluded = document.querySelector("#checkbox-vequipaje")?.checked ? "true" : "false"; // Equipaje incluido
     const directFlight = document.querySelector("#checkbox-vdirecto")?.checked ? "true" : "false"; // Vuelo directo
 
     // Leer el código de descuento
-    const discountCode = document.querySelector("#codigo-descuento")?.value || ""
+    const discountCode = document.querySelector("#codigo-descuento")?.value || "";
+
+    // Debug: mostrar valores obtenidos
+    console.log("Debug Paquetes - Valores obtenidos:");
+    console.log("cityFrom:", cityFrom);
+    console.log("cityTo:", cityTo);
+    console.log("fechaRangoRaw:", fechaRangoRaw);
+    console.log("dateFrom:", dateFrom);
+    console.log("dateTo:", dateTo);
 
     // Construir la información de habitaciones
     let roomInfo = [];
@@ -1671,8 +1838,9 @@ function generateURLPaquetes() {
         return null;
     }
 
-    // Construir la URL final
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}-show-${branchCode}---------${discountCode}`;
+    // Construir la URL final con el formato correcto
+    const discountSuffix = discountCode ? `-----${discountCode}-----true` : '----------';
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}--${branchCode}${discountSuffix}#air`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1759,10 +1927,20 @@ function botonBusquedaPaquetes() {
         // Si todos los campos son válidos, generar la URL
         else if (valid) {
             const generatedURL = generateURLPaquetes();
-            // Redirigir al usuario a la URL generada
-            window.location.href = generatedURL;
 
+            // Mostrar la URL generada sin redirigir (temporalmente para debug)
+            if (generatedURL) {
+                console.log("URL generada para paquetes:", generatedURL);
 
+                // Mostrar la URL en un alert para copiar fácilmente
+                alert("URL generada exitosamente:\n\n" + generatedURL + "\n\nRevisa la consola para más detalles.");
+
+                // Comentado temporalmente el redireccionamiento
+                // window.location.href = generatedURL;
+            } else {
+                console.error("No se pudo generar la URL de paquetes");
+                alert("Error: No se pudo generar la URL. Verifica que todos los campos estén completos.");
+            }
         }
     });
 
