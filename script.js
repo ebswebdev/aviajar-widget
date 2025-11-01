@@ -1281,12 +1281,12 @@ function cargarAutocompletePaquetes() {
     // URL base de la API - puedes configurarla como atributo del widget si es necesario
     const autoCompleteSCUrl = widgetAviajar.getAttribute('autocomplete-api') || "";
 
-    // Configurar autocompletado para origen
-    if (document.querySelector("#origen")) {
-        setupAPIAutocomplete("#origen", "#autocomplete-list-origen", "#origen-id", userService, lang, autoCompleteSCUrl, countryCode);
+    // ORIGEN: Usar autocompletado normal (como vuelos) - códigos cortos tipo MDE
+    if (document.querySelector("#origen") && typeof external_file_AirportsCities !== "undefined") {
+        autocompleteSearch("#origen", "#autocomplete-list-origen", external_file_AirportsCities, "#origen-id");
     }
 
-    // Configurar autocompletado para destino  
+    // DESTINO: Usar API autocompletado - códigos tipo h-39938
     if (document.querySelector("#destino")) {
         setupAPIAutocomplete("#destino", "#autocomplete-list-destino", "#destino-id", userService, lang, autoCompleteSCUrl, countryCode);
     }
@@ -1365,13 +1365,13 @@ function setupAPIAutocomplete(inputSelector, listSelector, hiddenSelectSelector,
                         if (hiddenSelect) {
                             hiddenSelect.innerHTML = "";
                             const option = document.createElement("option");
-                            // Para hoteles usar "h" + ID, para ciudades usar "l" + ID  
-                            option.value = (isCity ? "l" : "h") + itemId;
+                            // Para hoteles usar "h-ID", para ciudades usar "l-ID" (formato: letra-id)  
+                            option.value = (isCity ? "l" : "h") + "-" + itemId;
                             option.selected = true;
                             hiddenSelect.appendChild(option);
                         }
 
-                        console.log("Seleccionado:", displayName, "ID:", (isCity ? "l" : "h") + itemId, "Tipo:", isCity ? "ciudad" : "hotel");
+                        console.log("Seleccionado:", displayName, "ID:", (isCity ? "l" : "h") + "-" + itemId, "Tipo:", isCity ? "ciudad" : "hotel");
                     });
 
                     autocompleteList.appendChild(itemDiv);
@@ -1839,8 +1839,8 @@ function generateURLPaquetes() {
     }
 
     // Construir la URL final con el formato correcto
-    const discountSuffix = discountCode ? `-----${discountCode}-----true` : '----------';
-    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}--${branchCode}${discountSuffix}#air`;
+    const discountSuffix = discountCode ? `-----${discountCode}` : '-----';
+    const url = `${host}${culture}/${productType}/${cityFrom}/${cityTo}/${dateFrom}/${dateTo}/${totalAdultos}/${passengersRoom}/0/${dateFrom}/${dateTo}/${roomInfoString}/${baggageIncluded}/${directFlight}/NA/Economy/NA/${userService}--${branchCode}${discountSuffix}`;
 
     console.log("Generated URL:", url);
     return url;
@@ -1928,15 +1928,10 @@ function botonBusquedaPaquetes() {
         else if (valid) {
             const generatedURL = generateURLPaquetes();
 
-            // Mostrar la URL generada sin redirigir (temporalmente para debug)
+            // Generar URL y redirigir
             if (generatedURL) {
-                console.log("URL generada para paquetes:", generatedURL);
-
-                // Mostrar la URL en un alert para copiar fácilmente
-                alert("URL generada exitosamente:\n\n" + generatedURL + "\n\nRevisa la consola para más detalles.");
-
-                // Comentado temporalmente el redireccionamiento
-                // window.location.href = generatedURL;
+                console.log("Redirigiendo a:", generatedURL);
+                window.location.href = generatedURL;
             } else {
                 console.error("No se pudo generar la URL de paquetes");
                 alert("Error: No se pudo generar la URL. Verifica que todos los campos estén completos.");
