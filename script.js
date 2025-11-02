@@ -1340,7 +1340,7 @@ function setupAPIAutocomplete(inputSelector, listSelector, hiddenSelectSelector,
                     const displayName = isCity ? item.Name : item.hotel_name;
                     const subtitle = isCity ? (item.NameFull || "") : (item.address || "");
                     const itemId = item.Id || item.id;
-                    const iconClass = isCity ? "fas fa-map-marker-alt" : "fas fa-bed";
+                    const iconClass = isCity ? "fas fa-map-marker-alt" : "fas fa-building";
 
                     // Crear elemento de la lista
                     const itemDiv = document.createElement("div");
