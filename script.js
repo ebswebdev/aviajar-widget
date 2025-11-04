@@ -78,9 +78,22 @@
             firstTab.click(); // Simular clic en el primer tab
         }
 
-        // Leer el atributo destination y actualizar el input destino
+        // Leer los atributos destination y destinationName para pre-configurar destino
         const destination = widgetContainer.getAttribute('destination');
-        if (destination) {
+        const destinationName = widgetContainer.getAttribute('destinationName');
+
+        if (destination && destinationName) {
+            // Si ambos atributos están presentes, usar la nueva función
+            console.log('✨ DETECTADOS ATRIBUTOS DE DESTINO PRE-CONFIGURADO:');
+            console.log('   🆔 destination:', destination);
+            console.log('   📍 destinationName:', destinationName);
+
+            // Usar un timeout para asegurar que los elementos del widget estén creados
+            setTimeout(() => {
+                setDestinationFromHTML(destination, destinationName);
+            }, 100);
+        } else if (destination) {
+            // Si solo está destination (método anterior), usar setDestination
             setDestination(destination);
         }
     }
@@ -112,6 +125,41 @@
         } else {
             console.warn(`No se encontró un destino con el ID: ${destinationId}`);
         }
+    }
+
+    // Función para establecer destino pre-configurado desde HTML
+    function setDestinationFromHTML(destinationCode, destinationName) {
+        const inputDestino = document.querySelector('#destino');
+        const hiddenSelectDestino = document.querySelector('#destino-id');
+
+        if (!inputDestino || !hiddenSelectDestino) {
+            console.warn('No se encontraron los elementos del destino');
+            return;
+        }
+
+        if (!destinationCode || !destinationName) {
+            console.warn('Faltan parámetros: destination y/o destinationName');
+            return;
+        }
+
+        console.log('🎯 CONFIGURANDO DESTINO PRE-SELECCIONADO:');
+        console.log('   🆔 Código (para URL):', destinationCode);
+        console.log('   📍 Nombre (para mostrar):', destinationName);
+
+        // Establecer el nombre en el input
+        inputDestino.value = destinationName;
+        inputDestino.disabled = true; // Deshabilitar el input para indicar que está preseleccionado
+        inputDestino.style.backgroundColor = '#f5f5f5'; // Color gris suave para indicar que está deshabilitado
+        inputDestino.style.cursor = 'not-allowed';
+
+        // Establecer el código en el select oculto (esto es lo que se envía en la URL)
+        hiddenSelectDestino.innerHTML = '';
+        const option = document.createElement('option');
+        option.value = destinationCode;
+        option.selected = true;
+        hiddenSelectDestino.appendChild(option);
+
+        console.log('✅ Destino pre-configurado exitosamente');
     }
 
     function createWidgetContent(selectedTab) {
